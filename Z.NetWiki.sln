@@ -3,9 +3,63 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.Module", "Z.Module\Z.Module.csproj", "{4398FA47-F36C-4724-BD8B-98BFEAC6F862}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.EntityFrameworkCore", "Z.EntityFrameworkCore\Z.EntityFrameworkCore.csproj", "{903962D0-55E8-4A49-9520-1E9D4D695297}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.NetWiki.Application", "Z.NetWiki.Application\Z.NetWiki.Application.csproj", "{42946947-7DE7-402C-AB3B-DB859429AB6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.NetWiki.Core", "Z.NetWiki.Core\Z.NetWiki.Core.csproj", "{4AC9E47D-B621-43D2-B5C5-DF5865CEE7E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.NetWiki.Common", "Z.NetWiki.Common\Z.NetWiki.Common.csproj", "{068A6CBE-335D-43AF-8BB3-56B986B35D1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.NetWiki.Host", "Z.NetWiki.Host\Z.NetWiki.Host.csproj", "{295F7676-0E99-441D-9A84-3CB19DC608FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.NetWiki.EntityFrameworkCore", "Z.NetWiki.EntityFrameworkCore\Z.NetWiki.EntityFrameworkCore.csproj", "{BEEBF3D5-7834-4146-8C39-2D7E80365FD5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A19668E2-3307-47C9-9B91-25BF5A1E9CA0}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4398FA47-F36C-4724-BD8B-98BFEAC6F862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4398FA47-F36C-4724-BD8B-98BFEAC6F862}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4398FA47-F36C-4724-BD8B-98BFEAC6F862}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4398FA47-F36C-4724-BD8B-98BFEAC6F862}.Release|Any CPU.Build.0 = Release|Any CPU
+		{903962D0-55E8-4A49-9520-1E9D4D695297}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{903962D0-55E8-4A49-9520-1E9D4D695297}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{903962D0-55E8-4A49-9520-1E9D4D695297}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{903962D0-55E8-4A49-9520-1E9D4D695297}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42946947-7DE7-402C-AB3B-DB859429AB6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42946947-7DE7-402C-AB3B-DB859429AB6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42946947-7DE7-402C-AB3B-DB859429AB6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42946947-7DE7-402C-AB3B-DB859429AB6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AC9E47D-B621-43D2-B5C5-DF5865CEE7E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AC9E47D-B621-43D2-B5C5-DF5865CEE7E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AC9E47D-B621-43D2-B5C5-DF5865CEE7E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AC9E47D-B621-43D2-B5C5-DF5865CEE7E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{068A6CBE-335D-43AF-8BB3-56B986B35D1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{068A6CBE-335D-43AF-8BB3-56B986B35D1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{068A6CBE-335D-43AF-8BB3-56B986B35D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{068A6CBE-335D-43AF-8BB3-56B986B35D1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{295F7676-0E99-441D-9A84-3CB19DC608FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{295F7676-0E99-441D-9A84-3CB19DC608FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{295F7676-0E99-441D-9A84-3CB19DC608FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{295F7676-0E99-441D-9A84-3CB19DC608FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEEBF3D5-7834-4146-8C39-2D7E80365FD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEEBF3D5-7834-4146-8C39-2D7E80365FD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEEBF3D5-7834-4146-8C39-2D7E80365FD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEEBF3D5-7834-4146-8C39-2D7E80365FD5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4398FA47-F36C-4724-BD8B-98BFEAC6F862} = {A19668E2-3307-47C9-9B91-25BF5A1E9CA0}
+		{903962D0-55E8-4A49-9520-1E9D4D695297} = {A19668E2-3307-47C9-9B91-25BF5A1E9CA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A207D693-0213-440B-A29C-4C44FED78AEB}
