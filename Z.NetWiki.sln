@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.EntityFrameworkCore", "Z.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.NetWiki.Application", "Z.NetWiki.Application\Z.NetWiki.Application.csproj", "{42946947-7DE7-402C-AB3B-DB859429AB6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.NetWiki.Domain", "Z.NetWiki.Core\Z.NetWiki.Domain.csproj", "{4AC9E47D-B621-43D2-B5C5-DF5865CEE7E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.NetWiki.Domain", "Z.NetWiki.Domain\Z.NetWiki.Domain.csproj", "{4AC9E47D-B621-43D2-B5C5-DF5865CEE7E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.NetWiki.Common", "Z.NetWiki.Common\Z.NetWiki.Common.csproj", "{068A6CBE-335D-43AF-8BB3-56B986B35D1C}"
 EndProject
