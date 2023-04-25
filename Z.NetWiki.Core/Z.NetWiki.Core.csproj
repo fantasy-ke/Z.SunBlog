@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Z.NetWiki.Common\Z.NetWiki.Common.csproj" />
+  </ItemGroup>
+
 </Project>
