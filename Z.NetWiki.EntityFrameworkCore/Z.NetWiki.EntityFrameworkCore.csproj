@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Z.EntityFrameworkCore\Z.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\Z.NetWiki.Core\Z.NetWiki.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
