@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Z.Module.Modules.interfaces
 {
-    public interface IPostInitApplication
+    public interface IZModuleDescritor
     {
-        void PostInitApplication(InitApplicationContext context);
+        Type Type { get; }
+
+        Assembly Assembly { get; }
+
+        IZModule Instance { get; }
     }
 }
