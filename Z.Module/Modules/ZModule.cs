@@ -27,11 +27,11 @@ namespace Z.Module.Modules
         {
         }
 
-        public void OnInitApplication(ServiceConfigerContext context)
+        public void OnInitApplication(InitApplicationContext context)
         {
         }
 
-        public void PostInitApplication(ServiceConfigerContext context)
+        public void PostInitApplication(InitApplicationContext context)
         {
         }
        
@@ -57,6 +57,26 @@ namespace Z.Module.Modules
         {
             ServiceConfigerContext.Services.Configure(configureOptions);
         }
+
+        internal static void CheckModuleType(Type type)
+        {
+            if (!IsModule(type))
+            {
+                throw new ArgumentNullException($"{type.Name}没有继承ZModule");
+            }
+        }
+
+        public static bool IsModule(Type type)
+        {
+            var typeInfo = type.GetTypeInfo();
+
+            return
+                typeInfo.IsClass &&
+                !typeInfo.IsAbstract &&
+                !typeInfo.IsGenericType &&
+                typeof(IZModule).GetTypeInfo().IsAssignableFrom(type);
+        }
+
 
     }
 }

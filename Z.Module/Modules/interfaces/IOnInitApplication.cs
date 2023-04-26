@@ -8,6 +8,6 @@ namespace Z.Module.Modules.interfaces
 {
     public interface IOnInitApplication
     {
-        void OnInitApplication(ServiceConfigerContext context);
+        void OnInitApplication(InitApplicationContext context);
     }
 }
