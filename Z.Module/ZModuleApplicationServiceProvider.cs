@@ -8,6 +8,9 @@ using Z.Module.Modules;
 
 namespace Z.Module
 {
+    /// <summary>
+    /// 模块初始化Provider
+    /// </summary>
     public class ZModuleApplicationServiceProvider : ZModuleApplicationBase, IZApplicationServiceProvider
     {
         public ZModuleApplicationServiceProvider(Type startModuleType, IServiceCollection services) : base(startModuleType, services)
@@ -15,6 +18,10 @@ namespace Z.Module
             services.AddSingleton<IZApplicationServiceProvider>(this);
         }
 
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <param name="serviceProvider"></param>
         public void Initialize(IServiceProvider serviceProvider)
         {
             SetServiceProvider(serviceProvider);

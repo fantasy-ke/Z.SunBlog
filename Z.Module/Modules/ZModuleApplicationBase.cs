@@ -43,6 +43,10 @@ namespace Z.Module.Modules
             
         }
 
+        /// <summary>
+        /// 服务生命周期
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         public void ConfigerService()
         {
             var context = new ServiceConfigerContext(Services);
@@ -108,7 +112,9 @@ namespace Z.Module.Modules
             ServiceProvider.GetRequiredService<ObjectAccessor<IServiceProvider>>().Value = ServiceProvider;
         }
 
-
+        /// <summary>
+        /// 应用程序的生命周期
+        /// </summary>
         public void InitializeModules()
         {
             using (var scope = ServiceProvider.CreateScope())
@@ -120,7 +126,11 @@ namespace Z.Module.Modules
         }
 
 
-
+        /// <summary>
+        /// 模块加载
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         protected virtual IReadOnlyList<IZModuleDescritor> LoadModules(IServiceCollection services)
         {
             //找到IModule实例使用GetZModuleDescritors方法
