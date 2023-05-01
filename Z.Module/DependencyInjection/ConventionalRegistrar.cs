@@ -51,7 +51,7 @@ namespace Z.Module.DependencyInjection
             {
                 var serviceDescriptor = ServiceDescriptor.Describe(
                 exposedServiceType,
-                type,
+                 type,
                 lifeTime.Value
             );
 
@@ -111,6 +111,8 @@ namespace Z.Module.DependencyInjection
         private static List<Type> GetDefaultServices(Type type)
         {
             var serviceTypes = new List<Type>();
+
+            serviceTypes.AddIfNotContains(type);
 
             foreach (var interfaceType in type.GetTypeInfo().GetInterfaces())
             {

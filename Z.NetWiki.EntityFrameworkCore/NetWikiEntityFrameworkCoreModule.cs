@@ -1,6 +1,8 @@
-﻿namespace Z.NetWiki.EntityFrameworkCore
+﻿using Z.Module.Modules;
+
+namespace Z.NetWiki.EntityFrameworkCore
 {
-    public class NetWikiEntityFrameworkCoreModule
+    public class NetWikiEntityFrameworkCoreModule : ZModule
     {
 
     }

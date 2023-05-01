@@ -7,7 +7,7 @@ using Z.Module.Modules.interfaces;
 
 namespace Z.Module.Modules
 {
-    public class PostInitApplicationLifecycleContributor : ModuleLifecycleContributor
+    public class PostInitApplicationModuleLifecycleContributor : ModuleLifecycleContributor
     {
         public override void Initialize(InitApplicationContext context,IZModule module)
         {

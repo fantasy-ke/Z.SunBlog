@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Z.Module.Modules;
+using Microsoft.AspNetCore.Builder;
+using Z.Module.Modules.interfaces;
 
 namespace Z.Module.Extensions
 {
@@ -20,7 +22,12 @@ namespace Z.Module.Extensions
 
         public static IServiceCollection AddApplication<TMoudel>(this IServiceCollection services) where TMoudel : ZModule
         {
-            services.CheckNull();
+            services.ChcekNull();
+            services.AddSingleton<IModuleManager, ModuleManager>();
+            services.AddObjectAccessor<IApplicationBuilder>();
+            //services.TryAddObjectAccessor<IApplicationBuilder>();
+            new ZModuleApplicationServiceProvider(typeof(TMoudel), services);
+            return services;
         }
     }
 }

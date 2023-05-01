@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Z.Module.DependencyInjection;
 using Z.Module.Extensions;
 using Z.Module.Modules.interfaces;
 
@@ -21,11 +22,25 @@ namespace Z.Module.Modules
 
         internal ZModuleApplicationBase(Type startupModuleType, IServiceCollection services)
         {
+            var moduleLoader = new ModuleLoader();
             ZModule.CheckModuleType(startupModuleType);
             services.CheckNull();
             Services = services;
             StartupModuleType = startupModuleType;
+            services.AddSingleton<IModuleLoader>(moduleLoader);
+            services.AddObjectAccessor<IServiceProvider>();
+            Services.AddSingleton<IModuleContainer>(this);
+            Services.AddAssemblyOf<IZModuleApplication>();
+            services.Configure<ZModuleLifecycleOptions>(options =>
+            {
+                options.Contributors.Add<OnInitApplicationModuleLifecycleContributor>();
+                options.Contributors.Add<PostInitApplicationModuleLifecycleContributor>();
+            });
+
+            Modules = LoadModules(services);
+
             ConfigerService();
+            
         }
 
         public void ConfigerService()
@@ -57,6 +72,15 @@ namespace Z.Module.Modules
             //ConfigureServices
             foreach (var module in Modules)
             {
+                if (module.Instance is ZModule zModule)
+                {
+                    if (!zModule.SkipAutoServiceRegistration)
+                    {
+                        //继承生命周期接口的类进行自动注册
+                        Services.AddAssembly(module.Type.Assembly);
+                    }
+                }
+
                 try
                 {
                     module.Instance.ConfigureServices(context);
@@ -78,9 +102,34 @@ namespace Z.Module.Modules
 
         }
 
-        public void InitializeModules(IServiceCollection services)
+        protected virtual void SetServiceProvider(IServiceProvider serviceProvider)
         {
-            throw new NotImplementedException();
+            ServiceProvider = serviceProvider;
+            ServiceProvider.GetRequiredService<ObjectAccessor<IServiceProvider>>().Value = ServiceProvider;
+        }
+
+
+        public void InitializeModules()
+        {
+            using (var scope = ServiceProvider.CreateScope())
+            {
+                scope.ServiceProvider
+                    .GetRequiredService<IModuleManager>()
+                    .InitializeModules(new InitApplicationContext(scope.ServiceProvider));
+            }
+        }
+
+
+
+        protected virtual IReadOnlyList<IZModuleDescritor> LoadModules(IServiceCollection services)
+        {
+            //找到IModule实例使用GetZModuleDescritors方法
+            return services
+                .GetSingletonInstance<IModuleLoader>()
+                .GetZModuleDescritors(
+                    services,
+                    StartupModuleType
+                );
         }
     }
 }
