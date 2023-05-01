@@ -17,7 +17,7 @@ namespace Z.Module.Modules.interfaces
 
         void ConfigerService();
 
-        void InitializeModules(IServiceCollection services);
+        void InitializeModules();
 
     }
 }

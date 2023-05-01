@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Z.Module\Z.Module.csproj" />
+  </ItemGroup>
+
 </Project>

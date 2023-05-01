@@ -1,6 +1,8 @@
-﻿namespace Z.NetWiki.Common
+﻿using Z.Module.Modules;
+
+namespace Z.NetWiki.Common
 {
-    public class NetWikiCommonModule
+    public class NetWikiCommonModule : ZModule
     {
 
     }

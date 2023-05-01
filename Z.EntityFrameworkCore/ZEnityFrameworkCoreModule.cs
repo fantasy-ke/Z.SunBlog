@@ -1,6 +1,8 @@
-﻿namespace Z.EntityFrameworkCore
+﻿using Z.Module.Modules;
+
+namespace Z.EntityFrameworkCore
 {
-    public class ZEnityFrameworkCoreModule
+    public class ZEnityFrameworkCoreModule : ZModule
     {
 
     }
