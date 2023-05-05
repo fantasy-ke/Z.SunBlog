@@ -49,7 +49,6 @@ namespace Z.Module.Extensions
             services.ChcekNull();
             services.AddSingleton<IModuleManager, ModuleManager>();
             services.AddObjectAccessor<IApplicationBuilder>();
-            //services.TryAddObjectAccessor<IApplicationBuilder>();
             new ZModuleApplicationServiceProvider(typeof(TMoudel), services);
             return services;
         }

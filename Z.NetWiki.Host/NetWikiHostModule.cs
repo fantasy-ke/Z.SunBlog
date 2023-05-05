@@ -1,9 +1,12 @@
 ﻿using Z.Module;
 using Z.Module.Extensions;
 using Z.Module.Modules;
+using Z.NetWiki.Application;
+using Z.NetWiki.Common;
 
 namespace Z.NetWiki.Host
 {
+    [DependOn(typeof(NetWikiApplicationModule))]
     public class NetWikiHostModule : ZModule
     {
         public override void ConfigureServices(ServiceConfigerContext context)
