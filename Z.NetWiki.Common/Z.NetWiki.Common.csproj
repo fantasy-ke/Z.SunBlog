@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Z.EntityFrameworkCore\Z.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\Z.Module\Z.Module.csproj" />
+    <ProjectReference Include="..\src\Z.EntityFrameworkCore\Z.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\src\Z.Module\Z.Module.csproj" />
   </ItemGroup>
 
 </Project>
