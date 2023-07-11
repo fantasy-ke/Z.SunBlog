@@ -18,7 +18,7 @@ namespace Z.Ddd.Domain.Entities.Auditing
         /// <summary>
         /// 创建用户
         /// </summary>
-        public virtual Guid? CreatorId { get; set; }
+        public virtual string CreatorId { get; set; }
     }
 
     [Serializable]
@@ -37,7 +37,7 @@ namespace Z.Ddd.Domain.Entities.Auditing
         /// <summary>
         /// 创建用户
         /// </summary>
-        public virtual Guid? CreatorId { get; set; }
+        public virtual string CreatorId { get; set; }
 
         
         
