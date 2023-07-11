@@ -11,6 +11,6 @@ namespace Z.Ddd.Domain.Entities.IAuditing
         /// <summary>
         /// Id of the creator.
         /// </summary>
-        Guid? CreatorId { get; }
+        string CreatorId { get; }
     }
 }

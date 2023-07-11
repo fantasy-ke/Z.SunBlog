@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Z.Ddd.Domain.Entities.IAuditing
 {
-    public interface IDeletionAuditedObject:IHasDeletionTime
+    public interface IDeletionAuditedObject : IHasDeletionTime
     {
-        Guid? DeleterId { get; }
+        string DeleterId { get; }
     }
 }
