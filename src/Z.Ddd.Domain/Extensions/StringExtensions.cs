@@ -22,6 +22,43 @@ public static class StringExtensions
     {
         return string.IsNullOrWhiteSpace(str);
     }
+
+
+    /// <summary>
+    /// 删除为string类型有匹配的最后字符串
+    /// </summary>
+    /// <param name="str"></param>
+    /// <param name="postFixes"></param>
+    /// <returns></returns>
+    public static string RemoveFix(this string str, params string[]? postFixes)
+    {
+        if (str == null)
+        {
+            return null;
+        }
+
+        if (string.IsNullOrEmpty(str))
+        {
+            return string.Empty;
+        }
+
+        if (postFixes is null)
+        {
+            return str;
+        }
+
+        foreach (string text in postFixes)
+        {
+            if (str.EndsWith(text))
+            {
+                return str.Left(str.Length - text.Length);
+            }
+        }
+
+        return str;
+    }
+
+
     /// <summary>
     /// 从字符串的开头获取指定长度的子字符串
     /// </summary>
