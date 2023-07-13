@@ -1,7 +1,11 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
+using System.Text;
+using Z.Ddd.Domain;
 using Z.Ddd.Domain.Extensions;
 using Z.Module;
 using Z.Module.Extensions;
@@ -15,6 +19,7 @@ namespace Z.NetWiki.Host
     public class NetWikiHostModule : ZModule
     {
         protected IHostEnvironment env { get;private set; }
+        protected IConfiguration configuration { get;private set; }
 
         /// <summary>
         /// 服务配置
@@ -22,10 +27,11 @@ namespace Z.NetWiki.Host
         /// <param name="context"></param>
         public override void ConfigureServices(ServiceConfigerContext context)
         {
-            var configuration = context.GetConfiguration();
+            configuration = context.GetConfiguration();
             env = context.Environment();
             context.Services.AddControllers();
             context.Services.AddEndpointsApiExplorer();
+
             context.Services.AddSwaggerGen(options =>
             {
                 //过滤器
@@ -109,5 +115,48 @@ namespace Z.NetWiki.Host
                 endpoints.MapDefaultControllerRoute();
             });
         }
+
+
+
+        private void ServicesJWT(IServiceCollection services)
+        {
+
+
+            var config = configuration.GetSection("App:JWtSetting").Get<JwtSettings>(); // 从appsettings.json读取JwtConfig配置
+            // 添加JWT身份验证服务
+            services.AddAuthentication(options =>
+            {
+                options.RequireAuthenticatedSignIn = true;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = config.Issuer,
+                    ValidAudience = config.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.SecretKey))
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = async context =>
+                    {
+                        var token = context.Request.Cookies["access_token"]; // 从Cookie中获取token值
+                        if (!string.IsNullOrEmpty(token))
+                        {
+                            context.Token = token; // 将token值设置到JwtBearer上下文中的Token属性
+                        }
+                    }
+                };
+            });
+        }
+
     }
 }

@@ -17,6 +17,10 @@ namespace Z.NetWiki.Host.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
+        /// <summary>
+        /// ÃÏ∆¯…Ë÷√
+        /// </summary>
+        /// <param name="logger"></param>
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
