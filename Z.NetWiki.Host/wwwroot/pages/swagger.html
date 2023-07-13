@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Swagger</title>
+    <link rel="stylesheet" type="text/css" href="./swagger-ui.css">
+</head>
+<body>
+   <div id="swagger-ui"></div>
+</body>
+</html>
+
+<script src="swagger-ui-bundle.js"></script>
+<script src="swagger-ui-standalone-preset.js"></script>
+<script>
+    window.onload = function () {
+        var configObject = JSON.parse('%(ConfigObject)');
+
+        // Apply mandatory parameters
+        configObject.dom_id = "#swagger-ui";
+        configObject.presets = [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset];
+        configObject.layout = "StandaloneLayout";
+        configObject.requestInterceptor = function (request) {
+            var token = getCookiesValue("x-access-token");
+            request.headers['Authorization'] ='Bearer '+ token;
+            return request;
+        };
+
+        if (!configObject.hasOwnProperty("oauth2RedirectUrl")) {
+            configObject.oauth2RedirectUrl = window.location + "oauth2-redirect.html"; // use the built-in default
+        }
+
+        configObject.plugins = [
+            function (system) {
+                return {
+                    components: {
+                        authorizeBtn: function () {
+                            return null;
+                        }
+                    }
+                }
+            }
+        ];
+
+        // Build a system
+        SwaggerUIBundle(configObject);
+    }
+
+    const getCookiesValue = function (key) {
+        var equalities = document.cookie.split('; ');
+        for (var i = 0; i < equalities.length; i++) {
+            if (!equalities[i]) {
+                continue;
+            }
+
+            var splitted = equalities[i].split('=');
+            if (splitted.length != 2) {
+                continue;
+            }
+
+            if (decodeURIComponent(splitted[0]) === key) {
+                return decodeURIComponent(splitted[1] || '');
+            }
+        }
+
+        return null;
+    };
+
+</script>

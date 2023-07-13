@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Z.NetWiki.Host.Controllers
 {
+
+    /// <summary>
+    /// 天气类
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -17,7 +21,11 @@ namespace Z.NetWiki.Host.Controllers
         {
             _logger = logger;
         }
-
+        
+        /// <summary>
+        /// 获取天气
+        /// </summary>
+        /// <returns>详细内容</returns>
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
