@@ -1,6 +1,8 @@
-﻿namespace Z.Ddd.Domain
+﻿using Z.Module.Modules;
+
+namespace Z.Ddd.Domain
 {
-    public class ZDddDomainModule
+    public class ZDddDomainModule : ZModule
     {
 
     }

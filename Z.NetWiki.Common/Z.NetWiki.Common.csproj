@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\src\Z.Ddd.Domain\Z.Ddd.Domain.csproj" />
     <ProjectReference Include="..\src\Z.EntityFrameworkCore\Z.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\src\Z.Module\Z.Module.csproj" />
   </ItemGroup>
