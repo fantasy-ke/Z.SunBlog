@@ -12,6 +12,10 @@ namespace Z.Ddd.Domain
         /// 发行者
         /// </summary>
         public string Issuer { get; set; }
+
+        /// <summary>
+        /// 受众
+        /// </summary>
         public string Audience { get; set; }
         
         /// <summary>
@@ -23,6 +27,11 @@ namespace Z.Ddd.Domain
         /// 访问令牌过期时间
         /// </summary>
         public int AccessTokenExpirationMinutes { get; set; }
+
+        /// <summary>
+        /// cokkie过期时间
+        /// </summary>
+        public int CokkieExpirationMinutes { get; set; }
 
         /// <summary>
         /// 刷新令牌过期时间

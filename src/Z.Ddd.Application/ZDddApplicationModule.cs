@@ -1,6 +1,10 @@
-﻿namespace Z.Ddd.Application
+﻿using Z.Ddd.Domain;
+using Z.Module.Modules;
+
+namespace Z.Ddd.Application
 {
-    public class ZDddApplicationModule
+    [DependOn(typeof(ZDddDomainModule))]
+    public class ZDddApplicationModule : ZModule
     {
 
     }

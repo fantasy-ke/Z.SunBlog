@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Z.Ddd.Domain.Authorization;
 
 namespace Z.NetWiki.Host.Controllers
 {
@@ -16,16 +17,18 @@ namespace Z.NetWiki.Host.Controllers
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IJwtTokenProvider _jwtTokenProvider;
 
         /// <summary>
         /// 天气设置
         /// </summary>
         /// <param name="logger"></param>
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IJwtTokenProvider jwtTokenProvider)
         {
             _logger = logger;
+            _jwtTokenProvider = jwtTokenProvider;
         }
-        
+
         /// <summary>
         /// 获取天气
         /// </summary>
@@ -33,6 +36,11 @@ namespace Z.NetWiki.Host.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+            UserTokenModel tokenModel = new UserTokenModel();
+            tokenModel.UserName = "test";
+            tokenModel.UserId =Guid.NewGuid().ToString("N");
+            var dfs = _jwtTokenProvider.GenerateAccessToken(tokenModel);
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),

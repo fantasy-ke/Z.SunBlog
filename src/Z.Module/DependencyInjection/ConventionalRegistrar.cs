@@ -53,7 +53,7 @@ namespace Z.Module.DependencyInjection
                 exposedServiceType,
                  type,
                 lifeTime.Value
-            );
+                );
 
                 if (registerLifeAttribute?.ReplaceServices == true)
                 {
