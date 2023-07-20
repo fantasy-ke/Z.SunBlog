@@ -37,7 +37,7 @@ namespace Z.Ddd.Domain.UserSession
             var userId = claims?.FirstOrDefault(p => p.Type == "Id")?.Value;
             if (userId is null || !isAuthenticated)
             {
-                //NotLoginExceptionsExtensions.ThrowNotloginExceptions();
+                NotLoginExceptionsExtensions.ThrowNotloginExceptions();
             }
             UserId = userId!.ToString();
             UserName = claims?.FirstOrDefault(p => p.Type == ClaimTypes.Name)?.Value ?? "";

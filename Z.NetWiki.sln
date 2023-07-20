@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.NetWiki.EntityFrameworkCo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A19668E2-3307-47C9-9B91-25BF5A1E9CA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.Ddd.Application", "src\Z.Ddd.Application\Z.Ddd.Application.csproj", "{CBF71E5F-244B-4579-985A-35B6F874A51C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.Ddd.Application", "src\Z.Ddd.Application\Z.Ddd.Application.csproj", "{CBF71E5F-244B-4579-985A-35B6F874A51C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.Ddd.Domain", "src\Z.Ddd.Domain\Z.Ddd.Domain.csproj", "{0A06B0EF-B7E9-491A-B4F5-EE82B5788A78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.Ddd.Domain", "src\Z.Ddd.Domain\Z.Ddd.Domain.csproj", "{0A06B0EF-B7E9-491A-B4F5-EE82B5788A78}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
