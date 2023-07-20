@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Z.Ddd.Domain.Authorization;
+using Z.Ddd.Domain.UserSession;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Z.NetWiki.Host.Controllers
 {
@@ -14,9 +16,13 @@ namespace Z.NetWiki.Host.Controllers
     public class TestController : ControllerBase
     {
         private readonly IJwtTokenProvider _jwtTokenProvider;
-        public TestController(IJwtTokenProvider jwtTokenProvider)
+        private readonly IUserSession _userSession;
+        private readonly IAuthorizationMiddlewareResultHandler _authorizationMiddlewareResultHandler;
+        public TestController(IJwtTokenProvider jwtTokenProvider, IUserSession userSession, IAuthorizationMiddlewareResultHandler authorizationMiddlewareResultHandler)
         {
             _jwtTokenProvider = jwtTokenProvider;
+            _userSession = userSession;
+            _authorizationMiddlewareResultHandler = authorizationMiddlewareResultHandler;
         }
 
         /// <summary>
@@ -42,6 +48,21 @@ namespace Z.NetWiki.Host.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
 
             return token;
+        }
+
+
+        /// <summary>
+        /// 获取jwttoken
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<string> GetUser()
+        {
+            _userSession.SetUserInfo();
+            var user = _userSession.UserName;
+            var userid = _userSession.UserId;
+
+            return user;
         }
 
         [HttpGet]
