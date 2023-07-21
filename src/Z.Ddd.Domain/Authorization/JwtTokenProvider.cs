@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Z.Ddd.Domain.UserSession;
 using Z.Module.DependencyInjection;
 
 namespace Z.Ddd.Domain.Authorization;
@@ -19,19 +20,19 @@ public class JwtTokenProvider : IJwtTokenProvider
         // 设置Token的Claims
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, user.UserName), //HttpContext.User.Identity.Name
-            new Claim("Id", user.UserId.ToString()),
+            new Claim(ZClaimTypes.UserName, user.UserName), //HttpContext.User.Identity.Name
+            new Claim(ZClaimTypes.UserId, user.UserId.ToString()),
             new Claim (JwtRegisteredClaimNames.Exp,$"{new DateTimeOffset(DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes)).ToUnixTimeSeconds()}"),
-            new Claim(ClaimTypes.Expiration, DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes).ToString()),
+            new Claim(ZClaimTypes.Expiration, DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes).ToString()),
         };
 
         if (user.RoleIds != null && user.RoleIds.Any())
         {
-            claims.AddRange(user.RoleIds.Select(p => new Claim("RoleIds", p.ToString())));
+            claims.AddRange(user.RoleIds.Select(p => new Claim(ZClaimTypes.RoleIds, p.ToString())));
         }
         if (user.RoleNames != null && user.RoleNames.Any())
         {
-            claims.AddRange(user.RoleNames.Select(p => new Claim(ClaimTypes.Role, p)));
+            claims.AddRange(user.RoleNames.Select(p => new Claim(ZClaimTypes.Role, p)));
         }
 
         user.Claims = claims.ToArray();

@@ -8,7 +8,7 @@ namespace Z.Ddd.Domain.ZResponse
 {
     public class ErrorInfo
     {
-        public string Error { get; set; }
+        public string? Error { get; set; }
 
         public ErrorInfo(string error)
         {

@@ -20,7 +20,7 @@ namespace Z.Ddd.Domain.Authorization
                 response.UnAuthorizedRequest = true;
                 response.StatusCode = "401";
                 var error = new ErrorInfo();
-                error.Error = isLogin ? $"你没有权限访问该接口-接口路由{path}" : "请先登录系统";
+                error.Error = isLogin ? reason?.Message : "请先登录系统";
                 response.Error = error;
                 await context.Response.WriteAsJsonAsync(response);
                 return;

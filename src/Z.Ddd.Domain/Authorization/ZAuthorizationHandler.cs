@@ -8,19 +8,22 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Z.Ddd.Domain.UserSession;
+using Z.Module.DependencyInjection;
 
 namespace Z.Ddd.Domain.Authorization
 {
-    public class AuthorizeHandler : AuthorizationHandler<AuthorizeRequirement>
+    public class ZAuthorizationHandler : AuthorizationHandler<AuthorizeRequirement>, ISingletonDependency
     {
         private readonly IPermissionCheck _permisscheck;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IAuthenticationSchemeProvider _authenticationSchemes;
 
-        public AuthorizeHandler(IAuthenticationSchemeProvider authenticationSchemes, IHttpContextAccessor httpContextAccessor)
+        public ZAuthorizationHandler(IAuthenticationSchemeProvider authenticationSchemes, IHttpContextAccessor httpContextAccessor, IPermissionCheck permisscheck)
         {
             _authenticationSchemes = authenticationSchemes;
             _httpContextAccessor = httpContextAccessor;
+            _permisscheck = permisscheck;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, AuthorizeRequirement requirement)
@@ -29,7 +32,7 @@ namespace Z.Ddd.Domain.Authorization
             var httpContext = _httpContextAccessor?.HttpContext;
             var isAuthenticated = identity?.IsAuthenticated ?? false;
             var claims = _httpContextAccessor?.HttpContext?.User?.Claims;
-            var userId = claims?.FirstOrDefault(p => p.Type == "Id")?.Value;
+            var userId = claims?.FirstOrDefault(p => p.Type == ZClaimTypes.UserId)?.Value;
             var schemes = await _authenticationSchemes.GetAllSchemesAsync();
             var handlers = httpContext?.RequestServices.GetRequiredService<IAuthenticationHandlerProvider>();
             foreach (var scheme in schemes)
@@ -82,7 +85,7 @@ namespace Z.Ddd.Domain.Authorization
             };
             if (requirement.AuthorizeName!.Any())
             {
-                if (!_permisscheck.IsGranted(tokenModel, requirement.AuthorizeName))
+                if (!_permisscheck.IsGranted(tokenModel, requirement.AuthorizeName!))
                 {
                     failureReason = new AuthorizationFailureReason(this, $"权限不足，无法请求--请求接口{httpContext?.Request?.Path ?? ""}");
                     context.Fail(failureReason);

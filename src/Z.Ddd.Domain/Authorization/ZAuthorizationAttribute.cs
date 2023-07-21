@@ -3,11 +3,12 @@
 namespace Z.Ddd.Domain.Authorization;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class CustomAuthorizationAttribute: AuthorizeAttribute
+public class ZAuthorizationAttribute : AuthorizeAttribute
 {
     public virtual string[] AuthorizeName { get; private set; }
+    public virtual bool IsMethodValidation { get; private set; } = false;
 
-    public CustomAuthorizationAttribute(params string[] authorizeName)
+    public ZAuthorizationAttribute(params string[] authorizeName)
     {
         AuthorizeName = authorizeName;
         Policy = string.Join(",", AuthorizeName);
