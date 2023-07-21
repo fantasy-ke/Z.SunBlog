@@ -56,9 +56,9 @@ namespace Z.NetWiki.Host.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [ZAuthorization]
         public async Task<string> GetUser()
         {
-            _userSession.SetUserInfo();
             var user = _userSession.UserName;
             var userid = _userSession.UserId;
 

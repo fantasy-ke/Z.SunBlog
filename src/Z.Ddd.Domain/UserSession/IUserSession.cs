@@ -1,6 +1,8 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,5 +19,10 @@ namespace Z.Ddd.Domain.UserSession
         public IEnumerable<string>? RoleIds { get; }
 
         void SetUserInfo();
+
+        Claim? FindClaim(string claimType);
+
+        [NotNull]
+        Claim[] FindClaims(string claimType);
     }
 }
