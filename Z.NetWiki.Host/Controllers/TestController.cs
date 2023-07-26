@@ -5,6 +5,9 @@ using System.Security.Claims;
 using Z.Ddd.Domain.Authorization;
 using Z.Ddd.Domain.UserSession;
 using Microsoft.AspNetCore.Authorization;
+using Z.Ddd.Domain.DependencyInjection;
+using Z.Ddd.Domain.Entities.IAuditing;
+using Z.Ddd.Domain.Entities.Auditing;
 
 namespace Z.NetWiki.Host.Controllers
 {
@@ -17,12 +20,13 @@ namespace Z.NetWiki.Host.Controllers
     {
         private readonly IJwtTokenProvider _jwtTokenProvider;
         private readonly IUserSession _userSession;
-        private readonly IAuthorizationMiddlewareResultHandler _authorizationMiddlewareResultHandler;
-        public TestController(IJwtTokenProvider jwtTokenProvider, IUserSession userSession, IAuthorizationMiddlewareResultHandler authorizationMiddlewareResultHandler)
+        public IZLazyServiceProvider LazyServiceProvider { get; set; }
+
+        public IAuditPropertySetter auditPropertySetter => LazyServiceProvider.LazyGetRequiredService<IAuditPropertySetter>();
+        public TestController(IJwtTokenProvider jwtTokenProvider, IUserSession userSession)
         {
             _jwtTokenProvider = jwtTokenProvider;
             _userSession = userSession;
-            _authorizationMiddlewareResultHandler = authorizationMiddlewareResultHandler;
         }
 
         /// <summary>
@@ -59,6 +63,7 @@ namespace Z.NetWiki.Host.Controllers
         [ZAuthorization]
         public async Task<string> GetUser()
         {
+            auditPropertySetter.SetDeletionProperties(new object { });
             var user = _userSession.UserName;
             var userid = _userSession.UserId;
 
