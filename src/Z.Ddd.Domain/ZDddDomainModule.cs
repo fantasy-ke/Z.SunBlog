@@ -10,7 +10,7 @@ namespace Z.Ddd.Domain
     {
         public override void ConfigureServices(ServiceConfigerContext context)
         {
-            context.Services.AddSingleton<IAuthorizationHandler, ZAuthorizationHandler>();
+            //context.UseAutofac();
         }
     }
 }
