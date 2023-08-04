@@ -8,12 +8,13 @@ using Z.Module.DependencyInjection;
 
 namespace Z.Ddd.Domain.DependencyInjection
 {
-    public class ZLazyServiceProvider : IZLazyServiceProvider
+    public class ZLazyServiceProvider :
+        CachedServiceProviderBase,
+        IZLazyServiceProvider
     {
-        protected IServiceProvider ServiceProvider { get; }
         public ZLazyServiceProvider(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
-            ServiceProvider = serviceProvider;
         }
         public virtual T LazyGetRequiredService<T>()
         {
@@ -24,20 +25,6 @@ namespace Z.Ddd.Domain.DependencyInjection
         {
             return this.GetRequiredService(serviceType);
         }
-
-        public object? GetService(Type serviceType)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-
-    public interface IZLazyServiceProvider : IServiceProvider
-    {
-        /// <summary>
-        /// This method is equivalent of the GetRequiredService method.
-        /// It does exists for backward compatibility.
-        /// </summary>
-        T LazyGetRequiredService<T>();
-    }
 }

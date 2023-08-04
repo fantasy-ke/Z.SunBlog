@@ -5,9 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+
 builder.Services.AddHttpContextAccessor();
 
+
 builder.Services.AddApplication<NetWikiHostModule>();
+
+//builder.Host.UseAutofac();
 
 var app = builder.Build();
 
