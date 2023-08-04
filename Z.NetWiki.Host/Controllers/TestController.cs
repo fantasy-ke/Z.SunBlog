@@ -20,16 +20,10 @@ namespace Z.NetWiki.Host.Controllers
     {
         private readonly IJwtTokenProvider _jwtTokenProvider;
         private readonly IUserSession _userSession;
-        public IZLazyServiceProvider _lazyServiceProvider;
-
-        public IAuditPropertySetter auditPropertySetter { get; set; }
         public TestController(IJwtTokenProvider jwtTokenProvider, IUserSession userSession)
         {
             _jwtTokenProvider = jwtTokenProvider;
-            
             _userSession = userSession;
-            //_lazyServiceProvider = lazyServiceProvider;
-          var  auditPropertySetter11 = auditPropertySetter;
         }
 
         /// <summary>
@@ -66,7 +60,6 @@ namespace Z.NetWiki.Host.Controllers
         [ZAuthorization]
         public async Task<string> GetUser()
         {
-            auditPropertySetter.SetDeletionProperties(new object { });
             var user = _userSession.UserName;
             var userid = _userSession.UserId;
 
@@ -76,7 +69,7 @@ namespace Z.NetWiki.Host.Controllers
         [HttpGet]
         public async Task<string> Logout()
         {
-
+           
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return "ddd";
