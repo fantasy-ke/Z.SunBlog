@@ -6,7 +6,7 @@ using Z.Module.Modules;
 
 namespace Z.Ddd.Common
 {
-    public class ZDddDomainModule : ZModule
+    public class ZDddCommonModule : ZModule
     {
         public override void ConfigureServices(ServiceConfigerContext context)
         {
