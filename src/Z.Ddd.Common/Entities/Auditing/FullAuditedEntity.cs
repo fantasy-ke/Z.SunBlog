@@ -19,15 +19,19 @@ public abstract class FullAuditedEntity : CreationAuditedEntity, IDeletionAudite
 
 public abstract class FullAuditedEntity<Tkey> : CreationAuditedEntity<Tkey>, IDeletionAuditedObject
 {
+
+    public FullAuditedEntity()
+    {
+        
+    }
+    public FullAuditedEntity(Tkey id)
+    {
+        Id = id;
+    }
     public virtual string DeleterId { get; set; }
 
     public virtual DateTime? DeletionTime { get; set; }
 
     public virtual bool IsDeleted { get; set; }
 
-    protected FullAuditedEntity(Tkey id)
-        : base(id)
-    {
-
-    }
 }

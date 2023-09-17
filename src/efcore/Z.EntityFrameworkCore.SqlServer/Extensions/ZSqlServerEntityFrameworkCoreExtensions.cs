@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -11,7 +12,7 @@ namespace Z.EntityFrameworkCore.SqlServer.Extensions;
 
 public static class ZSqlServerEntityFrameworkCoreExtensions
 {
-    public static ServiceConfigerContext AddSqlServerEfCoreEntityFrameworkCore<TDbContext>(this ServiceConfigerContext context)
+    public static IServiceCollection AddSqlServerEfCoreEntityFrameworkCore<TDbContext>(this ServiceConfigerContext context)
         where TDbContext : ZDbContext<TDbContext>
     {
         var configuration = context.GetConfiguration();
@@ -31,6 +32,6 @@ public static class ZSqlServerEntityFrameworkCoreExtensions
             },
             ServiceLifetime.Scoped);
 
-        return context;
+        return context.Services;
     }
 }

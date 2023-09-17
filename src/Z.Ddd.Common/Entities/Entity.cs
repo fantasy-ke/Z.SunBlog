@@ -12,6 +12,18 @@ namespace Z.Ddd.Common.Entities
     [Serializable]
     public abstract class Entity : IEntity
     {
+
+        protected Entity(Guid id)
+        {
+            Id = id;
+        }
+
+
+        public Guid Id { get; }
+
+        protected Entity()
+        {
+        }
         public override string ToString()
         {
             return $"[Entity: {GetType().Name}] Keys = {string.Join(",", GetKeys())}";
@@ -24,15 +36,15 @@ namespace Z.Ddd.Common.Entities
     public abstract class Entity<Tkey> 
         : IEntity<Tkey>
     {
+        protected Entity()
+        {
+        }
         /// <summary>
         /// ID
         /// </summary>
         public Tkey Id { get; protected set; }
 
-        protected Entity(Tkey id)
-        {
-            Id = id;
-        }
+        protected Entity(Tkey id) => Id = id;
 
         public override string ToString()
         {
