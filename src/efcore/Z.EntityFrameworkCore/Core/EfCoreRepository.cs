@@ -7,8 +7,8 @@ using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
-using Z.Ddd.Domain.Entities;
-using Z.Ddd.Domain.Entities.Repositories;
+using Z.Ddd.Common.Entities;
+using Z.Ddd.Common.Entities.Repositories;
 using Z.Module.DependencyInjection;
 
 namespace Z.EntityFrameworkCore.Core;

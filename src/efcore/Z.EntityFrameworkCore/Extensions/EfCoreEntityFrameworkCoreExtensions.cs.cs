@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Z.Ddd.Domain.UnitOfWork;
+using Z.Ddd.Common.UnitOfWork;
 using Z.EntityFrameworkCore.Core;
 using Z.EntityFrameworkCore.Middlewares;
 using Z.EntityFrameworkCore.Options;

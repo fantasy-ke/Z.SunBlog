@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using Z.Ddd.Domain.Authorization;
+using Z.Ddd.Common.Authorization;
 
 namespace Z.NetWiki.Host.Controllers
 {
 
     /// <summary>
-    /// ÌìÆøÀà
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -20,7 +20,7 @@ namespace Z.NetWiki.Host.Controllers
         private readonly IJwtTokenProvider _jwtTokenProvider;
 
         /// <summary>
-        /// ÌìÆøÉèÖÃ
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         /// <param name="logger"></param>
         public WeatherForecastController(ILogger<WeatherForecastController> logger, IJwtTokenProvider jwtTokenProvider)
@@ -30,9 +30,9 @@ namespace Z.NetWiki.Host.Controllers
         }
 
         /// <summary>
-        /// »ñÈ¡ÌìÆø
+        /// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
         /// </summary>
-        /// <returns>ÏêÏ¸ÄÚÈÝ</returns>
+        /// <returns>ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½</returns>
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {

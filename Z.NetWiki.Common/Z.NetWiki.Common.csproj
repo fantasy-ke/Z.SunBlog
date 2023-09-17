@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\efcore\Z.EntityFrameworkCore\Z.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\src\Z.Ddd.Domain\Z.Ddd.Domain.csproj" />
+    <ProjectReference Include="..\src\Z.Ddd.Common\Z.Ddd.Common.csproj" />
     <ProjectReference Include="..\src\Z.Module\Z.Module.csproj" />
   </ItemGroup>
 
