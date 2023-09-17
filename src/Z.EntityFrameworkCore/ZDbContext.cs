@@ -1,30 +1,54 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Z.Ddd.Domain.DependencyInjection;
+using Z.Ddd.Domain.Entities;
+using Z.Ddd.Domain.Entities.Auditing;
 using Z.Ddd.Domain.Entities.IAuditing;
+using Z.Ddd.Domain.Extensions;
+using Z.Ddd.Domain.Helper;
 
 namespace Z.EntityFrameworkCore
 {
     public abstract class ZDbContext<TDbContext> : DbContext 
         where TDbContext : DbContext
     {
+        //private IServiceScope? _serviceScope;
+        //public IZLazyServiceProvider _lazyServiceProvider;
+       // public IAuditPropertySetter AuditPropertySetter => _lazyServiceProvider.LazyGetRequiredService<IAuditPropertySetter>();
 
-        protected ZDbContext(DbContextOptions<TDbContext> options) : base(options)
+        protected ZDbContext(DbContextOptions<TDbContext> options)
+        : base(options)
         {
+            //_serviceScope = ServiceProviderCache.Instance.GetOrAdd(options, providerRequired: true)
+            //        .GetRequiredService<IServiceScopeFactory>()
+               //     .CreateScope();
 
+            //_lazyServiceProvider = _serviceScope.ServiceProvider.GetRequiredService<IZLazyServiceProvider>();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            ConfigureSoftDelete(modelBuilder);
+            //ConfigureSoftDelete(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }
 
 
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            return await  base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+       
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // 禁用查询跟踪
@@ -35,14 +59,6 @@ namespace Z.EntityFrameworkCore
 #endif
 
         }
-
-
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
-        {
-            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-        }
-
-
 
         /// <summary>
         /// 过滤器增加软删除过滤

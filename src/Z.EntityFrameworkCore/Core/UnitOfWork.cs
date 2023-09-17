@@ -11,6 +11,10 @@ using Z.Ddd.Domain.Entities.IAuditing;
 using Z.Ddd.Domain.UnitOfWork;
 using Z.EntityFrameworkCore.Options;
 using Z.Module.DependencyInjection;
+using Z.Ddd.Domain.Entities.Auditing;
+using Z.Ddd.Domain.Entities;
+using Z.Ddd.Domain.Extensions;
+using Z.Ddd.Domain.Helper;
 
 namespace Z.EntityFrameworkCore.Core;
 
@@ -85,108 +89,81 @@ public sealed class UnitOfWork<TDbContext> : IUnitOfWork,
         _dbContext.ChangeTracker.DetectChanges();
         foreach (var entry in _dbContext.ChangeTracker.Entries())
         {
-            switch (entry.State)
-            {
-                case EntityState.Deleted:
-                    SetDelete(entry);
-                    break;
-                case EntityState.Modified:
-                    SetModified(entry);
-                    break;
-                case EntityState.Added:
-                    SetCreation(entry);
-                    break;
-            }
+            PublishEventsForTrackedEntity(entry);
         }
     }
 
-    private void SetModified(EntityEntry entry)
+    private void PublishEventsForTrackedEntity(EntityEntry entry)
     {
-        //switch (entry.Entity)
-        //{
-        //    case IModificationAuditedObject modificationAuditedObject:
-
-        //        modificationAuditedObject.LastModifierId = GetUserId();
-        //        modificationAuditedObject.LastModificationTime = DateTime.Now;
-        //        break;
-        //    case IHasModificationTime entity:
-        //        entity.LastModificationTime = DateTime.Now;
-        //        break;
-        //}
-    }
-
-    private void SetCreation(EntityEntry entry)
-    {
-        //if (entry.Entity is IMayHaveCreator creator)
-        //{
-        //    creator.CreatorId = GetUserId();
-        //}
-
-        //switch (entry.Entity)
-        //{
-        //    case IHasCreationTime creationTime:
-        //        creationTime.CreationTime = DateTime.Now;
-        //        break;
-        //}
-
-        //if (entry.Entity is ITenant tenant)
-        //{
-        //    tenant.TenantId = GetTenantId();
-        //}
-        _auditPropertySetter.SetCreationProperties(entry.Entity);
-    }
-
-    private void SetDelete(EntityEntry entry)
-    {
-        //if (entry.Entity is ISoftDelete entity)
-        //{
-        //    entity.IsDeleted = true;
-        //}
-
-        //if (entry.Entity is not IHasDeleteCreator deleteCreator) return;
-
-        //deleteCreator.DeleteTime = DateTime.Now;
-        //deleteCreator.DeleteCreatorId = GetUserId();
-        _auditPropertySetter.SetDeletionProperties(entry.Entity);
-
-    }
-
-    public Guid? GetUserId()
-    {
-        try
+        switch (entry.State)
         {
+            case EntityState.Added:
+                ApplyAbpConceptsForAddedEntity(entry);
+                break;
+            case EntityState.Modified:
 
-            var httpContext = _serviceProvider.GetService(typeof(HttpContext)) as HttpContext;
-            var value = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == _unitOfWorkOptions.GetIdType)
-                ?.Value;
-            if (string.IsNullOrEmpty(value))
-                return null;
-
-            return Guid.Parse(value);
-        }
-        catch
-        {
-            return null;
+                break;
+            case EntityState.Deleted:
+                ApplyAbpConceptsForDeletedEntity(entry);
+                break;
         }
     }
 
-    public Guid? GetTenantId()
+
+    private void ApplyAbpConceptsForAddedEntity(EntityEntry entry)
     {
-        try
-        {
+        CheckAndSetId(entry);
+        SetCreationAuditProperties(entry);
+    }
 
-            var httpContext = _serviceProvider.GetService(typeof(HttpContext)) as HttpContext;
-            var value = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == _unitOfWorkOptions.GetTenantIdType)
-                ?.Value;
-            if (string.IsNullOrEmpty(value))
-                return null;
-
-            return Guid.Parse(value);
-        }
-        catch
+    private void ApplyAbpConceptsForDeletedEntity(EntityEntry entry)
+    {
+        if (!(entry.Entity is ISoftDelete))
         {
-            return null;
+            return;
         }
+
+
+        entry.Reload();
+        ObjectPropertyHelper.TrySetProperty(entry.Entity.As<ISoftDelete>(), x => x.IsDeleted, () => true);
+        SetDeletionAuditProperties(entry);
+    }
+
+
+    private void SetCreationAuditProperties(EntityEntry entry)
+    {
+        _auditPropertySetter?.SetCreationProperties(entry.Entity);
+    }
+
+    private void SetDeletionAuditProperties(EntityEntry entry)
+    {
+        _auditPropertySetter?.SetDeletionProperties(entry.Entity);
+    }
+
+    private void CheckAndSetId(EntityEntry entry)
+    {
+        if (entry.Entity is IEntity<Guid> entityWithGuidId)
+        {
+            TrySetGuidId(entry, entityWithGuidId);
+        }
+    }
+
+
+    private void TrySetGuidId(EntityEntry entry, IEntity<Guid> entity)
+    {
+        if (entity.Id != default)
+        {
+            return;
+        }
+
+        var idProperty = entry.Property("Id").Metadata.PropertyInfo;
+
+
+        EntityHelper.TrySetId(
+            entity,
+            () => Guid.NewGuid(),
+            true
+        );
     }
 
     public void Dispose()

@@ -9,69 +9,86 @@ using Z.Module.Modules;
 using System.Reflection;
 using Z.Module.DependencyInjection;
 
-namespace Z.Module.Extensions
+namespace Z.Module.Extensions;
+
+public static class ServiceCollectionExtensions
 {
-    public static class ServiceCollectionExtensions
+
+    public static ObjectAccessor<T> AddObjectAccessor<T>(this IServiceCollection services)
+    {
+        if (services.Any(s => s.ServiceType == typeof(T)))
+        {
+            throw new Exception("该对象已经注册成功过 " + typeof(T).AssemblyQualifiedName);
+        }
+        var accessor = new ObjectAccessor<T>();
+        //Add to the beginning for fast retrieve
+        services.Insert(0, ServiceDescriptor.Singleton(typeof(IObjectAccessor<T>), accessor));
+        services.Insert(0, ServiceDescriptor.Singleton(typeof(ObjectAccessor<T>), accessor));
+        
+
+        return accessor;
+    }
+
+
+    public static ObjectAccessor<T> AddObjectAccessor<T>(this IServiceCollection services, T obj)
     {
 
-        public static ObjectAccessor<T> AddObjectAccessor<T>(this IServiceCollection services)
-        {
-            if (services.Any(s => s.ServiceType == typeof(T)))
-            {
-                throw new Exception("该对象已经注册成功过 " + typeof(T).AssemblyQualifiedName);
-            }
-            var accessor = new ObjectAccessor<T>();
-            //Add to the beginning for fast retrieve
-            services.Insert(0, ServiceDescriptor.Singleton(typeof(IObjectAccessor<T>), accessor));
-            services.Insert(0, ServiceDescriptor.Singleton(typeof(ObjectAccessor<T>), accessor));
-            
+        var accessor = new ObjectAccessor<T>(obj);
 
-            return accessor;
+        if (services.Any(s => s.ServiceType == typeof(ObjectAccessor<T>)))
+        {
+            throw new Exception("该对象已经注册成功过: " + typeof(T).AssemblyQualifiedName);
         }
 
-        public static void CheckNull(this IServiceCollection services)
+        //Add to the beginning for fast retrieve
+        services.Insert(0, ServiceDescriptor.Singleton(typeof(ObjectAccessor<T>), accessor));
+        services.Insert(0, ServiceDescriptor.Singleton(typeof(IObjectAccessor<T>), accessor));
+
+        return accessor;
+    }
+
+    public static void CheckNull(this IServiceCollection services)
+    {
+        if (services is null)
         {
-            if (services is null)
-            {
-                throw new ArgumentException("services is null");
-            }
+            throw new ArgumentException("services is null");
+        }
+    }
+
+    public static T GetSingletonInstanceOrNull<T>(this IServiceCollection services)
+    {
+        return (T)services
+            .FirstOrDefault(d => d.ServiceType == typeof(T))
+            ?.ImplementationInstance;
+    }
+    public static void ChcekNull(this IServiceCollection services)
+    {
+        if (services is null)
+        {
+            throw new ArgumentNullException("IServiceCollection为空");
+        }
+    }
+
+    public static T GetSingletonInstance<T>(this IServiceCollection services)
+    {
+        var service = services.GetSingletonInstanceOrNull<T>();
+        if (service == null)
+        {
+            throw new InvalidOperationException("Could not find singleton service: " + typeof(T).AssemblyQualifiedName);
         }
 
-        public static T GetSingletonInstanceOrNull<T>(this IServiceCollection services)
-        {
-            return (T)services
-                .FirstOrDefault(d => d.ServiceType == typeof(T))
-                ?.ImplementationInstance;
-        }
-        public static void ChcekNull(this IServiceCollection services)
-        {
-            if (services is null)
-            {
-                throw new ArgumentNullException("IServiceCollection为空");
-            }
-        }
+        return service;
+    }
 
-        public static T GetSingletonInstance<T>(this IServiceCollection services)
-        {
-            var service = services.GetSingletonInstanceOrNull<T>();
-            if (service == null)
-            {
-                throw new InvalidOperationException("Could not find singleton service: " + typeof(T).AssemblyQualifiedName);
-            }
+    public static IServiceCollection AddAssemblyOf<T>(this IServiceCollection services)
+    {
+        return services.AddAssembly(typeof(T).GetTypeInfo().Assembly);
+    }
 
-            return service;
-        }
+    public static IServiceCollection AddAssembly(this IServiceCollection services, Assembly assembly)
+    {
+        new ConventionalRegistrar().AddAssembly(services, assembly);
 
-        public static IServiceCollection AddAssemblyOf<T>(this IServiceCollection services)
-        {
-            return services.AddAssembly(typeof(T).GetTypeInfo().Assembly);
-        }
-
-        public static IServiceCollection AddAssembly(this IServiceCollection services, Assembly assembly)
-        {
-            new ConventionalRegistrar().AddAssembly(services, assembly);
-
-            return services;
-        }
+        return services;
     }
 }
