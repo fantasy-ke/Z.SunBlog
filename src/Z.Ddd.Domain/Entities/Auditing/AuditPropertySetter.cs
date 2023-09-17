@@ -7,10 +7,11 @@ using Z.Ddd.Domain.Entities.IAuditing;
 using Z.Ddd.Domain.Extensions;
 using Z.Ddd.Domain.Helper;
 using Z.Ddd.Domain.UserSession;
+using Z.Module.DependencyInjection;
 
 namespace Z.Ddd.Domain.Entities.Auditing
 {
-    public class AuditPropertySetter: IAuditPropertySetter
+    public class AuditPropertySetter: IAuditPropertySetter,ITransientDependency
     {
         private readonly IUserSession _userSession;
         public AuditPropertySetter(IUserSession userSession)
