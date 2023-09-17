@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Autofac.Core;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -8,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using Z.Ddd.Common;
 using Z.Ddd.Common.Extensions;
+using Z.EntityFrameworkCore.Extensions;
 using Z.Module;
 using Z.Module.Extensions;
 using Z.Module.Modules;
@@ -34,6 +36,10 @@ public class NetWikiHostModule : ZModule
         context.Services.AddEndpointsApiExplorer();
 
         ServicesJwtToken(context.Services);
+
+        // 注入自动事务中间件
+        context.Services.AddUnitOfWorkMiddleware();
+
 
         ServicesSwagger(context.Services);
 
@@ -69,6 +75,8 @@ public class NetWikiHostModule : ZModule
 
 
         app.UseStaticFiles();
+
+        app.UseUnitOfWorkMiddleware();
 
         app.UseCors("ZCores");
 

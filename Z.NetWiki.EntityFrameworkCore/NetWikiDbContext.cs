@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Z.EntityFrameworkCore;
+using Z.NetWiki.EntityFrameworkCore.ConfigureExtensions;
 
 namespace Z.NetWiki.EntityFrameworkCore
 {
@@ -18,6 +19,7 @@ namespace Z.NetWiki.EntityFrameworkCore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ConfigureModel();
         }
     }
 }

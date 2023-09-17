@@ -14,6 +14,7 @@ using Z.Ddd.Common.DependencyInjection;
 using Z.Ddd.Common.Entities;
 using Z.Ddd.Common.Entities.Auditing;
 using Z.Ddd.Common.Entities.IAuditing;
+using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.Helper;
 
@@ -25,6 +26,8 @@ namespace Z.EntityFrameworkCore
         //private IServiceScope? _serviceScope;
         //public IZLazyServiceProvider _lazyServiceProvider;
        // public IAuditPropertySetter AuditPropertySetter => _lazyServiceProvider.LazyGetRequiredService<IAuditPropertySetter>();
+
+        public virtual DbSet<ZUserInfo> ZUsers { get; set; }
 
         protected ZDbContext(DbContextOptions<TDbContext> options)
         : base(options)
@@ -40,6 +43,14 @@ namespace Z.EntityFrameworkCore
         {
             //ConfigureSoftDelete(modelBuilder);
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ZUserInfo>(x =>
+            {
+                x.ToTable("ZUsers");
+
+            });
+
+
         }
 
 
@@ -51,13 +62,14 @@ namespace Z.EntityFrameworkCore
        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            base.OnConfiguring(optionsBuilder);
             // 禁用查询跟踪
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution);
 #if DEBUG
             // 显示更详细的异常日志
             optionsBuilder.EnableDetailedErrors();
 #endif
-
+            
         }
 
         /// <summary>

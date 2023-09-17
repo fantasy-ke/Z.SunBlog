@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,10 +25,13 @@ namespace Z.Ddd.Common.Entities.Auditing
     [Serializable]
     public abstract class CreationAuditedEntity<Tkey> : Entity<Tkey>, IHasCreationTime, IMayHaveCreator
     {
-        protected CreationAuditedEntity(Tkey id) 
-            : base(id)
+        protected CreationAuditedEntity()
         {
+        }
 
+        protected CreationAuditedEntity(Tkey id)
+        {
+            Id = id;
         }
         /// <summary>
         /// 创建时间
