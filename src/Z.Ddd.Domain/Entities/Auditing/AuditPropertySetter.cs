@@ -60,15 +60,6 @@ namespace Z.Ddd.Domain.Entities.Auditing
 
                 ObjectPropertyHelper.TrySetProperty(mayHaveCreatorObject, x => x.CreatorId, () => _userSession.UserId);
             }
-            //else if (targetObject is IMustHaveCreator mustHaveCreatorObject)
-            //{
-            //    if (mustHaveCreatorObject.CreatorId != default)
-            //    {
-            //        return;
-            //    }
-
-            //    ObjectHelper.TrySetProperty(mustHaveCreatorObject, x => x.CreatorId, () => CurrentUser.Id.Value);
-            //}
         }
 
 

@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Z.Ddd.Domain.DependencyInjection;
 using Z.Ddd.Domain.UserSession;
 using Z.Module.DependencyInjection;
 
@@ -11,6 +12,7 @@ namespace Z.Ddd.Domain.Authorization;
 public class JwtTokenProvider : IJwtTokenProvider
 {
     private readonly JwtSettings _jwtConfig;
+    public IZLazyServiceProvider _lazyServiceProvider { get; set; }
     public JwtTokenProvider(IConfiguration configuration)
     {
         _jwtConfig = configuration.GetSection("App:JWtSetting").Get<JwtSettings>() ?? throw new ArgumentException("请先检查appsetting中JWT配置");

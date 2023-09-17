@@ -5,6 +5,9 @@ using System.Security.Claims;
 using Z.Ddd.Domain.Authorization;
 using Z.Ddd.Domain.UserSession;
 using Microsoft.AspNetCore.Authorization;
+using Z.Ddd.Domain.DependencyInjection;
+using Z.Ddd.Domain.Entities.IAuditing;
+using Z.Ddd.Domain.Entities.Auditing;
 
 namespace Z.NetWiki.Host.Controllers
 {
@@ -17,12 +20,10 @@ namespace Z.NetWiki.Host.Controllers
     {
         private readonly IJwtTokenProvider _jwtTokenProvider;
         private readonly IUserSession _userSession;
-        private readonly IAuthorizationMiddlewareResultHandler _authorizationMiddlewareResultHandler;
-        public TestController(IJwtTokenProvider jwtTokenProvider, IUserSession userSession, IAuthorizationMiddlewareResultHandler authorizationMiddlewareResultHandler)
+        public TestController(IJwtTokenProvider jwtTokenProvider, IUserSession userSession)
         {
             _jwtTokenProvider = jwtTokenProvider;
             _userSession = userSession;
-            _authorizationMiddlewareResultHandler = authorizationMiddlewareResultHandler;
         }
 
         /// <summary>

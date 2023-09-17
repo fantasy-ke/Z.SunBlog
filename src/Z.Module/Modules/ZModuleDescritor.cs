@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Z.Module.Extensions;
 using Z.Module.Modules.interfaces;
 
 namespace Z.Module.Modules
@@ -13,6 +14,8 @@ namespace Z.Module.Modules
         public Type Type { get; }
 
         public Assembly Assembly { get; }
+
+
 
         public IZModule Instance { get; }
 
