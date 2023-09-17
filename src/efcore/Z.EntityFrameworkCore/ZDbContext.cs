@@ -10,12 +10,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Z.Ddd.Domain.DependencyInjection;
-using Z.Ddd.Domain.Entities;
-using Z.Ddd.Domain.Entities.Auditing;
-using Z.Ddd.Domain.Entities.IAuditing;
-using Z.Ddd.Domain.Extensions;
-using Z.Ddd.Domain.Helper;
+using Z.Ddd.Common.DependencyInjection;
+using Z.Ddd.Common.Entities;
+using Z.Ddd.Common.Entities.Auditing;
+using Z.Ddd.Common.Entities.IAuditing;
+using Z.Ddd.Common.Extensions;
+using Z.Ddd.Common.Helper;
 
 namespace Z.EntityFrameworkCore
 {

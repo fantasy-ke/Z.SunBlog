@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Z.Ddd.Domain.Entities.Auditing;
+using Z.Ddd.Common.Entities.Auditing;
 
 namespace Z.EntityFrameworkCore.Extensions;
 

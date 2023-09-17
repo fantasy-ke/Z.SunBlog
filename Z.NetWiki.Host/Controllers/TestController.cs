@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using Z.Ddd.Domain.Authorization;
-using Z.Ddd.Domain.UserSession;
+using Z.Ddd.Common.Authorization;
+using Z.Ddd.Common.UserSession;
 using Microsoft.AspNetCore.Authorization;
-using Z.Ddd.Domain.DependencyInjection;
-using Z.Ddd.Domain.Entities.IAuditing;
-using Z.Ddd.Domain.Entities.Auditing;
+using Z.Ddd.Common.DependencyInjection;
+using Z.Ddd.Common.Entities.IAuditing;
+using Z.Ddd.Common.Entities.Auditing;
 
 namespace Z.NetWiki.Host.Controllers
 {
