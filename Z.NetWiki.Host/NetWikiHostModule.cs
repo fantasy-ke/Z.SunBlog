@@ -15,10 +15,12 @@ using Z.Module.Extensions;
 using Z.Module.Modules;
 using Z.NetWiki.Application;
 using Z.NetWiki.Common;
+using Z.NetWiki.EntityFrameworkCore;
 
 namespace Z.NetWiki.Host;
 
-[DependOn(typeof(NetWikiApplicationModule))]
+[DependOn(typeof(NetWikiApplicationModule),
+    typeof(NetWikiEntityFrameworkCoreModule))]
 public class NetWikiHostModule : ZModule
 {
     protected IHostEnvironment env { get;private set; }
