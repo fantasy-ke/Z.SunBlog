@@ -28,7 +28,7 @@ public static class ZSqlServerEntityFrameworkCoreExtensions
         context.Services.AddEfCoreEntityFrameworkCore<TDbContext>(
             x =>
             {
-                x.UseSqlServer(configuration.GetConnectionString(connectionString));
+                x.UseSqlServer(configuration[connectionString]);
             },
             ServiceLifetime.Scoped);
 
