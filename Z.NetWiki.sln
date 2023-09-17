@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.Module", "src\Z.Module\Z.Module.csproj", "{4398FA47-F36C-4724-BD8B-98BFEAC6F862}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.EntityFrameworkCore", "src\Z.EntityFrameworkCore\Z.EntityFrameworkCore.csproj", "{903962D0-55E8-4A49-9520-1E9D4D695297}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.EntityFrameworkCore", "src\efcore\Z.EntityFrameworkCore\Z.EntityFrameworkCore.csproj", "{903962D0-55E8-4A49-9520-1E9D4D695297}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.NetWiki.Application", "Z.NetWiki.Application\Z.NetWiki.Application.csproj", "{42946947-7DE7-402C-AB3B-DB859429AB6A}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.Ddd.Application", "src\Z.Ddd.Application\Z.Ddd.Application.csproj", "{CBF71E5F-244B-4579-985A-35B6F874A51C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.Ddd.Domain", "src\Z.Ddd.Domain\Z.Ddd.Domain.csproj", "{0A06B0EF-B7E9-491A-B4F5-EE82B5788A78}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "efcore", "efcore", "{56C84CD2-97DD-415B-B416-DB982F3D5806}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,9 +73,10 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4398FA47-F36C-4724-BD8B-98BFEAC6F862} = {A19668E2-3307-47C9-9B91-25BF5A1E9CA0}
-		{903962D0-55E8-4A49-9520-1E9D4D695297} = {A19668E2-3307-47C9-9B91-25BF5A1E9CA0}
+		{903962D0-55E8-4A49-9520-1E9D4D695297} = {56C84CD2-97DD-415B-B416-DB982F3D5806}
 		{CBF71E5F-244B-4579-985A-35B6F874A51C} = {A19668E2-3307-47C9-9B91-25BF5A1E9CA0}
 		{0A06B0EF-B7E9-491A-B4F5-EE82B5788A78} = {A19668E2-3307-47C9-9B91-25BF5A1E9CA0}
+		{56C84CD2-97DD-415B-B416-DB982F3D5806} = {A19668E2-3307-47C9-9B91-25BF5A1E9CA0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A207D693-0213-440B-A29C-4C44FED78AEB}
