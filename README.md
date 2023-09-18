@@ -10,7 +10,7 @@
   - ISingletonDependency（单例）
   - IScopedDependency（作用域）
 
-- EF基础仓储实现
+## EF基础仓储实现
 
 - 实现了对`sqlserver`以及`Mysql`的支持
 
