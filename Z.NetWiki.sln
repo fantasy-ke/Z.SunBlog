@@ -27,7 +27,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "efcore", "efcore", "{56C84C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.EntityFrameworkCore.SqlServer", "src\efcore\Z.EntityFrameworkCore.SqlServer\Z.EntityFrameworkCore.SqlServer.csproj", "{1C584CBB-B546-4D64-9CAF-4EE6430F0506}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z.EntityFrameworkCore.Mysql", "src\efcore\Z.EntityFrameworkCore.Mysql\Z.EntityFrameworkCore.Mysql.csproj", "{90DF7A42-9EAE-446C-97AF-BC7FFFC1C60E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.EntityFrameworkCore.Mysql", "src\efcore\Z.EntityFrameworkCore.Mysql\Z.EntityFrameworkCore.Mysql.csproj", "{90DF7A42-9EAE-446C-97AF-BC7FFFC1C60E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resource", "resource", "{4870B662-8143-4576-B85E-4E76E6FEE85F}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
