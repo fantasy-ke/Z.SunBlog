@@ -31,8 +31,7 @@ public interface IReadOnlyBasicRepository<TEntity> : IRepository
 public interface IReadOnlyBasicRepository<TEntity, TKey> : IReadOnlyBasicRepository<TEntity>
         where TEntity : class, IEntity<TKey>
 {
-    [NotNull]
-    Task<TEntity> GetAsync(TKey id, bool includeDetails = true, CancellationToken cancellationToken = default);
+    Task<TEntity?> GetAsync(TKey id, bool includeDetails = true, CancellationToken cancellationToken = default);
 
-    Task<TEntity> FindAsync(TKey id, bool includeDetails = true, CancellationToken cancellationToken = default);
+    Task<TEntity?> FindAsync(TKey id, bool includeDetails = true, CancellationToken cancellationToken = default);
 }
