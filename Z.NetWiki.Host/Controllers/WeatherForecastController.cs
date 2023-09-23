@@ -34,20 +34,14 @@ namespace Z.NetWiki.Host.Controllers
         /// </summary>
         /// <returns>��ϸ����</returns>
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public string Get()
         {
             UserTokenModel tokenModel = new UserTokenModel();
             tokenModel.UserName = "test";
             tokenModel.UserId =Guid.NewGuid().ToString("N");
             var dfs = _jwtTokenProvider.GenerateAccessToken(tokenModel);
 
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return dfs;
         }
     }
 }
