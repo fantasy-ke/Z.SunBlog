@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -69,6 +70,17 @@ public interface IBasicRepository<TEntity> : IReadOnlyBasicRepository<TEntity>
     Task DeleteAsync([NotNull] TEntity entity,  CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Deletes an entity.
+    /// </summary>
+    /// <param name="entity">Entity to be deleted</param>
+    /// <param name="autoSave">
+    /// Set true to automatically save changes to database.
+    /// This is useful for ORMs / database APIs those only save changes with an explicit method call, but you need to immediately save changes to the database.
+    /// </param>
+    /// <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
+    Task DeleteAsync(Expression<Func<TEntity, bool>> predicate);
+
+    /// <summary>
     /// Deletes multiple entities.
     /// </summary>
     /// <param name="entities">Entities to be deleted.</param>
@@ -79,18 +91,38 @@ public interface IBasicRepository<TEntity> : IReadOnlyBasicRepository<TEntity>
     /// <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>Awaitable <see cref="Task"/>.</returns>
     Task DeleteManyAsync([NotNull] IEnumerable<TEntity> entities,  CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 获取到IQueryable
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    IQueryable<TEntity> GetQueryAll();
+
+    //
+    // 摘要:
+    //     Inserts or updates given entity depending on Id's value.
+    //
+    // 参数:
+    //   entity:
+    //     Entity
+    Task<TEntity> InsertOrUpdateAsync(Expression<Func<TEntity, bool>> predicate,
+        TEntity entity);
+
 }
 
 public interface IBasicRepository<TEntity, TKey> : IBasicRepository<TEntity>, IReadOnlyBasicRepository<TEntity, TKey>
     where TEntity : class, IEntity<TKey>
 {
+
+
     /// <summary>
     /// 删除
     /// </summary>
     /// <param name="id"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task DeleteAsync(TKey id, CancellationToken cancellationToken = default);
+    Task DeleteIDAsync(TKey id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 批量删除

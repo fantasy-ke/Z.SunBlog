@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +20,19 @@ public interface IReadOnlyBasicRepository<TEntity> : IRepository
     Task<List<TEntity>> GetListAsync(bool includeDetails = false, CancellationToken cancellationToken = default);
 
     Task<long> GetCountAsync(CancellationToken cancellationToken = default);
+
+    //
+    // 摘要:
+    //     Gets count of all entities in this repository based on given predicate.
+    //
+    // 参数:
+    //   predicate:
+    //     A method to filter count
+    //
+    // 返回结果:
+    //     Count of entities
+    Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate);
+
 
     Task<List<TEntity>> GetPagedListAsync(
         int skipCount,

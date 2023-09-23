@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Z.Ddd.Common.Entities.Repositories;
 
-public interface IRepository<TEntity, TKey> : IRepository<TEntity>, IReadOnlyBasicRepository<TEntity, TKey>, IBasicRepository<TEntity, TKey>
+public interface IRepository<TEntity, TKey> : IReadOnlyBasicRepository<TEntity, TKey>, IBasicRepository<TEntity, TKey>
         where TEntity : class, IEntity<TKey>
 {
     
@@ -56,6 +56,14 @@ public interface IRepository<TEntity>
     /// <returns></returns>
     Task<bool> IsExistAsync(Expression<Func<TEntity, bool>> predicate,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 获取到IQueryable
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    IQueryable<TEntity> GetQueryAll();
+
 
     /// <summary>
     /// 获取到IQueryable

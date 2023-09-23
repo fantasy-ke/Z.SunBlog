@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Z.Ddd.Common.Entities;
 using Z.Ddd.Common.Entities.Repositories;
@@ -28,7 +29,7 @@ public abstract class EfCoreRepository<TDbContext, TEntity, TKey> : EfCoreReposi
     {
     }
 
-    public async Task DeleteAsync(TKey id, CancellationToken cancellationToken = default)
+    public async Task DeleteIDAsync(TKey id, CancellationToken cancellationToken = default)
     {
         var entity = await DbSet.FirstOrDefaultAsync(x => x.Id!.Equals(id), cancellationToken: cancellationToken);
         if (entity != null)
@@ -154,6 +155,43 @@ public abstract class EfCoreRepository<TDbContext, TEntity> : IBasicRepository<T
     public Task<List<TEntity>> GetPagedListAsync(int skipCount, int maxResultCount, string sorting, bool includeDetails = false, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task DeleteAsync(Expression<Func<TEntity, bool>> predicate)
+    {
+        var entity = await DbSet.FirstOrDefaultAsync(predicate);
+        if (entity != null)
+        {
+            DbSet.Remove(entity);
+        }
+    }
+
+    public IQueryable<TEntity> GetQueryAll()
+    {
+        return DbSet.AsQueryable();
+    }
+
+    public async Task<TEntity> InsertOrUpdateAsync(Expression<Func<TEntity, bool>> predicate,
+        TEntity entity)
+    {
+        var existingEntity = await DbSet.FirstOrDefaultAsync(predicate);
+        if (existingEntity == null)
+        {
+            DbSet.Add(entity); // 如果记录不存在，则新增
+        }
+        else
+        {
+            // 如果记录存在，则进行更新
+            DbSet.Attach(existingEntity);
+            DbSet.Update(entity);
+        }
+
+        return await Task.FromResult(entity); ;
+    }
+
+    public async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate)
+    {
+        return  await DbSet.CountAsync(predicate);
     }
 }
 
