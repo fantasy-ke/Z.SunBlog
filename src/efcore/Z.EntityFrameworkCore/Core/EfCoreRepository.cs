@@ -48,15 +48,11 @@ public abstract class EfCoreRepository<TDbContext, TEntity, TKey> : EfCoreReposi
         }
     }
 
-    public async Task<TEntity> FindAsync(TKey id, bool includeDetails = true, CancellationToken cancellationToken = default)
-    {
-        return await DbSet.FirstOrDefaultAsync(x => x.Id!.Equals(id), cancellationToken: cancellationToken);
-    }
+    public async Task<TEntity?> FindAsync(TKey id, bool includeDetails = true, CancellationToken cancellationToken = default) 
+        => await DbSet.FirstOrDefaultAsync(x => x.Id!.Equals(id), cancellationToken: cancellationToken);
 
-    public async Task<TEntity> GetAsync(TKey id, bool includeDetails = true, CancellationToken cancellationToken = default)
-    {
-        return await DbSet.FirstOrDefaultAsync(x => x.Id!.Equals(id), cancellationToken: cancellationToken);
-    }
+    public async Task<TEntity?> GetAsync(TKey id, bool includeDetails = true, CancellationToken cancellationToken = default) 
+        => await DbSet.FirstOrDefaultAsync(x => x.Id!.Equals(id), cancellationToken: cancellationToken);
 }
 
 public abstract class EfCoreRepository<TDbContext, TEntity> : IBasicRepository<TEntity>, ITransientDependency
