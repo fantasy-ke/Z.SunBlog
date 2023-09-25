@@ -19,7 +19,7 @@ namespace Z.Ddd.Common.Entities.Auditing
         /// <summary>
         /// 创建用户
         /// </summary>
-        public virtual string CreatorId { get; set; }
+        public virtual string? CreatorId { get; set; }
     }
 
     [Serializable]
@@ -36,12 +36,12 @@ namespace Z.Ddd.Common.Entities.Auditing
         /// <summary>
         /// 创建时间
         /// </summary>
-        public virtual DateTime CreationTime { get; set; }
+        public virtual DateTime? CreationTime { get; set; }
 
         /// <summary>
         /// 创建用户
         /// </summary>
-        public virtual string CreatorId { get; set; }
+        public virtual string? CreatorId { get; set; }
 
         
         

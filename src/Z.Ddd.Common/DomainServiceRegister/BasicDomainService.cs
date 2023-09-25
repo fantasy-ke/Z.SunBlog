@@ -39,14 +39,14 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
 
     public virtual async Task Create(TEntity entity)
     {
-        
-            await EntityRepo.InsertAsync(entity);
+
+        await EntityRepo.InsertAsync(entity);
     }
 
     public async Task Create(IEnumerable<TEntity> entities)
     {
-        
-            await EntityRepo.InsertManyAsync(entities);
+
+        await EntityRepo.InsertManyAsync(entities);
     }
 
     public virtual async Task Update(TEntity entity)

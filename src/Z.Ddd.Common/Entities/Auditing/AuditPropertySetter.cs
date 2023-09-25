@@ -22,12 +22,14 @@ namespace Z.Ddd.Common.Entities.Auditing
         {
             SetCreationTime(targetObject);
             SetCreatorId(targetObject);
+            SetIsDeleter(targetObject);
         }
 
         public virtual void SetDeletionProperties(object targetObject)
         {
             SetDeletionTime(targetObject);
             SetDeleterId(targetObject);
+            SetIsDeleter(targetObject,true);
         }
 
 
@@ -92,6 +94,16 @@ namespace Z.Ddd.Common.Entities.Auditing
                 return;
             }
             ObjectPropertyHelper.TrySetProperty(deletionAuditedObject, x => x.DeleterId, () => _userSession.UserId);
+        }
+
+        protected virtual void SetIsDeleter(object targetObject, bool isDelete = false)
+        {
+            if (!(targetObject is ISoftDelete softDelete))
+            {
+                return;
+            }
+
+            ObjectPropertyHelper.TrySetProperty(softDelete, x => x.IsDeleted, () => isDelete);
         }
     }
 }

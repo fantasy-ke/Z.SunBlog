@@ -32,6 +32,7 @@ public static class EfCoreEntityFrameworkCoreExtensions
         ConfigureDbContext<TDbContext>(services, optionsAction, lifetime);
 
         // 注入工作单元
+        services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork<TDbContext>));
 
         return services;
     }

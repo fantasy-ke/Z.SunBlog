@@ -11,6 +11,6 @@ namespace Z.Ddd.Common.Entities.IAuditing
         /// <summary>
         /// Creation time.
         /// </summary>
-        DateTime CreationTime { get; }
+        DateTime? CreationTime { get; }
     }
 }

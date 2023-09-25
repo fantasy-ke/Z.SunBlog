@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace Z.NetWiki.Application.UserModule
 
         public async Task Create()
         {
+
+            // var dfs = await _userDomainManager.QueryAsNoTracking.ToListAsync();
 
             await _userDomainManager.Create(new ZUserInfo
             {
