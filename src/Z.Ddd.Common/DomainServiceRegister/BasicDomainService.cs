@@ -19,7 +19,7 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
 
     //public virtual IAbpSession AbpSession { get; }
 
-    public virtual IRepository<TEntity, TPrimaryKey> EntityRepo { get; }
+    public virtual IBasicRepository<TEntity, TPrimaryKey> EntityRepo { get; }
 
     public virtual IQueryable<TEntity> Query => EntityRepo.GetQueryAll();
 
@@ -28,7 +28,7 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
     public BasicDomainService(IServiceProvider serviceProvider)
     {
         ServiceProvider = serviceProvider;
-        EntityRepo = serviceProvider.GetRequiredService<IRepository<TEntity, TPrimaryKey>>();
+        EntityRepo = serviceProvider.GetRequiredService<IBasicRepository<TEntity, TPrimaryKey>>();
         //AbpSession = serviceProvider.GetRequiredService<IAbpSession>();
     }
 

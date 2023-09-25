@@ -8,7 +8,10 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.Text;
 using Z.Ddd.Common;
+using Z.Ddd.Common.Entities.Repositories;
+using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.Extensions;
+using Z.EntityFrameworkCore.Core;
 using Z.EntityFrameworkCore.Extensions;
 using Z.Module;
 using Z.Module.Extensions;
@@ -23,8 +26,8 @@ namespace Z.NetWiki.Host;
     typeof(NetWikiEntityFrameworkCoreModule))]
 public class NetWikiHostModule : ZModule
 {
-    protected IHostEnvironment env { get;private set; }
-    protected IConfiguration configuration { get;private set; }
+    protected IHostEnvironment env { get; private set; }
+    protected IConfiguration configuration { get; private set; }
 
     /// <summary>
     /// 服务配置
@@ -32,6 +35,8 @@ public class NetWikiHostModule : ZModule
     /// <param name="context"></param>
     public override void ConfigureServices(ServiceConfigerContext context)
     {
+        //context.Services.AddSingleton(typeof(IBasicRepository<ZUserInfo>), typeof(Repository<NetWikiDbContext, ZUserInfo>));
+
         configuration = context.GetConfiguration();
         env = context.Environment();
         context.Services.AddControllers();

@@ -15,6 +15,8 @@ using Z.Ddd.Common.Entities.Auditing;
 using Z.Ddd.Common.Entities;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.Helper;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Z.EntityFrameworkCore.Core;
 
@@ -39,10 +41,10 @@ public sealed class UnitOfWork<TDbContext> : IUnitOfWork,
         _auditPropertySetter = auditPropertySetter;
     }
 
-    public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
+    public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
     {
         IsCompleted = false;
-        await _dbContext.Database.BeginTransactionAsync(cancellationToken);
+        return await _dbContext.Database.BeginTransactionAsync(cancellationToken);
     }
 
     public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)

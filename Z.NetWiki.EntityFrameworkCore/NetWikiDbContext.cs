@@ -6,12 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Z.EntityFrameworkCore;
 using Z.EntityFrameworkCore.Attributes;
+using Z.Module.DependencyInjection;
 using Z.NetWiki.EntityFrameworkCore.ConfigureExtensions;
 
 namespace Z.NetWiki.EntityFrameworkCore
 {
     [ConnectionStringName("App:ConnectionString:Default")]
-    public class NetWikiDbContext : ZDbContext<NetWikiDbContext>
+    public class NetWikiDbContext : ZDbContext<NetWikiDbContext>, ITransientDependency
     {
         public NetWikiDbContext(DbContextOptions<NetWikiDbContext> options) : base(options)
         {
