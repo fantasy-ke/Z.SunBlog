@@ -14,7 +14,7 @@ namespace Z.Ddd.Common.Entities.Auditing
         /// <summary>
         /// 创建时间
         /// </summary>
-        public virtual DateTime CreationTime { get; set; }
+        public virtual DateTime? CreationTime { get; set; }
         
         /// <summary>
         /// 创建用户

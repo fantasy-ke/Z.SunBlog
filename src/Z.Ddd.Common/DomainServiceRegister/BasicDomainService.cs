@@ -32,26 +32,24 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
         //AbpSession = serviceProvider.GetRequiredService<IAbpSession>();
     }
 
-    public virtual async Task<TEntity> FindByIdAsync(TPrimaryKey id)
+    public virtual async Task<TEntity?> FindByIdAsync(TPrimaryKey id)
     {
         return await EntityRepo.GetAsync(id);
     }
 
-    public virtual async Task Create(TEntity entity)
+    public virtual async Task<TEntity> Create(TEntity entity)
     {
-
-        await EntityRepo.InsertAsync(entity);
+        return await EntityRepo.InsertAsync(entity);
     }
 
     public async Task Create(IEnumerable<TEntity> entities)
     {
-
         await EntityRepo.InsertManyAsync(entities);
     }
 
-    public virtual async Task Update(TEntity entity)
+    public virtual async Task<TEntity> Update(TEntity entity)
     {
-        await EntityRepo.UpdateAsync(entity);
+        return await EntityRepo.UpdateAsync(entity);
     }
 
     public virtual async Task Update(IEnumerable<TEntity> entities)

@@ -59,12 +59,10 @@ public abstract class EfCoreRepository<TDbContext, TEntity> : IBasicRepository<T
     where TEntity : class, IEntity
     where TDbContext : DbContext
 {
-    protected readonly TDbContext DbContext;
     protected readonly DbSet<TEntity> DbSet;
 
     protected EfCoreRepository(TDbContext dbContext)
     {
-        DbContext = dbContext;
         DbSet = dbContext.Set<TEntity>();
     }
 

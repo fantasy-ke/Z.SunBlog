@@ -13,7 +13,7 @@ public abstract class FullAuditedEntity : CreationAuditedEntity, IDeletionAudite
 
     public virtual DateTime? DeletionTime { get; set; }
 
-    public virtual bool IsDeleted { get; set; }
+    public virtual bool? IsDeleted { get; set; }
 }
 
 
@@ -32,6 +32,6 @@ public abstract class FullAuditedEntity<Tkey> : CreationAuditedEntity<Tkey>, IDe
 
     public virtual DateTime? DeletionTime { get; set; }
 
-    public virtual bool IsDeleted { get; set; }
+    public virtual bool? IsDeleted { get; set; }
 
 }
