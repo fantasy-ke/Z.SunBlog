@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Storage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace Z.Ddd.Common.UnitOfWork;
 
-public interface IUnitOfWork
+public interface IUnitOfWork : IDisposable
 {
     /// <summary>
     /// 开始事务
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task BeginTransactionAsync(CancellationToken cancellationToken = default);
+    Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// 保存更改
@@ -35,4 +38,5 @@ public interface IUnitOfWork
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task RollbackTransactionAsync(CancellationToken cancellationToken = default);
+
 }

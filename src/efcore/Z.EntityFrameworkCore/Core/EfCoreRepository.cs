@@ -22,7 +22,7 @@ namespace Z.EntityFrameworkCore.Core;
 /// <typeparam name="TKey"></typeparam>
 public abstract class EfCoreRepository<TDbContext, TEntity, TKey> : EfCoreRepository<TDbContext, TEntity>,
     IBasicRepository<TEntity, TKey>
-    where TEntity : Entity<TKey>
+    where TEntity :class , IEntity<TKey>
     where TDbContext : DbContext
 {
     protected EfCoreRepository(TDbContext dbContext) : base(dbContext)
@@ -191,11 +191,3 @@ public abstract class EfCoreRepository<TDbContext, TEntity> : IBasicRepository<T
     }
 }
 
-public class Repository<TDbContext, TEntity> : EfCoreRepository<TDbContext, TEntity>
-    where TEntity : class, IEntity
-    where TDbContext : DbContext
-{
-    public Repository(TDbContext dbContext) : base(dbContext)
-    {
-    }
-}

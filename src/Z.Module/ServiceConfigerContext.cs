@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace Z.Module
 {
@@ -23,5 +24,7 @@ namespace Z.Module
         {
             Services = services;
         }
+
+        public IEnumerable<Assembly> GetAssemblies() => AppDomain.CurrentDomain.GetAssemblies();
     }
 }

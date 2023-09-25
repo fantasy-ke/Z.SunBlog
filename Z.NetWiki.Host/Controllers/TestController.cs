@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Z.Ddd.Common.DependencyInjection;
 using Z.Ddd.Common.Entities.IAuditing;
 using Z.Ddd.Common.Entities.Auditing;
+using Z.NetWiki.Application.UserModule;
 
 namespace Z.NetWiki.Host.Controllers
 {
@@ -20,10 +21,12 @@ namespace Z.NetWiki.Host.Controllers
     {
         private readonly IJwtTokenProvider _jwtTokenProvider;
         private readonly IUserSession _userSession;
-        public TestController(IJwtTokenProvider jwtTokenProvider, IUserSession userSession)
+        private readonly IUserAppService _userAppService;
+        public TestController(IJwtTokenProvider jwtTokenProvider, IUserSession userSession, IUserAppService userAppService)
         {
             _jwtTokenProvider = jwtTokenProvider;
             _userSession = userSession;
+            _userAppService = userAppService;
         }
 
         /// <summary>
@@ -73,6 +76,17 @@ namespace Z.NetWiki.Host.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return "ddd";
+        }
+
+        /// <summary>
+        /// 创建用户
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [ZAuthorization]
+        public async Task CreateUser()
+        {
+           await  _userAppService.Create();
         }
     }
 }

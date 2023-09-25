@@ -17,15 +17,16 @@ using Z.Ddd.Common.Entities.IAuditing;
 using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.Helper;
+using Z.Module.DependencyInjection;
 
 namespace Z.EntityFrameworkCore
 {
-    public abstract class ZDbContext<TDbContext> : DbContext 
-        where TDbContext : DbContext
+    public abstract class ZDbContext<TDbContext> : DbContext, ITransientDependency
+        where TDbContext : DbContext 
     {
         //private IServiceScope? _serviceScope;
         //public IZLazyServiceProvider _lazyServiceProvider;
-       // public IAuditPropertySetter AuditPropertySetter => _lazyServiceProvider.LazyGetRequiredService<IAuditPropertySetter>();
+        // public IAuditPropertySetter AuditPropertySetter => _lazyServiceProvider.LazyGetRequiredService<IAuditPropertySetter>();
 
         public virtual DbSet<ZUserInfo> ZUsers { get; set; }
 
@@ -34,7 +35,7 @@ namespace Z.EntityFrameworkCore
         {
             //_serviceScope = ServiceProviderCache.Instance.GetOrAdd(options, providerRequired: true)
             //        .GetRequiredService<IServiceScopeFactory>()
-               //     .CreateScope();
+            //     .CreateScope();
 
             //_lazyServiceProvider = _serviceScope.ServiceProvider.GetRequiredService<IZLazyServiceProvider>();
         }
@@ -56,10 +57,10 @@ namespace Z.EntityFrameworkCore
 
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
-            return await  base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
-       
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -69,7 +70,7 @@ namespace Z.EntityFrameworkCore
             // 显示更详细的异常日志
             optionsBuilder.EnableDetailedErrors();
 #endif
-            
+
         }
 
         /// <summary>

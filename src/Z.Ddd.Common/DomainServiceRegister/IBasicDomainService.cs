@@ -16,7 +16,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     // 摘要:
     //     实体
-    IRepository<TEntity, TPrimaryKey> EntityRepo { get; }
+    IBasicRepository<TEntity, TPrimaryKey> EntityRepo { get; }
 
     //
     // 摘要:
