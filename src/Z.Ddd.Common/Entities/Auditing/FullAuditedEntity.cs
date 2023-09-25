@@ -9,7 +9,7 @@ namespace Z.Ddd.Common.Entities.Auditing;
 
 public abstract class FullAuditedEntity : CreationAuditedEntity, IDeletionAuditedObject
 {
-    public virtual string DeleterId { get; set; }
+    public virtual string? DeleterId { get; set; }
 
     public virtual DateTime? DeletionTime { get; set; }
 
@@ -28,7 +28,7 @@ public abstract class FullAuditedEntity<Tkey> : CreationAuditedEntity<Tkey>, IDe
     {
         Id = id;
     }
-    public virtual string DeleterId { get; set; }
+    public virtual string? DeleterId { get; set; }
 
     public virtual DateTime? DeletionTime { get; set; }
 
