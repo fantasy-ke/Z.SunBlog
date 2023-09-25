@@ -34,7 +34,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     // 参数:
     //   id:
-    Task<TEntity> FindByIdAsync(TPrimaryKey id);
+    Task<TEntity?> FindByIdAsync(TPrimaryKey id);
 
     //
     // 摘要:
@@ -45,7 +45,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     //   createAndGetId:
     //     是否获取id
-    Task Create(TEntity entity);
+    Task<TEntity> Create(TEntity entity);
 
     //
     // 摘要:
@@ -65,7 +65,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     // 参数:
     //   entity:
-    Task Update(TEntity entity);
+    Task<TEntity> Update(TEntity entity);
 
     //
     // 摘要:
