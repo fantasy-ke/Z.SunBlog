@@ -87,6 +87,13 @@ namespace Z.EntityFrameworkCore
             }
         }
 
+        /// <summary>
+        /// Filters
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="modelBuilder"></param>
+        /// <param name="mutableEntityType"></param>
+
         protected virtual void ConfigureGlobalFilters<TEntity>(ModelBuilder modelBuilder, IMutableEntityType mutableEntityType)
         where TEntity : class
         {
@@ -98,6 +105,11 @@ namespace Z.EntityFrameworkCore
             }
         }
 
+        /// <summary>
+        /// 过滤Expression 软删除
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <returns></returns>
         protected virtual Expression<Func<TEntity, bool>>? CreateFilterExpression<TEntity>()
         where TEntity : class
         {

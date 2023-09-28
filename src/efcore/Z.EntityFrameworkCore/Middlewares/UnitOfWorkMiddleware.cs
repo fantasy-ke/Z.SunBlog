@@ -10,6 +10,7 @@ using Z.Ddd.Common.UnitOfWork;
 using Z.EntityFrameworkCore.Attributes;
 using Z.EntityFrameworkCore.Options;
 using Microsoft.Extensions.DependencyInjection;
+using Z.Ddd.Common.Exceptions;
 
 namespace Z.EntityFrameworkCore.Middlewares;
 
@@ -60,7 +61,7 @@ public class UnitOfWorkMiddleware : IMiddleware
                 {
                     await d.RollbackTransactionAsync();
                 }
-                throw ex;
+                throw new UserFriendlyException(ex.Message);
             }
         }
     }
