@@ -9,6 +9,7 @@ using Z.Ddd.Common.DependencyInjection;
 using Z.Ddd.Common.Entities.IAuditing;
 using Z.Ddd.Common.Entities.Auditing;
 using Z.NetWiki.Application.UserModule;
+using Z.Ddd.Common.Entities.Users;
 
 namespace Z.NetWiki.Host.Controllers
 {
@@ -84,9 +85,9 @@ namespace Z.NetWiki.Host.Controllers
         /// <returns></returns>
         [HttpGet]
         [ZAuthorization]
-        public async Task CreateUser()
+        public async Task<JsonResult> CreateUser()
         {
-           await  _userAppService.Create();
+          return  new JsonResult(await _userAppService.Create());
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Z.NetWiki.Application.UserModule
             _userDomainManager = userDomainManager;
         }
 
-        public async Task Create()
+        public async Task<ZUserInfo> Create()
         {
 
              var dfs = await _userDomainManager.QueryAsNoTracking.ToListAsync();
@@ -26,7 +26,7 @@ namespace Z.NetWiki.Application.UserModule
             //await _userDomainManager.Delete("6e37cc6e9b1948dba987d07b25ffc138");
             //await _userDomainManager.Delete("acab70064e8a45a0bef2074b42d9165e");
 
-            await _userDomainManager.Create(new ZUserInfo
+           return  await _userDomainManager.Create(new ZUserInfo
             {
                 UserName = "小周2",
                 Name = "科",
