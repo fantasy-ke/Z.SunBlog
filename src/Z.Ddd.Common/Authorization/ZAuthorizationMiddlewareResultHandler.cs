@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Http;
-using Z.Ddd.Common.ZResponse;
+using Z.Ddd.Common.ResultResponse;
 using Z.Module.DependencyInjection;
 
 namespace Z.Ddd.Common.Authorization
@@ -16,7 +16,7 @@ namespace Z.Ddd.Common.Authorization
                 var isLogin = context?.User?.Identity?.IsAuthenticated ?? false;
                 var path = context?.Request?.Path ?? "";
                 context!.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                var response = new ZAjaxResponse();
+                var response = new ZEngineResponse();
                 response.UnAuthorizedRequest = true;
                 response.StatusCode = "401";
                 var error = new ErrorInfo();
