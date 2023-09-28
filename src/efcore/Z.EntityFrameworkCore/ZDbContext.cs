@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -109,32 +110,31 @@ namespace Z.EntityFrameworkCore
             return expression;
         }
 
-
-        /// <summary>
-        /// 过滤器增加软删除过滤
-        /// </summary>
-        /// <param name="builder"></param>
-        private void ConfigureSoftDelete(ModelBuilder builder)
+        internal void TryInitializeZDbContextOptions(ZDbContextOptions? options)
         {
-            foreach (var entityType in builder.Model.GetEntityTypes())
+            
+            try
             {
-                //判断是否继承了软删除类
-                if (!typeof(ISoftDelete).IsAssignableFrom(entityType.ClrType)) continue;
+                _ = base.ChangeTracker;
+            }
+            catch (InvalidOperationException ex)
+            {
+                ILogger? logger = null;
+                if (options != null)
+                {
+                    var loggerType = typeof(ILogger<>).MakeGenericType(options.ContextType);
+                    logger = options.ServiceProvider?.GetService(loggerType) as ILogger;
+                }
 
-                const string isDeleted = nameof(ISoftDelete.IsDeleted);
-                builder.Entity(entityType.ClrType).Property<bool>(isDeleted);
-                var parameter = Expression.Parameter(entityType.ClrType, isDeleted);
+                logger ??= Options?.ServiceProvider?.GetService<ILogger<ZDbContext>>();
+                logger?.LogDebug(ex, "Error generating data context");
 
-                // 添加过滤器
-                var body = Expression.Equal(
-                    Expression.Call(typeof(EF), nameof(EF.Property), new[] { typeof(bool) }, parameter,
-                        Expression.Constant(isDeleted)),
-                    Expression.Constant(false));
-
-                builder.Entity(entityType.ClrType).HasQueryFilter(Expression.Lambda(body, parameter));
+                if (ex.Message.Contains("overriding the 'DbContext.OnConfiguring'"))
+                    throw new InvalidOperationException("No database provider has been configured for this DbContext. A provider can be configured by overriding the 'MasaDbContext.OnConfiguring' method or by using 'AddMasaDbContext' on the application service provider. If 'AddMasaDbContext' is used, then also ensure that your DbContext type accepts a 'MasaDbContextOptions<TContext>' object in its constructor and passes it to the base constructor for DbContext.", ex);
+                throw;
             }
         }
-
+       
     }
 
 

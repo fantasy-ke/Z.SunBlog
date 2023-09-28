@@ -175,7 +175,7 @@ public sealed class UnitOfWork<TDbContext> : IUnitOfWork, IDisposable where TDbC
 
     private void TrySetStringId(EntityEntry entry, IEntity<string> entity)
     {
-        if (entity.Id != default)
+        if (!string.IsNullOrWhiteSpace(entity.Id) && entity.Id?.Length <= 32)
         {
             return;
         }
@@ -185,7 +185,7 @@ public sealed class UnitOfWork<TDbContext> : IUnitOfWork, IDisposable where TDbC
 
         EntityHelper.TrySetId(
             entity,
-            () => Guid.NewGuid().ToString(),
+            () => Guid.NewGuid().ToString("N"),
             true
         );
     }

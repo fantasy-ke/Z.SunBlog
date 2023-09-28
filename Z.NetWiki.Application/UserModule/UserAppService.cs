@@ -21,16 +21,17 @@ namespace Z.NetWiki.Application.UserModule
         public async Task Create()
         {
 
-            // var dfs = await _userDomainManager.QueryAsNoTracking.ToListAsync();
+             var dfs = await _userDomainManager.QueryAsNoTracking.ToListAsync();
 
-            await _userDomainManager.Delete("d8be51d9-a1c7-4073-9e56-08dbbfc29a33");
+            //await _userDomainManager.Delete("6e37cc6e9b1948dba987d07b25ffc138");
+            //await _userDomainManager.Delete("acab70064e8a45a0bef2074b42d9165e");
 
-            await _userDomainManager.Create(new ZUserInfo
-            {
-                UserName = "小周2",
-                Name = "科",
-                PassWord = "222"
-            });
+            //await _userDomainManager.Create(new ZUserInfo
+            //{
+            //    UserName = "小周2",
+            //    Name = "科",
+            //    PassWord = "222"
+            //});
         }
     }
 

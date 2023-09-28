@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,4 +31,24 @@ namespace Z.EntityFrameworkCore.Options
         {
         }
     }
+
+
+    public class ZDbContextOptionsBuilder<TDbContext> : ZDbContextOptionsBuilder
+    where TDbContext : DbContext
+    {
+        public ZDbContextOptions<TDbContext> MasaOptions
+            => new(ServiceProvider, DbContextOptionsBuilder.Options, EnableSoftDelete);
+
+        public ZDbContextOptionsBuilder(bool enableSoftDelete = false) : this(null, enableSoftDelete)
+        {
+        }
+
+        public ZDbContextOptionsBuilder(
+            IServiceProvider? serviceProvider,
+            bool enableSoftDelete = false)
+            : base(new ZDbContextOptions<TDbContext>(serviceProvider, new DbContextOptions<TDbContext>(), enableSoftDelete))
+        {
+        }
+    }
+
 }

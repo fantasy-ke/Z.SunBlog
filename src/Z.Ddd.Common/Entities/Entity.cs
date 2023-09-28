@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Z.Ddd.Common.Entities.KeyGenerator;
 
 namespace Z.Ddd.Common.Entities
 {
@@ -19,7 +21,7 @@ namespace Z.Ddd.Common.Entities
             Id = id;
         }
 
-        [MaxLength(32)]
+        [MaxLength(36)]
         public Guid Id { get; }
 
         protected Entity()
@@ -43,8 +45,9 @@ namespace Z.Ddd.Common.Entities
         /// <summary>
         /// ID
         /// </summary>
-        [MaxLength(32)]
-        public Tkey Id { get; protected set; }
+        [MaxLength(36)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Tkey Id { get;  set; }
 
         protected Entity(Tkey id) => Id = id;
 
