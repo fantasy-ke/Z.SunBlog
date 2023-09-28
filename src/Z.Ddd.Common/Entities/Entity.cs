@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace Z.Ddd.Common.Entities
             Id = id;
         }
 
-
+        [MaxLength(32)]
         public Guid Id { get; }
 
         protected Entity()
@@ -42,6 +43,7 @@ namespace Z.Ddd.Common.Entities
         /// <summary>
         /// ID
         /// </summary>
+        [MaxLength(32)]
         public Tkey Id { get; protected set; }
 
         protected Entity(Tkey id) => Id = id;

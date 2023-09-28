@@ -20,8 +20,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Z.EntityFrameworkCore.Core;
 
-public sealed class UnitOfWork<TDbContext> : IUnitOfWork, 
-    ITransientDependency, IDisposable where TDbContext : DbContext
+public sealed class UnitOfWork<TDbContext> : IUnitOfWork, IDisposable where TDbContext : ZDbContext<TDbContext>
 {
     public bool IsDisposed { get; private set; }
 
@@ -33,11 +32,11 @@ public sealed class UnitOfWork<TDbContext> : IUnitOfWork,
     private readonly UnitOfWorkOptions _unitOfWorkOptions;
     private readonly IAuditPropertySetter _auditPropertySetter;
 
-    public UnitOfWork(TDbContext dbContext, IServiceProvider serviceProvider, IOptions<UnitOfWorkOptions> unitOfWorkOptions, IAuditPropertySetter auditPropertySetter)
+    public UnitOfWork(TDbContext dbContext, IAuditPropertySetter auditPropertySetter)
     {
         _dbContext = dbContext ?? throw new ArgumentNullException($"db context nameof{nameof(dbContext)} is null");
-        _serviceProvider = serviceProvider;
-        _unitOfWorkOptions = unitOfWorkOptions.Value;
+        //_serviceProvider = serviceProvider;
+        //_unitOfWorkOptions = unitOfWorkOptions.Value;
         _auditPropertySetter = auditPropertySetter;
     }
 
@@ -148,6 +147,11 @@ public sealed class UnitOfWork<TDbContext> : IUnitOfWork,
         {
             TrySetGuidId(entry, entityWithGuidId);
         }
+
+        if (entry.Entity is IEntity<string> entityWithStringId)
+        {
+            TrySetStringId(entry, entityWithStringId);
+        }
     }
 
 
@@ -164,6 +168,24 @@ public sealed class UnitOfWork<TDbContext> : IUnitOfWork,
         EntityHelper.TrySetId(
             entity,
             () => Guid.NewGuid(),
+            true
+        );
+    }
+
+
+    private void TrySetStringId(EntityEntry entry, IEntity<string> entity)
+    {
+        if (entity.Id != default)
+        {
+            return;
+        }
+
+        var idProperty = entry.Property("Id").Metadata.PropertyInfo;
+
+
+        EntityHelper.TrySetId(
+            entity,
+            () => Guid.NewGuid().ToString(),
             true
         );
     }

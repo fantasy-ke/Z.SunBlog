@@ -28,7 +28,7 @@ public static class EfCoreEntityFrameworkCoreExtensions
         ServiceLifetime lifetime = ServiceLifetime.Scoped)
         where TDbContext : ZDbContext<TDbContext>
     {
-        ConfigureOptions(services);
+       // ConfigureOptions(services);
         ConfigureDbContext<TDbContext>(services, optionsAction, lifetime);
 
         // 注入工作单元
@@ -57,8 +57,8 @@ public static class EfCoreEntityFrameworkCoreExtensions
     /// <param name="services"></param>
     private static void ConfigureOptions(IServiceCollection services)
     {
-        var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
-        services.Configure<ZDbContextOptions>(configuration.GetSection(ZDbContextOptions.Name));
+        //var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
+        //services.Configure<ZDbContextOptions>(configuration.GetSection(ZDbContextOptions.Name));
     }
 
     /// <summary>

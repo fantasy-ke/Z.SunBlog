@@ -12,7 +12,7 @@ namespace Z.EntityFrameworkCore.SqlServer.Extensions;
 
 public static class ZSqlServerEntityFrameworkCoreExtensions
 {
-    public static IServiceCollection AddSqlServerEfCoreEntityFrameworkCore<TDbContext>(this ServiceConfigerContext context)
+    public static IServiceCollection AddSqlServerEfCoreEntityFrameworkCore<TDbContext>(this ServiceConfigerContext context )
         where TDbContext : ZDbContext<TDbContext>
     {
         var configuration = context.GetConfiguration();

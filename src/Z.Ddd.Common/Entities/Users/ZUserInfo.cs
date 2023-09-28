@@ -7,30 +7,30 @@ using Z.Ddd.Common.Entities.Auditing;
 
 namespace Z.Ddd.Common.Entities.Users
 {
-    public class ZUserInfo : FullAuditedEntity<Guid>
+    public class ZUserInfo : FullAuditedEntity<string>
     {
 
         /// <summary>
         /// 昵称
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// 账号
         /// </summary>
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         /// <summary>
         /// 密码
         /// </summary>
-        public string PassWord { get; set; }
+        public string? PassWord { get; set; }
 
         public ZUserInfo()
         {
             
         }
 
-        public ZUserInfo(Guid id) : base(id)
+        public ZUserInfo(string id) : base(id)
         {
         }
     }

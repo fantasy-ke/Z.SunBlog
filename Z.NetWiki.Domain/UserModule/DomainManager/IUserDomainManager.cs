@@ -8,7 +8,7 @@ using Z.Ddd.Common.Entities.Users;
 
 namespace Z.NetWiki.Domain.UserModule.DomainManager
 {
-    public interface IUserDomainManager : IBasicDomainService<ZUserInfo, Guid>
+    public interface IUserDomainManager : IBasicDomainService<ZUserInfo, string>
     {
     }
 }

@@ -54,12 +54,13 @@ public class UnitOfWorkMiddleware : IMiddleware
                     await unitOfWork.CommitTransactionAsync();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 foreach (var d in unitOfWorks)
                 {
                     await d.RollbackTransactionAsync();
                 }
+                throw ex;
             }
         }
     }

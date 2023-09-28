@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Z.Ddd.Common.DependencyInjection;
@@ -17,41 +18,46 @@ using Z.Ddd.Common.Entities.IAuditing;
 using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.Helper;
+using Z.EntityFrameworkCore.Extensions;
+using Z.EntityFrameworkCore.Options;
 using Z.Module.DependencyInjection;
 
 namespace Z.EntityFrameworkCore
 {
-    public abstract class ZDbContext<TDbContext> : DbContext, ITransientDependency
-        where TDbContext : DbContext 
+    public abstract class ZDbContext : DbContext, IDisposable
     {
-        //private IServiceScope? _serviceScope;
-        //public IZLazyServiceProvider _lazyServiceProvider;
-        // public IAuditPropertySetter AuditPropertySetter => _lazyServiceProvider.LazyGetRequiredService<IAuditPropertySetter>();
-
+        protected ZDbContextOptions? Options { get; private set; }
         public virtual DbSet<ZUserInfo> ZUsers { get; set; }
 
-        protected ZDbContext(DbContextOptions<TDbContext> options)
+        protected ZDbContext(ZDbContextOptions options)
         : base(options)
         {
-            //_serviceScope = ServiceProviderCache.Instance.GetOrAdd(options, providerRequired: true)
-            //        .GetRequiredService<IServiceScopeFactory>()
-            //     .CreateScope();
-
-            //_lazyServiceProvider = _serviceScope.ServiceProvider.GetRequiredService<IZLazyServiceProvider>();
+            Options = options;
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected  override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //ConfigureSoftDelete(modelBuilder);
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ZUserInfo>(x =>
-            {
-                x.ToTable("ZUsers");
+            modelBuilder.AddZCoreConfigure();
+            // 可选
+            modelBuilder.UseCollation("Chinese_PRC_CI_AS");
 
-            });
+            OnModelCreatingConfigureGlobalFilters(modelBuilder);
+        }
 
+        protected sealed override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (Options == null)
+                return;
 
+            var masaDbContextOptionsBuilder = new ZDbContextOptionsBuilder(optionsBuilder, Options);
+            base.OnConfiguring(optionsBuilder);
+#if DEBUG
+            // 显示更详细的异常日志
+            optionsBuilder.EnableDetailedErrors();
+#endif
         }
 
 
@@ -61,17 +67,48 @@ namespace Z.EntityFrameworkCore
         }
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-            // 禁用查询跟踪
-            optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTrackingWithIdentityResolution);
-#if DEBUG
-            // 显示更详细的异常日志
-            optionsBuilder.EnableDetailedErrors();
-#endif
 
+        protected virtual bool IsSoftDeleteFilterEnabled
+        => Options is { EnableSoftDelete: true };
+
+
+
+        protected virtual void OnModelCreatingConfigureGlobalFilters(ModelBuilder modelBuilder)
+        {
+            var methodInfo = GetType().GetMethod(nameof(ConfigureGlobalFilters), BindingFlags.NonPublic | BindingFlags.Instance);
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                methodInfo!.MakeGenericMethod(entityType.ClrType).Invoke(this, new object?[]
+                {
+                modelBuilder, entityType
+                });
+            }
         }
+
+        protected virtual void ConfigureGlobalFilters<TEntity>(ModelBuilder modelBuilder, IMutableEntityType mutableEntityType)
+        where TEntity : class
+        {
+            if (mutableEntityType.BaseType == null)
+            {
+                var filterExpression = CreateFilterExpression<TEntity>();
+                if (filterExpression != null)
+                    modelBuilder.Entity<TEntity>().HasQueryFilter(filterExpression);
+            }
+        }
+
+        protected virtual Expression<Func<TEntity, bool>>? CreateFilterExpression<TEntity>()
+        where TEntity : class
+        {
+            Expression<Func<TEntity, bool>>? expression = null;
+
+            if (typeof(ISoftDelete).IsAssignableFrom(typeof(TEntity)))
+            {
+                expression = entity => !IsSoftDeleteFilterEnabled || !EF.Property<bool>(entity, nameof(ISoftDelete.IsDeleted));
+            }
+            return expression;
+        }
+
 
         /// <summary>
         /// 过滤器增加软删除过滤
@@ -98,5 +135,18 @@ namespace Z.EntityFrameworkCore
             }
         }
 
+    }
+
+
+    public abstract class ZDbContext<TDbContext> : ZDbContext
+    where TDbContext : ZDbContext<TDbContext>
+    {
+        protected ZDbContext() : base(new ZDbContextOptions<ZDbContext>())
+        {
+        }
+
+        protected ZDbContext(ZDbContextOptions<TDbContext> options) : base(options)
+        {
+        }
     }
 }
