@@ -1,0 +1,29 @@
+// Copyright (c) MASA Stack All rights reserved.
+// Licensed under the MIT License. See LICENSE.txt in the project root for license information.
+
+// ReSharper disable once CheckNamespace
+
+using Z.Ddd.Common.Entities.Repositories;
+using Z.EntityFrameworkCore.Options;
+
+namespace Microsoft.EntityFrameworkCore;
+
+public static class ZDbContextBuilderExtensions
+{
+    public static IZDbContextBuilder UseFilter(
+        this IZDbContextBuilder masaDbContextBuilder,
+        Action<FilterOptions>? options = null)
+        => masaDbContextBuilder.UseFilterCore(options);
+
+    private static IZDbContextBuilder UseFilterCore(
+        this IZDbContextBuilder masaDbContextBuilder,
+        Action<FilterOptions>? options = null)
+    {
+        var filterOptions = new FilterOptions();
+        options?.Invoke(filterOptions);
+
+        masaDbContextBuilder.EnableSoftDelete = filterOptions.EnableSoftDelete;
+
+        return masaDbContextBuilder;
+    }
+}

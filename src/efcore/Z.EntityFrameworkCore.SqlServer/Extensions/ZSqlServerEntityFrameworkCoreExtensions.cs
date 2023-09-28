@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Z.EntityFrameworkCore.Attributes;
 using Z.EntityFrameworkCore.Extensions;
+using Z.EntityFrameworkCore.Options;
 using Z.Module;
 using Z.Module.Extensions;
 
@@ -28,10 +30,30 @@ public static class ZSqlServerEntityFrameworkCoreExtensions
         context.Services.AddEfCoreEntityFrameworkCore<TDbContext>(
             x =>
             {
-                x.UseSqlServer(configuration[connectionString]);
+                x.UseSqlServer(configuration[connectionString]!)
+                .UseFilter();
             },
-            ServiceLifetime.Scoped);
+            ServiceLifetime.Scoped)
+            ;
 
         return context.Services;
+    }
+
+    public static ZDbContextBuilder UseSqlServer(
+        this ZDbContextBuilder builder,
+        string connectionString,
+        Action<SqlServerDbContextOptionsBuilder>? sqlServerOptionsAction = null)
+        => builder.UseSqlServerCore(connectionString, sqlServerOptionsAction);
+
+
+
+    private static ZDbContextBuilder UseSqlServerCore(
+        this ZDbContextBuilder builder,
+        string connectionString,
+        Action<SqlServerDbContextOptionsBuilder>? sqlServerOptionsAction)
+    {
+        builder.Builder = (_, dbContextOptionsBuilder)
+            => dbContextOptionsBuilder.UseSqlServer(connectionString, sqlServerOptionsAction);
+        return builder;
     }
 }

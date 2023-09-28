@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,14 +27,14 @@ public static class EfCoreEntityFrameworkCoreExtensions
     /// <param name="lifetime"></param>
     /// <typeparam name="TDbContext"></typeparam>
     /// <returns></returns>
-    public static IServiceCollection AddEfCoreEntityFrameworkCore<TDbContext>(this IServiceCollection services, Action<DbContextOptionsBuilder>? optionsAction = null,
+    public static IServiceCollection AddEfCoreEntityFrameworkCore<TDbContext>(this IServiceCollection services, Action<ZDbContextBuilder>? optionsAction = null,
         ServiceLifetime lifetime = ServiceLifetime.Scoped)
         where TDbContext : ZDbContext<TDbContext>
     {
-       // ConfigureOptions(services);
-        ConfigureDbContext<TDbContext>(services, optionsAction, lifetime);
+        // ConfigureOptions(services);
+        services.ConfigureDbContext<TDbContext>(optionsAction, lifetime);
 
-        // 注入工作单元
+        // 注入工作单元 
         services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork<TDbContext>));
 
         return services;
@@ -44,12 +47,79 @@ public static class EfCoreEntityFrameworkCoreExtensions
     /// <param name="optionsAction"></param>
     /// <param name="lifetime"></param>
     /// <typeparam name="TDbContext"></typeparam>
-    private static void ConfigureDbContext<TDbContext>(IServiceCollection services, Action<DbContextOptionsBuilder>? optionsAction = null,
+    private static IServiceCollection ConfigureDbContext<TDbContext>(this IServiceCollection services, 
+        Action<ZDbContextBuilder>? optionsBuilder = null,
         ServiceLifetime lifetime = ServiceLifetime.Scoped)
         where TDbContext : DbContext
     {
-        services.AddDbContextFactory<TDbContext>(optionsAction, lifetime);
+        ZDbContextBuilder masaBuilder = new(services, typeof(TDbContext));
+
+        optionsBuilder?.Invoke(masaBuilder);
+
+        services.AddDbContext<TDbContext>(lifetime,lifetime)
+            .AddZDbContextOptions<TDbContext>
+            (
+            (serviceProvider, efDbContextOptionsBuilder) =>
+            {
+                if (masaBuilder.Builder != null)
+                {
+                    efDbContextOptionsBuilder.DbContextOptionsBuilder.UseApplicationServiceProvider(serviceProvider);
+                    efDbContextOptionsBuilder.DbContextOptionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                    masaBuilder.Builder.Invoke(serviceProvider, efDbContextOptionsBuilder.DbContextOptionsBuilder);
+
+                    foreach (var dbContextOptionsBuilder in masaBuilder.DbContextOptionsBuilders)
+                    {
+                        dbContextOptionsBuilder.Invoke(efDbContextOptionsBuilder.DbContextOptionsBuilder);
+                    }
+                }
+            }
+            , masaBuilder.EnableSoftDelete, lifetime);
+
+        return services;
     }
+
+    /// <summary>
+    /// 注册ZDbContextOptions
+    /// </summary>
+    /// <typeparam name="TDbContext"></typeparam>
+    /// <param name="services"></param>
+    /// <param name="optionsBuilder"></param>
+    /// <param name="enableSoftDelete"></param>
+    /// <param name="optionsLifetime"></param>
+    /// <returns></returns>
+    private static IServiceCollection AddZDbContextOptions<TDbContext>(
+        this IServiceCollection services,
+        Action<IServiceProvider, ZDbContextOptionsBuilder>? optionsBuilder,
+        bool enableSoftDelete,
+        ServiceLifetime optionsLifetime)
+        where TDbContext : DbContext
+    {
+        services.TryAdd(
+            new ServiceDescriptor(
+                typeof(ZDbContextOptions<TDbContext>),
+                serviceProvider => CreateZDbContextOptions<TDbContext>(serviceProvider, optionsBuilder, enableSoftDelete),
+                optionsLifetime));
+
+        services.TryAdd(
+            new ServiceDescriptor(
+                typeof(ZDbContextOptions),
+                serviceProvider => serviceProvider.GetRequiredService<ZDbContextOptions<TDbContext>>(),
+                optionsLifetime));
+        return services;
+    }
+
+    private static ZDbContextOptions<TDbContext> CreateZDbContextOptions<TDbContext>(
+       IServiceProvider serviceProvider,
+       Action<IServiceProvider, ZDbContextOptionsBuilder>? optionsBuilder,
+       bool enableSoftDelete)
+       where TDbContext : DbContext
+    {
+        var masaDbContextOptionsBuilder = new ZDbContextOptionsBuilder<TDbContext>(serviceProvider, enableSoftDelete);
+        optionsBuilder?.Invoke(serviceProvider, masaDbContextOptionsBuilder);
+
+        return masaDbContextOptionsBuilder.MasaOptions;
+    }
+
 
     /// <summary>
     /// 获取Options并且注入

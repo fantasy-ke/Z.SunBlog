@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Z.Ddd.Common.Entities.Auditing;
+using Z.Ddd.Common.Entities.KeyGenerator;
 using Z.Ddd.Common.Entities.Users;
 
 namespace Z.EntityFrameworkCore.Extensions;
@@ -33,6 +35,8 @@ public static class EntityFrameworkCoreConfigureExtensions
             builder.Property(p=>p.Name).HasMaxLength(16);
             builder.Property(p=>p.UserName).HasMaxLength(16);
             builder.Property(p=>p.PassWord).HasMaxLength(512);
+            builder.Property(e => e.Id).HasValueGenerator<ZStringKeyGenerator>();
+
         });
 
     }
