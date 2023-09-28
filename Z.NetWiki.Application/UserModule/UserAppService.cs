@@ -23,9 +23,13 @@ namespace Z.NetWiki.Application.UserModule
 
             // var dfs = await _userDomainManager.QueryAsNoTracking.ToListAsync();
 
+            await _userDomainManager.Delete("d8be51d9-a1c7-4073-9e56-08dbbfc29a33");
+
             await _userDomainManager.Create(new ZUserInfo
             {
-                UserName = "小周"
+                UserName = "小周2",
+                Name = "科",
+                PassWord = "222"
             });
         }
     }

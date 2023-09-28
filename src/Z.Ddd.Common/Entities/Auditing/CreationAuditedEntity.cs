@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,14 +13,16 @@ namespace Z.Ddd.Common.Entities.Auditing
     public abstract class CreationAuditedEntity : Entity, IHasCreationTime, IMayHaveCreator
     {
         /// <summary>
+        /// 创建用户
+        /// </summary>
+        [MaxLength(32)]
+        public virtual string? CreatorId { get; set; }
+
+        /// <summary>
         /// 创建时间
         /// </summary>
         public virtual DateTime? CreationTime { get; set; }
         
-        /// <summary>
-        /// 创建用户
-        /// </summary>
-        public virtual string? CreatorId { get; set; }
     }
 
     [Serializable]
@@ -33,15 +36,19 @@ namespace Z.Ddd.Common.Entities.Auditing
         {
             Id = id;
         }
+
+        /// <summary>
+        /// 创建用户
+        /// </summary>
+        [MaxLength(32)]
+        public virtual string? CreatorId { get; set; }
+
         /// <summary>
         /// 创建时间
         /// </summary>
         public virtual DateTime? CreationTime { get; set; }
 
-        /// <summary>
-        /// 创建用户
-        /// </summary>
-        public virtual string? CreatorId { get; set; }
+       
 
         
         
