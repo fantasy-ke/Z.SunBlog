@@ -26,12 +26,12 @@ namespace Z.NetWiki.Application.UserModule
             //await _userDomainManager.Delete("6e37cc6e9b1948dba987d07b25ffc138");
             //await _userDomainManager.Delete("acab70064e8a45a0bef2074b42d9165e");
 
-            //await _userDomainManager.Create(new ZUserInfo
-            //{
-            //    UserName = "小周2",
-            //    Name = "科",
-            //    PassWord = "222"
-            //});
+            await _userDomainManager.Create(new ZUserInfo
+            {
+                UserName = "小周2",
+                Name = "科",
+                PassWord = "222"
+            });
         }
     }
 

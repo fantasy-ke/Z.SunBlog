@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using JetBrains.Annotations;
 using Z.Ddd.Common.Helper;
 
 namespace Z.Ddd.Common.Entities;
