@@ -36,6 +36,7 @@ public static class EfCoreEntityFrameworkCoreExtensions
 
         // 注入工作单元 
         services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork<TDbContext>));
+        services.AddTransient(typeof(IEntityManager<TDbContext>), typeof(EntityManager<TDbContext>));
 
         return services;
     }

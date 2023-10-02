@@ -1,5 +1,7 @@
 ﻿using Autofac.Core;
+using Microsoft.Extensions.DependencyInjection;
 using Z.EntityFrameworkCore;
+using Z.EntityFrameworkCore.Core;
 using Z.EntityFrameworkCore.SqlServer;
 using Z.EntityFrameworkCore.SqlServer.Extensions;
 using Z.Module;
@@ -19,7 +21,14 @@ namespace Z.NetWiki.EntityFrameworkCore
 
         public override void PostInitApplication(InitApplicationContext context)
         {
-            //SeedHelper.SeedHostDb(context.ServiceProvider);
+            var entityManager = context.ServiceProvider
+                 .GetRequiredService<IEntityManager<NetWikiDbContext>>();
+
+            //添加种子数据
+            entityManager.DbSeed((dbcontext) =>
+            {
+                SeedHelper.SeedDbData(dbcontext, context.ServiceProvider);
+            });
         }
     }
 }
