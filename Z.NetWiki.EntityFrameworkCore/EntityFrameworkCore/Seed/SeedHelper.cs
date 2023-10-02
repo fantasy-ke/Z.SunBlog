@@ -6,36 +6,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.UnitOfWork;
+using Z.EntityFrameworkCore;
+using Z.NetWiki.EntityFrameworkCore.EntityFrameworkCore.Seed.SeedData;
 
 namespace Z.NetWiki.EntityFrameworkCore.EntityFrameworkCore.Seed;
 
 public static class SeedHelper
 {
-    public static void SeedHostDb(IServiceProvider serviceProvider)
+    public static void SeedDbData(NetWikiDbContext dbContext, IServiceProvider serviceProvider)
     {
-        WithDbContext<NetWikiDbContext>(serviceProvider, SeedHostDb);
+        var isConnect = dbContext.Database.CanConnect();
+        if (!isConnect) throw new UserFriendlyException($"数据库连接错误,连接字符串:'{dbContext.Database.GetConnectionString()}'");
+        WithDbContext(serviceProvider, dbContext, SeedDbData);
     }
 
-    public static void SeedHostDb(NetWikiDbContext context)
+    public static void SeedDbData(NetWikiDbContext context)
     {
+        new DefaultUserBuilder(context).Create();
     }
 
-    private static async void WithDbContext<TDbContext>(IServiceProvider serviceProvider, Action<TDbContext> contextAction)
+    private static void WithDbContext<TDbContext>(IServiceProvider serviceProvider, TDbContext dbContext, Action<TDbContext> contextAction)
             where TDbContext : DbContext
     {
+
+       
         using (var uowManager = serviceProvider.GetRequiredService<IUnitOfWork>())
         {
-            using (var uow = await uowManager.BeginTransactionAsync())
+            using (var uow =  uowManager.BeginTransactionAsync().Result)
             {
-                //var context = await uowManager.GetDbContext();
+                try
+                {
+                    contextAction(dbContext);
 
-                //contextAction(context);
-
-                await uow.CommitAsync();
+                    uow.CommitAsync();
+                }
+                catch (Exception ex)
+                {
+                    uow.RollbackAsync();
+                    throw new UserFriendlyException(ex.Message);
+                }
+                
             }
         }
-        
-        
+
+
     }
 }

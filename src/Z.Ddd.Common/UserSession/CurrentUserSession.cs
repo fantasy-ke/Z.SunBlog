@@ -19,7 +19,7 @@ namespace Z.Ddd.Common.UserSession
         public CurrentUserSession(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
-            _principal = _httpContextAccessor.HttpContext!.User;
+            _principal = _httpContextAccessor.HttpContext?.User;
         }
 
         public virtual string UserId => this.FindClaimValue(ZClaimTypes.UserId) ?? string.Empty;
