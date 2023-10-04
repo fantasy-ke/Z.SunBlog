@@ -1,6 +1,7 @@
 ﻿using Autofac.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -43,6 +44,8 @@ public class NetWikiHostModule : ZModule
         context.Services.AddEndpointsApiExplorer();
 
         ServicesJwtToken(context.Services);
+
+        context.Services.AddSingleton(new AppSettings(AppContext.BaseDirectory));
 
         // 注入自动事务中间件
         context.Services.AddUnitOfWorkMiddleware();

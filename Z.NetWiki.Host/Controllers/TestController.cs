@@ -10,6 +10,7 @@ using Z.Ddd.Common.Entities.IAuditing;
 using Z.Ddd.Common.Entities.Auditing;
 using Z.NetWiki.Application.UserModule;
 using Z.Ddd.Common.Entities.Users;
+using Serilog;
 
 namespace Z.NetWiki.Host.Controllers
 {
@@ -51,7 +52,7 @@ namespace Z.NetWiki.Host.Controllers
             properties.IssuedUtc = DateTimeOffset.UtcNow;
             properties.ExpiresUtc = DateTimeOffset.Now.AddMinutes(1);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
-
+            Log.Logger.Information("登录成功");
             return token;
         }
 

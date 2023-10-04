@@ -1,20 +1,16 @@
 ﻿
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Logging;
 using Z.Ddd.Common.Attributes;
-using Z.Ddd.Common.ResultResponse;
 
 namespace Z.Ddd.Common.ResultResponse;
 
 public class ResultFilter : IResultFilter
 {
-    private readonly ILogger _logger;
     private readonly IActionResultWrapFactory _actionResultWrapFactory;
 
-    public ResultFilter(ILogger<ResultFilter> logger, IActionResultWrapFactory actionResultWrapFactory)
+    public ResultFilter(IActionResultWrapFactory actionResultWrapFactory)
     {
-        _logger = logger;
         _actionResultWrapFactory = actionResultWrapFactory;
     }
     public void OnResultExecuted(ResultExecutedContext context)
