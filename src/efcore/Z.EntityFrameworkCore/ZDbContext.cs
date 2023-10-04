@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +37,7 @@ namespace Z.EntityFrameworkCore
             Options = options;
         }
 
-        protected  override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //ConfigureSoftDelete(modelBuilder);
             base.OnModelCreating(modelBuilder);
@@ -53,12 +54,12 @@ namespace Z.EntityFrameworkCore
             if (Options == null)
                 return;
 
-            var masaDbContextOptionsBuilder = new ZDbContextOptionsBuilder(optionsBuilder, Options);
+            var zDbContextOptionsBuilder = new ZDbContextOptionsBuilder(optionsBuilder, Options);
             base.OnConfiguring(optionsBuilder);
-#if DEBUG
-            // 显示更详细的异常日志
-            optionsBuilder.EnableDetailedErrors();
-#endif
+            optionsBuilder.LogTo(
+                Console.WriteLine,
+                LogLevel.Warning,
+                DbContextLoggerOptions.UtcTime | DbContextLoggerOptions.SingleLine);
         }
 
 
@@ -124,7 +125,7 @@ namespace Z.EntityFrameworkCore
 
         internal void TryInitializeZDbContextOptions(ZDbContextOptions? options)
         {
-            
+
             try
             {
                 _ = base.ChangeTracker;
@@ -146,7 +147,7 @@ namespace Z.EntityFrameworkCore
                 throw;
             }
         }
-       
+
     }
 
 
