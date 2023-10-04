@@ -24,6 +24,7 @@ public class LogContextStatic
 
     public static readonly string FileMessageTemplate = "{NewLine}Date：{Timestamp:yyyy-MM-dd HH:mm:ss.fff}{NewLine}LogLevel：{Level}{NewLine}Message：{Message}{NewLine}{Exception}" + new string('-', 100);
 
+    public static readonly string OutPutTemplate = "[{Timestamp: HH:mm:ss.fff}] [{Level:u3}] {Message:lj}{NewLine}{Exception}";
 
     public static string Combine(string path1)
     {

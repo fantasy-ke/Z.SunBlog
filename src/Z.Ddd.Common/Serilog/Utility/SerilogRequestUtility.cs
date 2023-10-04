@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Serilog;
 using Serilog.Events;
+using System.Text;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.Https;
 
@@ -8,8 +9,7 @@ namespace Z.Ddd.Common.Serilog.Utility;
 
 public class SerilogRequestUtility
 {
-    public const string HttpMessageTemplate =
-        "HTTP {RequestMethod} {RequestPath} QueryString:{QueryString} Body:{Body}  responded {StatusCode} in {Elapsed:0.0000} ms";
+    public const string HttpMessageTemplate = "RequestIp:{RequestIp}  HTTP {RequestMethod} {RequestPath} QueryString:{QueryString} Body:{Body}  responded {StatusCode} in {Elapsed:0.0000} ms  ZModule";
 
 
     public static LogEventLevel GetRequestLevel(HttpContext ctx, double _, Exception? ex) =>
