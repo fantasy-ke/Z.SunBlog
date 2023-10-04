@@ -14,6 +14,12 @@ public static class SerilogSetup
         if (host == null) throw new ArgumentNullException(nameof(host));
 
         var loggerConfiguration = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            //记录Net Core系统和EF日志最低级别
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .MinimumLevel.Override("System", LogEventLevel.Warning)
+            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+            .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
             .ReadFrom.Configuration(AppSettings.Configuration)
             .Enrich.FromLogContext()
             //输出到控制台

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Events;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
@@ -12,6 +14,7 @@ using Z.Ddd.Common;
 using Z.Ddd.Common.Entities.Repositories;
 using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.Extensions;
+using Z.Ddd.Common.Serilog.Utility;
 using Z.EntityFrameworkCore.Core;
 using Z.EntityFrameworkCore.Extensions;
 using Z.Module;
@@ -77,6 +80,8 @@ public class NetWikiHostModule : ZModule
 
         UseSwagger(app);
 
+        
+
         //鉴权中间件
         app.UseAuthentication();
 
@@ -86,11 +91,19 @@ public class NetWikiHostModule : ZModule
 
         app.UseStaticFiles();
 
+        app.UseSerilogRequestLogging(options =>
+        {
+            options.MessageTemplate = SerilogRequestUtility.HttpMessageTemplate;
+            options.GetLevel = SerilogRequestUtility.GetRequestLevel;
+            options.EnrichDiagnosticContext = SerilogRequestUtility.EnrichFromRequest;
+        });
+
         app.UseUnitOfWorkMiddleware();
 
         app.UseCors("ZCores");
 
         app.UseAuthorization();
+        
 
         app.UseEndpoints(endpoints =>
         {

@@ -11,7 +11,7 @@ public static class LoggerConfigurationExtensions
     {
         //输出普通日志
         loggerConfiguration = loggerConfiguration.WriteTo.Logger(lg =>
-            lg.FilterRemoveSqlLog().WriteTo.Console());
+            lg.FilterRemoveSqlLog().WriteTo.Console(outputTemplate: LogContextStatic.OutPutTemplate));
 
         //输出SQL
         loggerConfiguration = loggerConfiguration.WriteTo.Logger(lg =>
@@ -27,11 +27,11 @@ public static class LoggerConfigurationExtensions
         loggerConfiguration = loggerConfiguration.WriteTo.Logger(lg =>
             lg.FilterSqlLog().Filter.ByIncludingOnly(Matching.WithProperty<bool>(LogContextStatic.SqlOutToFile, s => s))
                 .WriteTo.Async(s => s.File(LogContextStatic.Combine(LogContextStatic.AopSql, @"AopSql.txt"), rollingInterval: RollingInterval.Day,
-                    outputTemplate: LogContextStatic.FileMessageTemplate, retainedFileCountLimit: 31)));
+                    outputTemplate: LogContextStatic.FileMessageTemplate, retainedFileCountLimit: 31, retainedFileTimeLimit: TimeSpan.FromDays(10))));
         //输出普通日志
         loggerConfiguration = loggerConfiguration.WriteTo.Logger(lg =>
             lg.FilterRemoveSqlLog().WriteTo.Async(s => s.File(LogContextStatic.Combine(LogContextStatic.BasePathLogs, @"Log.txt"), rollingInterval: RollingInterval.Day,
-                outputTemplate: LogContextStatic.FileMessageTemplate, retainedFileCountLimit: 31)));
+                outputTemplate: LogContextStatic.FileMessageTemplate, retainedFileCountLimit: 31, retainedFileTimeLimit: TimeSpan.FromDays(10))));
         return loggerConfiguration;
     }
 

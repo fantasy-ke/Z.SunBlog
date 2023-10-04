@@ -1,6 +1,6 @@
 using Serilog;
+using Serilog.Events;
 using Z.Ddd.Common.Serilog;
-using Z.Ddd.Common.Serilog.Utility;
 using Z.Module.Extensions;
 using Z.NetWiki.Host;
 
@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpContextAccessor();
 
-
+builder.Logging.ClearProviders();
 
 builder.Services.AddApplication<NetWikiHostModule>();
 
@@ -32,14 +32,8 @@ var app = builder.Build();
 
 //app.MapControllers();
 
-
 app.InitApplication();
 
-app.UseSerilogRequestLogging(options =>
-{
-    options.MessageTemplate = SerilogRequestUtility.HttpMessageTemplate;
-    options.GetLevel = SerilogRequestUtility.GetRequestLevel;
-    options.EnrichDiagnosticContext = SerilogRequestUtility.EnrichFromRequest;
-});
+
 
 app.Run();
