@@ -1,6 +1,6 @@
 # Z.NetWiki
 
-## 个人根据abp vnext搭建的基础小框架用来学习
+## 模块化类库，参照AbpVnext实现，现已正常使用
 
 - abp vnext 模块依赖（已完成）
 
@@ -134,4 +134,29 @@
             }
         }
     }
+    ``````
+
+## Serilog配置
+- 引入`Z.Ddd.Common.Serilog`命名空间
+
+- ``````c#
+    builder.Host.AddSerilogSetup(); //注册Serilog
+    ``````
+
+- 在config中使用RequestLogging
+
+    1. `SerilogRequestUtility.HttpMessageTemplate` 模板信息
+
+    2. `SerilogRequestUtility.GetRequestLevel` 请求拦截等级
+
+    3. `SerilogRequestUtility.EnrichFromRequest` 信息获取方法
+
+- ``````c#
+    app.UseSerilogRequestLogging(options =>
+    {
+        options.MessageTemplate = SerilogRequestUtility.HttpMessageTemplate;
+        options.GetLevel = SerilogRequestUtility.GetRequestLevel;
+        options.EnrichDiagnosticContext = SerilogRequestUtility.EnrichFromRequest;
+    });
+
     ``````
