@@ -7,6 +7,11 @@
         {
         }
 
+        public UserFriendlyException(string message, string details)
+        : base(message)
+        {
+        }
+
         public UserFriendlyException(string message, Exception? innerException)
             : base(message, innerException)
         {

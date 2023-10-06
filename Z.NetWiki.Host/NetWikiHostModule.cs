@@ -11,6 +11,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.Text;
 using Z.Ddd.Common;
+using Z.Ddd.Common.AutoMapper;
 using Z.Ddd.Common.Entities.Repositories;
 using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.Extensions;

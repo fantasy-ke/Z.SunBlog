@@ -10,6 +10,7 @@ using Z.Ddd.Common.Entities.Repositories;
 using Z.Ddd.Common.Entities;
 using Z.Module.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Z.Ddd.Common.Exceptions;
 
 namespace Z.Ddd.Common.DomainServiceRegister;
 
@@ -25,12 +26,14 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
 
     public virtual IQueryable<TEntity> QueryAsNoTracking => Query.AsNoTracking();
 
-    public BasicDomainService(IServiceProvider serviceProvider)
+    public BasicDomainService(IServiceProvider serviceProvider):base(serviceProvider)
     {
         ServiceProvider = serviceProvider;
         EntityRepo = serviceProvider.GetRequiredService<IBasicRepository<TEntity, TPrimaryKey>>();
         //AbpSession = serviceProvider.GetRequiredService<IAbpSession>();
     }
+
+    public abstract Task ValidateNdoOnCreateOrUpdate(TEntity entity);
 
     public virtual async Task<TEntity?> FindByIdAsync(TPrimaryKey id)
     {
@@ -39,6 +42,7 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
 
     public virtual async Task<TEntity> Create(TEntity entity)
     {
+        await ValidateNdoOnCreateOrUpdate(entity);
         return await EntityRepo.InsertAsync(entity);
     }
 
@@ -49,6 +53,7 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
 
     public virtual async Task<TEntity> Update(TEntity entity)
     {
+        await ValidateNdoOnCreateOrUpdate(entity);
         return await EntityRepo.UpdateAsync(entity);
     }
 
@@ -101,6 +106,32 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
             await EntityRepo.InsertOrUpdateAsync(predicate, entity);
         }
     }
+
+    protected virtual void ThrowDeleteError(string? def, string? defRef1, string? defRef2)
+    {
+        throw new UserFriendlyException($"错误! {def}【{defRef1}】 被 {defRef2} 引用。  时间：{ DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+    }
+
+    //
+    // 摘要:
+    //     抛出 RepetError 异常
+    //
+    // 参数:
+    //   name:
+    //     ndo的名称
+    protected virtual void ThrowRepetError(string? name)
+    {
+        throw new UserFriendlyException($"错误! 数据名称【{name}】重复。 时间：{DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+    }
+
+    //
+    // 摘要:
+    //     抛出 ThrowUserFriendlyError 异常
+    protected virtual void ThrowUserFriendlyError(string? reason)
+    {
+        throw new UserFriendlyException($"错误! {reason}。 时间：{ DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss")}");
+    }
+
 
     //
     // 摘要:
