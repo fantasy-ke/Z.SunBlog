@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Users;
+using Z.Ddd.Common.Exceptions;
 
 namespace Z.NetWiki.Domain.UserModule.DomainManager
 {
@@ -12,6 +14,17 @@ namespace Z.NetWiki.Domain.UserModule.DomainManager
     {
         public UserDomainManager(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+        }
+
+        public override async Task ValidateNdoOnCreateOrUpdate(ZUserInfo entity)
+        {
+            var count = await Query
+                .Where(a => a.UserName == entity.UserName && a.Id != entity.Id).CountAsync();
+
+            if (count > 0)
+            {
+                this.ThrowRepetError(entity.UserName);
+            }
         }
     }
 }

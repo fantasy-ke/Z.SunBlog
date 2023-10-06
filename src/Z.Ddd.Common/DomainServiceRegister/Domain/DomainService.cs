@@ -9,4 +9,7 @@ namespace Z.Ddd.Common.DomainServiceRegister.Domain;
 
 public abstract class DomainService : ZServiceBase, IDomainService, ITransientDependency
 {
+    protected DomainService(IServiceProvider serviceProvider) : base(serviceProvider)
+    {
+    }
 }

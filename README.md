@@ -18,19 +18,7 @@
         public override void ConfigureServices(ServiceConfigerContext context)
         {
             configuration = context.GetConfiguration();
-            env = context.Environment();
-            context.Services.AddControllers();
-            context.Services.AddCors(
-                options => options.AddPolicy(
-                    name: "ZCores",
-                    builder => builder.WithOrigins(
-                        configuration["App:CorsOrigins"]!
-                        .Split(",", StringSplitOptions.RemoveEmptyEntries)//获取移除空白字符串
-                        .Select(o => o.RemoveFix("/"))
-                        .ToArray()
-                        )
-                ));
-    
+            //....
         }
     
         /// <summary>
@@ -40,22 +28,10 @@
         public override void OnInitApplication(InitApplicationContext context)
         {
             var app = context.GetApplicationBuilder();
-    
-           
-            app.UseRouting();
-    
-            app.UseCors("ZCores");
-    
-            app.UseAuthorization();
-    
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapDefaultControllerRoute();
-            });
         }
     }
     
-
+  
 - 自动注册（已完成）
 
   - ITransientDependency（瞬时）
@@ -94,13 +70,9 @@
 
   - **使用SqlServer**
 
+  - 依赖模块`ZSqlServerEntityFrameworkCoreModule`
+  
   - ```C#
-    using Autofac.Core;
-    using Z.EntityFrameworkCore.SqlServer;
-    using Z.EntityFrameworkCore.SqlServer.Extensions;
-    using Z.Module;
-    using Z.Module.Modules;
-    
     namespace Z.NetWiki.EntityFrameworkCore
     {
         [DependOn(typeof(ZSqlServerEntityFrameworkCoreModule))]
@@ -113,16 +85,12 @@
         }
     }
     ```
-
+    
   - **使用Mysql**
+  
+  - 依赖模块`ZMysqlEntityFrameworkCoreModule`
 
   - ``````c#
-    using Autofac.Core;
-    using Z.EntityFrameworkCore.SqlServer;
-    using Z.EntityFrameworkCore.SqlServer.Extensions;
-    using Z.Module;
-    using Z.Module.Modules;
-    
     namespace Z.NetWiki.EntityFrameworkCore
     {
         [DependOn(typeof(ZMysqlEntityFrameworkCoreModule))]
@@ -139,11 +107,13 @@
 ## Serilog配置
 - 引入`Z.Ddd.Common.Serilog`命名空间
 
-- ``````c#
-    builder.Host.AddSerilogSetup(); //注册Serilog
-    ``````
+- 在`Program`中使用
 
-- 在config中使用RequestLogging
+    - ``````c#
+        builder.Host.AddSerilogSetup(); //注册Serilog
+        ``````
+
+- 在管道中使用`UseSerilogRequestLogging`处理拦截请求信息
 
     1. `SerilogRequestUtility.HttpMessageTemplate` 模板信息
 
@@ -158,5 +128,4 @@
         options.GetLevel = SerilogRequestUtility.GetRequestLevel;
         options.EnrichDiagnosticContext = SerilogRequestUtility.EnrichFromRequest;
     });
-
     ``````

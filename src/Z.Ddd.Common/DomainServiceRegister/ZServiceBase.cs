@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.Internal.Mappers;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,8 @@ public abstract class ZServiceBase
     /// <summary>
     /// Constructor.
     /// </summary>
-    protected ZServiceBase()
+    public ZServiceBase(IServiceProvider serviceProvider)
     {
-        ObjectMapper = NullObjectMapper.Instance;
+        ObjectMapper = serviceProvider.GetRequiredService<IMapper>();
     }
 }
