@@ -5,7 +5,6 @@ using System.Security.Claims;
 using Z.Ddd.Common.Authorization;
 using Z.Ddd.Common.UserSession;
 using Microsoft.AspNetCore.Authorization;
-using Z.Ddd.Common.DependencyInjection;
 using Z.Ddd.Common.Entities.IAuditing;
 using Z.Ddd.Common.Entities.Auditing;
 using Z.NetWiki.Application.UserModule;
