@@ -1,5 +1,4 @@
-﻿using Autofac.Core;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Z.EntityFrameworkCore;
 using Z.EntityFrameworkCore.Core;
 using Z.EntityFrameworkCore.SqlServer;

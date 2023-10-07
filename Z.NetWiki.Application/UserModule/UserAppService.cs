@@ -37,6 +37,13 @@ namespace Z.NetWiki.Application.UserModule
                 PassWord = "222"
             });
         }
+
+        public async Task<List<ZUserInfoDto>> GetFrist()
+        {
+            var dfs = await _userDomainManager.QueryAsNoTracking.ToListAsync();
+
+            return  ObjectMapper.Map<List<ZUserInfoDto>>(dfs);
+        }
     }
 
 
