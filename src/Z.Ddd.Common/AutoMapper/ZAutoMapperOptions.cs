@@ -18,6 +18,11 @@ public class ZAutoMapperOptions
         ValidatingProfiles = new TypeList<Profile>();
     }
 
+    /// <summary>
+    /// 模块中继承Profile文件反射获取mapper配置
+    /// </summary>
+    /// <typeparam name="TModule"></typeparam>
+    /// <param name="validate"></param>
     public void AddMaps<TModule>(bool validate = false)
     {
         var assembly = typeof(TModule).Assembly;
