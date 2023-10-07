@@ -10,6 +10,8 @@ using Z.Ddd.Common.Entities.Auditing;
 using Z.NetWiki.Application.UserModule;
 using Z.Ddd.Common.Entities.Users;
 using Serilog;
+using Z.Ddd.Common.RedisModule;
+using Z.NetWiki.Application.UserModule.Dto;
 
 namespace Z.NetWiki.Host.Controllers
 {
@@ -23,12 +25,18 @@ namespace Z.NetWiki.Host.Controllers
         private readonly IJwtTokenProvider _jwtTokenProvider;
         private readonly IUserSession _userSession;
         private readonly IUserAppService _userAppService;
-        public TestController(IJwtTokenProvider jwtTokenProvider, IUserSession userSession, IUserAppService userAppService)
+        private ICacheManager _cacheManager;
+        public TestController(IJwtTokenProvider jwtTokenProvider, IUserSession userSession, IUserAppService userAppService, ICacheManager cacheManager)
         {
             _jwtTokenProvider = jwtTokenProvider;
             _userSession = userSession;
             _userAppService = userAppService;
+            _cacheManager = cacheManager;
         }
+
+
+
+
 
         /// <summary>
         /// 获取jwttoken
@@ -89,5 +97,37 @@ namespace Z.NetWiki.Host.Controllers
         {
           return  new JsonResult(await _userAppService.Create());
         }
+
+        /// <summary>
+        /// 获取用户
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [ZAuthorization]
+        public async Task<List<ZUserInfoDto>> SeacthUser()
+        {
+
+            var user = await _userAppService.GetFrist();
+
+            await _cacheManager.SetCacheAsync("user1",user);
+
+            return user;
+        }
+
+
+        /// <summary>
+        /// 获取用户
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [ZAuthorization]
+        public async Task<List<ZUserInfoDto>> SeacthUserCache()
+        {
+
+            var user = await _cacheManager.GetCacheAsync<List<ZUserInfoDto>>("user1");
+
+            return user;
+        }
+
     }
 }

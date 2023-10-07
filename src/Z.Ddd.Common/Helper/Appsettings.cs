@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Z.Ddd.Common.Exceptions;
 
 namespace Z.Ddd.Common
 {
@@ -69,6 +70,29 @@ namespace Z.Ddd.Common
             Configuration.Bind(string.Join(":", sections), list);
             return list;
         }
+
+
+        /// <summary>
+        /// 递归获取配置信息数组
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sections"></param>
+        /// <returns></returns>
+        public static T AppOption<T>(string sectionsPath)
+        {
+            T result;
+            try
+            {
+                result = Configuration.GetSection(sectionsPath).Get<T>()!;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new UserFriendlyException(ex.Message);
+            }
+        }
+
+
 
 
         /// <summary>

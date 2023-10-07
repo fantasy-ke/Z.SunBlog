@@ -1,11 +1,8 @@
-﻿using Autofac.Core;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.DependencyInjection;
-using Z.Ddd.Common.Authorization;
-using Z.Ddd.Common.AutoMapper;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Z.Ddd.Common.RedisModule;
 using Z.Ddd.Common.ResultResponse;
 using Z.Module;
+using Z.Module.Extensions;
 using Z.Module.Modules;
 
 namespace Z.Ddd.Common
@@ -15,6 +12,10 @@ namespace Z.Ddd.Common
         public override void ConfigureServices(ServiceConfigerContext context)
         {
             //context.Services.AddAutoMapperSetup();
+            var configuration = context.GetConfiguration();
+
+            //redis注册
+            context.Services.AddRedis(configuration);
 
             context.Services.AddControllers(c =>
             {
