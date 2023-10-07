@@ -17,8 +17,6 @@ namespace Z.Ddd.Common.UserSession
 
         public IEnumerable<string>? RoleIds { get; }
 
-        void SetUserInfo();
-
         Claim? FindClaim(string claimType);
 
         [NotNull]

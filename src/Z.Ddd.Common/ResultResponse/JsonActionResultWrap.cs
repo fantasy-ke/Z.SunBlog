@@ -35,7 +35,7 @@ public class JsonActionResultWrap : IActionResultWarp
             var response = new ZEngineResponse();
             response.Result = jsonResult.Value;
             response.Success = true;
-            response.StatusCode = "200";
+            response.StatusCode = StatusCodes.Status200OK;
             jsonResult.Value = response;
         }
     }

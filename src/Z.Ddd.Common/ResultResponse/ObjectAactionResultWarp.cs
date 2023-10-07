@@ -32,7 +32,7 @@ public class ObjectAactionResultWarp : IActionResultWarp
         {
             var response = new ZEngineResponse();
             response.Result = objectResult.Value;
-            response.StatusCode = "200";
+            response.StatusCode = StatusCodes.Status200OK;
             response.Success = true;
             objectResult.Value = response;
             objectResult.DeclaredType = typeof(ZEngineResponse);
