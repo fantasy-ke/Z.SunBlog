@@ -13,7 +13,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Z.Ddd.Common.DependencyInjection;
 using Z.Ddd.Common.Entities;
 using Z.Ddd.Common.Entities.Auditing;
 using Z.Ddd.Common.Entities.IAuditing;
