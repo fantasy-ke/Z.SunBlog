@@ -23,7 +23,7 @@ public class JwtTokenProvider : IJwtTokenProvider
             new Claim(ZClaimTypes.UserName, user.UserName), //HttpContext.User.Identity.Name
             new Claim(ZClaimTypes.UserId, user.UserId.ToString()),
             new Claim (JwtRegisteredClaimNames.Exp,$"{new DateTimeOffset(DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes)).ToUnixTimeSeconds()}"),
-            new Claim(ZClaimTypes.Expiration, DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes).ToString()),
+            new Claim(ZClaimTypes.Expiration, DateTimeOffset.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes).ToString()),
         };
 
         if (user.RoleIds != null && user.RoleIds.Any())

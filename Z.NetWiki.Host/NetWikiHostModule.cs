@@ -32,7 +32,6 @@ public class NetWikiHostModule : ZModule
     /// <param name="context"></param>
     public override void ConfigureServices(ServiceConfigerContext context)
     {
-        //context.Services.AddSingleton(typeof(IBasicRepository<ZUserInfo>), typeof(Repository<NetWikiDbContext, ZUserInfo>));
 
         configuration = context.GetConfiguration();
         env = context.Environment();
