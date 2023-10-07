@@ -30,27 +30,6 @@ namespace Z.Ddd.Common.UserSession
 
         public virtual IEnumerable<string>? RoleIds => FindClaims(ZClaimTypes.RoleIds).Select(c => c.Value).Distinct().ToArray();
 
-        public virtual void SetUserInfo()
-        {
-            //var identity = _httpContextAccessor?.HttpContext?.User?.Identity;
-            //var httpContext = _httpContextAccessor?.HttpContext;
-            //var isAuthenticated = identity?.IsAuthenticated ?? false;
-            //var claims = _httpContextAccessor?.HttpContext?.User?.Claims;
-            //var userId = claims?.FirstOrDefault(p => p.Type == "Id")?.Value;
-            //if (userId is null || !isAuthenticated)
-            //{
-            //    NotLoginExceptionsExtensions.ThrowNotloginExceptions();
-            //}
-            //UserId = userId!.ToString();
-            //UserName = claims?.FirstOrDefault(p => p.Type == ClaimTypes.Name)?.Value ?? "";
-            //RoleIds = claims?
-            //          .Where(p => p?.Type?.Equals("RoleIds") ?? false)
-            //          .Select(p => p.Value);
-            //RoleName = claims?
-            //       .Where(p => p?.Type?.Equals(ClaimTypes.Role) ?? false)
-            //       .Select(p => p.Value);
-        }
-
         public virtual Claim? FindClaim(string claimType)
         {
             return _principal?.Claims.FirstOrDefault(c => c.Type == claimType);

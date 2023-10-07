@@ -1,28 +1,20 @@
-﻿using Autofac.Core;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
-using Serilog.Events;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.Text;
+using Z.Ddd.Application.Middleware;
 using Z.Ddd.Common;
-using Z.Ddd.Common.AutoMapper;
-using Z.Ddd.Common.Entities.Repositories;
-using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.Serilog.Utility;
-using Z.EntityFrameworkCore.Core;
 using Z.EntityFrameworkCore.Extensions;
 using Z.Module;
 using Z.Module.Extensions;
 using Z.Module.Modules;
 using Z.NetWiki.Application;
-using Z.NetWiki.Common;
 using Z.NetWiki.EntityFrameworkCore;
 
 namespace Z.NetWiki.Host;
@@ -49,7 +41,9 @@ public class NetWikiHostModule : ZModule
 
         ServicesJwtToken(context.Services);
 
+
         context.Services.AddSingleton(new AppSettings(AppContext.BaseDirectory));
+
 
         // 注入自动事务中间件
         context.Services.AddUnitOfWorkMiddleware();
@@ -81,7 +75,14 @@ public class NetWikiHostModule : ZModule
 
         UseSwagger(app);
 
-        
+        app.UseSerilogRequestLogging(options =>
+        {
+            options.MessageTemplate = SerilogRequestUtility.HttpMessageTemplate;
+            options.GetLevel = SerilogRequestUtility.GetRequestLevel;
+            options.EnrichDiagnosticContext = SerilogRequestUtility.EnrichFromRequest;
+        });
+
+        app.UseMiddleware<ExceptionMiddleware>();
 
         //鉴权中间件
         app.UseAuthentication();
@@ -92,12 +93,6 @@ public class NetWikiHostModule : ZModule
 
         app.UseStaticFiles();
 
-        app.UseSerilogRequestLogging(options =>
-        {
-            options.MessageTemplate = SerilogRequestUtility.HttpMessageTemplate;
-            options.GetLevel = SerilogRequestUtility.GetRequestLevel;
-            options.EnrichDiagnosticContext = SerilogRequestUtility.EnrichFromRequest;
-        });
 
         app.UseUnitOfWorkMiddleware();
 
