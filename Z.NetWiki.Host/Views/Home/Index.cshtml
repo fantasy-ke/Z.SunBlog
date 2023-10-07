@@ -76,7 +76,7 @@
                         const modalTitle = exampleModal.querySelector('.modal-title');
                         const modalBodyInput = exampleModal.querySelector('.modal-body');
 
-                        modalBodyInput.textContent = response.responseJSON.result.error;
+                        modalBodyInput.textContent = response?.responseJSON?.result?.error ?? '服务器异常';
                     })
                     $('#whatever').trigger('click');
                     
