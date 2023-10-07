@@ -1,0 +1,147 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <div class="login-box">
+        <h2>登录</h2>
+        <form>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">用户名:</span>
+                </div>
+                <input type="text" id="username" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">密码:</span>
+                </div>
+                <input type="password" id="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+            </div>
+
+        </form>
+        <button type="submit" id="login-btn" class="btn btn-primary">登录</button>
+    </div>
+    @*  <div>
+    <a asp-controller="Test" asp-action="GetToken">登陆</a>
+    </div> *@
+    <button type="button" hidden class="btn btn-primary" id="whatever" data-bs-toggle="modal"  data-bs-target="#exampleModal" data-bs-whatever="mdo"></button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">错误！</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="word-wrap:break-word;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        // 当表单提交时
+        $('#login-btn').click(function (event) {
+            event.preventDefault(); // 防止页面刷新
+            //$('.error').remove(); // 移除已有的错误信息
+            var username = $('#username').val();
+            var password = $('#password').val();
+            // 发起 AJAX 请求
+            $.ajax({
+                type: 'post',
+                contentType: "application/json",
+                url: 'http://localhost:2001/api/Test/Login',
+                data: JSON.stringify({
+                    username: username,
+                    password: password
+                }),
+                success: function (response) {
+                    console.info(response)
+                    if (response.statusCode == '200') {
+                        window.location.href = '/swagger';
+                    }
+                },
+                error: function (response) {
+                    // 如果返回错误信息，则显示在页面上
+                    const exampleModal = document.getElementById('exampleModal')
+                    exampleModal.addEventListener('show.bs.modal', event => {
+                        // Update the modal's content.
+                        const modalTitle = exampleModal.querySelector('.modal-title');
+                        const modalBodyInput = exampleModal.querySelector('.modal-body');
+
+                        modalBodyInput.textContent = response.responseJSON.result.error;
+                    })
+                    $('#whatever').trigger('click');
+                    
+                }
+            });
+        });
+    });
+
+</script>
+
+<style>
+    body {
+        background-color: #f1f1f1;
+    }
+
+    .login-box {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        margin: 0px auto;
+        padding: 20px;
+        text-align: center;
+        width: 350px;
+    }
+
+        .login-box h2 {
+            margin: 0 0 20px;
+        }
+
+    .user-box {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+        .user-box label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .user-box input {
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            width: 100%;
+        }
+
+    button {
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        padding: 10px;
+        width: 100%;
+    }
+
+        button:hover {
+            background-color: #3e8e41;
+        }
+
+    .error {
+        color: red;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+</style>

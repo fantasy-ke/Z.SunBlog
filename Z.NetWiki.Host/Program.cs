@@ -21,9 +21,11 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Logging.ClearProviders();
 
-builder.Services.AddApplication<NetWikiHostModule>();
+builder.Services.AddSingleton(new AppSettings(AppContext.BaseDirectory));
 
 builder.Host.AddSerilogSetup();
+
+builder.Services.AddApplication<NetWikiHostModule>();
 
 
 var app = builder.Build();

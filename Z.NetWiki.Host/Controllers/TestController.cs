@@ -12,6 +12,7 @@ using Z.Ddd.Common.Entities.Users;
 using Serilog;
 using Z.Ddd.Common.RedisModule;
 using Z.NetWiki.Application.UserModule.Dto;
+using Z.Ddd.Common.Exceptions;
 
 namespace Z.NetWiki.Host.Controllers
 {
@@ -42,12 +43,18 @@ namespace Z.NetWiki.Host.Controllers
         /// 获取jwttoken
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<string> Login()
+        [HttpPost]
+        public async Task<string> Login(ZUserInfoDto user)
         {
             UserTokenModel tokenModel = new UserTokenModel();
-            tokenModel.UserName = "test";
-            tokenModel.UserId = Guid.NewGuid().ToString("N");
+            var userinfo = await _userAppService.Login(user);
+            if (userinfo == null)
+            {
+                throw new UserFriendlyException("账号密码错误");
+
+			}
+            tokenModel.UserName = userinfo.UserName!;
+            tokenModel.UserId = userinfo.Id!;
             var token = _jwtTokenProvider.GenerateAccessToken(tokenModel);
 
             Response.Cookies.Append("x-access-token", token);

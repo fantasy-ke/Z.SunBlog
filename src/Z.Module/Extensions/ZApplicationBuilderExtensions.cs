@@ -27,6 +27,18 @@ namespace Z.Module.Extensions
 
         public static void InitApplication(this IApplicationBuilder app)
         {
+
+            InitBaseSetting(app);
+            var runner = app.ApplicationServices.GetRequiredService<IZApplicationServiceProvider>();
+            runner.Initialize(app.ApplicationServices);
+        }
+
+        /// <summary>
+        /// 初始化基础
+        /// </summary>
+        /// <param name="app"></param>
+        private static void InitBaseSetting(IApplicationBuilder app)
+        {
             app.CheckNull();
 
             //InitApplicationContext context = new InitApplicationContext(app.ApplicationServices);
@@ -36,9 +48,6 @@ namespace Z.Module.Extensions
 
             //app.ApplicationServices.GetRequiredService<ObjectAccessor<InitApplicationContext>>().Value = context;
             //app.ApplicationServices.GetRequiredService<IObjectAccessor<InitApplicationContext>>().Value = context;
-
-            var runner = app.ApplicationServices.GetRequiredService<IZApplicationServiceProvider>();
-            runner.Initialize(app.ApplicationServices);
         }
     }
 }
