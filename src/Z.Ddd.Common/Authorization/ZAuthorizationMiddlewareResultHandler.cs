@@ -16,10 +16,12 @@ namespace Z.Ddd.Common.Authorization
                 var isLogin = context?.User?.Identity?.IsAuthenticated ?? false;
                 var path = context?.Request?.Path ?? "";
                 context!.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                var error = new ErrorInfo();
-                error.Error = isLogin ? reason?.Message : "请先登录系统";
-                var response = new ZEngineResponse(error, true);
+                var response = new ZEngineResponse(new ErrorInfo
+                {
+                    Error = isLogin ? reason?.Message : "请先登录系统"
+                }, true);
                 response.StatusCode = StatusCodes.Status401Unauthorized;
+
                 await context.Response.WriteAsJsonAsync(response);
                 return;
             }
