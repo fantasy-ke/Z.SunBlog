@@ -36,13 +36,11 @@ public class NetWikiHostModule : ZModule
 
         configuration = context.GetConfiguration();
         env = context.Environment();
-        context.Services.AddControllers();
-        context.Services.AddEndpointsApiExplorer();
+        context.Services
+                .AddMvc()
+                .AddRazorPagesOptions(options => { });
 
         ServicesJwtToken(context.Services);
-
-
-        context.Services.AddSingleton(new AppSettings(AppContext.BaseDirectory));
 
 
         // 注入自动事务中间件
@@ -104,6 +102,7 @@ public class NetWikiHostModule : ZModule
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapDefaultControllerRoute();
+            endpoints.MapRazorPages();
         });
     }
 

@@ -12,7 +12,7 @@ using Z.NetWiki.Domain.UserModule.DomainManager;
 
 namespace Z.NetWiki.Application.UserModule
 {
-    public class UserAppService : ApplicationService, IUserAppService
+	public class UserAppService : ApplicationService, IUserAppService
     {
         public readonly IUserDomainManager _userDomainManager;
         public UserAppService(IUserDomainManager userDomainManager,
@@ -44,7 +44,17 @@ namespace Z.NetWiki.Application.UserModule
 
             return  ObjectMapper.Map<List<ZUserInfoDto>>(dfs);
         }
-    }
+
+		public async Task<ZUserInfoDto?> Login(ZUserInfoDto user)
+		{
+			var dfs = await _userDomainManager.QueryAsNoTracking.FirstOrDefaultAsync(P=>P.UserName == user.UserName && P.PassWord == user.PassWord);
+			
+            if (dfs == null)
+                return default;
+
+            return ObjectMapper.Map<ZUserInfoDto>(dfs);
+		}
+	}
 
 
 }

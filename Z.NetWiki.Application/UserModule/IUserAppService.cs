@@ -14,5 +14,7 @@ namespace Z.NetWiki.Application.UserModule
         Task<ZUserInfo> Create();
 
         Task<List<ZUserInfoDto>> GetFrist();
-    }
+
+		Task<ZUserInfoDto?> Login(ZUserInfoDto user);
+	}
 }
