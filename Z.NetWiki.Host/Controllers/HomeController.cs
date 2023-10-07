@@ -19,9 +19,7 @@ namespace Z.NetWiki.Host.Controllers
         }
         public async Task<IActionResult> Index()
         {
-             var count = await userRespo.GetFrist();
-             var user = await userRespo.GetFrist();
-            _logger.LogInformation("用户人数"+count);
+            _logger.LogInformation("正在加载首页......");
             return View();
         }
         public IActionResult Privacy()

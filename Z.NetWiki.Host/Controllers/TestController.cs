@@ -57,15 +57,19 @@ namespace Z.NetWiki.Host.Controllers
             tokenModel.UserId = userinfo.Id!;
             var token = _jwtTokenProvider.GenerateAccessToken(tokenModel);
 
-            Response.Cookies.Append("x-access-token", token);
+            Response.Cookies.Append("x-access-token", token , new CookieOptions()
+            {
+                Expires = DateTimeOffset.Now.AddMinutes(20),
+            });
             var claimsIdentity = new ClaimsIdentity(tokenModel.Claims, "Login");
 
             AuthenticationProperties properties = new AuthenticationProperties();
             properties.AllowRefresh = false;
             properties.IsPersistent = true;
-            properties.IssuedUtc = DateTimeOffset.UtcNow;
-            properties.ExpiresUtc = DateTimeOffset.Now.AddMinutes(1);
+            properties.IssuedUtc = DateTimeOffset.Now;
+            properties.ExpiresUtc = DateTimeOffset.Now.AddMinutes(20);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
+
             Log.Logger.Information("登录成功");
             return token;
         }
