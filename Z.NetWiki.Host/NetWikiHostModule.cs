@@ -38,7 +38,8 @@ public class NetWikiHostModule : ZModule
         env = context.Environment();
         context.Services
                 .AddMvc()
-                .AddRazorPagesOptions(options => { });
+                .AddRazorPagesOptions(options => { })
+                .AddRazorRuntimeCompilation();
 
         ServicesJwtToken(context.Services);
 
@@ -97,7 +98,7 @@ public class NetWikiHostModule : ZModule
         app.UseCors("ZCores");
 
         app.UseAuthorization();
-        
+
 
         app.UseEndpoints(endpoints =>
         {

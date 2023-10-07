@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="./swagger-ui.css">
 </head>
 <body>
-   <div id="swagger-ui"></div>
+    <div id="swagger-ui"></div>
 </body>
 </html>
 
@@ -15,14 +15,22 @@
 <script>
     window.onload = function () {
         var configObject = JSON.parse('%(ConfigObject)');
+        const cookieValue = getCookiesValue('x-access-token');
+        const token = getCookiesValue('Z.BearerCokkie');
+        const isExpired = isCookieExpired(token);
+
+        if (isExpired) {
+            window.location.href = '/home/index';
+        }
 
         // Apply mandatory parameters
         configObject.dom_id = "#swagger-ui";
         configObject.presets = [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset];
         configObject.layout = "StandaloneLayout";
         configObject.requestInterceptor = function (request) {
-            var token = getCookiesValue("x-access-token");
-            request.headers['Authorization'] ='Bearer '+ token;
+
+
+            request.headers['Authorization'] = 'Bearer ' + cookieValue;
             return request;
         };
 
@@ -45,6 +53,22 @@
         // Build a system
         SwaggerUIBundle(configObject);
     }
+
+
+    // 检查Cookie是否过期
+    const isCookieExpired = function (cookieValue) {
+        
+        if (cookieValue) {
+            const cookieExpires = new Date(cookieValue);
+            const currentTime = new Date();
+
+            // 比较当前时间与Cookie的过期时间
+            return currentTime > cookieExpires;
+        }
+
+        return true; // Cookie不存在或无效，视为过期
+    }
+
 
     const getCookiesValue = function (key) {
         var equalities = document.cookie.split('; ');
