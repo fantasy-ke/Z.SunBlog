@@ -16,7 +16,6 @@ jobs:
         run: |
           image_name="${{ secrets.USERNAME }}/netwiki"
           tag_name="${{secrets.IMAGETAG}}"
-          ls
           if docker images | grep $image_name:$tag_name > /dev/null; then
            docker rmi $image_name:$tag_name
           fi
@@ -27,7 +26,7 @@ jobs:
         run: |
           image_name="${{ secrets.USERNAME }}/netwiki"
           tag_name="${{secrets.IMAGETAG}}"
-          sudo docker tag  $image_name:latest registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$tag_name
+          sudo docker tag  $image_name:$tag_name registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$tag_name
           sudo docker push registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$tag_name
   
   deploy:
