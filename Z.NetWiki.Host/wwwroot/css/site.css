@@ -14,5 +14,17 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    /*margin-bottom: 60px;*/
+    background-image: url(http://img.likebizhi.com/uploads/likebizhi/up/2022/09/9ed6211113c692334ed8d98d36e2236d477.jpg);
+    background-repeat: repeat;
+    background-position: left center;
+}
+
+.el-main {
+    margin-top:10%;
+    color: #333;
+    text-align: center;
+}
+.el-container {
+    
 }
