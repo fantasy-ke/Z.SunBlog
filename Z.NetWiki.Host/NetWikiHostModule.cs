@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -137,7 +138,7 @@ public class NetWikiHostModule : ZModule
                 }
             });
             var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename), true);
             options.OrderActionsBy(o => o.RelativePath);
             //options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
             //{
@@ -176,6 +177,15 @@ public class NetWikiHostModule : ZModule
 
             options.LogoutPath = "/Home/Index";
 
+            options.Events = new CookieAuthenticationEvents
+            {
+                OnSigningOut = async context =>
+                {
+                    context.Response.Cookies.Delete("x-access-token");
+
+                    await Task.CompletedTask;
+                }
+            };
         })
         .AddJwtBearer(options =>
         {
@@ -192,18 +202,6 @@ public class NetWikiHostModule : ZModule
                 ClockSkew = TimeSpan.FromSeconds(30), //过期时间容错值，解决服务器端时间不同步问题（秒）
                 RequireExpirationTime = true,
                 SaveSigninToken = true,
-            };
-
-            options.Events = new JwtBearerEvents
-            {
-                OnMessageReceived = async context =>
-                {
-                    var token = context.Request.Cookies["access_token"]; // 从Cookie中获取token值
-                    if (!string.IsNullOrEmpty(token))
-                    {
-                        context.Token = token; // 将token值设置到JwtBearer上下文中的Token属性
-                    }
-                }
             };
 
             options.Events = new JwtBearerEvents

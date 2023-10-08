@@ -52,22 +52,22 @@ namespace Z.NetWiki.Host.Controllers
             {
                 throw new UserFriendlyException("账号密码错误");
 
-			}
+            }
             tokenModel.UserName = userinfo.UserName!;
             tokenModel.UserId = userinfo.Id!;
             var token = _jwtTokenProvider.GenerateAccessToken(tokenModel);
 
-            Response.Cookies.Append("x-access-token", token , new CookieOptions()
+            Response.Cookies.Append("x-access-token", token, new CookieOptions()
             {
-                Expires = DateTimeOffset.Now.AddMinutes(20),
-            });
+                Expires = DateTimeOffset.UtcNow.AddMinutes(20)
+        });
             var claimsIdentity = new ClaimsIdentity(tokenModel.Claims, "Login");
 
             AuthenticationProperties properties = new AuthenticationProperties();
-            properties.AllowRefresh = false;
+            properties.AllowRefresh = true;
             properties.IsPersistent = true;
-            properties.IssuedUtc = DateTimeOffset.Now;
-            properties.ExpiresUtc = DateTimeOffset.Now.AddMinutes(20);
+            properties.IssuedUtc = DateTimeOffset.UtcNow;
+            properties.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(20);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
 
             Log.Logger.Information("登录成功");
@@ -92,7 +92,7 @@ namespace Z.NetWiki.Host.Controllers
         [HttpGet]
         public async Task<string> Logout()
         {
-           
+
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return "ddd";
@@ -106,7 +106,7 @@ namespace Z.NetWiki.Host.Controllers
         [ZAuthorization]
         public async Task<JsonResult> CreateUser()
         {
-          return  new JsonResult(await _userAppService.Create());
+            return new JsonResult(await _userAppService.Create());
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Z.NetWiki.Host.Controllers
 
             var user = await _userAppService.GetFrist();
 
-            await _cacheManager.SetCacheAsync("user1",user);
+            await _cacheManager.SetCacheAsync("user1", user);
 
             return user;
         }
