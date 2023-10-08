@@ -11,11 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var configuration = builder.Configuration;
 
-int.TryParse(configuration["App:WebHostPort"], out var port);
+//int.TryParse(configuration["App:WebHostPort"], out var port);
 
-port = port == default ? 80 : port;
+//port = port == default ? 80 : port;
 
-builder.WebHost.UseKestrel(op => op.ListenAnyIP(port));
+//builder.WebHost.UseKestrel(op => op.ListenAnyIP(port));
 
 builder.Services.AddHttpContextAccessor();
 
