@@ -5,7 +5,7 @@ namespace Z.NetWiki.Host.Controllers
 {
 
     /// <summary>
-    /// ������
+    /// 天气控制器
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -30,7 +30,7 @@ namespace Z.NetWiki.Host.Controllers
         }
 
         /// <summary>
-        /// ��ȡ����
+        /// 查询
         /// </summary>
         /// <returns>��ϸ����</returns>
         [HttpGet(Name = "GetWeatherForecast")]
