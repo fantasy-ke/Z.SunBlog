@@ -58,4 +58,6 @@ jobs:
         run: |
           container_name="netwiki"
           tag_name="${{secrets.IMAGETAG}}"
-          sudo docker run --name $container_name -p ${{secrets.PORT}}:80 -d ${{ secrets.ALIREPOSITORY }}:$tag_name
+          # sudo docker run --name $container_name -p ${{secrets.PORT}}:80 -d ${{ secrets.ALIREPOSITORY }}:$tag_name
+
+          sudo docker-compose -f docker-compose.yml up
