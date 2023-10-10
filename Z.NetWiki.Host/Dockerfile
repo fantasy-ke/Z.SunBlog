@@ -5,7 +5,7 @@ WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /
+WORKDIR /src
 COPY ["Z.NetWiki.Host/Z.NetWiki.Host.csproj", "Z.NetWiki.Host/"]
 COPY ["Z.NetWiki.Application/Z.NetWiki.Application.csproj", "Z.NetWiki.Application/"]
 COPY ["src/Z.Ddd.Application/Z.Ddd.Application.csproj", "src/Z.Ddd.Application/"]
