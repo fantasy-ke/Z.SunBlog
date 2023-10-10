@@ -1,5 +1,8 @@
 # Z.NetWiki
 
+#### 该项目已通过阿里云仓库、GithubAction持续集成与部署（[Fantasy-Ke -Z.NetWiki.Host](http://124.71.15.19:5155/)）
+
+
 ## 模块化类库，参照AbpVnext实现，现已正常使用
 
 - abp vnext 模块依赖（已完成）
