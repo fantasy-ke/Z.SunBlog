@@ -3,7 +3,7 @@ version: '3.9'
 services:
   # hostapi
   hostapi:
-    image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:ke
+    image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:ke210
     restart: always
     ports:
       - "2001:80"
