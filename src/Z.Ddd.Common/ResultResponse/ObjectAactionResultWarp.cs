@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Z.Ddd.Common.Exceptions;
+using Z.Ddd.Common.Extensions;
 
 namespace Z.Ddd.Common.ResultResponse;
 
@@ -34,6 +35,7 @@ public class ObjectAactionResultWarp : IActionResultWarp
             response.Result = objectResult.Value;
             response.StatusCode = StatusCodes.Status200OK;
             response.Success = true;
+            response.Extras = HttpExtension.Take();
             objectResult.Value = response;
             objectResult.DeclaredType = typeof(ZEngineResponse);
         }

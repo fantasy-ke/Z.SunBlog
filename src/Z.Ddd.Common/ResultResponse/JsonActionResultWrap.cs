@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using ResultExecutingContext = Microsoft.AspNetCore.Mvc.Filters.ResultExecutingContext;
 using Microsoft.AspNetCore.Http;
 using Z.Ddd.Common.Exceptions;
+using Z.Ddd.Common.Extensions;
 
 namespace Z.Ddd.Common.ResultResponse;
 
@@ -36,6 +37,7 @@ public class JsonActionResultWrap : IActionResultWarp
             response.Result = jsonResult.Value;
             response.Success = true;
             response.StatusCode = StatusCodes.Status200OK;
+            response.Extras = HttpExtension.Take();
             jsonResult.Value = response;
         }
     }

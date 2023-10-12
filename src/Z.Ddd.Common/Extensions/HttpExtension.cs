@@ -21,6 +21,16 @@ public static class HttpExtension
         items.Add(UnifyResultExtrasKey, extras);
     }
 
+    /// <summary>
+    /// 读取附加信息
+    /// </summary>
+    public static object Take()
+    {
+        object extras = null;
+        App.HttpContext?.Items?.TryGetValue(UnifyResultExtrasKey, out extras);
+        return extras;
+    }
+
     public static string GetRequestBody(this HttpRequest request)
     {
         if (!request.Body.CanRead)
