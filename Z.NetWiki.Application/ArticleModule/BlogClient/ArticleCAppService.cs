@@ -1,27 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
-using System.Linq;
 using System.Linq.Dynamic.Core;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Exceptions;
+using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.ResultResponse;
-using Z.EntityFrameworkCore;
 using Z.EntityFrameworkCore.Extensions;
 using Z.NetWiki.Application.ArticleModule.BlogClient.Dto;
-using Z.NetWiki.Application.ArticleModule.BlogServer.Dto;
-using Z.NetWiki.Domain.ArticleCategoryModule;
 using Z.NetWiki.Domain.ArticleCategoryModule.DomainManager;
 using Z.NetWiki.Domain.ArticleModule;
 using Z.NetWiki.Domain.ArticleModule.DomainManager;
 using Z.NetWiki.Domain.ArticleTagModule;
 using Z.NetWiki.Domain.ArticleTagModule.DomainManager;
-using Z.NetWiki.Domain.CategoriesModule;
 using Z.NetWiki.Domain.CategoriesModule.DomainManager;
 using Z.NetWiki.Domain.Enum;
-using Z.NetWiki.Domain.PraiseModule;
 using Z.NetWiki.Domain.PraiseModule.DomainManager;
-using Z.NetWiki.Domain.SharedDto;
 using Z.NetWiki.Domain.TagModule;
 using Z.NetWiki.Domain.TagsModule.DomainManager;
 
@@ -85,10 +79,61 @@ namespace Z.NetWiki.Application.ArticleModule.BlogServer
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// 文章表查询
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpGet]
-        public Task<PageResult<ArticleOutput>> GetList([FromQuery] ArticleListQueryInput dto)
+        public async Task<PageResult<ArticleOutput>> GetList([FromQuery] ArticleListQueryInput dto)
         {
-            throw new NotImplementedException();
+            if (dto.TagId.HasValue)
+            {
+                var tag = await _tagsManager.QueryAsNoTracking.Where(x => x.Id == dto.TagId && x.Status == AvailabilityStatus.Enable).Select(x => new { x.Name, x.Cover }).FirstAsync();
+                HttpExtension.Fill(new { tag.Name, tag.Cover });
+            }
+
+            if (dto.CategoryId.HasValue)
+            {
+                var category = await _categoriesManager.QueryAsNoTracking.Where(x => x.Id == dto.CategoryId && x.Status == AvailabilityStatus.Enable).Select(x => new { x.Name, x.Cover }).FirstAsync();
+                HttpExtension.Fill(new { category.Name, category.Cover });
+            }
+            return  await (from a in _articleDomainManager.QueryAsNoTracking
+                        .Where(x => (x.Id == dto.TagId && x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable) || (x.ExpiredTime == null || x.ExpiredTime > DateTime.Now))
+                        .WhereIf(!string.IsNullOrWhiteSpace(dto.Keyword), article => article.Title.Contains(dto.Keyword) || article.Summary.Contains(dto.Keyword) || article.Content.Contains(dto.Keyword))
+                    join ac in _articleCategoryManager.QueryAsNoTracking.WhereIf(dto.CategoryId.HasValue, ac => ac.CategoryId == dto.CategoryId) on
+                          a.Id equals ac.ArticleId into category
+                          from c in category.DefaultIfEmpty()
+
+                    join cg in _categoriesManager.QueryAsNoTracking.Where(x => x.Status == AvailabilityStatus.Enable) on
+                    c.CategoryId equals cg.Id
+                    orderby a.IsTop descending
+                    orderby a.Sort
+                    orderby a.PublishTime
+
+                    select new ArticleOutput
+                    {
+                        Id = a.Id,
+                        Title = a.Title,
+                        CategoryId = cg.Id,
+                        CategoryName = cg.Name,
+                        IsTop = a.IsTop,
+                        CreationType = a.CreationType,
+                        Summary = a.Summary,
+                        Cover = a.Cover,
+                        PublishTime = a.PublishTime,
+                        Tags = _tagsManager.QueryAsNoTracking.Where(p=>p.Status == AvailabilityStatus.Enable)
+                        .Join(_articleTagManager.QueryAsNoTracking.Where(p=>p.ArticleId == a.Id),
+                        t => t.Id, at => at.TagId, 
+                        (t, at) => new { tags = t, articleTag = at })
+                        .Select(p=> new TagsOutput
+                        {
+                            Id = p.tags.Id,
+                            Name = p.tags.Name,
+                            Color = p.tags.Color,
+                            Icon = p.tags.Icon
+                        }).ToList()
+                    }).ToPagedListAsync(dto);
         }
 
         /// <summary>
@@ -143,14 +188,14 @@ namespace Z.NetWiki.Application.ArticleModule.BlogServer
 
 
 
-            article.Tags = tagsList;
+            article!.Tags = tagsList;
 
 
             if (article == null) throw new UserFriendlyException("糟糕，您访问的信息丢失了...",404);
 
             var updateArt = await _articleDomainManager.FindByIdAsync(article.Id);
 
-            updateArt.Views += 1;
+            updateArt!.Views += 1;
 
             await _articleDomainManager.Update(updateArt);
 
@@ -180,8 +225,8 @@ namespace Z.NetWiki.Application.ArticleModule.BlogServer
 
             //相关文章
             var relevant = await prevQuery.ToListAsync();
-            article.Prev = relevant.FirstOrDefault(x => x.Type == 0);
-            article.Next = relevant.FirstOrDefault(x => x.Type == 1);
+            article.Prev = relevant.FirstOrDefault(x => x.Type == 0)!;
+            article.Next = relevant.FirstOrDefault(x => x.Type == 1)!;
             article.Random = relevant.Where(x => x.Type == 2).ToList();
             article.Views++;
             return article;
@@ -205,12 +250,42 @@ namespace Z.NetWiki.Application.ArticleModule.BlogServer
             return ObjectMapper.Map<List<ArticleBasicsOutput>>(result);
         }
 
+        /// <summary>
+        /// 文章信息统计
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public Task<ArticleReportOutput> Report()
+        public async Task<ArticleReportOutput> ReportStatistics()
         {
-            throw new NotImplementedException();
+            //统计文章数量
+            int articleCount = await _articleDomainManager.QueryAsNoTracking
+                .Where(x => x.Status == AvailabilityStatus.Enable && (x.ExpiredTime == null || DateTime.Now < x.ExpiredTime))
+                .Where(x => x.PublishTime <= DateTime.Now)
+                .CountAsync();
+
+            //标签统计
+            int tagCount = await _tagsManager.QueryAsNoTracking.Where(x => x.Status == AvailabilityStatus.Enable).CountAsync();
+            //栏目统计
+            int categoryCount = await _categoriesManager.QueryAsNoTracking.Where(x => x.Status == AvailabilityStatus.Enable).CountAsync();
+
+            int userCount = 10;// await _authAccountRepository.AsQueryable().CountAsync();
+
+            int linkCount = 15;//await _friendLinkRepository.AsQueryable().CountAsync(x => x.Status == AvailabilityStatus.Enable);
+
+            return new ArticleReportOutput
+            {
+                ArticleCount = articleCount,
+                CategoryCount = categoryCount,
+                TagCount = tagCount,
+                LinkCount = linkCount,
+                UserCount = userCount
+            };
         }
 
+        /// <summary>
+        /// 标签列表
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<List<TagsOutput>> Tags()
         {
