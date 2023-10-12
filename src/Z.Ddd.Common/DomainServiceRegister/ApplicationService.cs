@@ -10,6 +10,7 @@ namespace Z.Ddd.Common.DomainServiceRegister
     {
         public ApplicationService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+
         }
     }
 }

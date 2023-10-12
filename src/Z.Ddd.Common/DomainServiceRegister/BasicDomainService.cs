@@ -11,6 +11,7 @@ using Z.Ddd.Common.Entities;
 using Z.Module.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Z.Ddd.Common.Exceptions;
+using Z.Ddd.Common.ResultResponse;
 
 namespace Z.Ddd.Common.DomainServiceRegister;
 
@@ -33,7 +34,7 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
         //AbpSession = serviceProvider.GetRequiredService<IAbpSession>();
     }
 
-    public abstract Task ValidateNdoOnCreateOrUpdate(TEntity entity);
+    public abstract Task ValidateOnCreateOrUpdate(TEntity entity);
 
     public virtual async Task<TEntity?> FindByIdAsync(TPrimaryKey id)
     {
@@ -42,7 +43,7 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
 
     public virtual async Task<TEntity> Create(TEntity entity)
     {
-        await ValidateNdoOnCreateOrUpdate(entity);
+        await ValidateOnCreateOrUpdate(entity);
         return await EntityRepo.InsertAsync(entity);
     }
 
@@ -53,7 +54,7 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
 
     public virtual async Task<TEntity> Update(TEntity entity)
     {
-        await ValidateNdoOnCreateOrUpdate(entity);
+        await ValidateOnCreateOrUpdate(entity);
         return await EntityRepo.UpdateAsync(entity);
     }
 
@@ -63,6 +64,27 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
         {
             await Update(entity);
         }
+    }
+
+    /// <summary>
+    /// 分页拓展
+    /// </summary>
+    /// <param name="queryable"></param>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public async Task<PageResult<TEntity>> ToPagedListAsync(IPagination input)
+    {
+
+        var (items, totalCount) = await EntityRepo.GetPagedListAsync(input.PageNo, input.PageSize);
+        var totalPages = (int)Math.Ceiling(totalCount / (double)input.PageSize);
+        return new PageResult<TEntity>()
+        {
+            PageNo = input.PageNo,
+            PageSize = input.PageSize,
+            Rows = items,
+            Total = totalCount,
+            Pages = totalPages,
+        };
     }
 
     public virtual async Task Delete(TPrimaryKey id)

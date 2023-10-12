@@ -34,12 +34,7 @@ public interface IReadOnlyBasicRepository<TEntity> : IRepository
     Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate);
 
 
-    Task<List<TEntity>> GetPagedListAsync(
-        int skipCount,
-        int maxResultCount,
-        string sorting,
-        bool includeDetails = false,
-        CancellationToken cancellationToken = default);
+    Task<(List<TEntity>, int)> GetPagedListAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default);
 }
 
 public interface IReadOnlyBasicRepository<TEntity, TKey> : IReadOnlyBasicRepository<TEntity>
