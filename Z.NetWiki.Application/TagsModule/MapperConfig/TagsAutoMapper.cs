@@ -3,10 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using AutoMapper;
-using Z.Ddd.Common.Entities.Users;
-using Z.NetWiki.Application.ArticleModule.Dto;
-using Z.NetWiki.Application.UserModule.Dto;
+using Z.NetWiki.Application.TagsModule.Dto;
 using Z.NetWiki.Domain.ArticleModule;
+using Z.NetWiki.Domain.TagModule;
 
 namespace Z.NetWiki.Application.TagsModule.MapperConfig
 {
@@ -18,8 +17,8 @@ namespace Z.NetWiki.Application.TagsModule.MapperConfig
         /// <param name="configuration"></param>
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
-            //configuration.CreateMap<Article, CreateOrUpdateArticleInput>().ReverseMap();
-            //configuration.CreateMap<Article, AddArticleInput>().ReverseMap();
+            configuration.CreateMap<Tags, CreateOrUpdateTagInput>().ReverseMap();
+            configuration.CreateMap<Article, AddTagInput>().ReverseMap();
         }
     }
 }

@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using AutoMapper;
-using Z.Ddd.Common.Entities.Users;
 using Z.NetWiki.Application.ArticleModule.Dto;
-using Z.NetWiki.Application.UserModule.Dto;
 using Z.NetWiki.Domain.ArticleModule;
 
 namespace Z.NetWiki.Application.ArticleModule.MapperConfig
