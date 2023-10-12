@@ -15,7 +15,7 @@ using Z.NetWiki.Domain.CategoriesModule.DomainManager;
 using Z.NetWiki.Domain.Enum;
 using Z.NetWiki.Domain.SharedDto;
 
-namespace Z.NetWiki.Application.UserModule
+namespace Z.NetWiki.Application.ArticleModule
 {
     /// <summary>
     /// 文章管理

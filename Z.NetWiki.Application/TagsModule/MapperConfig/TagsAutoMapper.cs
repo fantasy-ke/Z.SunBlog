@@ -8,9 +8,9 @@ using Z.NetWiki.Application.ArticleModule.Dto;
 using Z.NetWiki.Application.UserModule.Dto;
 using Z.NetWiki.Domain.ArticleModule;
 
-namespace Z.NetWiki.Application.ArticleModule.MapperConfig
+namespace Z.NetWiki.Application.TagsModule.MapperConfig
 {
-    public static class ArticleAutoMapper
+    public static class TagsAutoMapper
     {
         /// <summary>
         /// 具体映射规则
@@ -18,8 +18,8 @@ namespace Z.NetWiki.Application.ArticleModule.MapperConfig
         /// <param name="configuration"></param>
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
-            configuration.CreateMap<Article, CreateOrUpdateArticleInput>().ReverseMap();
-            configuration.CreateMap<Article, AddArticleInput>().ReverseMap();
+            //configuration.CreateMap<Article, CreateOrUpdateArticleInput>().ReverseMap();
+            //configuration.CreateMap<Article, AddArticleInput>().ReverseMap();
         }
     }
 }
