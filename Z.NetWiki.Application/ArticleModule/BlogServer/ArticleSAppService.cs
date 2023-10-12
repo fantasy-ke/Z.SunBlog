@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
+using Z.NetWiki.Application.ArticleModule.BlogClient.Dto;
 using Z.NetWiki.Application.ArticleModule.BlogServer.Dto;
 using Z.NetWiki.Domain.ArticleCategoryModule;
 using Z.NetWiki.Domain.ArticleCategoryModule.DomainManager;
@@ -11,9 +12,12 @@ using Z.NetWiki.Domain.ArticleModule;
 using Z.NetWiki.Domain.ArticleModule.DomainManager;
 using Z.NetWiki.Domain.ArticleTagModule;
 using Z.NetWiki.Domain.ArticleTagModule.DomainManager;
+using Z.NetWiki.Domain.CategoriesModule;
 using Z.NetWiki.Domain.CategoriesModule.DomainManager;
 using Z.NetWiki.Domain.Enum;
 using Z.NetWiki.Domain.SharedDto;
+using Z.NetWiki.Domain.TagModule;
+using Z.NetWiki.Domain.TagsModule.DomainManager;
 
 namespace Z.NetWiki.Application.ArticleModule.BlogServer
 {
@@ -26,14 +30,16 @@ namespace Z.NetWiki.Application.ArticleModule.BlogServer
         private readonly IArticleTagManager _articleTagManager;
         private readonly IArticleCategoryManager _articleCategoryManager;
         private readonly ICategoriesManager _categoriesManager;
+        private readonly ITagsManager _tagsManager;
         public ArticleSAppService(
             IServiceProvider serviceProvider, IArticleDomainManager articleDomainManager,
-            IArticleTagManager articleTagManager, IArticleCategoryManager articleCategoryManager, ICategoriesManager categoriesManager) : base(serviceProvider)
+            IArticleTagManager articleTagManager, IArticleCategoryManager articleCategoryManager, ICategoriesManager categoriesManager, ITagsManager tagsManager) : base(serviceProvider)
         {
             _articleDomainManager = articleDomainManager;
             _articleTagManager = articleTagManager;
             _articleCategoryManager = articleCategoryManager;
             _categoriesManager = categoriesManager;
+            _tagsManager = tagsManager;
         }
 
         /// <summary>
@@ -67,9 +73,48 @@ namespace Z.NetWiki.Application.ArticleModule.BlogServer
         /// <param name="id"></param>
         /// <returns></returns>
 
-        public Task<ArticleDetailOutput> GetDetail([FromQuery] Guid id)
+        public async Task<ArticleDetailOutput> GetDetail([FromQuery] Guid id)
         {
-            throw new NotImplementedException();
+            var articles = await (from article in _articleDomainManager.QueryAsNoTracking
+                        .Where(x => x.Id == id)
+                                join ac in _articleCategoryManager.QueryAsNoTracking on
+                                article.Id equals ac.ArticleId into category
+                                from c in category.DefaultIfEmpty()
+
+                                join cg in _categoriesManager.QueryAsNoTracking.Where(x => x.Status == AvailabilityStatus.Enable) on
+                                c.CategoryId equals cg.Id
+
+                                select new ArticleDetailOutput
+                                {
+                                    Id = article.Id,
+                                    Title = article.Title,
+                                    Summary = article.Summary,
+                                    Cover = article.Cover,
+                                    Status = article.Status,
+                                    Link = article.Link,
+                                    IsTop = article.IsTop,
+                                    Sort = article.Sort,
+                                    Author = article.Author,
+                                    Content = article.Content,
+                                    IsAllowComments = article.IsAllowComments,
+                                    IsHtml = article.IsHtml,
+                                    CreationType = article.CreationType,
+                                    CategoryId = c.Id,
+                                    ExpiredTime = article.ExpiredTime,
+                                    PublishTime = article.PublishTime,
+                                }).FirstOrDefaultAsync();
+
+            var tagsList = await(from t in _tagsManager.QueryAsNoTracking.Where(p => p.Status == AvailabilityStatus.Enable)
+                                 join at in _articleTagManager.QueryAsNoTracking.Where(p => p.ArticleId == id)
+                                 on t.Id equals at.TagId
+                                 select t.Id).ToListAsync();
+
+
+
+            articles!.Tags = tagsList;
+
+
+            return articles;
         }
 
         /// <summary>
