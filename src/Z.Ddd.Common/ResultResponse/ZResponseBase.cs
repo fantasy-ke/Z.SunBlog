@@ -16,5 +16,7 @@ namespace Z.Ddd.Common.ResultResponse
         public bool UnAuthorizedRequest { get; set; }
 
         public int StatusCode { get; set; }
+
+        public object Extras { get; set; }
     }
 }

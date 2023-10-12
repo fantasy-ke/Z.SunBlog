@@ -22,7 +22,7 @@ using Z.NetWiki.Domain.TagsModule.DomainManager;
 namespace Z.NetWiki.Application.ArticleModule.BlogServer
 {
     /// <summary>
-    /// 文章后台管理
+    /// 文章前台管理
     /// </summary>
     public class ArticleCAppService : ApplicationService, IArticleCAppService
     {
