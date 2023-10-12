@@ -39,7 +39,8 @@ public class NetWikiHostModule : ZModule
         context.Services
                 .AddMvc()
                 .AddRazorPagesOptions(options => { })
-                .AddRazorRuntimeCompilation();
+                .AddRazorRuntimeCompilation()
+                .AddDynamicWebApi();
 
         ServicesJwtToken(context.Services);
 
@@ -114,6 +115,8 @@ public class NetWikiHostModule : ZModule
     /// <param name="services"></param>
     protected virtual void ServicesSwagger(IServiceCollection services)
     {
+
+
         services.AddSwaggerGen(options =>
         {
             //过滤器
@@ -137,9 +140,10 @@ public class NetWikiHostModule : ZModule
                     Url = new Uri("https://www.cnblogs.com/fantasy-ke/")
                 }
             });
-            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename), true);
-            options.OrderActionsBy(o => o.RelativePath);
+
+            var xmlList = Directory.GetFiles(AppContext.BaseDirectory, "*.xml").ToList();
+            xmlList.ForEach(xml => options.IncludeXmlComments(xml, true));
+            options.OrderActionsBy(o => o.GroupName);
             //options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
             //{
             //    Description = "JWT授权(数据将在请求头中进行传输) 直接在下框中输入Bearer {token}（注意两者之间是一个空格）\"",
