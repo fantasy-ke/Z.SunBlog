@@ -1,11 +1,9 @@
 ﻿using Z.Ddd.Application;
 using Z.Ddd.Common.AutoMapper;
-using Z.Ddd.Common.Entities.Users;
 using Z.Module;
 using Z.Module.Modules;
-using Z.NetWiki.Application.UserModule.Dto;
+using Z.NetWiki.Application.ArticleModule.MapperConfig;
 using Z.NetWiki.Application.UserModule.MapperConfig;
-using Z.NetWiki.Common;
 using Z.NetWiki.Domain;
 
 namespace Z.NetWiki.Application
