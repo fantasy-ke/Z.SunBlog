@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Z.EntityFrameworkCore;
 using Z.EntityFrameworkCore.Attributes;
 using Z.EntityFrameworkCore.Options;
-using Z.Module.DependencyInjection;
+using Z.NetWiki.Domain.ArticleCategoryModule;
+using Z.NetWiki.Domain.ArticleModule;
+using Z.NetWiki.Domain.ArticleTagModule;
+using Z.NetWiki.Domain.CategoriesModule;
 using Z.NetWiki.EntityFrameworkCore.ConfigureExtensions;
 
 namespace Z.NetWiki.EntityFrameworkCore
@@ -26,5 +24,11 @@ namespace Z.NetWiki.EntityFrameworkCore
             base.OnModelCreating(modelBuilder);
             modelBuilder.ConfigureModel();
         }
+
+        public virtual DbSet<Article> Article { get; set; }
+        public virtual DbSet<ArticleTag> ArticleTag { get; set; }
+        public virtual DbSet<ArticleCategory> ArticleCategory { get; set; }
+        public virtual DbSet<Categories> Categories { get; set; }
+
     }
 }
