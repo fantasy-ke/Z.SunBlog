@@ -16,7 +16,7 @@ namespace Z.NetWiki.Domain.UserModule.DomainManager
         {
         }
 
-        public override async Task ValidateNdoOnCreateOrUpdate(ZUserInfo entity)
+        public override async Task ValidateOnCreateOrUpdate(ZUserInfo entity)
         {
             var count = await Query
                 .Where(a => a.UserName == entity.UserName && a.Id != entity.Id).CountAsync();
