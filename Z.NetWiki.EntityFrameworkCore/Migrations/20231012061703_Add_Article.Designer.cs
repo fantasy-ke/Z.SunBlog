@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Z.NetWiki.EntityFrameworkCore;
 
@@ -11,9 +12,11 @@ using Z.NetWiki.EntityFrameworkCore;
 namespace Z.NetWiki.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(NetWikiDbContext))]
-    partial class NetWikiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231012061703_Add_Article")]
+    partial class Add_Article
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
