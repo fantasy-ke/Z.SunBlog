@@ -17,5 +17,5 @@ public class Praise:FullAuditedEntity<Guid>
     /// <summary>
     /// 点赞对象ID
     /// </summary>
-    public long ObjectId { get; set; }
+    public Guid ObjectId { get; set; }
 }
