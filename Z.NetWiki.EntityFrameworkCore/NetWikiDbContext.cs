@@ -6,6 +6,7 @@ using Z.NetWiki.Domain.ArticleCategoryModule;
 using Z.NetWiki.Domain.ArticleModule;
 using Z.NetWiki.Domain.ArticleTagModule;
 using Z.NetWiki.Domain.CategoriesModule;
+using Z.NetWiki.Domain.TagModule;
 using Z.NetWiki.EntityFrameworkCore.ConfigureExtensions;
 
 namespace Z.NetWiki.EntityFrameworkCore
@@ -29,6 +30,7 @@ namespace Z.NetWiki.EntityFrameworkCore
         public virtual DbSet<ArticleTag> ArticleTag { get; set; }
         public virtual DbSet<ArticleCategory> ArticleCategory { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<Tags> Tags { get; set; }
 
     }
 }
