@@ -1,15 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Z.Ddd.Common.DomainServiceRegister;
-using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.ResultResponse;
-using Z.NetWiki.Application.ArticleModule.Dto;
 using Z.NetWiki.Application.TagsModule.Dto;
-using Z.NetWiki.Application.UserModule.Dto;
 using Z.NetWiki.Domain.SharedDto;
 
 namespace Z.NetWiki.Application.TagsModule
