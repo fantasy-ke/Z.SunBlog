@@ -8,6 +8,7 @@ using Z.Ddd.Common.DomainServiceRegister.Domain;
 using Z.Ddd.Common.Entities.Repositories;
 using Z.Ddd.Common.Entities;
 using Z.Module.DependencyInjection;
+using Z.Ddd.Common.ResultResponse;
 
 namespace Z.Ddd.Common.DomainServiceRegister;
 
@@ -58,6 +59,9 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //   createAndGetId:
     //     是否获取id
     Task Create(IEnumerable<TEntity> entities);
+
+
+    Task<PageResult<TEntity>> ToPagedListAsync(IPagination input);
 
     //
     // 摘要:
