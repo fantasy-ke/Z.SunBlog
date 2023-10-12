@@ -3,13 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using AutoMapper;
-using Z.NetWiki.Application.TagsModule.Dto;
+using Z.NetWiki.Application.ArticleModule.BlogServer.Dto;
 using Z.NetWiki.Domain.ArticleModule;
-using Z.NetWiki.Domain.TagModule;
 
-namespace Z.NetWiki.Application.TagsModule.MapperConfig
+namespace Z.NetWiki.Application.ArticleModule.BlogServer.MapperConfig
 {
-    public static class TagsAutoMapper
+    public static class ArticleSAutoMapper
     {
         /// <summary>
         /// 具体映射规则
@@ -17,8 +16,8 @@ namespace Z.NetWiki.Application.TagsModule.MapperConfig
         /// <param name="configuration"></param>
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
-            configuration.CreateMap<Tags, CreateOrUpdateTagInput>().ReverseMap();
-            configuration.CreateMap<Article, AddTagInput>().ReverseMap();
+            configuration.CreateMap<Article, CreateOrUpdateArticleInput>().ReverseMap();
+            configuration.CreateMap<Article, AddArticleInput>().ReverseMap();
         }
     }
 }

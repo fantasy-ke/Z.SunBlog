@@ -1,4 +1,4 @@
-﻿namespace Z.NetWiki.Application.TagsModule.Dto;
+﻿namespace Z.NetWiki.Application.TagsModule.BlogServer.Dto;
 
 public class CreateOrUpdateTagInput : AddTagInput
 {
