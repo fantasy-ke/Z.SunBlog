@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +13,25 @@ namespace Z.Ddd.Common
     /// <summary>
     /// appsettings.json操作类
     /// </summary>
-    public class AppSettings
+    public static class AppSettings
     {
-        public static IConfiguration Configuration { get; set; }
+        public static IConfiguration Configuration;
+
+        /// <summary>
+        /// 根服务
+        /// </summary>
+        internal static IServiceProvider RootServices;
+
+        /// <summary>
+        /// 获取泛型主机环境
+        /// </summary>
+        internal static IHostEnvironment HostEnvironment;
+
+
+
         static string? contentPath { get; set; }
 
-        public AppSettings(string contentPath)
+        public static void ConfigurationBuilder(IServiceCollection serviceCollection, string contentPath)
         {
             string Path = "appsettings.json";
 
@@ -26,16 +42,15 @@ namespace Z.Ddd.Common
                 .SetBasePath(contentPath)
                 .Add(new JsonConfigurationSource
                 {
-                    Path = Path, Optional = false, ReloadOnChange = true
+                    Path = Path,
+                    Optional = false,
+                    ReloadOnChange = true
                 }) //这样的话，可以直接读目录里的json文件，而不是 bin 文件夹下的，所以不用修改复制属性
                 .Build();
-        }
 
-        public AppSettings(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+            RootServices = serviceCollection.BuildServiceProvider();
 
+        }
         /// <summary>
         /// 封装要操作的字符
         /// </summary>

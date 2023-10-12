@@ -7,7 +7,7 @@ public class ArticleOutput
     /// <summary>
     /// 文章ID
     /// </summary>
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     /// <summary>
     /// 标题
     /// </summary>
@@ -16,7 +16,7 @@ public class ArticleOutput
     /// <summary>
     /// 栏目ID
     /// </summary>
-    public long CategoryId { get; set; }
+    public Guid CategoryId { get; set; }
     /// <summary>
     /// 栏目名称
     /// </summary>

@@ -16,7 +16,7 @@ namespace Z.NetWiki.Application.ArticleModule
 
         Task<List<CategoryOutput>> Categories();
 
-        Task<ArticleReportOutput> Report();
+        Task<ArticleReportOutput> ReportStatistics();
 
         Task<ArticleInfoOutput> Info([FromQuery] Guid id);
 

@@ -21,7 +21,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Logging.ClearProviders();
 
-builder.Services.AddSingleton(new AppSettings(AppContext.BaseDirectory));
+AppSettings.ConfigurationBuilder(builder.Services,AppContext.BaseDirectory);
 
 builder.Host.AddSerilogSetup();
 

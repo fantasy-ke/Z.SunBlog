@@ -4,8 +4,23 @@ using System.Text;
 
 namespace Z.Ddd.Common.Extensions;
 
-public static class HttpRequestExtension
+public static class HttpExtension
 {
+    /// <summary>
+    /// 规范化结果额外数据键
+    /// </summary>
+    internal static string UnifyResultExtrasKey = "UNIFY_RESULT_EXTRAS";
+    /// <summary>
+    /// 填充附加信息
+    /// </summary>
+    /// <param name="extras"></param>
+    public static void Fill(object extras)
+    {
+        var items = App.HttpContext?.Items;
+        if (items.ContainsKey(UnifyResultExtrasKey)) items.Remove(UnifyResultExtrasKey);
+        items.Add(UnifyResultExtrasKey, extras);
+    }
+
     public static string GetRequestBody(this HttpRequest request)
     {
         if (!request.Body.CanRead)
