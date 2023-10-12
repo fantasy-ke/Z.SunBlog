@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
-using Z.NetWiki.Application.ArticleModule.Dto;
+using Z.NetWiki.Application.ArticleModule.BlogServer.Dto;
 using Z.NetWiki.Domain.ArticleCategoryModule;
 using Z.NetWiki.Domain.ArticleCategoryModule.DomainManager;
 using Z.NetWiki.Domain.ArticleModule;
@@ -15,18 +15,18 @@ using Z.NetWiki.Domain.CategoriesModule.DomainManager;
 using Z.NetWiki.Domain.Enum;
 using Z.NetWiki.Domain.SharedDto;
 
-namespace Z.NetWiki.Application.ArticleModule
+namespace Z.NetWiki.Application.ArticleModule.BlogServer
 {
     /// <summary>
-    /// 文章管理
+    /// 文章后台管理
     /// </summary>
-    public class ArticleAppService : ApplicationService, IArticleAppService
+    public class ArticleSAppService : ApplicationService, IArticleSAppService
     {
         private readonly IArticleDomainManager _articleDomainManager;
         private readonly IArticleTagManager _articleTagManager;
         private readonly IArticleCategoryManager _articleCategoryManager;
         private readonly ICategoriesManager _categoriesManager;
-        public ArticleAppService(
+        public ArticleSAppService(
             IServiceProvider serviceProvider, IArticleDomainManager articleDomainManager,
             IArticleTagManager articleTagManager, IArticleCategoryManager articleCategoryManager, ICategoriesManager categoriesManager) : base(serviceProvider)
         {
@@ -102,8 +102,8 @@ namespace Z.NetWiki.Application.ArticleModule
                 (c, ca) => new
                 {
                     categories = ca,
-                    article = c.article,
-                    articleCategory = c.articleCategory
+                    c.article,
+                    c.articleCategory
                 }
                 ).WhereIf(!string.IsNullOrWhiteSpace(dto.Title), p => p.article.Title.Contains(dto.Title) || p.article.Summary.Contains(dto.Title) || p.article.Content.Contains(dto.Title))
                 .WhereIf(categoryList.Any(), p => categoryList.Contains(p.articleCategory.CategoryId))
@@ -118,7 +118,6 @@ namespace Z.NetWiki.Application.ArticleModule
                        Sort = a.article.Sort,
                        Cover = a.article.Cover,
                        IsTop = a.article.IsTop,
-                       CreatedTime = a.article.CreatedTime,
                        CreationType = a.article.CreationType,
                        PublishTime = a.article.PublishTime,
                        Views = a.article.Views,

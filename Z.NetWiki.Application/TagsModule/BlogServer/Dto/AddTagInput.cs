@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Z.NetWiki.Domain.Enum;
 
-namespace Z.NetWiki.Application.TagsModule.Dto;
+namespace Z.NetWiki.Application.TagsModule.BlogServer.Dto;
 
 public class AddTagInput
 {

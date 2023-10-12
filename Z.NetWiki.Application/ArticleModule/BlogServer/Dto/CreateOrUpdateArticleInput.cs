@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Z.NetWiki.Application.ArticleModule.Dto;
+namespace Z.NetWiki.Application.ArticleModule.BlogServer.Dto;
 
 public class CreateOrUpdateArticleInput : AddArticleInput
 {

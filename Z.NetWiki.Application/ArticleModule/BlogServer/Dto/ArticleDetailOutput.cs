@@ -1,7 +1,7 @@
 ﻿using Z.NetWiki.Domain.ArticleModule;
 using Z.NetWiki.Domain.Enum;
 
-namespace Z.NetWiki.Application.ArticleModule.Dto;
+namespace Z.NetWiki.Application.ArticleModule.BlogServer.Dto;
 
 public class ArticleDetailOutput
 {

@@ -2,7 +2,7 @@
 using Z.Ddd.Common.AutoMapper;
 using Z.Module;
 using Z.Module.Modules;
-using Z.NetWiki.Application.ArticleModule.MapperConfig;
+using Z.NetWiki.Application.ArticleModule.BlogServer.MapperConfig;
 using Z.NetWiki.Application.UserModule.MapperConfig;
 using Z.NetWiki.Domain;
 
@@ -28,7 +28,7 @@ namespace Z.NetWiki.Application
                 options.Configurators.Add(ctx =>
                 {
                     UserAutoMapper.CreateMappings(ctx.MapperConfiguration);
-                    ArticleAutoMapper.CreateMappings(ctx.MapperConfiguration);
+                    ArticleSAutoMapper.CreateMappings(ctx.MapperConfiguration);
                 });
             });
         }

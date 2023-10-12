@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Z.Ddd.Common.ResultResponse;
 
-namespace Z.NetWiki.Application.ArticleModule.Dto
+namespace Z.NetWiki.Application.ArticleModule.BlogServer.Dto
 {
     public class ArticlePageQueryInput : Pagination
     {

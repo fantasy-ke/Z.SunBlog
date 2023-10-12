@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
-using Z.NetWiki.Application.TagsModule.Dto;
+using Z.NetWiki.Application.TagsModule.BlogServer.Dto;
 using Z.NetWiki.Domain.Enum;
 using Z.NetWiki.Domain.SharedDto;
 using Z.NetWiki.Domain.TagModule;
 using Z.NetWiki.Domain.TagsModule.DomainManager;
 
-namespace Z.NetWiki.Application.TagsModule
+namespace Z.NetWiki.Application.TagsModule.BlogServer
 {
     /// <summary>
     /// 标签管理
@@ -73,7 +73,7 @@ namespace Z.NetWiki.Application.TagsModule
         /// <returns></returns>
         public async Task<PageResult<TagsPageOutput>> GetPage([FromQuery] TagsPageQueryInput dto)
         {
-            
+
             var query = await _tagsManager.QueryAsNoTracking
             .WhereIf(!string.IsNullOrWhiteSpace(dto.Name), x => x.Name.Contains(dto.Name))
             .OrderBy(x => x.Sort)
@@ -101,7 +101,7 @@ namespace Z.NetWiki.Application.TagsModule
         {
             var tags = ObjectMapper.Map<Tags>(dto);
             tags.Id = Guid.NewGuid();
-            
+
             await _tagsManager.Create(tags);
         }
 

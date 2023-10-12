@@ -1,6 +1,6 @@
 ﻿using Z.Ddd.Common.ResultResponse;
 
-namespace Z.NetWiki.Application.TagsModule.Dto;
+namespace Z.NetWiki.Application.TagsModule.BlogServer.Dto;
 
 public class TagsPageQueryInput : Pagination
 {

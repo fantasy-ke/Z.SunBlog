@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
-using Z.NetWiki.Application.ArticleModule.Dto;
+using Z.NetWiki.Application.ArticleModule.BlogServer.Dto;
 using Z.NetWiki.Domain.SharedDto;
 
-namespace Z.NetWiki.Application.ArticleModule
+namespace Z.NetWiki.Application.ArticleModule.BlogServer
 {
     /// <summary>
     /// 文章管理
     /// </summary>
-    public interface IArticleAppService : IApplicationService
+    public interface IArticleSAppService : IApplicationService
     {
         /// <summary>
         /// 删除
