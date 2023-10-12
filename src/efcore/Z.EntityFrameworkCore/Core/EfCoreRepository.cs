@@ -1,5 +1,6 @@
 ﻿using Cuemon;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Z.Ddd.Common.Entities;
 using Z.Ddd.Common.Entities.Repositories;
+using Z.Ddd.Common.ResultResponse;
 using Z.Module.DependencyInjection;
 
 namespace Z.EntityFrameworkCore.Core;
@@ -123,6 +125,7 @@ public abstract class EfCoreRepository<TDbContext, TEntity> : IBasicRepository<T
         return Task.CompletedTask;
     }
 
+
     public async Task<TEntity> UpdateAsync(TEntity entity)
     {
         DbSet.Update(entity);
@@ -146,9 +149,10 @@ public abstract class EfCoreRepository<TDbContext, TEntity> : IBasicRepository<T
         throw new NotImplementedException();
     }
 
-    public Task<List<TEntity>> GetPagedListAsync(int skipCount, int maxResultCount, string sorting, bool includeDetails = false, CancellationToken cancellationToken = default)
+    public async Task<(List<TEntity>, int)> GetPagedListAsync(int pageNumber,int pageSize, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        List<TEntity> list = await DbSet.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+        return (list, await DbSet.CountAsync());
     }
 
     public async Task DeleteAsync(Expression<Func<TEntity, bool>> predicate)
