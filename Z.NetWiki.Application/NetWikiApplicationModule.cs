@@ -30,6 +30,7 @@ namespace Z.NetWiki.Application
                 options.Configurators.Add(ctx =>
                 {
                     UserAutoMapper.CreateMappings(ctx.MapperConfiguration);
+                    ArticleAutoMapper.CreateMappings(ctx.MapperConfiguration);
                 });
             });
         }
