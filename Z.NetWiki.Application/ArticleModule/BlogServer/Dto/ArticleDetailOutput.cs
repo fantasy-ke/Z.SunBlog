@@ -8,7 +8,7 @@ public class ArticleDetailOutput
     /// <summary>
     /// 文章ID
     /// </summary>
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     /// <summary>
     /// 标题
     /// </summary>
@@ -67,12 +67,12 @@ public class ArticleDetailOutput
     /// <summary>
     /// 标签
     /// </summary>
-    public List<long> Tags { get; set; }
+    public List<Guid> Tags { get; set; }
 
     /// <summary>
     /// 栏目ID
     /// </summary>
-    public long? CategoryId { get; set; }
+    public Guid? CategoryId { get; set; }
 
     /// <summary>
     /// 发布时间
