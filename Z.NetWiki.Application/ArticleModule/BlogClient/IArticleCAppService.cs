@@ -10,7 +10,7 @@ namespace Z.NetWiki.Application.ArticleModule.BlogClient
     /// </summary>
     public interface IArticleCAppService : IApplicationService
     {
-        Task<PageResult<ArticleOutput>> GetList([FromQuery] ArticleListQueryInput dto);
+        Task<PageResult<ArticleOutput>> GetList([FromBody] ArticleListQueryInput dto);
 
         Task<List<TagsOutput>> Tags();
 

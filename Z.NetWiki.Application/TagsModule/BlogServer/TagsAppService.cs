@@ -72,7 +72,7 @@ namespace Z.NetWiki.Application.TagsModule.BlogServer
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResult<TagsPageOutput>> GetPage([FromQuery] TagsPageQueryInput dto)
+        public async Task<PageResult<TagsPageOutput>> GetPage([FromBody] TagsPageQueryInput dto)
         {
 
             var query = await _tagsManager.QueryAsNoTracking
@@ -86,7 +86,7 @@ namespace Z.NetWiki.Application.TagsModule.BlogServer
                 Status = x.Status,
                 Sort = x.Sort,
                 Cover = x.Cover,
-                CreatedTime = x.CreatedTime,
+                CreatedTime = x.CreationTime,
                 Color = x.Color
             }).ToPagedListAsync(dto);
 

@@ -124,7 +124,7 @@ namespace Z.NetWiki.Application.ArticleModule.BlogServer
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResult<ArticlePageOutput>> GetPage([FromQuery] ArticlePageQueryInput dto)
+        public async Task<PageResult<ArticlePageOutput>> GetPage([FromBody] ArticlePageQueryInput dto)
         {
             List<Guid> categoryList = new();
             if (dto.CategoryId.HasValue)
