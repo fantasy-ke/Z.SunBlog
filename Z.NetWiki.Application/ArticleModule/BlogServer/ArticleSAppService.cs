@@ -62,6 +62,7 @@ namespace Z.NetWiki.Application.ArticleModule.BlogServer
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
+        [HttpPost]
         public async Task DeleteAsync(KeyDto dto)
         {
             await _articleDomainManager.Delete(dto.Id);
@@ -122,6 +123,7 @@ namespace Z.NetWiki.Application.ArticleModule.BlogServer
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
+        [HttpPost]
         public async Task<PageResult<ArticlePageOutput>> GetPage([FromQuery] ArticlePageQueryInput dto)
         {
             List<Guid> categoryList = new();

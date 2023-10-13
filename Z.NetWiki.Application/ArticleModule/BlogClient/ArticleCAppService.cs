@@ -81,7 +81,7 @@ namespace Z.NetWiki.Application.ArticleModule.BlogClient
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         public async Task<PageResult<ArticleOutput>> GetList([FromQuery] ArticleListQueryInput dto)
         {
             if (dto.TagId.HasValue)
