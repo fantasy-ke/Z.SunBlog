@@ -9,17 +9,14 @@ using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
 using Z.NetWiki.Application.ArticleModule.BlogClient.Dto;
 using Z.NetWiki.Domain.ArticleCategoryModule.DomainManager;
-using Z.NetWiki.Domain.ArticleModule;
 using Z.NetWiki.Domain.ArticleModule.DomainManager;
-using Z.NetWiki.Domain.ArticleTagModule;
 using Z.NetWiki.Domain.ArticleTagModule.DomainManager;
 using Z.NetWiki.Domain.CategoriesModule.DomainManager;
 using Z.NetWiki.Domain.Enum;
 using Z.NetWiki.Domain.PraiseModule.DomainManager;
-using Z.NetWiki.Domain.TagModule;
 using Z.NetWiki.Domain.TagsModule.DomainManager;
 
-namespace Z.NetWiki.Application.ArticleModule.BlogServer
+namespace Z.NetWiki.Application.ArticleModule.BlogClient
 {
     /// <summary>
     /// 文章前台管理

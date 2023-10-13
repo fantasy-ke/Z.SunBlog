@@ -3,7 +3,7 @@ using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.NetWiki.Application.ArticleModule.BlogClient.Dto;
 
-namespace Z.NetWiki.Application.ArticleModule
+namespace Z.NetWiki.Application.ArticleModule.BlogClient
 {
     /// <summary>
     /// 文章管理
