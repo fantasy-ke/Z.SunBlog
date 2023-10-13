@@ -5,6 +5,7 @@ using Z.Module.Modules;
 using Z.NetWiki.Application.AlbumsModule.BlogServer.MapperConfig;
 using Z.NetWiki.Application.ArticleModule.BlogServer.MapperConfig;
 using Z.NetWiki.Application.TagsModule.BlogServer.MapperConfig;
+using Z.NetWiki.Application.TalksModule.BlogServer.MapperConfig;
 using Z.NetWiki.Application.UserModule.MapperConfig;
 using Z.NetWiki.Domain;
 
@@ -33,6 +34,7 @@ namespace Z.NetWiki.Application
                     ArticleSAutoMapper.CreateMappings(ctx.MapperConfiguration);
                     AlbumsAutoMapper.CreateMappings(ctx.MapperConfiguration);
                     TagsAutoMapper.CreateMappings(ctx.MapperConfiguration);
+                    TalksAutoMapper.CreateMappings(ctx.MapperConfiguration);
                 });
             });
         }
