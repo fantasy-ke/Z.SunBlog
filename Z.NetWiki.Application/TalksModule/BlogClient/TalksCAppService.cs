@@ -21,7 +21,7 @@ using Z.NetWiki.Domain.TalksModule.DomainManager;
 namespace Z.NetWiki.Application.TalksModule.BlogClient
 {
     /// <summary>
-    /// 相册前台管理
+    /// 说说前台管理
     /// </summary>
     public class TalksCAppService : ApplicationService, ITalksCAppService
     {
@@ -71,7 +71,7 @@ namespace Z.NetWiki.Application.TalksModule.BlogClient
         }
 
         /// <summary>
-        /// 相册下的图片
+        /// 说说详情
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
