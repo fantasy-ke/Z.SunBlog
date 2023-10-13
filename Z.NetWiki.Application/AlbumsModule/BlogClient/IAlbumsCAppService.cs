@@ -10,7 +10,7 @@ namespace Z.NetWiki.Application.AlbumsModule.BlogClient
     /// </summary>
     public interface IAlbumsCAppService : IApplicationService
     {
-        Task<PageResult<AlbumsOutput>> GetList([FromQuery] Pagination dto);
+        Task<PageResult<AlbumsOutput>> GetList([FromBody] Pagination dto);
 
         Task<PageResult<PictureOutput>> Pictures([FromQuery] PicturesQueryInput dto);
     }

@@ -1,26 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
 using Z.NetWiki.Application.AlbumsModule.BlogServer.Dto;
-using Z.NetWiki.Application.ArticleModule.BlogClient.Dto;
-using Z.NetWiki.Application.ArticleModule.BlogServer.Dto;
 using Z.NetWiki.Domain.AlbumsModule;
 using Z.NetWiki.Domain.AlbumsModule.DomainManager;
-using Z.NetWiki.Domain.ArticleCategoryModule;
-using Z.NetWiki.Domain.ArticleCategoryModule.DomainManager;
-using Z.NetWiki.Domain.ArticleModule;
-using Z.NetWiki.Domain.ArticleModule.DomainManager;
-using Z.NetWiki.Domain.ArticleTagModule;
-using Z.NetWiki.Domain.ArticleTagModule.DomainManager;
-using Z.NetWiki.Domain.CategoriesModule;
-using Z.NetWiki.Domain.CategoriesModule.DomainManager;
-using Z.NetWiki.Domain.Enum;
-using Z.NetWiki.Domain.SharedDto;
-using Z.NetWiki.Domain.TagModule;
-using Z.NetWiki.Domain.TagsModule.DomainManager;
 
 namespace Z.NetWiki.Application.AlbumsModule.BlogServer
 {
@@ -57,7 +41,7 @@ namespace Z.NetWiki.Application.AlbumsModule.BlogServer
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResult<AlbumsPageOutput>> GetPage([FromQuery] AlbumsPageQueryInput dto)
+        public async Task<PageResult<AlbumsPageOutput>> GetPage([FromBody] AlbumsPageQueryInput dto)
         {
             return await _albumsManager.QueryAsNoTracking
             .WhereIf(!string.IsNullOrWhiteSpace(dto.Name), x => x.Name.Contains(dto.Name))
@@ -73,7 +57,7 @@ namespace Z.NetWiki.Application.AlbumsModule.BlogServer
                 Sort = x.Sort,
                 Remark = x.Remark,
                 Cover = x.Cover,
-                CreatedTime = x.CreatedTime
+                CreatedTime = x.CreationTime
             }).ToPagedListAsync(dto);
         }
 

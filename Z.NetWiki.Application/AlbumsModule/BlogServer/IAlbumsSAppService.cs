@@ -10,7 +10,7 @@ namespace Z.NetWiki.Application.AlbumsModule.BlogServer
     /// </summary>
     public interface IAlbumsSAppService : IApplicationService
     {
-        Task<PageResult<AlbumsPageOutput>> GetPage([FromQuery] AlbumsPageQueryInput dto);
+        Task<PageResult<AlbumsPageOutput>> GetPage([FromBody] AlbumsPageQueryInput dto);
 
         Task CreateOrUpdate(CreateOrUpdateAlbumsInput dto);
 

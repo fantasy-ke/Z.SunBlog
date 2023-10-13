@@ -34,7 +34,7 @@ namespace Z.NetWiki.Application.AlbumsModule.BlogClient
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResult<AlbumsOutput>> GetList([FromQuery] Pagination dto)
+        public async Task<PageResult<AlbumsOutput>> GetList([FromBody] Pagination dto)
         {
             return await _albumsManager.QueryAsNoTracking.Where(x => x.IsVisible && x.Status == AvailabilityStatus.Enable)
               .OrderBy(x => x.Sort)
@@ -45,7 +45,7 @@ namespace Z.NetWiki.Application.AlbumsModule.BlogClient
                   Name = x.Name,
                   Cover = x.Cover,
                   Remark = x.Remark,
-                  CreatedTime = x.CreatedTime
+                  CreatedTime = x.CreationTime
               }).ToPagedListAsync(dto);
         }
 
