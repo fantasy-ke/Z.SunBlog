@@ -32,7 +32,7 @@ using Z.NetWiki.Domain.TalksModule.DomainManager;
 namespace Z.NetWiki.Application.TalksModule.BlogServer
 {
     /// <summary>
-    /// 说说管理
+    /// 说说后台管理
     /// </summary>
     public class TalksSAppService : ApplicationService, ITalksSAppService
     {
