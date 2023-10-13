@@ -24,9 +24,4 @@ public class Pictures : FullAuditedEntity<Guid>
     /// </summary>
     [MaxLength(256)]
     public string? Remark { get; set; }
-
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    public DateTime CreatedTime { get; set; }
 }

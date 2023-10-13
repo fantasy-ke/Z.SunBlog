@@ -45,19 +45,4 @@ public class Tags : FullAuditedEntity<Guid>
     /// </summary>
     public string? Remark { get; set; }
 
-    /// <summary>
-    /// 创建人
-    /// </summary>
-    public long CreatedUserId { get; set; }
-
-    /// <summary>
-    /// 标记删除
-    /// </summary>
-    public bool DeleteMark { get; set; }
-
-    /// <summary>
-    /// 创建时间
-    /// </summary>
-    public DateTime CreatedTime { get; set; }
-
 }

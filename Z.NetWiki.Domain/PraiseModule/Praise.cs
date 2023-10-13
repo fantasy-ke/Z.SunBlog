@@ -12,7 +12,7 @@ public class Praise:FullAuditedEntity<Guid>
     /// <summary>
     /// 用户ID 
     /// </summary>
-    public Guid AccountId { get; set; }
+    public string AccountId { get; set; }
 
     /// <summary>
     /// 点赞对象ID
