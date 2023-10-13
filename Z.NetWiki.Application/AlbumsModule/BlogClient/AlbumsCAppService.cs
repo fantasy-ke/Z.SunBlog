@@ -1,0 +1,80 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
+using Z.Ddd.Common.DomainServiceRegister;
+using Z.Ddd.Common.Extensions;
+using Z.Ddd.Common.ResultResponse;
+using Z.EntityFrameworkCore.Extensions;
+using Z.NetWiki.Application.AlbumsModule.BlogClient.Dto;
+using Z.NetWiki.Domain.AlbumsModule.DomainManager;
+using Z.NetWiki.Domain.Enum;
+using Z.NetWiki.Domain.PicturesModule.DomainManager;
+
+namespace Z.NetWiki.Application.AlbumsModule.BlogClient
+{
+    /// <summary>
+    /// 相册管理
+    /// </summary>
+    public class AlbumsCAppService : ApplicationService, IAlbumsCAppService
+    {
+        private readonly IAlbumsManager _albumsManager;
+        private readonly IPicturesManager _picturesManager;
+        public AlbumsCAppService(
+            IServiceProvider serviceProvider,
+            IAlbumsManager albumsManager,
+            IPicturesManager picturesManager) : base(serviceProvider)
+        {
+            _albumsManager = albumsManager;
+            _picturesManager = picturesManager;
+        }
+
+        /// <summary>
+        /// 相册列表
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PageResult<AlbumsOutput>> GetList([FromQuery] Pagination dto)
+        {
+            return await _albumsManager.QueryAsNoTracking.Where(x => x.IsVisible && x.Status == AvailabilityStatus.Enable)
+              .OrderBy(x => x.Sort)
+              .OrderByDescending(x => x.Id)
+              .Select(x => new AlbumsOutput
+              {
+                  Id = x.Id,
+                  Name = x.Name,
+                  Cover = x.Cover,
+                  Remark = x.Remark,
+                  CreatedTime = x.CreatedTime
+              }).ToPagedListAsync(dto);
+        }
+
+        /// <summary>
+        /// 相册下的图片
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<PageResult<PictureOutput>> Pictures([FromQuery] PicturesQueryInput dto)
+        {
+            var album = await _albumsManager.QueryAsNoTracking.Where(x => x.Id == dto.AlbumId && x.IsVisible && x.Status == AvailabilityStatus.Enable).Select(x => new
+            {
+                x.Name,
+                x.Cover
+            }).FirstAsync();
+
+            HttpExtension.Fill(album);
+
+            return await _albumsManager.QueryAsNoTracking
+                .Where(albums => albums.IsVisible && albums.Status == AvailabilityStatus.Enable && albums.Id == dto.AlbumId)
+                .Join(_picturesManager.QueryAsNoTracking,
+                    a=>a.Id,
+                    p=>p.AlbumId,
+                    (a, p) => p
+                 )
+                 .OrderByDescending(c=>c.Id)
+                 .Select(pictures => new PictureOutput { Id = pictures.Id, Url = pictures.Url })
+                 .ToPagedListAsync(dto);
+        }
+    }
+
+
+}
