@@ -25,7 +25,7 @@ using Z.NetWiki.Domain.TagsModule.DomainManager;
 namespace Z.NetWiki.Application.AlbumsModule.BlogServer
 {
     /// <summary>
-    /// 相册管理
+    /// 相册后台管理
     /// </summary>
     public class AlbumsSAppService : ApplicationService, IAlbumsSAppService
     {
@@ -56,6 +56,7 @@ namespace Z.NetWiki.Application.AlbumsModule.BlogServer
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
+        [HttpPost]
         public async Task<PageResult<AlbumsPageOutput>> GetPage([FromQuery] AlbumsPageQueryInput dto)
         {
             return await _albumsManager.QueryAsNoTracking

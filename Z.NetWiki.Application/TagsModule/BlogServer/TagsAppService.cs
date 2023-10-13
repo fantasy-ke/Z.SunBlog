@@ -71,6 +71,7 @@ namespace Z.NetWiki.Application.TagsModule.BlogServer
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
+        [HttpPost]
         public async Task<PageResult<TagsPageOutput>> GetPage([FromQuery] TagsPageQueryInput dto)
         {
 

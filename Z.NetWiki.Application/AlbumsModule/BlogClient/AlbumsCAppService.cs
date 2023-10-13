@@ -13,7 +13,7 @@ using Z.NetWiki.Domain.PicturesModule.DomainManager;
 namespace Z.NetWiki.Application.AlbumsModule.BlogClient
 {
     /// <summary>
-    /// 相册管理
+    /// 相册前台管理
     /// </summary>
     public class AlbumsCAppService : ApplicationService, IAlbumsCAppService
     {
@@ -33,6 +33,7 @@ namespace Z.NetWiki.Application.AlbumsModule.BlogClient
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
+        [HttpPost]
         public async Task<PageResult<AlbumsOutput>> GetList([FromQuery] Pagination dto)
         {
             return await _albumsManager.QueryAsNoTracking.Where(x => x.IsVisible && x.Status == AvailabilityStatus.Enable)
