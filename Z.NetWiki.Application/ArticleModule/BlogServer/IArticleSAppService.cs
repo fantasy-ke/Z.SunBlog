@@ -38,7 +38,7 @@ namespace Z.NetWiki.Application.ArticleModule.BlogServer
         /// <param name="id"></param>
         /// <returns></returns>
 
-        Task<ArticleDetailOutput> GetDetail([FromQuery] Guid id);
+        Task<ArticleDetailOutput> GetDetail([FromBody] Guid id);
 
     }
 }

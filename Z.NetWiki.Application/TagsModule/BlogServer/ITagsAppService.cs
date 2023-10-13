@@ -23,7 +23,7 @@ namespace Z.NetWiki.Application.TagsModule.BlogServer
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task<PageResult<TagsPageOutput>> GetPage([FromQuery] TagsPageQueryInput dto);
+        Task<PageResult<TagsPageOutput>> GetPage([FromBody] TagsPageQueryInput dto);
 
         /// <summary>
         /// 创建修改
