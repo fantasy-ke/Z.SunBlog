@@ -2,10 +2,13 @@
 using Z.EntityFrameworkCore;
 using Z.EntityFrameworkCore.Attributes;
 using Z.EntityFrameworkCore.Options;
+using Z.NetWiki.Domain.AlbumsModule;
 using Z.NetWiki.Domain.ArticleCategoryModule;
 using Z.NetWiki.Domain.ArticleModule;
 using Z.NetWiki.Domain.ArticleTagModule;
 using Z.NetWiki.Domain.CategoriesModule;
+using Z.NetWiki.Domain.PicturesModule;
+using Z.NetWiki.Domain.PraiseModule;
 using Z.NetWiki.Domain.TagModule;
 using Z.NetWiki.EntityFrameworkCore.ConfigureExtensions;
 
@@ -31,6 +34,9 @@ namespace Z.NetWiki.EntityFrameworkCore
         public virtual DbSet<ArticleCategory> ArticleCategory { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<Tags> Tags { get; set; }
+        public virtual DbSet<Pictures> Pictures { get; set; }
+        public virtual DbSet<Praise> Praise { get; set; }
+        public virtual DbSet<Albums> Albums { get; set; }
 
     }
 }
