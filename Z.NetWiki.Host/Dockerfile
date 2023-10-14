@@ -11,7 +11,7 @@ COPY ["Z.NetWiki.Application/Z.NetWiki.Application.csproj", "Z.NetWiki.Applicati
 COPY ["src/Z.Ddd.Application/Z.Ddd.Application.csproj", "src/Z.Ddd.Application/"]
 COPY ["src/Z.Ddd.Common/Z.Ddd.Common.csproj", "src/Z.Ddd.Common/"]
 COPY ["src/Z.Module/Z.Module.csproj", "src/Z.Module/"]
-COPY ["Z.NetWiki.Domain/Z.NetWiki.Domain.csproj", "Z.NetWiki.Domain/"]
+COPY ["Z.NetWiki.Core/Z.NetWiki.Core.csproj", "Z.NetWiki.Core/"]
 COPY ["Z.NetWiki.Common/Z.NetWiki.Common.csproj", "Z.NetWiki.Common/"]
 COPY ["src/efcore/Z.EntityFrameworkCore.SqlServer/Z.EntityFrameworkCore.SqlServer.csproj", "src/efcore/Z.EntityFrameworkCore.SqlServer/"]
 COPY ["src/efcore/Z.EntityFrameworkCore/Z.EntityFrameworkCore.csproj", "src/efcore/Z.EntityFrameworkCore/"]

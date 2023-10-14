@@ -6,9 +6,9 @@ using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
 using Z.NetWiki.Application.AlbumsModule.BlogClient.Dto;
-using Z.NetWiki.Domain.AlbumsModule.DomainManager;
-using Z.NetWiki.Domain.Enum;
-using Z.NetWiki.Domain.PicturesModule.DomainManager;
+using Z.NetWiki.Core.AlbumsModule.DomainManager;
+using Z.NetWiki.Core.Enum;
+using Z.NetWiki.Core.PicturesModule.DomainManager;
 
 namespace Z.NetWiki.Application.AlbumsModule.BlogClient
 {

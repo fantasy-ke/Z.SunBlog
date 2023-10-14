@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\Z.Ddd.Application\Z.Ddd.Application.csproj" />
-    <ProjectReference Include="..\Z.NetWiki.Domain\Z.NetWiki.Domain.csproj" />
+    <ProjectReference Include="..\Z.NetWiki.Core\Z.NetWiki.Core.csproj" />
   </ItemGroup>
 
 </Project>

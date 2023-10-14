@@ -1,4 +1,4 @@
-﻿using Z.NetWiki.Domain.Enum;
+﻿using Z.NetWiki.Core.Enum;
 
 namespace Z.NetWiki.Application.TalksModule.BlogServer.Dto;
 

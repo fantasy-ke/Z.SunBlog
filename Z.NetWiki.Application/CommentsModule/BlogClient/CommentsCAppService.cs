@@ -8,12 +8,12 @@ using Z.Ddd.Common.ResultResponse;
 using Z.Ddd.Common.UserSession;
 using Z.EntityFrameworkCore.Extensions;
 using Z.NetWiki.Application.CommentsModule.BlogClient.Dto;
-using Z.NetWiki.Domain.AuthAccountModule.DomainManager;
-using Z.NetWiki.Domain.CommentsModule;
-using Z.NetWiki.Domain.CommentsModule.DomainManager;
-using Z.NetWiki.Domain.PraiseModule;
-using Z.NetWiki.Domain.PraiseModule.DomainManager;
-using Z.NetWiki.Domain.SharedDto;
+using Z.NetWiki.Core.AuthAccountModule.DomainManager;
+using Z.NetWiki.Core.CommentsModule;
+using Z.NetWiki.Core.CommentsModule.DomainManager;
+using Z.NetWiki.Core.PraiseModule;
+using Z.NetWiki.Core.PraiseModule.DomainManager;
+using Z.NetWiki.Core.SharedDto;
 
 namespace Z.NetWiki.Application.CommentsModule.BlogClient
 {

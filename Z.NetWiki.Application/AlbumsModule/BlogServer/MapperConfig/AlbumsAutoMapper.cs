@@ -4,7 +4,7 @@
 
 using AutoMapper;
 using Z.NetWiki.Application.AlbumsModule.BlogServer.Dto;
-using Z.NetWiki.Domain.AlbumsModule;
+using Z.NetWiki.Core.AlbumsModule;
 
 namespace Z.NetWiki.Application.AlbumsModule.BlogServer.MapperConfig
 {

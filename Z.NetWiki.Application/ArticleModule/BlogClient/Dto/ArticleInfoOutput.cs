@@ -1,4 +1,4 @@
-﻿using Z.NetWiki.Domain.ArticleModule;
+﻿using Z.NetWiki.Core.ArticleModule;
 
 namespace Z.NetWiki.Application.ArticleModule.BlogClient.Dto;
 

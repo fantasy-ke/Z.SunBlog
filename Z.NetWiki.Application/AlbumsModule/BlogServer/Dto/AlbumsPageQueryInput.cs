@@ -1,5 +1,5 @@
 ﻿using Z.Ddd.Common.ResultResponse;
-using Z.NetWiki.Domain.AlbumsModule;
+using Z.NetWiki.Core.AlbumsModule;
 
 namespace Z.NetWiki.Application.AlbumsModule.BlogServer.Dto;
 
