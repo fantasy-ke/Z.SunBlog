@@ -28,7 +28,8 @@ namespace Z.NetWiki.Application.TagsModule.BlogServer
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task CreateOrUpdate(CreateOrUpdateTagInput dto)
+        [HttpPost]
+        public async Task CreateOrUpdate([FromBody] CreateOrUpdateTagInput dto)
         {
             if (dto.Id != null && dto.Id != Guid.Empty)
             {
@@ -73,7 +74,7 @@ namespace Z.NetWiki.Application.TagsModule.BlogServer
         /// <returns></returns>
         [HttpPost]
         public async Task<PageResult<TagsPageOutput>> GetPage([FromBody] TagsPageQueryInput dto)
-        {
+       {
 
             var query = await _tagsManager.QueryAsNoTracking
             .WhereIf(!string.IsNullOrWhiteSpace(dto.Name), x => x.Name.Contains(dto.Name))

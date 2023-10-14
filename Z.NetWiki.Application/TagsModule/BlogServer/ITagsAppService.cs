@@ -30,7 +30,7 @@ namespace Z.NetWiki.Application.TagsModule.BlogServer
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        Task CreateOrUpdate(CreateOrUpdateTagInput dto);
+        Task CreateOrUpdate([FromBody] CreateOrUpdateTagInput dto);
 
         /// <summary>
         /// 文章标签下拉选项
