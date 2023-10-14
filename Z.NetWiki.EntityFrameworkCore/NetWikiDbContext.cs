@@ -6,10 +6,13 @@ using Z.NetWiki.Domain.AlbumsModule;
 using Z.NetWiki.Domain.ArticleCategoryModule;
 using Z.NetWiki.Domain.ArticleModule;
 using Z.NetWiki.Domain.ArticleTagModule;
+using Z.NetWiki.Domain.AuthAccountModule;
 using Z.NetWiki.Domain.CategoriesModule;
+using Z.NetWiki.Domain.CommentsModule;
 using Z.NetWiki.Domain.PicturesModule;
 using Z.NetWiki.Domain.PraiseModule;
 using Z.NetWiki.Domain.TagModule;
+using Z.NetWiki.Domain.TalksModule;
 using Z.NetWiki.EntityFrameworkCore.ConfigureExtensions;
 
 namespace Z.NetWiki.EntityFrameworkCore
@@ -37,6 +40,9 @@ namespace Z.NetWiki.EntityFrameworkCore
         public virtual DbSet<Pictures> Pictures { get; set; }
         public virtual DbSet<Praise> Praise { get; set; }
         public virtual DbSet<Albums> Albums { get; set; }
+        public virtual DbSet<Comments> Comments { get; set; }
+        public virtual DbSet<Talks> Talks { get; set; }
+        public virtual DbSet<AuthAccount> AuthAccount { get; set; }
 
     }
 }
