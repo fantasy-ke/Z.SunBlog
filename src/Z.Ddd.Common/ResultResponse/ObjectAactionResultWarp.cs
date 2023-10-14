@@ -29,12 +29,15 @@ public class ObjectAactionResultWarp : IActionResultWarp
             throw new UserFriendlyException("Action Result should be JsonResult!");
         }
 
+        var statusCode = context.HttpContext.Response.StatusCode;
+
         if (!(objectResult.Value is ZResponseBase))
         {
+            var isSuccess = statusCode == StatusCodes.Status200OK;
             var response = new ZEngineResponse();
-            response.Result = objectResult.Value;
-            response.StatusCode = StatusCodes.Status200OK;
-            response.Success = true;
+            if (isSuccess) { response.Result = objectResult.Value; } else { response.Error = new ErrorInfo { Message = objectResult.Value }; }
+            response.Success = isSuccess;
+            response.StatusCode = statusCode;
             response.Extras = HttpExtension.Take();
             objectResult.Value = response;
             objectResult.DeclaredType = typeof(ZEngineResponse);

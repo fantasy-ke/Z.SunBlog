@@ -28,8 +28,7 @@ namespace Z.NetWiki.Application.TagsModule.BlogServer
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [HttpPost]
-        public async Task CreateOrUpdate([FromBody] CreateOrUpdateTagInput dto)
+        public async Task CreateOrUpdate(CreateOrUpdateTagInput dto)
         {
             if (dto.Id != null && dto.Id != Guid.Empty)
             {

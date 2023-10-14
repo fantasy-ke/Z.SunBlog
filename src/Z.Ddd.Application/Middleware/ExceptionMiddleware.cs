@@ -53,8 +53,8 @@ public class ExceptionMiddleware
         Log.Error(logMsg);
         ZEngineResponse response = new ZEngineResponse(new ErrorInfo()
         {
-            Error = _environment.IsDevelopment() ? logMsg : exception.Message
-        });
+            Message = _environment.IsDevelopment() ? logMsg : exception.Message
+        }, false);
         response.Success = false;
         response.StatusCode = StatusCodes.Status500InternalServerError;
         await context.Response.WriteAsJsonAsync(response);

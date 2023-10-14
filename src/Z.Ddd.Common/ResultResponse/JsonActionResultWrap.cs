@@ -31,12 +31,15 @@ public class JsonActionResultWrap : IActionResultWarp
             throw new UserFriendlyException("Action Result should be JsonResult!");
         }
 
+        var statusCode = context.HttpContext.Response.StatusCode;
+
         if (!(jsonResult.Value is ZResponseBase))
         {
+            var isSuccess = statusCode == StatusCodes.Status200OK;
             var response = new ZEngineResponse();
-            response.Result = jsonResult.Value;
-            response.Success = true;
-            response.StatusCode = StatusCodes.Status200OK;
+            if (isSuccess) { response.Result = jsonResult.Value; }else { response.Error = new ErrorInfo { Message = jsonResult.Value }; }
+            response.Success = isSuccess;
+            response.StatusCode = statusCode; 
             response.Extras = HttpExtension.Take();
             jsonResult.Value = response;
         }
