@@ -18,7 +18,7 @@ namespace Z.Ddd.Common.Authorization
                 context!.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 var response = new ZEngineResponse(new ErrorInfo
                 {
-                    Error = isLogin ? reason?.Message : "请先登录系统"
+                    Message = isLogin ? reason?.Message : "请先登录系统"
                 }, true);
                 response.StatusCode = StatusCodes.Status401Unauthorized;
 

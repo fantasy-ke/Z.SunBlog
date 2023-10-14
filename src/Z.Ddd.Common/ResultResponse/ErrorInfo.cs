@@ -8,11 +8,11 @@ namespace Z.Ddd.Common.ResultResponse
 {
     public class ErrorInfo
     {
-        public string? Error { get; set; }
+        public object? Message { get; set; }
 
         public ErrorInfo(string error)
         {
-            Error = error;
+            Message = error;
         }
 
         public ErrorInfo() { }

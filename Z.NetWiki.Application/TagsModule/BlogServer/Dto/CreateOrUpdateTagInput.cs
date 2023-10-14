@@ -28,13 +28,13 @@ public class CreateOrUpdateTagInput// : AddTagInput
     /// <summary>
     /// 标签颜色
     /// </summary>
-    [MaxLength(64)]
+    [MaxLength(64, ErrorMessage = "标签颜色超过最大长度")]
     public string Color { get; set; }
 
     /// <summary>
     /// 标签图标
     /// </summary>
-    [MaxLength(32)]
+    [MaxLength(32, ErrorMessage = "标签图标超过最大长度")]
     public string Icon { get; set; }
 
     /// <summary>
@@ -51,6 +51,6 @@ public class CreateOrUpdateTagInput// : AddTagInput
     /// <summary>
     /// 备注
     /// </summary>
-    [MaxLength(200, ErrorMessage = "备注限制200个字符内")]
-    public string Remark { get; set; }
+    [MaxLength(200,ErrorMessage ="备注超过最大长度")]
+    public string? Remark { get; set; }
 }
