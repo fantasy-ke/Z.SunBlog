@@ -64,7 +64,15 @@ namespace Z.NetWiki.Application.CommentsModule.BlogClient
         {
             var praiseList = _praiseManager.QueryAsNoTracking;
             string userId = _userSession.UserId;
-            var result = await _commentsManager.QueryAsNoTracking.LeftJoin(_authAccountDomainManager.QueryAsNoTracking, c => c.AccountId, au => au.Id, (c, au) => new { comment = c, auth = au })
+            var result = await _commentsManager.QueryAsNoTracking
+                .GroupJoin(_authAccountDomainManager.QueryAsNoTracking,
+                c => c.AccountId, au => au.Id,
+                (c, au) => new { comment = c, auth = au })
+                .SelectMany(a => a.auth.DefaultIfEmpty(), (m, n) => new
+                {
+                    comment = m.comment,
+                    auth = n
+                })
                 .Where(c => c.comment.ModuleId == dto.Id && c.comment.RootId == null) //排除回复的评论
                 .OrderByDescending(c => c.comment.Id)
                 .Select(c => new CommentOutput
@@ -125,8 +133,25 @@ namespace Z.NetWiki.Application.CommentsModule.BlogClient
         public async Task<PageResult<ReplyOutput>> ReplyList([FromBody] CommentPageQueryInput dto)
         {
             string userId = _userSession.UserId;
-            return await _commentsManager.QueryAsNoTracking.LeftJoin(_authAccountDomainManager.QueryAsNoTracking, c => c.AccountId, au => au.Id, (c, au) => new { comment = c, auth = au })
-                  .LeftJoin(_authAccountDomainManager.QueryAsNoTracking,c=>c.comment.ReplyAccountId,au1=>au1.Id,(c, a1) => new { comAuth =c , auth1 = a1 })
+            return await _commentsManager.QueryAsNoTracking
+                    .GroupJoin(_authAccountDomainManager.QueryAsNoTracking,
+                    c => c.AccountId,
+                    au => au.Id,
+                    (c, au) => new { comment = c, auth = au })
+                    .SelectMany(a => a.auth.DefaultIfEmpty(), (m, n) => new
+                    {
+                        comment = m.comment,
+                        auth = n
+                    })
+                    .GroupJoin(_authAccountDomainManager.QueryAsNoTracking,
+                    c => c.comment.ReplyAccountId,
+                    au1 => au1.Id,
+                    (c, a1) => new { comAuth = c, auth1 = a1 })
+                    .SelectMany(a => a.auth1.DefaultIfEmpty(), (m, n) => new
+                    {
+                        comAuth = m.comAuth,
+                        auth1 = n
+                    })
                   .Where(c => c.comAuth.comment.RootId == dto.Id)
                   .OrderBy(c => c.comAuth.comment.Id)
                   .Select(c => new ReplyOutput

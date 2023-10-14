@@ -50,16 +50,27 @@ namespace Z.NetWiki.Application.ArticleModule.BlogClient
         {
             var queryable = _articleDomainManager.QueryAsNoTracking.Where(a => a.Status == AvailabilityStatus.Enable && a.PublishTime <= DateTime.Now && (a.ExpiredTime == null || DateTime.Now < a.ExpiredTime));
 
-            return await _categoriesManager.QueryAsNoTracking.LeftJoin(
+            return await _categoriesManager.QueryAsNoTracking.GroupJoin(
                 _articleCategoryManager.QueryAsNoTracking,
                 c => c.Id,
                 ac => ac.CategoryId,
                 (c, ac) => new { categories = c, articleCate = ac })
-                .LeftJoin(
+                .SelectMany(a => a.articleCate.DefaultIfEmpty(), (m, n) => new
+                {
+                    articleCate = n,
+                    categories = m
+                })
+                .GroupJoin(
                 queryable,
-                ac => ac.articleCate.Id,
+                ac => ac.articleCate.ArticleId,
                 qa => qa.Id,
-                (c, qa) => new { categories = c.categories, articleCate = c.articleCate, queryable = qa })
+                (c, qa) => new { categories = c.categories.categories, articleCate = c.articleCate, queryable = qa })
+                .SelectMany(a => a.queryable.DefaultIfEmpty(), (m, n) => new
+                {
+                    articleCate = m.articleCate,
+                    categories = m.categories,
+                    queryable =n
+                })
                 .Where(c => c.categories.Status == AvailabilityStatus.Enable)
                 .GroupBy(c => new { c.categories.Id, c.categories.ParentId, c.categories.Name, c.categories.Sort })
                   .Select(c => new CategoryOutput
@@ -95,42 +106,45 @@ namespace Z.NetWiki.Application.ArticleModule.BlogClient
                 var category = await _categoriesManager.QueryAsNoTracking.Where(x => x.Id == dto.CategoryId && x.Status == AvailabilityStatus.Enable).Select(x => new { x.Name, x.Cover }).FirstAsync();
                 HttpExtension.Fill(new { category.Name, category.Cover });
             }
-            return  await (from a in _articleDomainManager.QueryAsNoTracking
+
+            var query = from a in _articleDomainManager.QueryAsNoTracking
                         .Where(x => (x.Id == dto.TagId && x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable) || (x.ExpiredTime == null || x.ExpiredTime > DateTime.Now))
                         .WhereIf(!string.IsNullOrWhiteSpace(dto.Keyword), article => article.Title.Contains(dto.Keyword) || article.Summary.Contains(dto.Keyword) || article.Content.Contains(dto.Keyword))
-                    join ac in _articleCategoryManager.QueryAsNoTracking.WhereIf(dto.CategoryId.HasValue, ac => ac.CategoryId == dto.CategoryId) on
-                          a.Id equals ac.ArticleId into category
-                          from c in category.DefaultIfEmpty()
+                        join ac in _articleCategoryManager.QueryAsNoTracking.WhereIf(dto.CategoryId.HasValue, ac => ac.CategoryId == dto.CategoryId) on
+                              a.Id equals ac.ArticleId into category
+                        from c in category.DefaultIfEmpty()
 
-                    join cg in _categoriesManager.QueryAsNoTracking.Where(x => x.Status == AvailabilityStatus.Enable) on
-                    c.CategoryId equals cg.Id
-                    orderby a.IsTop descending
-                    orderby a.Sort
-                    orderby a.PublishTime
+                        join cg in _categoriesManager.QueryAsNoTracking.Where(x => x.Status == AvailabilityStatus.Enable) on
+                        c.CategoryId equals cg.Id
+                        orderby a.IsTop descending
+                        orderby a.Sort
+                        orderby a.PublishTime
 
-                    select new ArticleOutput
-                    {
-                        Id = a.Id,
-                        Title = a.Title,
-                        CategoryId = cg.Id,
-                        CategoryName = cg.Name,
-                        IsTop = a.IsTop,
-                        CreationType = a.CreationType,
-                        Summary = a.Summary,
-                        Cover = a.Cover,
-                        PublishTime = a.PublishTime,
-                        Tags = _tagsManager.QueryAsNoTracking.Where(p=>p.Status == AvailabilityStatus.Enable)
-                        .Join(_articleTagManager.QueryAsNoTracking.Where(p=>p.ArticleId == a.Id),
-                        t => t.Id, at => at.TagId, 
-                        (t, at) => new { tags = t, articleTag = at })
-                        .Select(p=> new TagsOutput
+                        select new ArticleOutput
                         {
-                            Id = p.tags.Id,
-                            Name = p.tags.Name,
-                            Color = p.tags.Color,
-                            Icon = p.tags.Icon
-                        }).ToList()
-                    }).ToPagedListAsync(dto);
+                            Id = a.Id,
+                            Title = a.Title,
+                            CategoryId = cg.Id,
+                            CategoryName = cg.Name,
+                            IsTop = a.IsTop,
+                            CreationType = a.CreationType,
+                            Summary = a.Summary,
+                            Cover = a.Cover,
+                            PublishTime = a.PublishTime,
+                            Tags = _tagsManager.QueryAsNoTracking.Where(p => p.Status == AvailabilityStatus.Enable)
+                            .Join(_articleTagManager.QueryAsNoTracking.Where(p => p.ArticleId == a.Id),
+                            t => t.Id, at => at.TagId,
+                            (t, at) => new { tags = t, articleTag = at })
+                            .Select(p => new TagsOutput
+                            {
+                                Id = p.tags.Id,
+                                Name = p.tags.Name,
+                                Color = p.tags.Color,
+                                Icon = p.tags.Icon
+                            }).ToList()
+                        };
+
+            return  await query.ToPagedListAsync(dto);
         }
 
         /// <summary>
