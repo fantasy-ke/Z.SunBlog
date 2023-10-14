@@ -7,15 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.Module", "src\Z.Module\Z.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.EntityFrameworkCore", "src\efcore\Z.EntityFrameworkCore\Z.EntityFrameworkCore.csproj", "{903962D0-55E8-4A49-9520-1E9D4D695297}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.NetWiki.Application", "Z.NetWiki.Application\Z.NetWiki.Application.csproj", "{42946947-7DE7-402C-AB3B-DB859429AB6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.SunBlog.Application", "Z.SunBlog.Application\Z.SunBlog.Application.csproj", "{42946947-7DE7-402C-AB3B-DB859429AB6A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.NetWiki.Core", "Z.NetWiki.Core\Z.NetWiki.Core.csproj", "{4AC9E47D-B621-43D2-B5C5-DF5865CEE7E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.SunBlog.Core", "Z.SunBlog.Core\Z.SunBlog.Core.csproj", "{4AC9E47D-B621-43D2-B5C5-DF5865CEE7E5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.NetWiki.Common", "Z.NetWiki.Common\Z.NetWiki.Common.csproj", "{068A6CBE-335D-43AF-8BB3-56B986B35D1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.SunBlog.Common", "Z.SunBlog.Common\Z.SunBlog.Common.csproj", "{068A6CBE-335D-43AF-8BB3-56B986B35D1C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.NetWiki.Host", "Z.NetWiki.Host\Z.NetWiki.Host.csproj", "{295F7676-0E99-441D-9A84-3CB19DC608FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.SunBlog.Host", "Z.SunBlog.Host\Z.SunBlog.Host.csproj", "{295F7676-0E99-441D-9A84-3CB19DC608FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.NetWiki.EntityFrameworkCore", "Z.NetWiki.EntityFrameworkCore\Z.NetWiki.EntityFrameworkCore.csproj", "{BEEBF3D5-7834-4146-8C39-2D7E80365FD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.SunBlog.EntityFrameworkCore", "Z.SunBlog.EntityFrameworkCore\Z.SunBlog.EntityFrameworkCore.csproj", "{BEEBF3D5-7834-4146-8C39-2D7E80365FD5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A19668E2-3307-47C9-9B91-25BF5A1E9CA0}"
 EndProject

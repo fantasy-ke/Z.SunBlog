@@ -1,6 +1,6 @@
-# Z.NetWiki
+# Z.SunBlog
 
-#### 该项目已通过阿里云仓库、GithubAction持续集成与部署（[Fantasy-Ke -Z.NetWiki.Host](http://124.71.15.19:5155/)）
+#### 该项目已通过阿里云仓库、GithubAction持续集成与部署（[Fantasy-Ke -Z.SunBlog.Host](http://124.71.15.19:5155/)）
 
 
 ## 模块化类库，参照AbpVnext实现，现已正常使用
@@ -8,11 +8,11 @@
 - abp vnext 模块依赖（已完成）
 
   - ``````C#
-    namespace Z.NetWiki.Host;
+    namespace Z.SunBlog.Host;
     
-    [DependOn(typeof(NetWikiApplicationModule),
-        typeof(NetWikiEntityFrameworkCoreModule))]
-    public class NetWikiHostModule : ZModule
+    [DependOn(typeof(SunBlogApplicationModule),
+        typeof(SunBlogEntityFrameworkCoreModule))]
+    public class SunBlogHostModule : ZModule
     {
         /// <summary>
         /// 服务配置
@@ -76,14 +76,14 @@
   - 依赖模块`ZSqlServerEntityFrameworkCoreModule`
   
   - ```C#
-    namespace Z.NetWiki.EntityFrameworkCore
+    namespace Z.SunBlog.EntityFrameworkCore
     {
         [DependOn(typeof(ZSqlServerEntityFrameworkCoreModule))]
-        public class NetWikiEntityFrameworkCoreModule : ZModule
+        public class SunBlogEntityFrameworkCoreModule : ZModule
         {
             public override void ConfigureServices(ServiceConfigerContext context)
             {
-              context.AddSqlServerEfCoreEntityFrameworkCore<NetWikiDbContext>();
+              context.AddSqlServerEfCoreEntityFrameworkCore<SunBlogDbContext>();
             }
         }
     }
@@ -94,14 +94,14 @@
   - 依赖模块`ZMysqlEntityFrameworkCoreModule`
 
   - ``````c#
-    namespace Z.NetWiki.EntityFrameworkCore
+    namespace Z.SunBlog.EntityFrameworkCore
     {
         [DependOn(typeof(ZMysqlEntityFrameworkCoreModule))]
-        public class NetWikiEntityFrameworkCoreModule : ZModule
+        public class SunBlogEntityFrameworkCoreModule : ZModule
         {
             public override void ConfigureServices(ServiceConfigerContext context)
             {
-                context.AddMysqlEfCoreEntityFrameworkCore<NetWikiDbContext>();
+                context.AddMysqlEfCoreEntityFrameworkCore<SunBlogDbContext>();
             }
         }
     }
