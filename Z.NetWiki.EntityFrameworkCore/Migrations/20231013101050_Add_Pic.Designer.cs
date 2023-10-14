@@ -67,7 +67,7 @@ namespace Z.NetWiki.EntityFrameworkCore.Migrations
                     b.ToTable("ZUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Z.NetWiki.Domain.AlbumsModule.Albums", b =>
+            modelBuilder.Entity("Z.NetWiki.Core.AlbumsModule.Albums", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -131,7 +131,7 @@ namespace Z.NetWiki.EntityFrameworkCore.Migrations
                     b.ToTable("Albums");
                 });
 
-            modelBuilder.Entity("Z.NetWiki.Domain.ArticleCategoryModule.ArticleCategory", b =>
+            modelBuilder.Entity("Z.NetWiki.Core.ArticleCategoryModule.ArticleCategory", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -166,7 +166,7 @@ namespace Z.NetWiki.EntityFrameworkCore.Migrations
                     b.ToTable("ArticleCategory");
                 });
 
-            modelBuilder.Entity("Z.NetWiki.Domain.ArticleModule.Article", b =>
+            modelBuilder.Entity("Z.NetWiki.Core.ArticleModule.Article", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -254,7 +254,7 @@ namespace Z.NetWiki.EntityFrameworkCore.Migrations
                     b.ToTable("Article");
                 });
 
-            modelBuilder.Entity("Z.NetWiki.Domain.ArticleTagModule.ArticleTag", b =>
+            modelBuilder.Entity("Z.NetWiki.Core.ArticleTagModule.ArticleTag", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -289,7 +289,7 @@ namespace Z.NetWiki.EntityFrameworkCore.Migrations
                     b.ToTable("ArticleTag");
                 });
 
-            modelBuilder.Entity("Z.NetWiki.Domain.CategoriesModule.Categories", b =>
+            modelBuilder.Entity("Z.NetWiki.Core.CategoriesModule.Categories", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -341,7 +341,7 @@ namespace Z.NetWiki.EntityFrameworkCore.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Z.NetWiki.Domain.PicturesModule.Pictures", b =>
+            modelBuilder.Entity("Z.NetWiki.Core.PicturesModule.Pictures", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -385,7 +385,7 @@ namespace Z.NetWiki.EntityFrameworkCore.Migrations
                     b.ToTable("Pictures");
                 });
 
-            modelBuilder.Entity("Z.NetWiki.Domain.PraiseModule.Praise", b =>
+            modelBuilder.Entity("Z.NetWiki.Core.PraiseModule.Praise", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -420,7 +420,7 @@ namespace Z.NetWiki.EntityFrameworkCore.Migrations
                     b.ToTable("Praise");
                 });
 
-            modelBuilder.Entity("Z.NetWiki.Domain.TagModule.Tags", b =>
+            modelBuilder.Entity("Z.NetWiki.Core.TagModule.Tags", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

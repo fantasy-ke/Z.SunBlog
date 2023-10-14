@@ -2,7 +2,7 @@
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.NetWiki.Application.ArticleModule.BlogServer.Dto;
-using Z.NetWiki.Domain.SharedDto;
+using Z.NetWiki.Core.SharedDto;
 
 namespace Z.NetWiki.Application.ArticleModule.BlogServer
 {

@@ -4,8 +4,8 @@
 
 using AutoMapper;
 using Z.NetWiki.Application.TagsModule.BlogServer.Dto;
-using Z.NetWiki.Domain.ArticleModule;
-using Z.NetWiki.Domain.TagModule;
+using Z.NetWiki.Core.ArticleModule;
+using Z.NetWiki.Core.TagModule;
 
 namespace Z.NetWiki.Application.TagsModule.BlogServer.MapperConfig
 {

@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using AutoMapper;
-using Z.NetWiki.Domain.ArticleModule;
+using Z.NetWiki.Core.ArticleModule;
 
 namespace Z.NetWiki.Application.ArticleModule
 {

@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Z.NetWiki.Domain.AlbumsModule;
-using Z.NetWiki.Domain.Enum;
+using Z.NetWiki.Core.AlbumsModule;
+using Z.NetWiki.Core.Enum;
 
 namespace Z.NetWiki.Application.AlbumsModule.BlogServer.Dto
 {

@@ -9,7 +9,7 @@ using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.Extensions;
 using Z.NetWiki.Application.UserModule.Dto;
-using Z.NetWiki.Domain.UserModule.DomainManager;
+using Z.NetWiki.Core.UserModule.DomainManager;
 
 namespace Z.NetWiki.Application.UserModule
 {

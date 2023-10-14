@@ -9,14 +9,14 @@ using Z.EntityFrameworkCore;
 using Z.EntityFrameworkCore.Extensions;
 using Z.NetWiki.Application.AlbumsModule.BlogClient.Dto;
 using Z.NetWiki.Application.TalksModule.BlogClient.Dto;
-using Z.NetWiki.Domain.AlbumsModule.DomainManager;
-using Z.NetWiki.Domain.CommentsModule;
-using Z.NetWiki.Domain.CommentsModule.DomainManager;
-using Z.NetWiki.Domain.Enum;
-using Z.NetWiki.Domain.PicturesModule.DomainManager;
-using Z.NetWiki.Domain.PraiseModule;
-using Z.NetWiki.Domain.PraiseModule.DomainManager;
-using Z.NetWiki.Domain.TalksModule.DomainManager;
+using Z.NetWiki.Core.AlbumsModule.DomainManager;
+using Z.NetWiki.Core.CommentsModule;
+using Z.NetWiki.Core.CommentsModule.DomainManager;
+using Z.NetWiki.Core.Enum;
+using Z.NetWiki.Core.PicturesModule.DomainManager;
+using Z.NetWiki.Core.PraiseModule;
+using Z.NetWiki.Core.PraiseModule.DomainManager;
+using Z.NetWiki.Core.TalksModule.DomainManager;
 
 namespace Z.NetWiki.Application.TalksModule.BlogClient
 {

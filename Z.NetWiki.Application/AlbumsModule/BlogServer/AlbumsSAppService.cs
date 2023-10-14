@@ -3,8 +3,8 @@ using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
 using Z.NetWiki.Application.AlbumsModule.BlogServer.Dto;
-using Z.NetWiki.Domain.AlbumsModule;
-using Z.NetWiki.Domain.AlbumsModule.DomainManager;
+using Z.NetWiki.Core.AlbumsModule;
+using Z.NetWiki.Core.AlbumsModule.DomainManager;
 
 namespace Z.NetWiki.Application.AlbumsModule.BlogServer
 {

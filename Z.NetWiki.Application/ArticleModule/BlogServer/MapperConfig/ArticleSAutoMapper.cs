@@ -4,7 +4,7 @@
 
 using AutoMapper;
 using Z.NetWiki.Application.ArticleModule.BlogServer.Dto;
-using Z.NetWiki.Domain.ArticleModule;
+using Z.NetWiki.Core.ArticleModule;
 
 namespace Z.NetWiki.Application.ArticleModule.BlogServer.MapperConfig
 {

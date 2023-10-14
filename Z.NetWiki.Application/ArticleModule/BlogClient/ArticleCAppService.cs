@@ -8,13 +8,13 @@ using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
 using Z.NetWiki.Application.ArticleModule.BlogClient.Dto;
-using Z.NetWiki.Domain.ArticleCategoryModule.DomainManager;
-using Z.NetWiki.Domain.ArticleModule.DomainManager;
-using Z.NetWiki.Domain.ArticleTagModule.DomainManager;
-using Z.NetWiki.Domain.CategoriesModule.DomainManager;
-using Z.NetWiki.Domain.Enum;
-using Z.NetWiki.Domain.PraiseModule.DomainManager;
-using Z.NetWiki.Domain.TagsModule.DomainManager;
+using Z.NetWiki.Core.ArticleCategoryModule.DomainManager;
+using Z.NetWiki.Core.ArticleModule.DomainManager;
+using Z.NetWiki.Core.ArticleTagModule.DomainManager;
+using Z.NetWiki.Core.CategoriesModule.DomainManager;
+using Z.NetWiki.Core.Enum;
+using Z.NetWiki.Core.PraiseModule.DomainManager;
+using Z.NetWiki.Core.TagsModule.DomainManager;
 
 namespace Z.NetWiki.Application.ArticleModule.BlogClient
 {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.NetWiki.Application.ArticleCategoryModule.BlogServer.Dto;
-using Z.NetWiki.Domain.ArticleCategoryModule;
-using Z.NetWiki.Domain.ArticleCategoryModule.DomainManager;
+using Z.NetWiki.Core.ArticleCategoryModule;
+using Z.NetWiki.Core.ArticleCategoryModule.DomainManager;
 
 namespace Z.NetWiki.Application.ArticleCategoryModule.BlogServer
 {

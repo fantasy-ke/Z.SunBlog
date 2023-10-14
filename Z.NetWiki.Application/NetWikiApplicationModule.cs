@@ -7,7 +7,7 @@ using Z.NetWiki.Application.ArticleModule.BlogServer.MapperConfig;
 using Z.NetWiki.Application.TagsModule.BlogServer.MapperConfig;
 using Z.NetWiki.Application.TalksModule.BlogServer.MapperConfig;
 using Z.NetWiki.Application.UserModule.MapperConfig;
-using Z.NetWiki.Domain;
+using Z.NetWiki.Core;
 
 namespace Z.NetWiki.Application
 {
