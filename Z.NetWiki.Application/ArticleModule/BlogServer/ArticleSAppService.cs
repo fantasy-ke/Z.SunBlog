@@ -139,12 +139,17 @@ namespace Z.NetWiki.Application.ArticleModule.BlogServer
                 categoryList.Add(dto.CategoryId.Value);
             }
 
-            var query = await _articleDomainManager.QueryAsNoTracking.LeftJoin(_articleCategoryManager.QueryAsNoTracking,
+            var query =  _articleDomainManager.QueryAsNoTracking.GroupJoin(_articleCategoryManager.QueryAsNoTracking,
                 a => a.Id,
                 ac => ac.ArticleId,
                 (a, ac) => new { article = a, articleCategory = ac })
+                .SelectMany(a => a.articleCategory.DefaultIfEmpty(), (m, n) => new
+                {
+                    article = m.article,
+                    articleCategory = n,
+                })
                 .Join(_categoriesManager.QueryAsNoTracking,
-                c => c.articleCategory.Id,
+                c => c.articleCategory.CategoryId,
                 ca => ca.Id,
                 (c, ca) => new
                 {
@@ -169,10 +174,10 @@ namespace Z.NetWiki.Application.ArticleModule.BlogServer
                        PublishTime = a.article.PublishTime,
                        Views = a.article.Views,
                        CategoryName = a.categories.Name
-                   }).ToPagedListAsync(dto);
+                   });
 
 
-            return query;
+            return await query.ToPagedListAsync(dto);
         }
 
         /// <summary>

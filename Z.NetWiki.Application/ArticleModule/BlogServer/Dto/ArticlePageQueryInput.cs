@@ -12,7 +12,7 @@ namespace Z.NetWiki.Application.ArticleModule.BlogServer.Dto
         /// <summary>
         /// 标题
         /// </summary>
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
         /// 栏目ID
