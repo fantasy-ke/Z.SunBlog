@@ -61,7 +61,8 @@ public class SunBlogHostModule : ZModule
                     .Split(",", StringSplitOptions.RemoveEmptyEntries)//获取移除空白字符串
                     .Select(o => o.RemoveFix("/"))
                     .ToArray()
-                    )
+                    ).AllowAnyHeader()
+                    .AllowAnyMethod()
             ));
 
     }
