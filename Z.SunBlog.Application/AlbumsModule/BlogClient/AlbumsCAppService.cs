@@ -38,7 +38,6 @@ namespace Z.SunBlog.Application.AlbumsModule.BlogClient
         {
             return await _albumsManager.QueryAsNoTracking.Where(x => x.IsVisible && x.Status == AvailabilityStatus.Enable)
               .OrderBy(x => x.Sort)
-              .OrderByDescending(x => x.Id)
               .Select(x => new AlbumsOutput
               {
                   Id = x.Id,
@@ -71,7 +70,7 @@ namespace Z.SunBlog.Application.AlbumsModule.BlogClient
                     p=>p.AlbumId,
                     (a, p) => p
                  )
-                 .OrderByDescending(c=>c.Id)
+                 .OrderByDescending(c=>c.Url)
                  .Select(pictures => new PictureOutput { Id = pictures.Id, Url = pictures.Url })
                  .ToPagedListAsync(dto);
         }

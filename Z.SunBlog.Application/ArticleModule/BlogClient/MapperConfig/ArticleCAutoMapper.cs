@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using AutoMapper;
+using Z.SunBlog.Application.ArticleModule.BlogClient.Dto;
 using Z.SunBlog.Core.ArticleModule;
 
 namespace Z.SunBlog.Application.ArticleModule
@@ -15,7 +16,7 @@ namespace Z.SunBlog.Application.ArticleModule
         /// <param name="configuration"></param>
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
-            //configuration.CreateMap<Article, CreateOrUpdateArticleInput>().ReverseMap();
+            configuration.CreateMap<Article, ArticleBasicsOutput>().ReverseMap();
             //configuration.CreateMap<Article, AddArticleInput>().ReverseMap();
         }
     }

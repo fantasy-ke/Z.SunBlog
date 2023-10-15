@@ -3,6 +3,7 @@ using Z.Ddd.Common.AutoMapper;
 using Z.Module;
 using Z.Module.Modules;
 using Z.SunBlog.Application.AlbumsModule.BlogServer.MapperConfig;
+using Z.SunBlog.Application.ArticleModule;
 using Z.SunBlog.Application.ArticleModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.TagsModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.TalksModule.BlogServer.MapperConfig;
@@ -32,6 +33,7 @@ namespace Z.SunBlog.Application
                 {
                     UserAutoMapper.CreateMappings(ctx.MapperConfiguration);
                     ArticleSAutoMapper.CreateMappings(ctx.MapperConfiguration);
+                    ArticleCAutoMapper.CreateMappings(ctx.MapperConfiguration);
                     AlbumsAutoMapper.CreateMappings(ctx.MapperConfiguration);
                     TagsAutoMapper.CreateMappings(ctx.MapperConfiguration);
                     TalksAutoMapper.CreateMappings(ctx.MapperConfiguration);
