@@ -169,7 +169,7 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
                         {
                             Id = a.Id,
                             Title = a.Title,
-                            Content = a.Content,
+                            Content = a.Content.Replace("\\n", "\n"),
                             Summary = a.Summary,
                             Cover = a.Cover,
                             PublishTime = a.PublishTime,
@@ -210,7 +210,6 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
 
             await _articleDomainManager.Update(updateArt);
 
-            
             //上一篇
             var prevQuery = _articleDomainManager.QueryAsNoTracking.Where(x => x.PublishTime < article.PublishTime && x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable)
                 .Where(x => x.ExpiredTime == null || x.ExpiredTime > DateTime.Now)
@@ -221,7 +220,6 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
                 .Where(x => x.ExpiredTime == null || x.ExpiredTime > DateTime.Now)
                     .OrderBy(x => x.PublishTime)
                     .Select(x => new ArticleBasicsOutput { Id = x.Id, Cover = x.Cover, Title = x.Title, PublishTime = null, Type = 1 }).Take(1);
-            prevQuery.Union(nextQuery);
 
             //随机6条
             var randomQuery = _articleDomainManager.QueryAsNoTracking.Where(x => x.Id != id)
@@ -231,11 +229,10 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
                 .Select(x => new ArticleBasicsOutput
                 { Id = x.Id, Cover = x.Cover, Title = x.Title, PublishTime = x.PublishTime, Type = 2 })
                 .Take(6);
-            prevQuery.Union(randomQuery);
 
 
             //相关文章
-            var relevant = await prevQuery.ToListAsync();
+            var relevant = await prevQuery.Concat(nextQuery).Concat(randomQuery).ToListAsync();
             article.Prev = relevant.FirstOrDefault(x => x.Type == 0)!;
             article.Next = relevant.FirstOrDefault(x => x.Type == 1)!;
             article.Random = relevant.Where(x => x.Type == 2).ToList();

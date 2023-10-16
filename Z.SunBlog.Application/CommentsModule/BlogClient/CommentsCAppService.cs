@@ -110,11 +110,13 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
         /// </summary>
         /// <param name="dto">对象ID</param>
         /// <returns></returns>
-        public async Task Praise(KeyDto dto)
+        public async Task<bool> Praise(KeyDto dto)
         {
             if (_praiseManager.QueryAsNoTracking.Any(x => x.ObjectId == dto.Id))
             {
                 await _praiseManager.Delete(x => x.ObjectId == dto.Id);//"糟糕，取消失败了..."
+
+                return false;
             };
             var praise = new Praise()
             {
@@ -122,6 +124,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
                 ObjectId = dto.Id,
             };
             await _praiseManager.Create(praise);//"糟糕，点赞失败了..."
+            return true;
         }
 
         /// <summary>
