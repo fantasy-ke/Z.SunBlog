@@ -97,13 +97,13 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
         {
             if (dto.TagId.HasValue)
             {
-                var tag = await _tagsManager.QueryAsNoTracking.Where(x => x.Id == dto.TagId && x.Status == AvailabilityStatus.Enable).Select(x => new { x.Name, x.Cover }).FirstAsync();
+                var tag = await _tagsManager.QueryAsNoTracking.Where(x => x.Id == dto.TagId && x.Status == AvailabilityStatus.Enable).Select(x => new { x.Name, x.Cover }).FirstOrDefaultAsync();
                 HttpExtension.Fill(new { tag.Name, tag.Cover });
             }
 
             if (dto.CategoryId.HasValue)
             {
-                var category = await _categoriesManager.QueryAsNoTracking.Where(x => x.Id == dto.CategoryId && x.Status == AvailabilityStatus.Enable).Select(x => new { x.Name, x.Cover }).FirstAsync();
+                var category = await _categoriesManager.QueryAsNoTracking.Where(x => x.Id == dto.CategoryId && x.Status == AvailabilityStatus.Enable).Select(x => new { x.Name, x.Cover }).FirstOrDefaultAsync();
                 HttpExtension.Fill(new { category.Name, category.Cover });
             }
 
@@ -181,7 +181,7 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
                             IsTop = a.IsTop,
                             Link = a.Link,
                             UpdatedTime = a.UpdatedTime,
-                            CategoryId = c.Id,
+                            CategoryId = cg.Id,
                             PraiseTotal = _praiseManager.QueryAsNoTracking.Count(p => p.ObjectId == a.Id),
                             //IsPraise = SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == a.Id).Any(),
                             CategoryName = cg.Name

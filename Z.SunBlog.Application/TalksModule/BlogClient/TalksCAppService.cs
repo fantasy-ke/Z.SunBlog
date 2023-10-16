@@ -61,7 +61,7 @@ namespace Z.SunBlog.Application.TalksModule.BlogClient
                   {
                       Id = x.Id,
                       IsTop = x.IsTop,
-                      Content = x.Content,
+                      Content = x.Content.Replace("\"", ""),
                       Images = x.Images,
                       Upvote = praiseList.Where(p => p.ObjectId == x.Id).Count(),
                       Comments = _commentsManager.QueryAsNoTracking.Where(c => c.ModuleId == x.Id && c.RootId == null).Count(),
