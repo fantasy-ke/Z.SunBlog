@@ -157,7 +157,8 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
         {
 
             var article = await (from a in _articleDomainManager.QueryAsNoTracking
-                        .Where(x => (x.Id == id && x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable) ||( x.ExpiredTime == null || x.ExpiredTime > DateTime.Now))
+                        .Where(x => x.Id == id && x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable)
+                        .Where(x=>x.ExpiredTime == null || x.ExpiredTime > DateTime.Now)
                         join ac in _articleCategoryManager.QueryAsNoTracking on
                         a.Id equals ac.ArticleId into category
                         from c in category.DefaultIfEmpty()
