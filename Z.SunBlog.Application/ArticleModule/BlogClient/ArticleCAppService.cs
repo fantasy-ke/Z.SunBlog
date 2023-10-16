@@ -199,7 +199,7 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
                             UpdatedTime = a.UpdatedTime,
                             CategoryId = cg.Id,
                             PraiseTotal = _praiseManager.QueryAsNoTracking.Count(p => p.ObjectId == a.Id),
-                            //IsPraise = SqlFunc.Subqueryable<Praise>().Where(p => p.ObjectId == a.Id).Any(),
+                            IsPraise = _praiseManager.QueryAsNoTracking.Where(p => p.ObjectId == a.Id).Any(),
                             CategoryName = cg.Name
                         }).FirstOrDefaultAsync();
             var tagsList = await (from t in _tagsManager.QueryAsNoTracking.Where(p=>p.Status == AvailabilityStatus.Enable)
