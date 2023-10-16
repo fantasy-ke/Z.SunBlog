@@ -17,7 +17,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
         Task<PageResult<ReplyOutput>> ReplyList([FromBody] CommentPageQueryInput dto);
 
         Task Add(AddCommentInput dto);
-        Task Praise(KeyDto dto);
+        Task<bool> Praise(KeyDto dto);
 
 
     }
