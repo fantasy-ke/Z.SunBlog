@@ -7,22 +7,22 @@ public class AddCommentInput
     /// <summary>
     ///  对应模块ID（null表留言，0代表友链的评论）
     /// </summary>
-    public long? ModuleId { get; set; }
+    public Guid? ModuleId { get; set; }
 
     /// <summary>
     /// 顶级楼层评论ID
     /// </summary>
-    public long? RootId { get; set; }
+    public Guid? RootId { get; set; }
 
     /// <summary>
     /// 被回复的评论ID
     /// </summary>
-    public long? ParentId { get; set; }
+    public Guid? ParentId { get; set; }
 
     /// <summary>
     /// 回复人ID
     /// </summary>
-    public long? ReplyAccountId { get; set; }
+    public string? ReplyAccountId { get; set; }
 
     /// <summary>
     /// 评论内容

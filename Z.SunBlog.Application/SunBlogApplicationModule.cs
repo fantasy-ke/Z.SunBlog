@@ -5,6 +5,7 @@ using Z.Module.Modules;
 using Z.SunBlog.Application.AlbumsModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.ArticleModule;
 using Z.SunBlog.Application.ArticleModule.BlogServer.MapperConfig;
+using Z.SunBlog.Application.CommentsModule;
 using Z.SunBlog.Application.TagsModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.TalksModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.UserModule.MapperConfig;
@@ -37,6 +38,7 @@ namespace Z.SunBlog.Application
                     AlbumsAutoMapper.CreateMappings(ctx.MapperConfiguration);
                     TagsAutoMapper.CreateMappings(ctx.MapperConfiguration);
                     TalksAutoMapper.CreateMappings(ctx.MapperConfiguration);
+                    CommentsCAutoMapper.CreateMappings(ctx.MapperConfiguration);
                 });
             });
         }

@@ -56,7 +56,6 @@ namespace Z.SunBlog.Application.TalksModule.BlogClient
             string userId = _userSession.UserId;
             return await _talksManager.QueryAsNoTracking.Where(x => x.Status == AvailabilityStatus.Enable)
                   .OrderByDescending(x => x.IsTop)
-                  .OrderByDescending(x => x.Id)
                   .Select(x => new TalksOutput
                   {
                       Id = x.Id,

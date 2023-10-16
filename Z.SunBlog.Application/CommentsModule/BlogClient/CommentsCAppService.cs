@@ -60,6 +60,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
         /// 评论列表
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public async Task<PageResult<CommentOutput>> GetList([FromBody] CommentPageQueryInput dto)
         {
             var praiseList = _praiseManager.QueryAsNoTracking;
@@ -86,7 +87,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
                     Avatar = c.auth.Avatar,
                     AccountId = c.auth.Id,
                     NickName = c.auth.Name,
-                    IsBlogger = c.auth.IsBlogger,
+                    IsBlogger = true,//c.auth.IsBlogger,
                     Geolocation = c.comment.Geolocation,
                     CreatedTime = c.comment.CreationTime
                 })
@@ -164,7 +165,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
                       ParentId = c.comAuth.comment.ParentId,
                       AccountId = c.comAuth.comment.AccountId,
                       ReplyAccountId = c.comAuth.comment.ReplyAccountId,
-                      IsBlogger = c.comAuth.auth.IsBlogger,
+                      IsBlogger = true,//c.comAuth.auth.IsBlogger,
                       NickName = c.comAuth.auth.Name,
                       RelyNickName = c.auth1.Name,
                       RootId = c.comAuth.comment.RootId,
