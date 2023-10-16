@@ -144,7 +144,7 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
                             }).ToList()
                         };
 
-            return  await query.ToPagedListAsync(dto);
+            return  await query.OrderByDescending(p=>p.IsTop).ToPagedListAsync(dto);
         }
 
         /// <summary>
