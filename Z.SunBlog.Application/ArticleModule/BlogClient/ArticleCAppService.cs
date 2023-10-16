@@ -107,15 +107,30 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
                 HttpExtension.Fill(new { category.Name, category.Cover });
             }
 
+            var tagquery = from a in _tagsManager.QueryAsNoTracking
+                        .Where(x => x.Status == AvailabilityStatus.Enable)
+                           join ac in _articleTagManager.QueryAsNoTracking on
+                                  a.Id equals ac.TagId
+                           select new
+                           {
+                               tags = a,
+                               at = ac
+                           };
+
+
             var query = from a in _articleDomainManager.QueryAsNoTracking
-                        .Where(x => (x.Id == dto.TagId && x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable) || (x.ExpiredTime == null || x.ExpiredTime > DateTime.Now))
+                        .Where(x => x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable)
+                        .Where(x => x.ExpiredTime == null || x.ExpiredTime > DateTime.Now)
+                        .WhereIf(dto.TagId.HasValue,c => tagquery.Any(p=>p.at.ArticleId == c.Id && p.tags.Id == dto.TagId))
                         .WhereIf(!string.IsNullOrWhiteSpace(dto.Keyword), article => article.Title.Contains(dto.Keyword) || article.Summary.Contains(dto.Keyword) || article.Content.Contains(dto.Keyword))
-                        join ac in _articleCategoryManager.QueryAsNoTracking.WhereIf(dto.CategoryId.HasValue, ac => ac.CategoryId == dto.CategoryId) on
+                        join ac in _articleCategoryManager.QueryAsNoTracking
+                        .WhereIf(dto.CategoryId.HasValue, ac => ac.CategoryId == dto.CategoryId) on
                               a.Id equals ac.ArticleId into category
                         from c in category.DefaultIfEmpty()
 
                         join cg in _categoriesManager.QueryAsNoTracking.Where(x => x.Status == AvailabilityStatus.Enable) on
                         c.CategoryId equals cg.Id
+
                         orderby a.IsTop descending
                         orderby a.Sort
                         orderby a.PublishTime
