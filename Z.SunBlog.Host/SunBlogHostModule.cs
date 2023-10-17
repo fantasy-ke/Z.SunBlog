@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MrHuo.OAuth;
+using MrHuo.OAuth.QQ;
 using Serilog;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -65,6 +68,8 @@ public class SunBlogHostModule : ZModule
                     .AllowAnyMethod()
             ));
 
+        var auth = new QQOAuth(OAuthConfig.LoadFrom(configuration, "oauth:qq"));
+        context.Services.AddSingleton(auth);
     }
 
     /// <summary>
