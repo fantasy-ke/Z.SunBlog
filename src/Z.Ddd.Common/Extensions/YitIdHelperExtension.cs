@@ -1,4 +1,5 @@
 ﻿using HashidsNet;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using Yitter.IdGenerator;
@@ -29,7 +30,7 @@ public static class YitIdHelperExtension
     /// <param name="sectionName"></param>
     public static void AddIdGenerator(this IServiceCollection service, string sectionName)
     {
-        var options = AppSettings.Configuration.GetSection<IdGeneratorOptions>(sectionName); ?? new IdGeneratorOptions(0);
+        var options = AppSettings.Configuration.GetSection(sectionName).Get<IdGeneratorOptions>() ?? new IdGeneratorOptions(0);
         options.BaseTime = options.BaseTime.ToUniversalTime();
         YitIdHelper.SetIdGenerator(options);
         service.AddSingleton<IIdGenerator>(new DefaultIdGenerator(options));
