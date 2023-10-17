@@ -10,6 +10,7 @@ using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.Text;
+using Yitter.IdGenerator;
 using Z.Ddd.Application.Middleware;
 using Z.Ddd.Common;
 using Z.Ddd.Common.Extensions;
@@ -47,7 +48,6 @@ public class SunBlogHostModule : ZModule
 
         ServicesJwtToken(context.Services);
 
-        //context.Services.AddControllers(config=>config.Filters)
 
         // 注入自动事务中间件
         context.Services.AddUnitOfWorkMiddleware();
@@ -55,6 +55,8 @@ public class SunBlogHostModule : ZModule
 
         ServicesSwagger(context.Services);
 
+        //雪花id 文档：https://github.com/yitter/IdGenerator
+        context.Services.AddIdGenerator(AppSettings.AppOption<IdGeneratorOptions>("SnowId"));
 
         context.Services.AddCors(
             options => options.AddPolicy(

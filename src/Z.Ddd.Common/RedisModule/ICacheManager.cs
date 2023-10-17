@@ -87,6 +87,13 @@ namespace Z.Ddd.Common.RedisModule
         /// <param name="key">缓存Key</param>
         Task<T> GetCacheAsync<T>(string key);
 
+        /// <summary>
+        /// 缓存是否存在
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        Task<bool> ExistsAsync(string key);
+
         #endregion
 
         #region 删除缓存

@@ -5,7 +5,7 @@ using System.IO;
 using Yitter.IdGenerator;
 using Z.Ddd.Common;
 
-namespace Easy.Core;
+namespace Z.Ddd.Common;
 
 public static class YitIdHelperExtension
 {
@@ -30,7 +30,7 @@ public static class YitIdHelperExtension
     /// <param name="sectionName"></param>
     public static void AddIdGenerator(this IServiceCollection service, string sectionName)
     {
-        var options = AppSettings.Configuration.GetSection(sectionName).Get<IdGeneratorOptions>() ?? new IdGeneratorOptions(0);
+        var options = AppSettings.AppOption<IdGeneratorOptions>(sectionName) ?? new IdGeneratorOptions(0);
         options.BaseTime = options.BaseTime.ToUniversalTime();
         YitIdHelper.SetIdGenerator(options);
         service.AddSingleton<IIdGenerator>(new DefaultIdGenerator(options));

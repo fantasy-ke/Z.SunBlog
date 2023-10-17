@@ -167,6 +167,11 @@ namespace Z.Ddd.Common.RedisModule
             await _cache.RefreshAsync(BuildKey(key));
         }
 
+        public async Task<bool> ExistsAsync(string key)
+        {
+            return string.IsNullOrWhiteSpace(await GetCacheAsync(key)) ? false : true;
+        }
+
 
     }
 }

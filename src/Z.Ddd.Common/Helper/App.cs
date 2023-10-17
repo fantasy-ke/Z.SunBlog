@@ -16,11 +16,6 @@ public static class App
     /// </summary>
     public static IServiceProvider RootServices => AppSettings.RootServices;
 
-    
-
-
-
-
     /// <summary>
     /// 获取请求上下文
     /// </summary>

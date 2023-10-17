@@ -58,6 +58,14 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
         return await EntityRepo.UpdateAsync(entity);
     }
 
+    public virtual async Task<TEntity> UpdateAsync(TEntity columns, Expression<Func<TEntity, bool>> whereExpression)
+    {
+        var entity = await QueryAsNoTracking.Where(whereExpression).FirstAsync();
+        ObjectMapper.Map(columns, entity);
+        await ValidateOnCreateOrUpdate(entity);
+        return await EntityRepo.UpdateAsync(entity);
+    }
+
     public virtual async Task Update(IEnumerable<TEntity> entities)
     {
         foreach (TEntity entity in entities)
