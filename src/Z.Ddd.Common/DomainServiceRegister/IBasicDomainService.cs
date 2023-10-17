@@ -80,6 +80,15 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //     实体对象
     Task Update(IEnumerable<TEntity> entities);
 
+    /// <summary>
+    /// 修改
+    /// </summary>
+    /// <param name="columns">修改的类字段</param>
+    /// <param name="whereExpression">条件</param>
+    /// <returns></returns>
+
+    Task<TEntity> UpdateAsync(TEntity columns, Expression<Func<TEntity, bool>> whereExpression);
+
     //
     // 摘要:
     //     删除
