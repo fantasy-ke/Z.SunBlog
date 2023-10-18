@@ -9,6 +9,7 @@ using Z.SunBlog.Core.ArticleTagModule;
 using Z.SunBlog.Core.AuthAccountModule;
 using Z.SunBlog.Core.CategoriesModule;
 using Z.SunBlog.Core.CommentsModule;
+using Z.SunBlog.Core.CustomConfigModule;
 using Z.SunBlog.Core.FriendLinkModule;
 using Z.SunBlog.Core.PicturesModule;
 using Z.SunBlog.Core.PraiseModule;
@@ -45,6 +46,8 @@ namespace Z.SunBlog.EntityFrameworkCore
         public virtual DbSet<Talks> Talks { get; set; }
         public virtual DbSet<AuthAccount> AuthAccount { get; set; }
         public virtual DbSet<FriendLink> FriendLink { get; set; }
+        public virtual DbSet<CustomConfigItem> CustomConfigItem { get; set; }
+        public virtual DbSet<CustomConfig> CustomConfig { get; set; }
 
 
     }
