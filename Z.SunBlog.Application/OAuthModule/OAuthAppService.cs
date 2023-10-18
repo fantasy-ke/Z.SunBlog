@@ -78,8 +78,8 @@ namespace Z.SunBlog.Application.OAuthModule
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        [HttpGet("{type}")]
-        public async Task<string> Get(string type)
+        [HttpGet]
+        public async Task<string> GetIpAddress(string type)
         {
             string code = _idGenerator.Encode(_idGenerator.NewLong());
             var referer = App.HttpContext!.Request.Headers.FirstOrDefault(x => x.Key.Equals("Referer", StringComparison.CurrentCultureIgnoreCase)).Value;

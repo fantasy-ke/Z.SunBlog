@@ -2,10 +2,6 @@
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
-using Z.SunBlog.Application.FriendLinkModule.BlogServer.Dto;
-using Z.SunBlog.Core.SharedDto;
-using Z.SunBlog.Core.FriendLinkModule.DomainManager;
-using Z.SunBlog.Core.FriendLinkModule;
 using Z.SunBlog.Core.CustomConfigModule.DomainManager;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel;
@@ -16,15 +12,23 @@ using Z.SunBlog.Core.Const;
 
 namespace Z.SunBlog.Application.ConfigModule
 {
+    public interface ICustomConfigItemAppService : IApplicationService
+    {
+        Task<PageResult<object>> GetPage([FromBody] CustomConfigItemQueryInput dto);
+        Task AddItem(AddCustomConfigItemInput dto);
+        Task UpdateItem(UpdateCustomConfigItemInput dto);
+    }
     /// <summary>
     /// 标签管理
     /// </summary>
-    public class CustomConfigItemAppService : ApplicationService, IApplicationService
+    public class CustomConfigItemAppService : ApplicationService, ICustomConfigItemAppService
     {
         private readonly ICustomConfigItemManager _customConfigItemManager;
         private readonly ICacheManager _cacheManager;
         public CustomConfigItemAppService(
-            IServiceProvider serviceProvider, ICustomConfigItemManager customConfigItemManager, ICacheManager cacheManager) : base(serviceProvider)
+            IServiceProvider serviceProvider,
+            ICustomConfigItemManager customConfigItemManager,
+            ICacheManager cacheManager) : base(serviceProvider)
         {
             _customConfigItemManager = customConfigItemManager;
             _cacheManager = cacheManager;
@@ -35,9 +39,8 @@ namespace Z.SunBlog.Application.ConfigModule
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [HttpGet]
-        [DisplayName("自定义配置项分页列表")]
-        public async Task<PageResult<JObject>> Page([FromQuery] CustomConfigItemQueryInput dto)
+        [HttpPost]
+        public async Task<PageResult<object>> GetPage([FromBody] CustomConfigItemQueryInput dto)
         {
             var result = await _customConfigItemManager.QueryAsNoTracking.Where(x => x.ConfigId == dto.Id)
                 .Select(x => new { x.Id, x.Json, x.Status, x.CreationTime }).ToPagedListAsync(dto);
@@ -49,9 +52,9 @@ namespace Z.SunBlog.Application.ConfigModule
                 o["__CreatedTime"] = x.CreationTime;
                 return o;
             }).ToList();
-            return new PageResult<JObject>()
+            return new PageResult<object>()
             {
-                Rows = list,
+                //Rows = list,
                 PageNo = result.PageNo,
                 PageSize = result.PageSize,
                 Pages = result.Pages,
@@ -64,8 +67,6 @@ namespace Z.SunBlog.Application.ConfigModule
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [DisplayName("添加自定义配置子项")]
-        [HttpPost("add")]
         public async Task AddItem(AddCustomConfigItemInput dto)
         {
             var item = ObjectMapper.Map<CustomConfigItem>(dto);
@@ -78,8 +79,6 @@ namespace Z.SunBlog.Application.ConfigModule
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [DisplayName("修改自定义配子置项")]
-        [HttpPut("edit")]
         public async Task UpdateItem(UpdateCustomConfigItemInput dto)
         {
             var item = await _customConfigItemManager.FindByIdAsync(dto.Id);
@@ -90,7 +89,7 @@ namespace Z.SunBlog.Application.ConfigModule
             await ClearCache();
         }
 
-        internal  Task ClearCache()
+        internal Task ClearCache()
         {
             return _cacheManager.RefreshCacheAsync(CacheConst.ConfigCacheKey);
         }
