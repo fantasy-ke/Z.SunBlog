@@ -23,5 +23,9 @@ namespace Z.SunBlog.Application.OAuthModule
         Task<OAuthAccountDetailOutput> UserInfo();
 
         Task AddLink(AddLinkOutput dto);
+
+        Task<List<FriendLinkOutput>> Links();
+
+        Task<BlogOutput> Info();
     }
 }

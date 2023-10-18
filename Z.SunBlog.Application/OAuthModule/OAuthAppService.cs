@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +12,16 @@ using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.RedisModule;
 using Z.Ddd.Common.UserSession;
+using Z.SunBlog.Application.FriendLinkModule.BlogServer;
 using Z.SunBlog.Application.OAuthModule.Dto;
+using Z.SunBlog.Core.AlbumsModule.DomainManager;
 using Z.SunBlog.Core.AuthAccountModule;
 using Z.SunBlog.Core.AuthAccountModule.DomainManager;
+using Z.SunBlog.Core.CustomConfigModule;
 using Z.SunBlog.Core.Enum;
 using Z.SunBlog.Core.FriendLinkModule;
 using Z.SunBlog.Core.FriendLinkModule.DomainManager;
+using Z.SunBlog.Core.PicturesModule.DomainManager;
 
 namespace Z.SunBlog.Application.OAuthModule
 {
@@ -41,16 +44,22 @@ namespace Z.SunBlog.Application.OAuthModule
         private readonly IFriendLinkManager _friendLinkManager;
         private readonly IIdGenerator _idGenerator;
         private readonly ICacheManager _cacheManager;
+        private readonly ICustomConfigAppService _customConfigAppService;
         private readonly IJwtTokenProvider _jwtTokenProvider;
+        private readonly IAlbumsManager _albumsManager;
+        private readonly IPicturesManager _picturesManager;
         public OAuthAppService(
-            IServiceProvider serviceProvider, 
-            QQOAuth qqoAuth, 
-            IUserSession userSession, 
-            IAuthAccountDomainManager authAccountDomainManager, 
-            IFriendLinkManager friendLinkManager, 
-            IIdGenerator idGenerator, 
-            ICacheManager cacheManager, 
-            IJwtTokenProvider jwtTokenProvider) : base(serviceProvider)
+            IServiceProvider serviceProvider,
+            QQOAuth qqoAuth,
+            IUserSession userSession,
+            IAuthAccountDomainManager authAccountDomainManager,
+            IFriendLinkManager friendLinkManager,
+            IIdGenerator idGenerator,
+            ICacheManager cacheManager,
+            IJwtTokenProvider jwtTokenProvider,
+            ICustomConfigAppService customConfigAppService,
+            IAlbumsManager albumsManager,
+            IPicturesManager picturesManager) : base(serviceProvider)
         {
             _qqoAuth = qqoAuth;
             _userSession = userSession;
@@ -59,6 +68,9 @@ namespace Z.SunBlog.Application.OAuthModule
             _idGenerator = idGenerator;
             _cacheManager = cacheManager;
             _jwtTokenProvider = jwtTokenProvider;
+            _customConfigAppService = customConfigAppService;
+            _albumsManager = albumsManager;
+            _picturesManager = picturesManager;
         }
 
         /// <summary>
@@ -232,6 +244,51 @@ namespace Z.SunBlog.Application.OAuthModule
             ObjectMapper.Map(dto,link);
             link.Status = AvailabilityStatus.Disable;
             await _friendLinkManager.Update(link);
+        }
+
+
+        /// <summary>
+        /// 博客基本信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<BlogOutput> Info()
+        {
+            var blogSetting = await  _customConfigAppService.Get<BlogSetting>();
+
+            var info = await _customConfigAppService.Get<BloggerInfo>();
+
+            var pics = await _albumsManager.QueryAsNoTracking
+                .Join(_picturesManager.QueryAsNoTracking,a=>a.Id,p=>p.AlbumId,(a,p)=>new { album = a,pic = p})
+                .Where(p => p.album.Type.HasValue)
+                .Select(p => new
+                {
+                    p.album.Type,
+                    p.pic.Url
+                }).ToListAsync();
+            var dictionary = pics.GroupBy(x => x.Type)
+                .ToDictionary(x => x.Key.ToString(), v => v.Select(x => x.Url).ToList());
+            return new BlogOutput { Site = blogSetting, Info = info, Covers = dictionary };
+        }
+
+        /// <summary>
+        /// 友情链接
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<FriendLinkOutput>> Links()
+        {
+            return await _friendLinkManager.QueryAsNoTracking.Where(x => x.Status == AvailabilityStatus.Enable)
+                  .OrderBy(x => x.Sort)
+                  .OrderBy(x => x.Id)
+                  .Select(x => new FriendLinkOutput
+                  {
+                      Id = x.Id,
+                      Link = x.Link,
+                      Logo = x.Logo,
+                      SiteName = x.SiteName,
+                      Remark = x.Remark
+                  }).ToListAsync();
         }
     }
 }
