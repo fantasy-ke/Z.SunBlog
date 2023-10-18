@@ -1,12 +1,9 @@
-﻿using CSRedis;
+﻿using Microsoft.AspNetCore.SignalR.Protocol;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Newtonsoft.Json.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.RedisModule.CacheHelper;
 using Z.Module.DependencyInjection;
@@ -145,6 +142,45 @@ namespace Z.Ddd.Common.RedisModule
                 return cache.ToObject<T>();
             }
             return default(T);
+        }
+
+        public async Task<T> GetCacheAsync<T>(string key, Func<Task<T>> dataRetriever, TimeSpan timeout)
+        {
+            var result = await GetCacheAsync<T>(key);
+            if (result!=null)
+            {
+                return result;
+            }
+            string cacheKey = BuildKey(key);
+            using (var redisLock = RedisHelper.Lock(cacheKey, 10))
+            {
+                if (redisLock == null)
+                {
+                    throw new UserFriendlyException("抢不到所");
+                }
+
+                Task<T> task = dataRetriever();
+                bool flag = !task.IsCompleted;
+                if (flag)
+                {
+                    flag = await Task.WhenAny(task, Task.Delay(10)) != task;
+                }
+                if (flag)
+                {
+                    throw new UserFriendlyException("任务执行错误");
+                }
+                T item = await task;
+                await _cache.SetStringAsync(cacheKey, item.ToString(), new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpiration = new DateTimeOffset(DateTime.Now + timeout)
+                });
+
+                redisLock.Dispose();
+
+                result = item;
+            }
+
+            return result;
         }
 
         public void RemoveCache(string key)

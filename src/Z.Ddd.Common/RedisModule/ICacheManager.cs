@@ -94,6 +94,17 @@ namespace Z.Ddd.Common.RedisModule
         /// <returns></returns>
         Task<bool> ExistsAsync(string key);
 
+
+        /// <summary>
+        /// 查询没有写入
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="dataRetriever"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        Task<T> GetCacheAsync<T>(string key, Func<Task<T>> dataRetriever, TimeSpan timeout);
+
         #endregion
 
         #region 删除缓存
