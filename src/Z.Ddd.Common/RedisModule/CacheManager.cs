@@ -170,13 +170,14 @@ namespace Z.Ddd.Common.RedisModule
                     throw new UserFriendlyException("任务执行错误");
                 }
                 T item = await task;
+                if (item == null) { return result; }
                 await _cache.SetStringAsync(cacheKey, item.ToString(), new DistributedCacheEntryOptions
                 {
                     AbsoluteExpiration = new DateTimeOffset(DateTime.Now + timeout)
                 });
 
                 redisLock.Dispose();
-
+                
                 result = item;
             }
 

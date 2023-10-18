@@ -52,7 +52,7 @@ namespace Z.SunBlog.Application.FriendLinkModule.BlogServer
             var value = await _cacheManager.GetCacheAsync($"{CacheConst.ConfigCacheKey}{code}", async () =>
             {
                 var queryable = _customConfigManager.QueryAsNoTracking
-                .Join(_customConfigItemManager.QueryAsNoTracking,c=>c.Id,item=>item.ConfigId,(c,item)=>new { config = c ,item = item})
+                .Join(_customConfigItemManager.QueryAsNoTracking, c => c.Id, item => item.ConfigId, (c, item) => new { config = c, item = item })
                     .Where(c => c.config.Code == code)
                     .Select(c => c.item.Json);
                 string json;
@@ -64,7 +64,7 @@ namespace Z.SunBlog.Application.FriendLinkModule.BlogServer
                 }
                 else
                 {
-                    json = await queryable.FirstAsync();
+                    json = await queryable.FirstOrDefaultAsync();
                 }
 
                 return string.IsNullOrWhiteSpace(json) ? default(T) : JsonConvert.DeserializeObject<T>(json);

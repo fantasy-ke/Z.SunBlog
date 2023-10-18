@@ -14,9 +14,9 @@ namespace Z.SunBlog.Application.OAuthModule
     /// </summary>
     public interface IOAuthAppService : IApplicationService
     {
-        Task<string> Get(string type);
+        Task<string> GetIpAddress(string type);
 
-        Task<IActionResult> Callback(string type, [FromQuery] string code, [FromQuery] string state);
+        Task<IActionResult> Callback(string type, string code, string state);
 
         Task<string> Login(string code);
 
