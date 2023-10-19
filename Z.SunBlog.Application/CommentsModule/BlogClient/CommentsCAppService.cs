@@ -74,7 +74,8 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
                     comment = m.comment,
                     auth = n
                 })
-                .Where(c => c.comment.ModuleId == dto.Id && c.comment.RootId == null) //排除回复的评论
+                .WhereIf(dto.Id.HasValue, c => c.comment.ModuleId == dto.Id)
+                .Where(c => c.comment.RootId == null) //排除回复的评论
                 .OrderByDescending(c => c.comment.Id)
                 .Select(c => new CommentOutput
                 {
