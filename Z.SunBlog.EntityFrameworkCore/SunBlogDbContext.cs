@@ -11,6 +11,7 @@ using Z.SunBlog.Core.CategoriesModule;
 using Z.SunBlog.Core.CommentsModule;
 using Z.SunBlog.Core.CustomConfigModule;
 using Z.SunBlog.Core.FriendLinkModule;
+using Z.SunBlog.Core.MenuModule;
 using Z.SunBlog.Core.PicturesModule;
 using Z.SunBlog.Core.PraiseModule;
 using Z.SunBlog.Core.TagModule;
@@ -48,6 +49,7 @@ namespace Z.SunBlog.EntityFrameworkCore
         public virtual DbSet<FriendLink> FriendLink { get; set; }
         public virtual DbSet<CustomConfigItem> CustomConfigItem { get; set; }
         public virtual DbSet<CustomConfig> CustomConfig { get; set; }
+        public virtual DbSet<Menu> Menu { get; set; }
 
 
     }
