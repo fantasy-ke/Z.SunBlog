@@ -15,7 +15,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Z.Ddd.Common.Entities;
 using Z.Ddd.Common.Entities.Auditing;
+using Z.Ddd.Common.Entities.EntityLog;
 using Z.Ddd.Common.Entities.IAuditing;
+using Z.Ddd.Common.Entities.Organizations;
+using Z.Ddd.Common.Entities.Roles;
 using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.Helper;
@@ -29,6 +32,11 @@ namespace Z.EntityFrameworkCore
     {
         protected ZDbContextOptions? Options { get; private set; }
         public virtual DbSet<ZUserInfo> ZUsers { get; set; }
+        public virtual DbSet<ZRoleInfo> ZRoles { get; set; }
+        public virtual DbSet<ZOrganization> ZOrganizations { get; set; }
+        public virtual DbSet<ZUserRole> ZUserRoles { get; set; }
+        public virtual DbSet<ZSigninLog> ZSigninLog { get; set; }
+        public virtual DbSet<ZOperationLog> ZOperationLog { get; set; }
 
         protected ZDbContext(ZDbContextOptions options)
         : base(options)
