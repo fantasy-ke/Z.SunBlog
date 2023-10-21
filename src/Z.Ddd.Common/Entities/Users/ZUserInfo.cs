@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using Z.Ddd.Common.Entities.Auditing;
+using Z.Ddd.Common.Entities.Enum;
 
 namespace Z.Ddd.Common.Entities.Users
 {
@@ -24,6 +21,53 @@ namespace Z.Ddd.Common.Entities.Users
         /// 密码
         /// </summary>
         public string? PassWord { get; set; }
+
+        /// <summary>
+        /// 组织机构id
+        /// </summary>
+        public string? OrgId { get; set; }
+
+
+        /// <summary>
+        /// 头像
+        /// </summary>
+        [MaxLength(256)]
+        public string? Avatar { get; set; }
+
+        /// <summary>
+        /// 手机号码
+        /// </summary>
+        [MaxLength(16)]
+        public string? Mobile { get; set; }
+        /// <summary>
+        /// 生日
+        /// </summary>
+        public DateTime? Birthday { get; set; }
+
+        /// <summary>
+        /// 邮箱
+        /// </summary>
+        [MaxLength(64)]
+        public string? Email { get; set; }
+        /// <summary>
+        /// 可用状态
+        /// </summary>
+        public AvailabilityStatus Status { get; set; }
+
+        /// <summary>
+        /// 最后一次登录IP地址
+        /// </summary>
+        [MaxLength(64)]
+        public string? LastLoginIp { get; set; }
+
+        /// <summary>
+        /// 最后一次登录位置
+        /// </summary>
+        public string? LastLoginAddress { get; set; }
+        /// <summary>
+        /// 账号锁定过期时间
+        /// </summary>
+        public DateTime? LockExpired { get; set; }
 
         public ZUserInfo()
         {

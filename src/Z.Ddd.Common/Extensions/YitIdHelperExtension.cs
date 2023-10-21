@@ -65,9 +65,9 @@ public static class YitIdHelperExtension
     /// <param name="id">long类型ID</param>
     /// <param name="salt">盐值</param>
     /// <returns></returns>
-    public static string Encode(this IIdGenerator generator, long id, string salt = Salt)
+    public static string Encode(this IIdGenerator generator, string id, string salt = Salt)
     {
-        return new Hashids(salt).EncodeLong(id);
+        return new Hashids(salt).EncodeHex(id);
     }
 
     /// <summary>
