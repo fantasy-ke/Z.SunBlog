@@ -19,7 +19,7 @@ using Z.SunBlog.Core.ArticleTagModule;
 using Z.SunBlog.Core.ArticleTagModule.DomainManager;
 using Z.SunBlog.Core.CategoriesModule;
 using Z.SunBlog.Core.CategoriesModule.DomainManager;
-using Z.SunBlog.Core.Enum;
+using Z.Ddd.Common.Entities.Users;
 using Z.SunBlog.Core.PicturesModule.DomainManager;
 using Z.SunBlog.Core.PraiseModule;
 using Z.SunBlog.Core.PraiseModule.DomainManager;

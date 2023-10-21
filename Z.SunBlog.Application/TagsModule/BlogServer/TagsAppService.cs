@@ -4,10 +4,10 @@ using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.TagsModule.BlogServer.Dto;
-using Z.SunBlog.Core.Enum;
 using Z.SunBlog.Core.SharedDto;
 using Z.SunBlog.Core.TagModule;
 using Z.SunBlog.Core.TagsModule.DomainManager;
+using Z.Ddd.Common.Entities.Enum;
 
 namespace Z.SunBlog.Application.TagsModule.BlogServer
 {

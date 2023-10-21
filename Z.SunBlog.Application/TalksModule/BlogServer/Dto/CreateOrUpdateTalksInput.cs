@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Z.SunBlog.Core.Enum;
+using Z.Ddd.Common.Entities.Enum;
 
 namespace Z.SunBlog.Application.TalksModule.BlogServer.Dto
 {

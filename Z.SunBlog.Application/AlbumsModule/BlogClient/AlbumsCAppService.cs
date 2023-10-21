@@ -2,12 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using Z.Ddd.Common.DomainServiceRegister;
+using Z.Ddd.Common.Entities.Enum;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.AlbumsModule.BlogClient.Dto;
 using Z.SunBlog.Core.AlbumsModule.DomainManager;
-using Z.SunBlog.Core.Enum;
 using Z.SunBlog.Core.PicturesModule.DomainManager;
 
 namespace Z.SunBlog.Application.AlbumsModule.BlogClient

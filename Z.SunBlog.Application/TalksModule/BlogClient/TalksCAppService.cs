@@ -12,11 +12,11 @@ using Z.SunBlog.Application.TalksModule.BlogClient.Dto;
 using Z.SunBlog.Core.AlbumsModule.DomainManager;
 using Z.SunBlog.Core.CommentsModule;
 using Z.SunBlog.Core.CommentsModule.DomainManager;
-using Z.SunBlog.Core.Enum;
 using Z.SunBlog.Core.PicturesModule.DomainManager;
 using Z.SunBlog.Core.PraiseModule;
 using Z.SunBlog.Core.PraiseModule.DomainManager;
 using Z.SunBlog.Core.TalksModule.DomainManager;
+using Z.Ddd.Common.Entities.Enum;
 
 namespace Z.SunBlog.Application.TalksModule.BlogClient
 {

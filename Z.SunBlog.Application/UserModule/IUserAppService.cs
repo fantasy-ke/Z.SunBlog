@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,12 @@ namespace Z.SunBlog.Application.UserModule
         Task<List<ZUserInfoDto>> GetFrist();
 
 		Task<ZUserInfoDto?> Login(ZUserInfoDto user);
-	}
+
+        Task<ZUserInfoOutput> CurrentUserInfo();
+
+        Task SignIn(ZUserInfoDto dto);
+
+        IActionResult Captcha([FromQuery] string id);
+
+    }
 }
