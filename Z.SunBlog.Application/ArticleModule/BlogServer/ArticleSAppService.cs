@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Z.Ddd.Common.DomainServiceRegister;
+using Z.Ddd.Common.Entities.Enum;
 using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.ArticleModule.BlogClient.Dto;
@@ -14,7 +15,6 @@ using Z.SunBlog.Core.ArticleTagModule;
 using Z.SunBlog.Core.ArticleTagModule.DomainManager;
 using Z.SunBlog.Core.CategoriesModule;
 using Z.SunBlog.Core.CategoriesModule.DomainManager;
-using Z.SunBlog.Core.Enum;
 using Z.SunBlog.Core.SharedDto;
 using Z.SunBlog.Core.TagModule;
 using Z.SunBlog.Core.TagsModule.DomainManager;

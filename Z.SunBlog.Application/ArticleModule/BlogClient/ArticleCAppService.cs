@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Linq.Dynamic.Core;
 using Z.Ddd.Common.DomainServiceRegister;
+using Z.Ddd.Common.Entities.Enum;
 using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.ResultResponse;
@@ -12,7 +13,6 @@ using Z.SunBlog.Core.ArticleCategoryModule.DomainManager;
 using Z.SunBlog.Core.ArticleModule.DomainManager;
 using Z.SunBlog.Core.ArticleTagModule.DomainManager;
 using Z.SunBlog.Core.CategoriesModule.DomainManager;
-using Z.SunBlog.Core.Enum;
 using Z.SunBlog.Core.PraiseModule.DomainManager;
 using Z.SunBlog.Core.TagsModule.DomainManager;
 

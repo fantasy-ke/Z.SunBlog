@@ -18,10 +18,10 @@ using Z.SunBlog.Core.AlbumsModule.DomainManager;
 using Z.SunBlog.Core.AuthAccountModule;
 using Z.SunBlog.Core.AuthAccountModule.DomainManager;
 using Z.SunBlog.Core.CustomConfigModule;
-using Z.SunBlog.Core.Enum;
 using Z.SunBlog.Core.FriendLinkModule;
 using Z.SunBlog.Core.FriendLinkModule.DomainManager;
 using Z.SunBlog.Core.PicturesModule.DomainManager;
+using Z.Ddd.Common.Entities.Enum;
 
 namespace Z.SunBlog.Application.OAuthModule
 {
@@ -81,7 +81,7 @@ namespace Z.SunBlog.Application.OAuthModule
         [HttpGet]
         public async Task<string> GetIpAddress(string type)
         {
-            string code = _idGenerator.Encode(_idGenerator.NewLong());
+            string code = _idGenerator.Encode(Guid.NewGuid().ToString());
             var referer = App.HttpContext!.Request.Headers.FirstOrDefault(x => x.Key.Equals("Referer", StringComparison.CurrentCultureIgnoreCase)).Value;
             await _cacheManager.SetCacheAsync($"{OAuthRedirectKey}{code}", referer, TimeSpan.FromMinutes(5));
             string url = type.ToLower() switch

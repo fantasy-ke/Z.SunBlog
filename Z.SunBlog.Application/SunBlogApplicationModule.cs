@@ -15,7 +15,7 @@ using Z.SunBlog.Core;
 
 namespace Z.SunBlog.Application
 {
-    [DependOn(typeof(SunBlogDomainModule), typeof(ZDddApplicationModule))]
+    [DependOn(typeof(SunBlogCoreModule), typeof(ZDddApplicationModule))]
     public class SunBlogApplicationModule : ZModule
     {
         public override void ConfigureServices(ServiceConfigerContext context)

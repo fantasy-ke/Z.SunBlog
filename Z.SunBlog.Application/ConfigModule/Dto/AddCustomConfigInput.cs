@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Z.SunBlog.Core.Enum;
+using Z.Ddd.Common.Entities.Enum;
 
 namespace Z.SunBlog.Application.Dto;
 
