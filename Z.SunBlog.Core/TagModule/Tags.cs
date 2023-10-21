@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Z.Ddd.Common.Entities.Auditing;
-using Z.SunBlog.Core.Enum;
+using Z.Ddd.Common.Entities.Enum;
 
 namespace Z.SunBlog.Core.TagModule;
 

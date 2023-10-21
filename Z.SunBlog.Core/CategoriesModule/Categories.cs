@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Z.Ddd.Common.Entities.Auditing;
-using Z.SunBlog.Core.Enum;
+using Z.Ddd.Common.Entities.Enum;
 
 namespace Z.SunBlog.Core.CategoriesModule;
 
