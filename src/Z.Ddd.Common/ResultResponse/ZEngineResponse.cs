@@ -17,6 +17,12 @@ namespace Z.Ddd.Common.ResultResponse
             Success = true;
         }
 
+        public ZEngineResponse(int code, bool isSuccess)
+        {
+            StatusCode = code;
+            Success = isSuccess;
+        }
+
         public ZEngineResponse()
         {
             Success = true;
@@ -37,6 +43,9 @@ namespace Z.Ddd.Common.ResultResponse
         {
         }
 
+        public ZEngineResponse(int code, bool isSuccess) : base(code, isSuccess)
+        {
+        }
         public ZEngineResponse(ErrorInfo error, bool unAuthorizedRequest) : base(error, unAuthorizedRequest)
         {
 

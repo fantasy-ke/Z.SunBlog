@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Z.Ddd.Common.Extensions;
 
 namespace Z.Ddd.Common.ResultResponse;
 
@@ -15,7 +17,9 @@ public class ActionEmptyResultWrap : IActionResultWarp
         switch (context)
         {
             case ResultExecutingContext resultExecutingContext:
-                resultExecutingContext.Result = new ObjectResult(new ZEngineResponse());
+                var statusCode = context.HttpContext.Response.StatusCode;
+                var isSuccess = statusCode == StatusCodes.Status200OK;
+                resultExecutingContext.Result = new ObjectResult(new ZEngineResponse(statusCode, isSuccess));
                 return;
         }
     }

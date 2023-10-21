@@ -165,10 +165,10 @@ namespace Z.Ddd.Common.RedisModule
                 {
                     flag = await Task.WhenAny(task, Task.Delay(10)) != task;
                 }
-                if (flag)
-                {
-                    throw new UserFriendlyException("任务执行错误");
-                }
+                //if (flag)
+                //{
+                //    throw new UserFriendlyException("任务执行错误");
+                //}
                 T item = await task;
                 if (item == null) { return result; }
                 await _cache.SetStringAsync(cacheKey, item.ToString(), new DistributedCacheEntryOptions
