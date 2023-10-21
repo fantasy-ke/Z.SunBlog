@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+     <PackageReference Include="Lazy.Captcha.Core" Version="2.0.6" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Z.SunBlog.Common\Z.SunBlog.Common.csproj" />
   </ItemGroup>
 

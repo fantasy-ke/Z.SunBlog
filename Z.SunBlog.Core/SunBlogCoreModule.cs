@@ -5,7 +5,7 @@ using Z.SunBlog.Common;
 namespace Z.SunBlog.Core
 {
     [DependOn(typeof(SunBlogCommonModule))]
-    public class SunBlogDomainModule : ZModule
+    public class SunBlogCoreModule : ZModule
     {
         public override void ConfigureServices(ServiceConfigerContext context)
         {
