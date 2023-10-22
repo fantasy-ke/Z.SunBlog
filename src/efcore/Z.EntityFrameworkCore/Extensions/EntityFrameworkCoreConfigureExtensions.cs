@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Z.Ddd.Common.Entities.Auditing;
 using Z.Ddd.Common.Entities.KeyGenerator;
+using Z.Ddd.Common.Entities.Organizations;
 using Z.Ddd.Common.Entities.Users;
 
 namespace Z.EntityFrameworkCore.Extensions;
@@ -32,12 +33,18 @@ public static class EntityFrameworkCoreConfigureExtensions
         modelBuilder.Entity<ZUserInfo>(builder =>
         {
             builder.ToTable("ZUsers");
-            builder.Property(p=>p.Name).HasMaxLength(16);
-            builder.Property(p=>p.UserName).HasMaxLength(16);
-            builder.Property(p=>p.PassWord).HasMaxLength(512);
+            builder.Property(p => p.Name).HasMaxLength(16);
+            builder.Property(p => p.UserName).HasMaxLength(16);
+            builder.Property(p => p.PassWord).HasMaxLength(512);
             builder.Property(e => e.Id).HasValueGenerator<ZStringKeyGenerator>();
 
         });
+
+        modelBuilder.Entity<ZOrganization>()
+            .HasMany(x => x.Children)
+            .WithOne(x => x.Parent)
+            .HasForeignKey(x => x.ParentId)
+            .OnDelete(DeleteBehavior.ClientSetNull);
 
     }
 
