@@ -27,6 +27,11 @@ namespace Z.Ddd.Common.Entities.Users
         /// </summary>
         public string? OrgId { get; set; }
 
+        /// <summary>
+        /// 性别
+        /// </summary>
+        public Gender Gender { get; set; }
+
 
         /// <summary>
         /// 头像
