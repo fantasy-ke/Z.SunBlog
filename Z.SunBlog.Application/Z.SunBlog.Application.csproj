@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="xunit.extensibility.core" Version="2.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\src\Z.Ddd.Application\Z.Ddd.Application.csproj" />
     <ProjectReference Include="..\Z.SunBlog.Core\Z.SunBlog.Core.csproj" />
   </ItemGroup>
