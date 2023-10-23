@@ -49,7 +49,7 @@ public class ZOrganization : FullAuditedEntity<string>
     /// 子部门
     /// </summary>
     [NotMapped]
-    public virtual ZOrganization Parent { get; set; };
+    public virtual ZOrganization Parent { get; set; }
 
     /// <summary>
     /// 子部门
