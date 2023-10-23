@@ -6,13 +6,20 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Yitter.IdGenerator;
+using Z.Ddd.Common;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Organizations;
 using Z.Ddd.Common.Entities.Repositories;
+using Z.Ddd.Common.Entities.Users;
+using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.Extensions;
+using Z.Ddd.Common.RedisModule;
 using Z.Ddd.Common.ResultResponse;
+using Z.Ddd.Common.UserSession;
 using Z.EntityFrameworkCore.Extensions;
 using Z.Module.DependencyInjection;
+using Z.SunBlog.Application.FriendLinkModule.BlogServer;
 using Z.SunBlog.Application.SystemServiceModule.UserService.Dto;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.CustomConfigModule;
@@ -30,11 +37,36 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
     public class UserSysAppService : ApplicationService, IUserSysAppService
     {
         private readonly IBasicRepository<ZOrganization> _orgRepository;
+        private readonly IBasicRepository<ZUserRole> _userRoleRepository;
+        private readonly IIdGenerator _idGenerator;
+        private readonly ICustomConfigAppService _customConfigService;
+        private readonly ICacheManager _cacheManager;
+        private readonly IUserSession _userSession;
+
         private readonly IUserDomainManager _userDomainManager;
-        public UserSysAppService(IServiceProvider serviceProvider, IBasicRepository<ZOrganization> orgRepository, IUserDomainManager userDomainManager) : base(serviceProvider)
+        public UserSysAppService(IServiceProvider serviceProvider, IBasicRepository<ZOrganization> orgRepository, IUserDomainManager userDomainManager, IIdGenerator idGenerator, ICustomConfigAppService customConfigService, IBasicRepository<ZUserRole> userRoleRepository, ICacheManager cacheManager, IUserSession userSession) : base(serviceProvider)
         {
             _orgRepository = orgRepository;
             _userDomainManager = userDomainManager;
+            _idGenerator = idGenerator;
+            _customConfigService = customConfigService;
+            _userRoleRepository = userRoleRepository;
+            _cacheManager = cacheManager;
+            _userSession = userSession;
+        }
+
+        private async Task<List<ZOrganization>> GetChildOrg(string id, List<ZOrganization> orgLists)
+        {
+            var orgList = _orgRepository.GetQueryAll().Where(p => p.ParentId == id);
+            if (await orgList.AnyAsync())
+            {
+                orgLists.AddRange(orgList);
+                foreach (var org in orgLists)
+                {
+                    return await GetChildOrg(org.Id, orgLists);
+                }
+            }
+            return orgLists;
         }
 
         /// <summary>
@@ -50,8 +82,12 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
             if (!string.IsNullOrWhiteSpace(dto.OrgId))
             {
                 orgIdList.Add(dto.OrgId);
-                var list = await _orgRepository.GetQueryAll().Include(p => p.Children).Where(p=>p.ParentId == dto.OrgId).ToListAsync();
-                orgIdList.AddRange(list.Select(x => x.Id));
+                var orgEntity = await _orgRepository.GetQueryAll().Include(p => p.Children).FirstOrDefaultAsync(p => p.Id == dto.OrgId);
+                if (orgEntity != null)
+                {
+                    var list = await GetChildOrg(orgEntity.Id, new List<ZOrganization>());
+                    orgIdList.AddRange(list.Select(x => x.Id));
+                }
             }
             return await _userDomainManager.QueryAsNoTracking
                 .WhereIf(!string.IsNullOrWhiteSpace(dto.Name), x => x.Name.Contains(dto.Name))
@@ -78,22 +114,21 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [UnitOfWork, HttpPost("add")]
         [DisplayName("添加系统用户")]
         public async Task AddUser(AddSysUserInput dto)
         {
-            var user = dto.Adapt<SysUser>();
+            var user = ObjectMapper.Map<ZUserInfo>(dto);
             user.Id = _idGenerator.NextId();
             string encode = _idGenerator.Encode(user.Id);
             var setting = await _customConfigService.Get<SysSecuritySetting>();
-            user.Password = MD5Encryption.Encrypt(encode + (setting?.Password ?? "123456"));
-            var roles = dto.Roles.Select(x => new SysUserRole()
+            user.PassWord = MD5Encryption.Encrypt(encode + (setting?.Password ?? "123456"));
+            var roles = dto.Roles.Select(x => new ZUserRole()
             {
                 RoleId = x,
                 UserId = user.Id
             }).ToList();
-            await _repository.InsertAsync(user);
-            await _userRoleRepository.InsertRangeAsync(roles);
+            await _userDomainManager.Create(user);
+            await _userRoleRepository.InsertManyAsync(roles);
         }
 
         /// <summary>
@@ -102,22 +137,21 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         /// <param name="dto"></param>
         /// <returns></returns>
         [DisplayName("更新系统用户信息")]
-        [UnitOfWork, HttpPut("edit")]
         public async Task UpdateUser(UpdateSysUserInput dto)
         {
-            var user = await _repository.GetByIdAsync(dto.Id);
-            if (user == null) throw Oops.Bah("无效参数");
+            var user = await _userDomainManager.FindByIdAsync(dto.Id);
+            if (user == null) throw new UserFriendlyException("无效参数");
 
-            dto.Adapt(user);
-            var roles = dto.Roles.Select(x => new SysUserRole()
+            ObjectMapper.Map(dto, user);
+            var roles = dto.Roles.Select(x => new ZUserRole()
             {
                 RoleId = x,
                 UserId = user.Id
             }).ToList();
-            await _repository.UpdateAsync(user);
+            await _userDomainManager.Update(user);
             await _userRoleRepository.DeleteAsync(x => x.UserId == user.Id);
-            await _userRoleRepository.InsertRangeAsync(roles);
-            await _easyCachingProvider.RemoveByPrefixAsync(CacheConst.PermissionKey);
+            await _userRoleRepository.InsertManyAsync(roles);
+            await _cacheManager.RemoveCacheAsync(CacheConst.PermissionKey);
         }
 
         /// <summary>
@@ -126,23 +160,21 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<UpdateSysUserInput> Detail([FromQuery] long id)
+        public async Task<UpdateSysUserInput> Detail([FromQuery] string id)
         {
-            return await _repository.AsQueryable().Where(x => x.Id == id)
+            return await _userDomainManager.QueryAsNoTracking.Where(x => x.Id == id)
                   .Select(x => new UpdateSysUserInput()
                   {
                       Id = x.Id,
                       Name = x.Name,
                       Status = x.Status,
                       OrgId = x.OrgId,
-                      Account = x.Account,
+                      UserName = x.UserName,
                       Mobile = x.Mobile,
-                      Remark = x.Remark,
                       Birthday = x.Birthday,
                       Email = x.Email,
                       Gender = x.Gender,
-                      NickName = x.NickName,
-                      Roles = SqlFunc.Subqueryable<SysUserRole>().Where(s => s.UserId == x.Id).ToList(s => s.RoleId)
+                      Roles = _userRoleRepository.GetQueryAll().Where(s => s.UserId == x.Id).Select(p => p.RoleId).ToList()
                   }).FirstAsync();
         }
 
@@ -155,9 +187,9 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         public async Task Reset(ResetPasswordInput dto)
         {
             string encrypt = MD5Encryption.Encrypt(_idGenerator.Encode(dto.Id) + dto.Password);
-            await _repository.UpdateAsync(x => new SysUser()
+            await _userDomainManager.UpdateAsync(new ZUserInfo()
             {
-                Password = encrypt
+                PassWord = encrypt
             }, x => x.Id == dto.Id);
         }
 
@@ -169,36 +201,21 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         [HttpGet]
         public async Task<SysUserInfoOutput> CurrentUserInfo()
         {
-            var userId = _authManager.UserId;
-            return await _repository.AsQueryable().Where(x => x.Id == userId)
+            var userId = _userSession.UserId;
+            return await _userDomainManager.QueryAsNoTracking.Where(x => x.Id == userId)
                   .Select(x => new SysUserInfoOutput
                   {
                       Name = x.Name,
-                      Account = x.Account,
+                      UserName = x.UserName,
                       Avatar = x.Avatar,
                       Birthday = x.Birthday,
                       Email = x.Email,
                       Gender = x.Gender,
-                      NickName = x.NickName,
-                      Remark = x.Remark,
                       LastLoginIp = x.LastLoginIp,
                       LastLoginAddress = x.LastLoginAddress,
                       Mobile = x.Mobile,
                       OrgId = x.OrgId,
-                      OrgName = SqlFunc.Subqueryable<SysOrganization>().Where(o => o.Id == x.OrgId).Select(o => o.Name)
-                  })
-                  .Mapper(dto =>
-                  {
-                      if (_authManager.IsSuperAdmin)
-                      {
-                          dto.AuthBtnList = _repository.AsSugarClient().Queryable<SysMenu>().Where(x => x.Type == MenuType.Button)
-                                .Select(x => x.Code).ToList();
-                      }
-                      else
-                      {
-                          var list = _sysMenuService.GetAuthButtonCodeList(userId).GetAwaiter().GetResult();
-                          dto.AuthBtnList = list.Where(x => x.Access).Select(x => x.Code).ToList();
-                      }
+                      OrgName = _orgRepository.GetQueryAll().Where(o => o.Id == x.OrgId).Select(o => o.Name).FirstOrDefault()
                   })
                   .FirstAsync();
         }
@@ -212,21 +229,19 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         [HttpPatch]
         public async Task ChangePassword(ChangePasswordOutput dto)
         {
-            var userId = _authManager.UserId;
+            var userId = _userSession.UserId;
             string encode = _idGenerator.Encode(userId);
             string pwd = MD5Encryption.Encrypt($"{encode}{dto.OriginalPwd}");
-            if (!await _repository.IsAnyAsync(x => x.Id == userId && x.Password == pwd))
+            if (!await _userDomainManager.QueryAsNoTracking.AnyAsync(x => x.Id == userId && x.PassWord == pwd))
             {
-                throw Oops.Bah("原密码错误");
+                throw new UserFriendlyException("原密码错误");
             }
             pwd = MD5Encryption.Encrypt($"{encode}{dto.Password}");
-            await _repository.AsSugarClient().Updateable<SysUser>()
-                .SetColumns(x => new SysUser()
+            await _userDomainManager.UpdateAsync(
+                new ZUserInfo()
                 {
-                    Password = pwd
-                })
-                .Where(x => x.Id == userId)
-                .ExecuteCommandHasChangeAsync();
+                    PassWord = pwd
+                }, x => x.Id == userId);
         }
 
         /// <summary>
@@ -238,8 +253,8 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         [HttpPatch]
         public async Task UploadAvatar([FromBody] string url)
         {
-            long userId = _authManager.UserId;
-            await _repository.UpdateAsync(x => new SysUser()
+            var userId = _userSession.UserId;
+            await _userDomainManager.UpdateAsync(new ZUserInfo()
             {
                 Avatar = url
             }, x => x.Id == userId);
@@ -253,15 +268,14 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         [HttpPatch("updateCurrentUser")]
         public async Task UpdateCurrentUser(UpdateCurrentUserInput dto)
         {
-            long userId = _authManager.UserId;
-            await _repository.UpdateAsync(x => new SysUser()
+            var userId = _userSession.UserId;
+            await _userDomainManager.UpdateAsync(new ZUserInfo()
             {
                 Name = dto.Name,
                 Birthday = dto.Birthday,
                 Email = dto.Email,
                 Gender = dto.Gender,
                 Mobile = dto.Mobile,
-                NickName = dto.NickName
             }, x => x.Id == userId);
         }
     }
