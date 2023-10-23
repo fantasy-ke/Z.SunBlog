@@ -53,9 +53,9 @@ public static class YitIdHelperExtension
     /// </summary>
     /// <param name="generator"></param>
     /// <returns></returns>
-    public static long NextId(this IIdGenerator generator)
+    public static string NextId(this IIdGenerator generator)
     {
-        return generator.NewLong();
+        return Guid.NewGuid().ToString("N");
     }
 
     /// <summary>
