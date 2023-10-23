@@ -8,6 +8,7 @@ using Z.SunBlog.Application.ArticleModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.CommentsModule;
 using Z.SunBlog.Application.FriendLinkModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.OAuthModule.BlogServer.MapperConfig;
+using Z.SunBlog.Application.SystemServiceModule.UserService.MapperConfig;
 using Z.SunBlog.Application.TagsModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.TalksModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.UserModule.MapperConfig;
@@ -43,6 +44,7 @@ namespace Z.SunBlog.Application
                     CommentsCAutoMapper.CreateMappings(ctx.MapperConfiguration);
                     FriendLinkAutoMapper.CreateMappings(ctx.MapperConfiguration);
                     OAuthAutoMapper.CreateMappings(ctx.MapperConfiguration);
+                    UserSysMapper.CreateMappings(ctx.MapperConfiguration);
 
                 });
             });

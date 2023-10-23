@@ -11,7 +11,7 @@ public class SysUserInfoOutput
     /// <summary>
     /// 账户名
     /// </summary>
-    public string Account { get; set; }
+    public string UserName { get; set; }
     /// <summary>
     /// 头像
     /// </summary>
@@ -19,7 +19,7 @@ public class SysUserInfoOutput
     /// <summary>
     /// 生日
     /// </summary>
-    public DateOnly? Birthday { get; set; }
+    public DateTime? Birthday { get; set; }
     /// <summary>
     /// 邮箱
     /// </summary>
@@ -51,7 +51,7 @@ public class SysUserInfoOutput
     /// <summary>
     /// 机构id
     /// </summary>
-    public long OrgId { get; set; }
+    public string OrgId { get; set; }
     /// <summary>
     /// 机构名称
     /// </summary>
