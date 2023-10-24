@@ -29,14 +29,28 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
 {
     public interface IUserSysAppService : IApplicationService, ITransientDependency
     {
+        Task<PageResult<SysUserPageOutput>> GetPage([FromQuery] QuerySysUserInput dto);
 
+        Task AddUser(AddSysUserInput dto);
+
+        Task UpdateUser(UpdateSysUserInput dto);
+
+        Task<UpdateSysUserInput> Detail([FromQuery] string id);
+
+        Task Reset(ResetPasswordInput dto);
+
+        Task<SysUserInfoOutput> CurrentUserInfo();
+
+        Task UploadAvatar([FromBody] string url);
+
+        Task UpdateCurrentUser(UpdateCurrentUserInput dto);
     }
     /// <summary>
     /// 用户操作服务
     /// </summary>
     public class UserSysAppService : ApplicationService, IUserSysAppService
     {
-        private readonly IBasicRepository<ZOrganization> _orgRepository;
+        private readonly IBasicRepository<ZOrganization, string> _orgRepository;
         private readonly IBasicRepository<ZUserRole> _userRoleRepository;
         private readonly IIdGenerator _idGenerator;
         private readonly ICustomConfigAppService _customConfigService;
@@ -44,7 +58,14 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         private readonly IUserSession _userSession;
 
         private readonly IUserDomainManager _userDomainManager;
-        public UserSysAppService(IServiceProvider serviceProvider, IBasicRepository<ZOrganization> orgRepository, IUserDomainManager userDomainManager, IIdGenerator idGenerator, ICustomConfigAppService customConfigService, IBasicRepository<ZUserRole> userRoleRepository, ICacheManager cacheManager, IUserSession userSession) : base(serviceProvider)
+        public UserSysAppService(IServiceProvider serviceProvider,
+            IBasicRepository<ZOrganization, string> orgRepository,
+            IUserDomainManager userDomainManager,
+            IIdGenerator idGenerator,
+            ICustomConfigAppService customConfigService,
+            IBasicRepository<ZUserRole> userRoleRepository,
+            ICacheManager cacheManager,
+            IUserSession userSession) : base(serviceProvider)
         {
             _orgRepository = orgRepository;
             _userDomainManager = userDomainManager;
@@ -76,7 +97,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         /// <returns></returns>
         [DisplayName("系统用户分页查询")]
         [HttpGet]
-        public async Task<PageResult<SysUserPageOutput>> Page([FromQuery] QuerySysUserInput dto)
+        public async Task<PageResult<SysUserPageOutput>> GetPage([FromQuery] QuerySysUserInput dto)
         {
             List<string> orgIdList = new List<string>();
             if (!string.IsNullOrWhiteSpace(dto.OrgId))
