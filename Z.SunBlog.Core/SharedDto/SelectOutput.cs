@@ -13,4 +13,9 @@ public class SelectOutput
     /// 值
     /// </summary>
     public Guid Value { get; set; }
+
+    /// <summary>
+    /// 值
+    /// </summary>
+    public string Value2 { get; set; }
 }

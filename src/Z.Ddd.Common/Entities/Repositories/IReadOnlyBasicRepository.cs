@@ -35,6 +35,7 @@ public interface IReadOnlyBasicRepository<TEntity> : IRepository
 
 
     Task<(List<TEntity>, int)> GetPagedListAsync(int pageNumber, int pageSize, CancellationToken cancellationToken = default);
+
 }
 
 public interface IReadOnlyBasicRepository<TEntity, TKey> : IReadOnlyBasicRepository<TEntity>
