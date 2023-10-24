@@ -30,6 +30,9 @@ using Z.SunBlog.Core.SharedDto;
 
 namespace Z.SunBlog.Application.SystemServiceModule.RoleService
 {
+    /// <summary>
+    /// 用户后台操作接口
+    /// </summary>
     public interface IRoleSysAppService : IApplicationService, ITransientDependency
     {
         Task<PageResult<SysRolePageOutput>> GetPage([FromQuery] SysRoleQueryInput dto);
@@ -57,7 +60,12 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
         private readonly IZRoleMenuManager _roleMenuManager;
         private readonly IMenuManager _menuManager;
 
-        public RoleSysAppService(IServiceProvider serviceProvider, IBasicRepository<ZRoleInfo, string> roleRepository, IIdGenerator idGenerator, IZRoleMenuManager roleMenuManager, ICacheManager cacheManager, IMenuManager menuManager) : base(serviceProvider)
+        public RoleSysAppService(IServiceProvider serviceProvider,
+            IBasicRepository<ZRoleInfo, string> roleRepository,
+            IIdGenerator idGenerator,
+            IZRoleMenuManager roleMenuManager,
+            ICacheManager cacheManager,
+            IMenuManager menuManager) : base(serviceProvider)
         {
             _roleRepository = roleRepository;
             _idGenerator = idGenerator;
