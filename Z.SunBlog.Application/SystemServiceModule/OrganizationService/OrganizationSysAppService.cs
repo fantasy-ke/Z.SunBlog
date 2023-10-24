@@ -24,6 +24,12 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
     /// </summary>
     public interface IOrganizationSysAppService : IApplicationService, ITransientDependency
     {
+        Task<List<SysOrgPageOutput>> GetPage([FromQuery] string name);
+        Task AddOrg(AddOrgInput dto);
+
+        Task UpdateOrg(UpdateOrgInput dto);
+
+        Task<List<TreeSelectOutput>> TreeSelect();
     }
     internal class OrganizationSysAppService : ApplicationService, IOrganizationSysAppService
     {
@@ -58,7 +64,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
         /// <returns></returns>
         [Description("组织机构列表查询")]
         [HttpGet]
-        public async Task<List<SysOrgPageOutput>> Page([FromQuery] string name)
+        public async Task<List<SysOrgPageOutput>> GetPage([FromQuery] string name)
         {
             if (!string.IsNullOrWhiteSpace(name))
             {
