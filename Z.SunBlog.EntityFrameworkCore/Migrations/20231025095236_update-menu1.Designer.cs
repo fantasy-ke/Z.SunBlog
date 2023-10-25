@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Z.SunBlog.EntityFrameworkCore;
 
@@ -11,9 +12,11 @@ using Z.SunBlog.EntityFrameworkCore;
 namespace Z.SunBlog.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(SunBlogDbContext))]
-    partial class SunBlogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231025095236_update-menu1")]
+    partial class updatemenu1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -967,8 +970,8 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
 
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("uniqueidentifier");
