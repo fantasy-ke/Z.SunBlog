@@ -1,9 +1,9 @@
 ﻿namespace Z.SunBlog.Application.SystemServiceModule.RoleService.Dto;
 
-public class UpdateSysRoleInput : AddSysRoleInput
+public class UpdateSysRoleInput : AddRoleInput
 {
     /// <summary>
     /// 角色Id
     /// </summary>
-    public string Id { get; set; }
+    public string? Id { get; set; }
 }
