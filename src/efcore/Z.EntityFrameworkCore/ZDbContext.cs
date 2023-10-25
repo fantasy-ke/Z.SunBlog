@@ -1,30 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Z.Ddd.Common.Entities;
-using Z.Ddd.Common.Entities.Auditing;
 using Z.Ddd.Common.Entities.EntityLog;
 using Z.Ddd.Common.Entities.IAuditing;
 using Z.Ddd.Common.Entities.Organizations;
 using Z.Ddd.Common.Entities.Roles;
 using Z.Ddd.Common.Entities.Users;
-using Z.Ddd.Common.Extensions;
-using Z.Ddd.Common.Helper;
 using Z.EntityFrameworkCore.Extensions;
 using Z.EntityFrameworkCore.Options;
-using Z.Module.DependencyInjection;
 
 namespace Z.EntityFrameworkCore
 {

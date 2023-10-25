@@ -2,7 +2,7 @@
 
 namespace Z.SunBlog.Application.SystemServiceModule.RoleService.Dto;
 
-public class SysRolePageOutput
+public class RolePageOutput
 {
     /// <summary>
     /// 主键
