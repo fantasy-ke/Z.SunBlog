@@ -8,7 +8,12 @@ public class AvailabilityDto
     /// <summary>
     /// 主键
     /// </summary>
-    public string Id { get; set; }
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// 主键
+    /// </summary>
+    public Guid? GId { get; set; }
     /// <summary>
     /// 状态
     /// </summary>

@@ -31,7 +31,7 @@ public class Menu : FullAuditedEntity<Guid>
     /// <summary>
     /// 父级菜单
     /// </summary>
-    public long? ParentId { get; set; }
+    public Guid? ParentId { get; set; }
 
     /// <summary>
     /// 路由名
