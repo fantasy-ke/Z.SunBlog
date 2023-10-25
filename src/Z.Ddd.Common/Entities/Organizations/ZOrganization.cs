@@ -55,5 +55,5 @@ public class ZOrganization : FullAuditedEntity<string>
     /// 子部门
     /// </summary>
     [NotMapped]
-    public virtual List<ZOrganization> Children { get; set; };
+    public virtual List<ZOrganization> Children { get; set; }
 }

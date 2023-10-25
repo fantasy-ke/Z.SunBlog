@@ -4,11 +4,8 @@
 
 using AutoMapper;
 using Z.SunBlog.Application.MenuModule.Dto;
-using Z.SunBlog.Application.TagsModule.BlogServer.Dto;
-using Z.SunBlog.Core.ArticleModule;
 using Z.SunBlog.Core.MenuModule;
 using Z.SunBlog.Core.SharedDto;
-using Z.SunBlog.Core.TagModule;
 
 namespace Z.SunBlog.Application.MenuModule.MapperConfig
 {

@@ -1,20 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Organizations;
-using Z.Ddd.Common.Entities.Roles;
 using Z.Ddd.Common.Exceptions;
-using Z.Ddd.Common.ResultResponse;
 using Z.Module.DependencyInjection;
 using Z.SunBlog.Application.SystemServiceModule.OrganizationService.Dto;
-using Z.SunBlog.Application.SystemServiceModule.RoleService.Dto;
-using Z.SunBlog.Application.SystemServiceModule.UserService;
 using Z.SunBlog.Core.SharedDto;
 
 namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService

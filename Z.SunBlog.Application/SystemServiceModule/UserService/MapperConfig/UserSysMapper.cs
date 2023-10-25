@@ -4,12 +4,7 @@
 
 using AutoMapper;
 using Z.Ddd.Common.Entities.Users;
-using Z.SunBlog.Application.OAuthModule.Dto;
 using Z.SunBlog.Application.SystemServiceModule.UserService.Dto;
-using Z.SunBlog.Application.TagsModule.BlogServer.Dto;
-using Z.SunBlog.Core.ArticleModule;
-using Z.SunBlog.Core.FriendLinkModule;
-using Z.SunBlog.Core.TagModule;
 
 namespace Z.SunBlog.Application.SystemServiceModule.UserService.MapperConfig
 {

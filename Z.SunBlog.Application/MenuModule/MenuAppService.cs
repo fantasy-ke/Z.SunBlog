@@ -1,14 +1,8 @@
-﻿using Easy.Admin.Core.Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Enum;
-using Z.Ddd.Common.Entities.Organizations;
-using Z.Ddd.Common.Entities.Roles;
 using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.RedisModule;
