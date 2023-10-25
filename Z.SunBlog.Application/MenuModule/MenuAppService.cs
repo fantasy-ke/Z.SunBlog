@@ -44,7 +44,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
         //{
         var menuQuery = _menuManager.QueryAsNoTracking
             .OrderBy(x => x.Sort)
-            .OrderBy(x => x.CreatedTime);
+            .OrderBy(x => x.CreationTime);
         if (!string.IsNullOrWhiteSpace(name))
         {
             var list = await menuQuery.Where(x => x.Name.Contains(name)).ToListAsync();
@@ -233,6 +233,16 @@ public class MenuAppService : ApplicationService, IMenuAppService
     public async Task<List<RouterOutput>> PermissionMenus()
     {
         var userId = _userSession.UserId;
+
+        var queryable = _menuManager.QueryAsNoTracking
+                .Where(x => x.Status == AvailabilityStatus.Enable)
+                .OrderBy(x => x.Sort);
+        //if (_authManager.IsSuperAdmin)
+        //{
+
+        var menus = await queryable.Where(x => x.ParentId == null && x.Type != MenuType.Button).ToListAsync();
+
+        var listChild = await GetChildMenu(menus, new List<Menu>());
         var value = await _cacheManager.GetCacheAsync($"{CacheConst.PermissionMenuKey}{userId.Substring(2, 3)}", async () =>
         {
             var queryable = _menuManager.QueryAsNoTracking
