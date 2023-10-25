@@ -35,22 +35,18 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
             _orgDomainService = orgDomainService;
         }
 
-        private async Task<List<ZOrganization>> GetChildOrg(List<ZOrganization> orgPanentLists, List<ZOrganization> orgtLists)
+        private async Task GetChildOrg(List<ZOrganization> orgPanentLists)
         {
             foreach (var orgPan in orgPanentLists)
             {
                 var orgList = await _orgDomainService.GetQueryAll()
                     .Where(p => p.ParentId == orgPan.Id).ToListAsync();
-                orgtLists.AddRange(orgList);
                 if (orgList.Any())
                 {
                     orgPan.Children = orgList;
-                    orgtLists.Add(orgPan);
-                    return await GetChildOrg(orgList, orgtLists);
+                    await GetChildOrg(orgList);
                 }
             }
-
-            return orgtLists;
         }
 
         /// <summary>
@@ -72,9 +68,9 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
                 .Where(p => p.ParentId == null)
                 .ToListAsync();
 
-            var listChild = await GetChildOrg(treePanentList, new List<ZOrganization>());
+            await GetChildOrg(treePanentList);
 
-            return ObjectMapper.Map<List<SysOrgPageOutput>>(listChild);
+            return ObjectMapper.Map<List<SysOrgPageOutput>>(treePanentList);
         }
 
         /// <summary>
@@ -120,9 +116,9 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
                 .Where(p => p.ParentId == null)
                 .ToListAsync();
 
-            var listChild = await GetChildOrg(treePanentList, new List<ZOrganization>());
+            await GetChildOrg(treePanentList);
 
-            return ObjectMapper.Map<List<TreeSelectOutput>>(listChild);
+            return ObjectMapper.Map<List<TreeSelectOutput>>(treePanentList);
         }
     }
 }

@@ -193,8 +193,8 @@ public class MenuAppService : ApplicationService, IMenuAppService
     {
         var list = await _menuManager.QueryAsNoTracking
             .OrderBy(x => x.Sort).Where(p => p.ParentId == null).ToListAsync();
-        var listChild = await GetChildMenu(list, new List<Menu>());
-        return ObjectMapper.Map<List<TreeSelectOutput>>(listChild);
+        await BuildMenu(list);
+        return ObjectMapper.Map<List<TreeSelectOutput>>(list);
     }
 
     /// <summary>
@@ -277,7 +277,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
 
         var menus = await _menuManager.QueryAsNoTracking.Where(x => x.ParentId == null).ToListAsync();
 
-        var listChild = await GetChildMenu(menus, new List<Menu>());
+        await BuildMenu(menus);
         //}
         //else
         //{
@@ -359,24 +359,6 @@ public class MenuAppService : ApplicationService, IMenuAppService
 
 
     #region 私有方法
-
-
-    private async Task<List<Menu>> GetChildMenu(List<Menu> menuPanentLists, List<Menu> menutLists)
-    {
-        foreach (var menuPan in menuPanentLists)
-        {
-            var menuList = await _menuManager.QueryAsNoTracking
-                .Where(p => p.ParentId == menuPan.Id).ToListAsync();
-            if (menuList.Any())
-            {
-                menuPan.Children = menuList;
-                await GetChildMenu(menuList, menutLists);
-            }
-            menutLists.Add(menuPan);
-        }
-
-        return menutLists;
-    }
 
     private async Task BuildMenu(List<Menu> menuPanentLists)
     {

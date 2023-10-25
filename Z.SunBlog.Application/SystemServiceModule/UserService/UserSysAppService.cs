@@ -25,7 +25,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
 {
     public interface IUserSysAppService : IApplicationService, ITransientDependency
     {
-        Task<PageResult<UserPageOutput>> GetPage([FromQuery] QueryUserInput dto);
+        Task<PageResult<UserPageOutput>> PageData([FromBody] QueryUserInput dto);
 
         Task AddUser(AddUserInput dto);
 
@@ -94,8 +94,8 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         /// <param name="dto"></param>
         /// <returns></returns>
         [DisplayName("系统用户分页查询")]
-        [HttpGet]
-        public async Task<PageResult<UserPageOutput>> GetPage([FromQuery] QueryUserInput dto)
+        [HttpPost]
+        public async Task<PageResult<UserPageOutput>> PageData([FromBody] QueryUserInput dto)
         {
             List<string> orgIdList = new List<string>();
             if (!string.IsNullOrWhiteSpace(dto.OrgId))
