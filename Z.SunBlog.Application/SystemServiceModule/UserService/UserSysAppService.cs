@@ -18,6 +18,7 @@ using Z.SunBlog.Application.FriendLinkModule.BlogServer;
 using Z.SunBlog.Application.SystemServiceModule.UserService.Dto;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.CustomConfigModule;
+using Z.SunBlog.Core.SharedDto;
 using Z.SunBlog.Core.UserModule.DomainManager;
 
 namespace Z.SunBlog.Application.SystemServiceModule.UserService
@@ -37,6 +38,8 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         Task<UserInfoOutput> CurrentUserInfo();
 
         Task UploadAvatar([FromBody] string url);
+
+        Task Delete(string id);
 
         Task UpdateCurrentUser(UpdateCurrentUserInput dto);
     }
@@ -293,6 +296,14 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
                 Gender = dto.Gender,
                 Mobile = dto.Mobile,
             }, x => x.Id == userId);
+        }
+
+
+        [DisplayName("删除菜单/按钮"), HttpDelete]
+        public async Task Delete(string id)
+        {
+            await _userDomainManager.Delete(id);
+            await _cacheManager.RefreshCacheAsync(CacheConst.PermissionKey);
         }
     }
 }

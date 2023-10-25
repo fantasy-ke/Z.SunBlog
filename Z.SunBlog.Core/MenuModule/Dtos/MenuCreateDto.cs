@@ -63,6 +63,11 @@ namespace Z.SunBlog.Core.MenuModule.Dtos
         public string? Icon { get; set; }
 
         /// <summary>
+        /// 排序
+        /// </summary>
+        public int Sort { get; set; }
+
+        /// <summary>
         /// 类型
         /// </summary>
         public MenuType Type { get; set; }
