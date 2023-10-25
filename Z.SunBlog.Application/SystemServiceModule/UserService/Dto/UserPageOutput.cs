@@ -4,12 +4,12 @@ using Z.SunBlog.Core.SharedDto;
 
 namespace Z.SunBlog.Application.SystemServiceModule.UserService.Dto;
 
-public class SysUserPageOutput:Entity<string>
+public class UserPageOutput:Entity<string?>
 {
     /// <summary>
     /// 姓名
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// 状态
@@ -19,7 +19,7 @@ public class SysUserPageOutput:Entity<string>
     /// <summary>
     /// 账户名
     /// </summary>
-    public string UserName { get; set; }
+    public string? UserName { get; set; }
 
     /// <summary>
     /// 生日
@@ -29,7 +29,7 @@ public class SysUserPageOutput:Entity<string>
     /// <summary>
     /// 手机号码
     /// </summary>
-    public string Mobile { get; set; }
+    public string? Mobile { get; set; }
 
     /// <summary>
     /// 性别
@@ -39,7 +39,7 @@ public class SysUserPageOutput:Entity<string>
     /// <summary>
     /// 昵称
     /// </summary>
-    public string NickName { get; set; }
+    public string? NickName { get; set; }
 
     /// <summary>
     /// 创建时间
@@ -49,5 +49,5 @@ public class SysUserPageOutput:Entity<string>
     /// <summary>
     /// 邮箱
     /// </summary>
-    public string Email { get; set; }
+    public string? Email { get; set; }
 }

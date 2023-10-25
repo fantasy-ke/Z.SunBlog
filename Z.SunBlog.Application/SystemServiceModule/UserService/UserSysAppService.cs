@@ -29,17 +29,17 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
 {
     public interface IUserSysAppService : IApplicationService, ITransientDependency
     {
-        Task<PageResult<SysUserPageOutput>> GetPage([FromQuery] QuerySysUserInput dto);
+        Task<PageResult<UserPageOutput>> GetPage([FromQuery] QueryUserInput dto);
 
-        Task AddUser(AddSysUserInput dto);
+        Task AddUser(AddUserInput dto);
 
-        Task UpdateUser(UpdateSysUserInput dto);
+        Task UpdateUser(UpdateUserInput dto);
 
-        Task<UpdateSysUserInput> Detail([FromQuery] string id);
+        Task<UpdateUserInput> Detail([FromQuery] string id);
 
         Task Reset(ResetPasswordInput dto);
 
-        Task<SysUserInfoOutput> CurrentUserInfo();
+        Task<UserInfoOutput> CurrentUserInfo();
 
         Task UploadAvatar([FromBody] string url);
 
@@ -97,7 +97,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         /// <returns></returns>
         [DisplayName("系统用户分页查询")]
         [HttpGet]
-        public async Task<PageResult<SysUserPageOutput>> GetPage([FromQuery] QuerySysUserInput dto)
+        public async Task<PageResult<UserPageOutput>> GetPage([FromQuery] QueryUserInput dto)
         {
             List<string> orgIdList = new List<string>();
             if (!string.IsNullOrWhiteSpace(dto.OrgId))
@@ -115,7 +115,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
                 .WhereIf(!string.IsNullOrWhiteSpace(dto.UserName), x => x.UserName.Contains(dto.UserName))
                 .WhereIf(!string.IsNullOrWhiteSpace(dto.Mobile), x => x.Mobile.Contains(dto.Mobile))
                 .WhereIf(orgIdList.Any(), x => orgIdList.Contains(x.OrgId))
-                .Select(x => new SysUserPageOutput
+                .Select(x => new UserPageOutput
                 {
                     Name = x.Name,
                     Status = x.Status,
@@ -136,7 +136,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         /// <param name="dto"></param>
         /// <returns></returns>
         [DisplayName("添加系统用户")]
-        public async Task AddUser(AddSysUserInput dto)
+        public async Task AddUser(AddUserInput dto)
         {
             var user = ObjectMapper.Map<ZUserInfo>(dto);
             user.Id = _idGenerator.NextId();
@@ -158,7 +158,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         /// <param name="dto"></param>
         /// <returns></returns>
         [DisplayName("更新系统用户信息")]
-        public async Task UpdateUser(UpdateSysUserInput dto)
+        public async Task UpdateUser(UpdateUserInput dto)
         {
             var user = await _userDomainManager.FindByIdAsync(dto.Id);
             if (user == null) throw new UserFriendlyException("无效参数");
@@ -181,10 +181,10 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<UpdateSysUserInput> Detail([FromQuery] string id)
+        public async Task<UpdateUserInput> Detail([FromQuery] string id)
         {
             return await _userDomainManager.QueryAsNoTracking.Where(x => x.Id == id)
-                  .Select(x => new UpdateSysUserInput()
+                  .Select(x => new UpdateUserInput()
                   {
                       Id = x.Id,
                       Name = x.Name,
@@ -220,11 +220,11 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         /// <returns></returns>
         [DisplayName("获取登录用户的信息")]
         [HttpGet]
-        public async Task<SysUserInfoOutput> CurrentUserInfo()
+        public async Task<UserInfoOutput> CurrentUserInfo()
         {
             var userId = _userSession.UserId;
             return await _userDomainManager.QueryAsNoTracking.Where(x => x.Id == userId)
-                  .Select(x => new SysUserInfoOutput
+                  .Select(x => new UserInfoOutput
                   {
                       Name = x.Name,
                       UserName = x.UserName,

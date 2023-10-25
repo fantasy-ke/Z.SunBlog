@@ -21,8 +21,8 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService.MapperConfig
         /// <param name="configuration"></param>
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
-            configuration.CreateMap<AddSysUserInput, ZUserInfo>().ReverseMap();
-            configuration.CreateMap<UpdateSysUserInput, ZUserInfo>().ReverseMap();
+            configuration.CreateMap<AddUserInput, ZUserInfo>().ReverseMap();
+            configuration.CreateMap<UpdateUserInput, ZUserInfo>().ReverseMap();
         }
     }
 }
