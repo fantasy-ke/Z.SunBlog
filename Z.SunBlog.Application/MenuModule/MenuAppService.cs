@@ -86,7 +86,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
     /// </summary>
     /// <returns></returns>
     [DisplayName("添加菜单/按钮")]
-    [HttpPost("add")]
+    [HttpPost]
     public async Task AddMenu(AddSysMenuInput dto)
     {
         var sysMenu = ObjectMapper.Map<Menu>(dto);
@@ -203,7 +203,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [DisplayName("删除菜单/按钮"), HttpDelete("delete")]
+    [DisplayName("删除菜单/按钮"), HttpDelete]
     public async Task Delete(KeyDto dto)
     {
         await _menuManager.Delete(dto.Id);
@@ -215,7 +215,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
     /// </summary>
     /// <param name="dto"></param>
     /// <returns></returns>
-    [DisplayName("修改菜单/按钮状态"), HttpPut("setStatus")]
+    [DisplayName("修改菜单/按钮状态"), HttpPut]
     public async Task SetStatus(AvailabilityDto dto)
     {
         var entity = await _menuManager.FindByIdAsync((Guid)dto.GId!);
@@ -233,7 +233,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
     public async Task<List<RouterOutput>> PermissionMenus()
     {
         var userId = _userSession.UserId;
-        var value = await _cacheManager.GetCacheAsync($"{CacheConst.PermissionMenuKey}{userId}", async () =>
+        var value = await _cacheManager.GetCacheAsync($"{CacheConst.PermissionMenuKey}{userId.Substring(2, 3)}", async () =>
         {
             var queryable = _menuManager.QueryAsNoTracking
                 .Where(x => x.Status == AvailabilityStatus.Enable)
@@ -257,7 +257,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
             //    .ToTreeAsync(x => x.Children, x => x.ParentId, null, array);
             //    RemoveButton(list);
             //}
-            return ObjectMapper.Map<List<RouterOutput>>(listChild);
+            return listChild != null && listChild.Count > 0 ? ObjectMapper.Map<List<RouterOutput>>(listChild) : null;
         }, TimeSpan.FromDays(1));
         return value ?? new List<RouterOutput>();
     }
@@ -304,7 +304,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
     public async Task<bool> CheckPermission(string code)
     {
         //if (_authManager.IsSuperAdmin) 
-            return true;
+        return true;
         //var cache = await GetAuthButtonCodeList(_authManager.UserId);
         //var output = cache.FirstOrDefault(x => x.Code.Contains(code, StringComparison.CurrentCultureIgnoreCase));
         //return output?.Access ?? true;

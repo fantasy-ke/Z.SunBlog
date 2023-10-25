@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Organizations;
+using Z.Ddd.Common.Entities.Repositories;
 using Z.Ddd.Common.Exceptions;
 using Z.Module.DependencyInjection;
 using Z.SunBlog.Application.SystemServiceModule.OrganizationService.Dto;
@@ -11,7 +12,7 @@ using Z.SunBlog.Core.SharedDto;
 namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
 {
     /// <summary>
-    /// 用户后台操作接口
+    /// 组织架构
     /// </summary>
     public interface IOrganizationSysAppService : IApplicationService, ITransientDependency
     {
@@ -22,10 +23,14 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
 
         Task<List<TreeSelectOutput>> TreeSelect();
     }
-    internal class OrganizationSysAppService : ApplicationService, IOrganizationSysAppService
+    
+    /// <summary>
+    /// 组织架构
+    /// </summary>
+    public class OrganizationSysAppService : ApplicationService, IOrganizationSysAppService
     {
-        private readonly IBasicDomainService<ZOrganization, string> _orgDomainService;
-        public OrganizationSysAppService(IServiceProvider serviceProvider, IBasicDomainService<ZOrganization, string> orgDomainService) : base(serviceProvider)
+        private readonly IBasicRepository<ZOrganization, string> _orgDomainService;
+        public OrganizationSysAppService(IServiceProvider serviceProvider, IBasicRepository<ZOrganization, string> orgDomainService) : base(serviceProvider)
         {
             _orgDomainService = orgDomainService;
         }
@@ -34,7 +39,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
         {
             foreach (var orgPan in orgPanentLists)
             {
-                var orgList = await _orgDomainService.QueryAsNoTracking
+                var orgList = await _orgDomainService.GetQueryAll()
                     .Where(p => p.ParentId == orgPan.Id).ToListAsync();
                 orgtLists.AddRange(orgList);
                 if (orgList.Any())
@@ -59,11 +64,11 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
         {
             if (!string.IsNullOrWhiteSpace(name))
             {
-                var list = await _orgDomainService.QueryAsNoTracking.Where(x => x.Name.Contains(name)).ToListAsync();
+                var list = await _orgDomainService.GetQueryAll().Where(x => x.Name.Contains(name)).ToListAsync();
                 return ObjectMapper.Map<List<SysOrgPageOutput>>(list);
             }
 
-            var treePanentList = await _orgDomainService.QueryAsNoTracking.OrderBy(x => x.Sort)
+            var treePanentList = await _orgDomainService.GetQueryAll().OrderBy(x => x.Sort)
                 .Where(p => p.ParentId == null)
                 .ToListAsync();
 
@@ -81,7 +86,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
         public async Task AddOrg(AddOrgInput dto)
         {
             var organization = ObjectMapper.Map<ZOrganization>(dto);
-            await _orgDomainService.Create(organization);
+            await _orgDomainService.InsertAsync(organization);
         }
 
         /// <summary>
@@ -90,17 +95,17 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
         /// <param name="dto"></param>
         /// <returns></returns>
         [Description("更新组织机构")]
-        [HttpPut("edit")]
+        [HttpPut]
         public async Task UpdateOrg(UpdateOrgInput dto)
         {
-            var organization = await _orgDomainService.FindByIdAsync(dto.Id);
+            var organization = await _orgDomainService.FindAsync(dto.Id);
             if (organization == null)
             {
                 throw new UserFriendlyException("无效参数");
             }
 
             ObjectMapper.Map(dto, organization);
-            await _orgDomainService.Update(organization);
+            await _orgDomainService.UpdateAsync(organization);
         }
 
         /// <summary>
@@ -111,7 +116,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
         [HttpGet]
         public async Task<List<TreeSelectOutput>> TreeSelect()
         {
-            var treePanentList = await _orgDomainService.QueryAsNoTracking.OrderBy(x => x.Sort)
+            var treePanentList = await _orgDomainService.GetQueryAll().OrderBy(x => x.Sort)
                 .Where(p => p.ParentId == null)
                 .ToListAsync();
 

@@ -147,7 +147,7 @@ namespace Z.Ddd.Common.RedisModule
         public async Task<T> GetCacheAsync<T>(string key, Func<Task<T>> dataRetriever, TimeSpan timeout)
         {
             var result = await GetCacheAsync<T>(key);
-            if (result!=null)
+            if (result != null)
             {
                 return result;
             }
@@ -177,7 +177,7 @@ namespace Z.Ddd.Common.RedisModule
                 });
 
                 redisLock.Dispose();
-                
+
                 result = item;
             }
 

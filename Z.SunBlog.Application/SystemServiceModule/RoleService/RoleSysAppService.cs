@@ -95,7 +95,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
         /// <param name="dto"></param>
         /// <returns></returns>
         [Description("添加角色")]
-        [HttpPost("add")]
+        [HttpPost]
         public async Task AddRole(AddRoleInput dto)
         {
             if (await _roleRepository.GetQueryAll().AnyAsync(x => x.Code == dto.Code))
@@ -167,7 +167,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [Description("修改角色状态"), HttpPut("setStatus")]
+        [Description("修改角色状态"), HttpPut]
         public async Task SetStatus(AvailabilityDto dto)
         {
             var entity = await _roleRepository.GetQueryAll().FirstOrDefaultAsync(x => x.Id == dto.Id);
@@ -181,7 +181,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [Description("删除角色"), HttpDelete("delete")]
+        [Description("删除角色"), HttpDelete]
         public async Task Delete(string id)
         {
             await _roleRepository.DeleteIDAsync(id);
