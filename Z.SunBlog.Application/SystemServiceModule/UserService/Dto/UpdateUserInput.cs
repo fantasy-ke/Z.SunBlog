@@ -1,6 +1,6 @@
 ﻿namespace Z.SunBlog.Application.SystemServiceModule.UserService.Dto;
 
-public class UpdateSysUserInput : AddSysUserInput
+public class UpdateUserInput : AddUserInput
 {
     /// <summary>
     /// 用户Id

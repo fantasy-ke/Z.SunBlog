@@ -2,12 +2,12 @@
 
 namespace Z.SunBlog.Application.SystemServiceModule.UserService.Dto;
 
-public class QuerySysUserInput : Pagination
+public class QueryUserInput : Pagination
 {
     /// <summary>
     /// 账号
     /// </summary>
-    public string UserName { get; set; }
+    public string? UserName { get; set; }
 
     /// <summary>
     /// 组织机构Id
@@ -17,10 +17,10 @@ public class QuerySysUserInput : Pagination
     /// <summary>
     /// 手机号
     /// </summary>
-    public string Mobile { get; set; }
+    public string? Mobile { get; set; }
 
     /// <summary>
     /// 姓名
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 }
