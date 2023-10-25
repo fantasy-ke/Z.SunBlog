@@ -35,9 +35,9 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
     /// </summary>
     public interface IRoleSysAppService : IApplicationService, ITransientDependency
     {
-        Task<PageResult<SysRolePageOutput>> GetPage([FromQuery] SysRoleQueryInput dto);
+        Task<PageResult<RolePageOutput>> GetPage([FromQuery] RoleQueryInput dto);
 
-        Task AddRole(AddSysRoleInput dto);
+        Task AddRole(AddRoleInput dto);
 
         Task UpdateRole(UpdateSysRoleInput dto);
 
@@ -80,13 +80,13 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<PageResult<SysRolePageOutput>> GetPage([FromQuery] SysRoleQueryInput dto)
+        public async Task<PageResult<RolePageOutput>> GetPage([FromQuery] RoleQueryInput dto)
         {
             return await _roleRepository.GetQueryAll()
                 .WhereIf(!string.IsNullOrWhiteSpace(dto.Name), x => x.Name.Contains(dto.Name))
                 .OrderBy(x => x.Sort)
                 .OrderByDescending(x => x.Id)
-                .Select(x => new SysRolePageOutput
+                .Select(x => new RolePageOutput
                 {
                     Id = x.Id,
                     Name = x.Name,
@@ -105,7 +105,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
         /// <returns></returns>
         [Description("添加角色")]
         [HttpPost("add")]
-        public async Task AddRole(AddSysRoleInput dto)
+        public async Task AddRole(AddRoleInput dto)
         {
             if (await _roleRepository.GetQueryAll().AnyAsync(x => x.Code == dto.Code))
             {

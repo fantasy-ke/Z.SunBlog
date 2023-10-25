@@ -3,14 +3,14 @@ using Z.Ddd.Common.Entities.Enum;
 
 namespace Z.SunBlog.Application.SystemServiceModule.RoleService.Dto;
 
-public class AddSysRoleInput
+public class AddRoleInput
 {
     /// <summary>
     /// 角色名称
     /// </summary>
     [Required(ErrorMessage = "角色名称为必填项")]
     [MaxLength(32, ErrorMessage = "角色名称限制32个字符内")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// 状态
@@ -22,7 +22,7 @@ public class AddSysRoleInput
     /// </summary>
     [Required(ErrorMessage = "角色编码为必填项")]
     [MaxLength(32, ErrorMessage = "角色名称限制32个字符内")]
-    public string Code { get; set; }
+    public string? Code { get; set; }
 
     /// <summary>
     /// 排序值
@@ -33,7 +33,7 @@ public class AddSysRoleInput
     /// 备注
     /// </summary>
     [MaxLength(200, ErrorMessage = "备注限制200个字符内")]
-    public string Remark { get; set; }
+    public string? Remark { get; set; }
 
     /// <summary>
     /// 授权按钮菜单Id

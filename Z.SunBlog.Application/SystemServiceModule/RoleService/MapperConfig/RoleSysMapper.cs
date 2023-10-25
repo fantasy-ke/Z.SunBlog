@@ -23,7 +23,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService.MapperConfig
         /// <param name="configuration"></param>
         public static void CreateMappings(IMapperConfigurationExpression configuration)
         {
-            configuration.CreateMap<ZRoleInfo, AddSysRoleInput>().ReverseMap();
+            configuration.CreateMap<ZRoleInfo, AddRoleInput>().ReverseMap();
             configuration.CreateMap<ZRoleInfo, UpdateSysRoleInput>().ReverseMap();
         }
     }
