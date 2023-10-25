@@ -43,8 +43,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
         //if (_userSession.UserId != null)
         //{
         var menuQuery = _menuManager.QueryAsNoTracking
-            .OrderBy(x => x.Sort)
-            .OrderBy(x => x.CreationTime);
+            .OrderBy(x => x.Sort);
         if (!string.IsNullOrWhiteSpace(name))
         {
             var list = await menuQuery.Where(x => x.Name.Contains(name)).ToListAsync();
@@ -53,9 +52,9 @@ public class MenuAppService : ApplicationService, IMenuAppService
 
         var menus = await menuQuery.Where(x => x.ParentId == null).ToListAsync();
 
-        var listChild = await GetChildMenu(menus, new List<Menu>());
+        await BuildMenu(menus);
 
-        return ObjectMapper.Map<List<MenuPageOutput>>(listChild);
+        return ObjectMapper.Map<List<MenuPageOutput>>(menus);
         //}
         //else
         //{
@@ -112,7 +111,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
     /// <param name="dto"></param>
     /// <returns></returns>
     [DisplayName("更新菜单/按钮")]
-    [HttpPut("edit")]
+    [HttpPut]
     public async Task UpdateMenu(UpdateSysMenuInput dto)
     {
         var sysMenu = await _menuManager.FindByIdAsync(dto.Id);
@@ -234,16 +233,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
     {
         var userId = _userSession.UserId;
 
-        var queryable = _menuManager.QueryAsNoTracking
-                .Where(x => x.Status == AvailabilityStatus.Enable)
-                .OrderBy(x => x.Sort);
-        //if (_authManager.IsSuperAdmin)
-        //{
-
-        var menus = await queryable.Where(x => x.ParentId == null && x.Type != MenuType.Button).ToListAsync();
-
-        var listChild = await GetChildMenu(menus, new List<Menu>());
-        var value = await _cacheManager.GetCacheAsync($"{CacheConst.PermissionMenuKey}{userId.Substring(2, 3)}", async () =>
+        var value = await _cacheManager.GetCacheAsync($"{CacheConst.PermissionMenuKey}{userId}", async () =>
         {
             var queryable = _menuManager.QueryAsNoTracking
                 .Where(x => x.Status == AvailabilityStatus.Enable)
@@ -253,7 +243,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
 
             var menus = await queryable.Where(x => x.ParentId == null && x.Type != MenuType.Button).ToListAsync();
 
-            var listChild = await GetChildMenu(menus, new List<Menu>());
+            await BuildMenu(menus);
             //}
             //else
             //{
@@ -267,7 +257,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
             //    .ToTreeAsync(x => x.Children, x => x.ParentId, null, array);
             //    RemoveButton(list);
             //}
-            return listChild != null && listChild.Count > 0 ? ObjectMapper.Map<List<RouterOutput>>(listChild) : null;
+            return menus != null && menus.Count > 0 ? ObjectMapper.Map<List<RouterOutput>>(menus) : null;
         }, TimeSpan.FromDays(1));
         return value ?? new List<RouterOutput>();
     }
@@ -377,16 +367,29 @@ public class MenuAppService : ApplicationService, IMenuAppService
         {
             var menuList = await _menuManager.QueryAsNoTracking
                 .Where(p => p.ParentId == menuPan.Id).ToListAsync();
-            menutLists.AddRange(menuList);
             if (menuList.Any())
             {
                 menuPan.Children = menuList;
-                menutLists.Add(menuPan);
-                return await GetChildMenu(menuList, menutLists);
+                await GetChildMenu(menuList, menutLists);
             }
+            menutLists.Add(menuPan);
         }
 
         return menutLists;
+    }
+
+    private async Task BuildMenu(List<Menu> menuPanentLists)
+    {
+        foreach (var menuPan in menuPanentLists)
+        {
+            var menuList = await _menuManager.QueryAsNoTracking
+                .Where(p => p.ParentId == menuPan.Id).ToListAsync();
+            if (menuList.Any())
+            {
+                menuPan.Children = menuList;
+                await BuildMenu(menuList);
+            }
+        }
     }
 
     private async Task<List<Menu>> GetChildMenu(Guid id, List<Menu> orgLists)

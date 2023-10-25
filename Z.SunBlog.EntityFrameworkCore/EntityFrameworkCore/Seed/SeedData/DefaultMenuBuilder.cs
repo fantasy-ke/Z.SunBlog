@@ -28,15 +28,21 @@ namespace Z.SunBlog.EntityFrameworkCore.EntityFrameworkCore.Seed.SeedData
 
         private void CreateDefaultMenu()
         {
-            var jsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Configs{Path.DirectorySeparatorChar}MenuDynamic.json");
-            var pageFilterJson = File.ReadAllText(jsonFileName);
+            var defaultMenu = _context.Menu.IgnoreQueryFilters().ToList();
+            if (defaultMenu == null || defaultMenu.Count == 0)
+            {
+                var jsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Configs{Path.DirectorySeparatorChar}MenuDynamic.json");
+                var pageFilterJson = File.ReadAllText(jsonFileName);
 
-            var dynamicMenuList = JsonConvert.DeserializeObject<List<MenuCreateDto>>(pageFilterJson);
+                var dynamicMenuList = JsonConvert.DeserializeObject<List<MenuCreateDto>>(pageFilterJson);
 
-            var menuList = SplicingMenu(dynamicMenuList, new List<Menu>(), null);
+                var menuList = SplicingMenu(dynamicMenuList, new List<Menu>(), null);
 
-            _context.Menu.AddRange(menuList);
-            _context.SaveChanges();
+                _context.Menu.AddRange(menuList);
+                _context.SaveChanges();
+
+            }
+
         }
 
         private List<Menu> SplicingMenu(List<MenuCreateDto> mentDtos, List<Menu> menus, Guid? panentId)
@@ -54,6 +60,7 @@ namespace Z.SunBlog.EntityFrameworkCore.EntityFrameworkCore.Seed.SeedData
                     IsKeepAlive = menudto.Meta.IsKeepAlive,
                     Icon = menudto.Meta.Icon,
                     IsVisible = !menudto.Meta.IsHide,
+                    Sort = menudto.Meta.Sort,
                     Link = menudto.Meta.IsLink,
                     Name = menudto.Meta.Title,
                     IsDeleted = false
