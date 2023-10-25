@@ -5,5 +5,5 @@ public class UpdateOrgInput : AddOrgInput
     /// <summary>
     /// 部门Id
     /// </summary>
-    public string Id { get; set; }
+    public string? Id { get; set; }
 }

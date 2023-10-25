@@ -7,7 +7,7 @@ public class SysOrgPageOutput
     /// <summary>
     /// 组织机构Id
     /// </summary>
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// 父级Id
@@ -17,12 +17,12 @@ public class SysOrgPageOutput
     /// <summary>
     /// 部门名称
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// 部门编码
     /// </summary>
-    public string Code { get; set; }
+    public string? Code { get; set; }
 
     /// <summary>
     /// 可用状态
@@ -37,12 +37,12 @@ public class SysOrgPageOutput
     /// <summary>
     /// 备注
     /// </summary>
-    public string Remark { get; set; }
+    public string? Remark { get; set; }
 
     /// <summary>
     /// 创建时间
     /// </summary>
-    public DateTime CreatedTime { get; set; }
+    public DateTime? CreatedTime { get; set; }
 
     public List<SysOrgPageOutput> Children { get; set; } = new();
 }
