@@ -12,5 +12,6 @@ namespace Z.Ddd.Common
         /// "Admin".
         /// </summary>
         public const string DefaultUserName = "Admin";
+        public const string DefaultPassWord = "123456";
     }
 }
