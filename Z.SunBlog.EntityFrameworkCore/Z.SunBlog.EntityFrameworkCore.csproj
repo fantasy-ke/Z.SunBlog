@@ -17,4 +17,10 @@
     <ProjectReference Include="..\Z.SunBlog.Core\Z.SunBlog.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Configs\MenuDynamic.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
