@@ -25,6 +25,7 @@ public static class SeedHelper
     public static void SeedDbData(SunBlogDbContext context)
     {
         new DefaultUserBuilder(context).Create();
+        new DefaultMenuBuilder(context).Create();
     }
 
     private static void WithDbContext<TDbContext>(IServiceProvider serviceProvider, TDbContext dbContext, Action<TDbContext> contextAction)
