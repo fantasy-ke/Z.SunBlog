@@ -49,7 +49,7 @@ namespace Z.SunBlog.Application
                     OAuthAutoMapper.CreateMappings(ctx.MapperConfiguration);
                     UserSysMapper.CreateMappings(ctx.MapperConfiguration);
                     RoleSysMapper.CreateMappings(ctx.MapperConfiguration);
-                    OrganizationSysMapper.CreateMappings(ctx.MapperConfiguration);
+                    OrganizationMapper.CreateMappings(ctx.MapperConfiguration);
                     MenuAutoMapper.CreateMappings(ctx.MapperConfiguration);
                 });
             });

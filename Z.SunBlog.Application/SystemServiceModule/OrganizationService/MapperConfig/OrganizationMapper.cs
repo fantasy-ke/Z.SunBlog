@@ -9,7 +9,7 @@ using Z.SunBlog.Core.SharedDto;
 
 namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService.MapperConfig
 {
-    public static class OrganizationSysMapper
+    public static class OrganizationMapper
     {
         /// <summary>
         /// 具体映射规则
