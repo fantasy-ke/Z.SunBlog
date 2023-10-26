@@ -5,8 +5,10 @@ using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Organizations;
 using Z.Ddd.Common.Entities.Repositories;
 using Z.Ddd.Common.Exceptions;
+using Z.Ddd.Common.RedisModule;
 using Z.Module.DependencyInjection;
 using Z.SunBlog.Application.SystemServiceModule.OrganizationService.Dto;
+using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.SharedDto;
 
 namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
@@ -16,12 +18,14 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
     /// </summary>
     public interface IOrganizationSysAppService : IApplicationService, ITransientDependency
     {
-        Task<List<SysOrgPageOutput>> GetPage([FromQuery] string name);
+        Task<List<SysOrgPageOutput>> GetPage([FromBody] string name);
         Task AddOrg(AddOrgInput dto);
 
         Task UpdateOrg(UpdateOrgInput dto);
 
         Task<List<TreeSelectOutput>> TreeSelect();
+
+        Task Delete(string id);
     }
     
     /// <summary>
@@ -30,9 +34,11 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
     public class OrganizationSysAppService : ApplicationService, IOrganizationSysAppService
     {
         private readonly IBasicRepository<ZOrganization, string> _orgDomainService;
-        public OrganizationSysAppService(IServiceProvider serviceProvider, IBasicRepository<ZOrganization, string> orgDomainService) : base(serviceProvider)
+        private readonly ICacheManager _cacheManager;
+        public OrganizationSysAppService(IServiceProvider serviceProvider, IBasicRepository<ZOrganization, string> orgDomainService, ICacheManager cacheManager) : base(serviceProvider)
         {
             _orgDomainService = orgDomainService;
+            _cacheManager = cacheManager;
         }
 
         private async Task GetChildOrg(List<ZOrganization> orgPanentLists)
@@ -55,8 +61,8 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
         /// <param name="name"></param>
         /// <returns></returns>
         [Description("组织机构列表查询")]
-        [HttpGet]
-        public async Task<List<SysOrgPageOutput>> GetPage([FromQuery] string name)
+        [HttpPost]
+        public async Task<List<SysOrgPageOutput>> GetPage([FromBody] string name)
         {
             if (!string.IsNullOrWhiteSpace(name))
             {
@@ -120,5 +126,18 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
 
             return ObjectMapper.Map<List<TreeSelectOutput>>(treePanentList);
         }
+
+        /// <summary>
+        /// 删除菜单/按钮
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [DisplayName("删除菜单/按钮"), HttpDelete]
+        public async Task Delete(string id)
+        {
+            await _orgDomainService.DeleteAsync(p=>p.Id == id);
+            await _cacheManager.RefreshCacheAsync(CacheConst.PermissionKey);
+        }
     }
+
 }
