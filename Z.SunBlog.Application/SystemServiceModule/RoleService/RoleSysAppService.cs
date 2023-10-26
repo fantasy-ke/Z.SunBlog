@@ -26,7 +26,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
     /// </summary>
     public interface IRoleSysAppService : IApplicationService, ITransientDependency
     {
-        Task<PageResult<RolePageOutput>> GetPage([FromQuery] RoleQueryInput dto);
+        Task<PageResult<RolePageOutput>> GetPage([FromBody] RoleQueryInput dto);
 
         Task AddRole(AddRoleInput dto);
 
@@ -70,8 +70,8 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<PageResult<RolePageOutput>> GetPage([FromQuery] RoleQueryInput dto)
+        [HttpPost]
+        public async Task<PageResult<RolePageOutput>> GetPage([FromBody] RoleQueryInput dto)
         {
             return await _roleRepository.GetQueryAll()
                 .WhereIf(!string.IsNullOrWhiteSpace(dto.Name), x => x.Name.Contains(dto.Name))
@@ -151,7 +151,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
         /// <param name="id">角色id</param>
         /// <returns></returns>
         [Description("获取角色可访问的菜单和按钮id")]
-        [HttpGet("getRuleMenu")]
+        [HttpGet]
         public async Task<List<Guid>> GetRuleMenu([FromQuery] string id)
         {
             return await _roleRepository.GetQueryAll().Join(_roleMenuManager.QueryAsNoTracking,
@@ -201,7 +201,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
                 .OrderBy(x => x.Id)
                 .Select(x => new SelectOutput()
                 {
-                    Value2 = x.Id,
+                    Value = x.Id,
                     Label = x.Name
                 }).ToListAsync();
         }
