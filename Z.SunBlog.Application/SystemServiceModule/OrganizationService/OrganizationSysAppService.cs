@@ -136,7 +136,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService
         public async Task Delete(string id)
         {
             await _orgDomainService.DeleteAsync(p=>p.Id == id);
-            await _cacheManager.RefreshCacheAsync(CacheConst.PermissionKey);
+            await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
         }
     }
 

@@ -13,7 +13,7 @@ namespace Z.Ddd.Common.RedisModule
     public class CacheManager : ICacheManager, ISingletonDependency
     {
         private readonly IDistributedCache _cache;
-
+        private readonly bool  isredis = AppSettings.GetValue("Cache:CacheType")! == "Redis";
         public CacheManager(IDistributedCache cache)
         {
             _cache = cache;
@@ -152,35 +152,37 @@ namespace Z.Ddd.Common.RedisModule
                 return result;
             }
             string cacheKey = BuildKey(key);
-            using (var redisLock = RedisHelper.Lock(cacheKey, 10))
+            if (isredis)
             {
-                if (redisLock == null)
+                using (var redisLock = RedisHelper.Lock(cacheKey, 10))
                 {
-                    throw new UserFriendlyException("抢不到所");
+                    if (redisLock == null)
+                    {
+                        throw new UserFriendlyException("抢不到所");
+                    }
+
+                    Task<T> task = dataRetriever();
+                    bool flag = !task.IsCompleted;
+                    if (flag)
+                    {
+                        flag = await Task.WhenAny(task, Task.Delay(10)) != task;
+                    }
+                    //if (flag)
+                    //{
+                    //    throw new UserFriendlyException("任务执行错误");
+                    //}
+                    T item = await task;
+                    if (item == null) { return result; }
+                    await _cache.SetStringAsync(cacheKey, item.ToJson(), new DistributedCacheEntryOptions
+                    {
+                        AbsoluteExpiration = new DateTimeOffset(DateTime.Now + timeout)
+                    });
+
+                    redisLock.Dispose();
+
+                    result = item;
                 }
-
-                Task<T> task = dataRetriever();
-                bool flag = !task.IsCompleted;
-                if (flag)
-                {
-                    flag = await Task.WhenAny(task, Task.Delay(10)) != task;
-                }
-                //if (flag)
-                //{
-                //    throw new UserFriendlyException("任务执行错误");
-                //}
-                T item = await task;
-                if (item == null) { return result; }
-                await _cache.SetStringAsync(cacheKey, item.ToJson(), new DistributedCacheEntryOptions
-                {
-                    AbsoluteExpiration = new DateTimeOffset(DateTime.Now + timeout)
-                });
-
-                redisLock.Dispose();
-
-                result = item;
             }
-
             return result;
         }
 
@@ -193,7 +195,18 @@ namespace Z.Ddd.Common.RedisModule
         {
             await _cache.RemoveAsync(BuildKey(key));
         }
-
+        public async Task RemoveByPrefixAsync(string key)
+        {
+            if (isredis)
+            {
+              var keys = await  RedisHelper.KeysAsync(BuildKey(key) + "*");
+                foreach (var item in keys)
+                {
+                    await _cache.RemoveAsync(item);
+                }
+            }
+           
+        }
         public void RefreshCache(string key)
         {
             _cache.Refresh(BuildKey(key));
