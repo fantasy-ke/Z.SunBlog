@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Easy.Admin.Core.Entities;
+using Microsoft.EntityFrameworkCore;
 using Z.EntityFrameworkCore;
 using Z.EntityFrameworkCore.Attributes;
 using Z.EntityFrameworkCore.Options;
@@ -50,6 +51,7 @@ namespace Z.SunBlog.EntityFrameworkCore
         public virtual DbSet<CustomConfigItem> CustomConfigItem { get; set; }
         public virtual DbSet<CustomConfig> CustomConfig { get; set; }
         public virtual DbSet<Menu> Menu { get; set; }
+        public virtual DbSet<ZRoleMenu> RoleMenu { get; set; }
 
 
     }
