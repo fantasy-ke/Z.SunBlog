@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.AlbumsModule.BlogServer.Dto;
 using Z.SunBlog.Core.AlbumsModule;
 using Z.SunBlog.Core.AlbumsModule.DomainManager;
+using Z.SunBlog.Core.Const;
+using Z.SunBlog.Core.SharedDto;
 
 namespace Z.SunBlog.Application.AlbumsModule.BlogServer
 {
@@ -62,9 +65,6 @@ namespace Z.SunBlog.Application.AlbumsModule.BlogServer
         }
 
 
-
-
-
         /// <summary>
         /// 添加文章
         /// </summary>
@@ -87,6 +87,18 @@ namespace Z.SunBlog.Application.AlbumsModule.BlogServer
             ObjectMapper.Map(dto, albums);
 
             await _albumsManager.Update(albums!);
+        }
+
+
+        /// <summary>
+        /// 删除菜单/按钮
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [DisplayName("删除菜单/按钮"), HttpDelete]
+        public async Task Delete(KeyDto dto)
+        {
+            await _albumsManager.Delete(dto.Id);
         }
     }
 
