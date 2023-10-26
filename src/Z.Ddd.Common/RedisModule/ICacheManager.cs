@@ -121,6 +121,8 @@ namespace Z.Ddd.Common.RedisModule
         /// <param name="key">缓存Key</param>
         Task RemoveCacheAsync(string key);
 
+        Task RemoveByPrefixAsync(string key);
+
         #endregion
 
         #region 刷新缓存

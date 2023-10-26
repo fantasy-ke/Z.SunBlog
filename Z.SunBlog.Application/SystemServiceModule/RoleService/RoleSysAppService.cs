@@ -142,7 +142,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
             await _roleRepository.UpdateAsync(sysRole);
             await _roleMenuManager.Delete(x => x.RoleId == sysRole.Id);
             await _roleMenuManager.Create(roleMenus);
-            await _cacheManager.RefreshCacheAsync(CacheConst.PermissionKey);
+            await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
             var entity = await _roleRepository.GetQueryAll().FirstOrDefaultAsync(x => x.Id == dto.Id);
             entity.Status = dto.Status;
             var entityAfter = await _roleRepository.UpdateAsync(entity);
-            await _cacheManager.RefreshCacheAsync(CacheConst.PermissionKey);
+            await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
         public async Task Delete(string id)
         {
             await _roleRepository.DeleteIDAsync(id);
-            await _cacheManager.RefreshCacheAsync(CacheConst.PermissionKey);
+            await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
         }
 
         /// <summary>

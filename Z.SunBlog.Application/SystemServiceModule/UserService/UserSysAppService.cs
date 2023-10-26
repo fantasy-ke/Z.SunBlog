@@ -170,7 +170,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
             await _userDomainManager.Update(user);
             await _userRoleRepository.DeleteAsync(x => x.UserId == user.Id);
             await _userRoleRepository.InsertManyAsync(roles);
-            await _cacheManager.RemoveCacheAsync(CacheConst.PermissionKey);
+            await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
         }
 
         /// <summary>
@@ -303,7 +303,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         public async Task Delete(string id)
         {
             await _userDomainManager.Delete(id);
-            await _cacheManager.RefreshCacheAsync(CacheConst.PermissionKey);
+            await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
         }
     }
 }
