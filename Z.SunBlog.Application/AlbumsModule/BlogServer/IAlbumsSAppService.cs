@@ -2,6 +2,7 @@
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.SunBlog.Application.AlbumsModule.BlogServer.Dto;
+using Z.SunBlog.Core.SharedDto;
 
 namespace Z.SunBlog.Application.AlbumsModule.BlogServer
 {
@@ -13,6 +14,8 @@ namespace Z.SunBlog.Application.AlbumsModule.BlogServer
         Task<PageResult<AlbumsPageOutput>> GetPage([FromBody] AlbumsPageQueryInput dto);
 
         Task CreateOrUpdate(CreateOrUpdateAlbumsInput dto);
+
+        Task Delete(KeyDto dto);
 
     }
 }
