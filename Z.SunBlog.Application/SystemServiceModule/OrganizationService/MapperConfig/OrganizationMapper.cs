@@ -21,7 +21,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.OrganizationService.MapperCo
             configuration.CreateMap<AddOrgInput, ZOrganization>().ReverseMap();
             configuration.CreateMap<UpdateOrgInput, ZOrganization>().ReverseMap();
             configuration.CreateMap<ZOrganization, TreeSelectOutput>()
-                .ForMember(dest => dest.Value2, src => src.MapFrom(c => c.Id))
+                .ForMember(dest => dest.Value, src => src.MapFrom(c => c.Id))
                 .ForMember(dest => dest.Label, src => src.MapFrom(c => c.Name));
         }
     }
