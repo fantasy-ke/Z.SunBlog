@@ -13,10 +13,11 @@ namespace Z.Ddd.Common.RedisModule
     public class CacheManager : ICacheManager, ISingletonDependency
     {
         private readonly IDistributedCache _cache;
-        private readonly bool  isredis = AppSettings.GetValue("Cache:CacheType")! == "Redis";
+        private readonly bool isredis;
         public CacheManager(IDistributedCache cache)
         {
             _cache = cache;
+            isredis = AppSettings.GetValue("App:Cache:CacheType")! == "Redis";
         }
         /// <summary>
         /// 创建缓存Key

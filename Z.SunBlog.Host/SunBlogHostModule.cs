@@ -2,7 +2,6 @@
 using Lazy.Captcha.Core;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MrHuo.OAuth;
@@ -10,7 +9,6 @@ using MrHuo.OAuth.QQ;
 using Serilog;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Reflection;
 using System.Text;
 using Yitter.IdGenerator;
 using Z.Ddd.Application.Middleware;
@@ -136,19 +134,16 @@ public class SunBlogHostModule : ZModule
         //鉴权中间件
         app.UseAuthentication();
 
+        app.UseAuthorization();
 
         app.UseRouting();
 
 
         app.UseStaticFiles();
 
-
         app.UseUnitOfWorkMiddleware();
 
         app.UseCors("ZCores");
-
-        app.UseAuthorization();
-
 
         app.UseEndpoints(endpoints =>
         {

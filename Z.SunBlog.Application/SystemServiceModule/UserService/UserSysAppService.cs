@@ -162,14 +162,17 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
             if (user == null) throw new UserFriendlyException("无效参数");
 
             ObjectMapper.Map(dto, user);
-            var roles = dto.Roles.Select(x => new ZUserRole()
+            var roles = dto.Roles?.Select(x => new ZUserRole()
             {
                 RoleId = x,
                 UserId = user.Id
             }).ToList();
             await _userDomainManager.Update(user);
             await _userRoleRepository.DeleteAsync(x => x.UserId == user.Id);
-            await _userRoleRepository.InsertManyAsync(roles);
+            if (roles!=null && roles.Any())
+            {
+                await _userRoleRepository.InsertManyAsync(roles);
+            }
             await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
         }
 
@@ -224,6 +227,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
             return await _userDomainManager.QueryAsNoTracking.Where(x => x.Id == userId)
                   .Select(x => new UserInfoOutput
                   {
+                      Id = x.Id,
                       Name = x.Name,
                       UserName = x.UserName,
                       Avatar = x.Avatar,

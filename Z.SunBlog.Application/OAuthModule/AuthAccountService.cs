@@ -14,7 +14,7 @@ using Z.SunBlog.Core.AuthAccountModule;
 namespace Z.SunBlog.Application.OAuthModule;
 
 
-public interface IAuthAccountService : IApplicationService, ITransientDependency
+public interface IAuthAccountAppService : IApplicationService, ITransientDependency
 {
     Task<PageResult<AuthAccountPageOutput>> GetList([FromBody] AuthAccountPageQueryInput dto);
 
@@ -26,11 +26,11 @@ public interface IAuthAccountService : IApplicationService, ITransientDependency
 /// <summary>
 /// 博客授权用户
 /// </summary>
-public class AuthAccountService :ApplicationService, IAuthAccountService
+public class AuthAccountAppService :ApplicationService, IAuthAccountAppService
 {
 
     private readonly IAuthAccountDomainManager _authAccountDomainManager;
-    public AuthAccountService(IServiceProvider serviceProvider, IAuthAccountDomainManager authAccountDomainManager) : base(serviceProvider)
+    public AuthAccountAppService(IServiceProvider serviceProvider, IAuthAccountDomainManager authAccountDomainManager) : base(serviceProvider)
     {
         _authAccountDomainManager = authAccountDomainManager;
     }
