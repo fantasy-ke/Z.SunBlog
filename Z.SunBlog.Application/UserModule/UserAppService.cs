@@ -190,16 +190,14 @@ namespace Z.SunBlog.Application.UserModule
                   {
                       Name = x.Name,
                       UserName = x.UserName,
-                      //Avatar = x.Avatar,
-                      //Birthday = x.Birthday,
-                      //Email = x.Email,
-                      //Gender = x.Gender,
-                      //NickName = x.NickName,
-                      //Remark = x.Remark,
-                      //LastLoginIp = x.LastLoginIp,
-                      //LastLoginAddress = x.LastLoginAddress,
-                      //Mobile = x.Mobile,
-                      //OrgId = x.OrgId,
+                      Avatar = x.Avatar,
+                      Birthday = x.Birthday,
+                      Email = x.Email,
+                      Gender = x.Gender,
+                      LastLoginIp = x.LastLoginIp,
+                      LastLoginAddress = x.LastLoginAddress,
+                      Mobile = x.Mobile,
+                      OrgId = x.OrgId,
                       //OrgName = SqlFunc.Subqueryable<SysOrganization>().Where(o => o.Id == x.OrgId).Select(o => o.Name)
                   })
                   //.Mapper(dto =>

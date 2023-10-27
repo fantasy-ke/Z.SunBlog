@@ -1,4 +1,6 @@
-﻿namespace Z.SunBlog.Application.UserModule.Dto;
+﻿using Z.Ddd.Common.Entities.Enum;
+
+namespace Z.SunBlog.Application.UserModule.Dto;
 
 public class ZUserInfoOutput
 {
@@ -17,7 +19,7 @@ public class ZUserInfoOutput
     /// <summary>
     /// 生日
     /// </summary>
-    public DateOnly? Birthday { get; set; }
+    public DateTime? Birthday { get; set; }
     /// <summary>
     /// 邮箱
     /// </summary>
@@ -25,7 +27,7 @@ public class ZUserInfoOutput
     /// <summary>
     /// 性别
     /// </summary>
-    //public Gender Gender { get; set; }
+    public Gender Gender { get; set; }
     /// <summary>
     /// 昵称
     /// </summary>
@@ -49,7 +51,7 @@ public class ZUserInfoOutput
     /// <summary>
     /// 机构id
     /// </summary>
-    public long OrgId { get; set; }
+    public string OrgId { get; set; }
     /// <summary>
     /// 机构名称
     /// </summary>

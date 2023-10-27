@@ -66,5 +66,5 @@ public class AddUserInput
     /// <summary>
     /// 角色
     /// </summary>
-    public List<string?> Roles { get; set; }
+    public List<string>? Roles { get; set; }
 }

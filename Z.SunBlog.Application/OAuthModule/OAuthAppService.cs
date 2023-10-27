@@ -22,6 +22,7 @@ using Z.SunBlog.Core.FriendLinkModule;
 using Z.SunBlog.Core.FriendLinkModule.DomainManager;
 using Z.SunBlog.Core.PicturesModule.DomainManager;
 using Z.Ddd.Common.Entities.Enum;
+using Z.SunBlog.Core.AlbumsModule;
 
 namespace Z.SunBlog.Application.OAuthModule
 {
@@ -266,8 +267,7 @@ namespace Z.SunBlog.Application.OAuthModule
                     p.album.Type,
                     p.pic.Url
                 }).ToListAsync();
-            var dictionary = pics.GroupBy(x => x.Type)
-                .ToDictionary(x => x.Key.ToString(), v => v.Select(x => x.Url).ToList());
+            var dictionary = pics.GroupBy(x => x.Type).ToDictionary(x => x.Key!.ToString(), v => v.Select(x => x.Url).ToList());
             return new BlogOutput { Site = blogSetting, Info = info, Covers = dictionary };
         }
 

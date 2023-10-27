@@ -4,6 +4,11 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService.Dto;
 
 public class UserInfoOutput
 {
+
+    /// <summary>
+    /// Id
+    /// </summary>
+    public string? Id { get; set; }
     /// <summary>
     /// 姓名
     /// </summary>
