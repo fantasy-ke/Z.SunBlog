@@ -151,7 +151,7 @@ namespace Z.SunBlog.Application.UserModule
             var context = _httpContextAccessor.HttpContext;
             context.Response.Cookies.Append("access-token", token, new CookieOptions()
             {
-                Expires = DateTimeOffset.UtcNow.AddMinutes(20)
+                Expires = DateTimeOffset.UtcNow.AddDays(1)
             });
 
             var claimsIdentity = new ClaimsIdentity(tokenModel.Claims, "Login");
@@ -160,7 +160,7 @@ namespace Z.SunBlog.Application.UserModule
             properties.AllowRefresh = true;
             properties.IsPersistent = true;
             properties.IssuedUtc = DateTimeOffset.UtcNow;
-            properties.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(20);
+            properties.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1);
 
             await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
         }
