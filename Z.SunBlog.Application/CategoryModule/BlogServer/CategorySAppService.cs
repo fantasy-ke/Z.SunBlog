@@ -58,7 +58,7 @@ namespace Z.SunBlog.Application.CategoryModule.BlogServer
         /// <returns></returns>
         [DisplayName("文章栏目列表")]
         [HttpGet]
-        public async Task<List<CategoryPageOutput>> GetPage([FromQuery] string name)
+        public async Task<List<CategoryPageOutput>> GetPage([FromQuery] string? name)
         {
             if (!string.IsNullOrWhiteSpace(name))
             {
