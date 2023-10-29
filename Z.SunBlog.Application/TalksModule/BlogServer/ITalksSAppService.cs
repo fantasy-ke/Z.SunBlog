@@ -2,6 +2,7 @@
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.SunBlog.Application.TalksModule.BlogServer.Dto;
+using Z.SunBlog.Core.SharedDto;
 
 namespace Z.SunBlog.Application.TalksModule.BlogServer
 {
@@ -13,6 +14,8 @@ namespace Z.SunBlog.Application.TalksModule.BlogServer
         Task<PageResult<TalksPageOutput>> GetPage([FromBody] TalksPageQueryInput dto);
 
         Task CreateOrUpdate(CreateOrUpdateTalksInput dto);
+
+        Task DeleteAsync(KeyDto dto);
 
     }
 }

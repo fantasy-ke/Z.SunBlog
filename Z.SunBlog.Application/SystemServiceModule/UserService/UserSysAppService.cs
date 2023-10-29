@@ -141,7 +141,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
             string encode = _idGenerator.Encode(user.Id);
             var setting = await _customConfigService.Get<SysSecuritySetting>();
             user.PassWord = MD5Encryption.Encrypt(encode + (setting?.Password ?? "123456"));
-            var roles = dto.Roles.Select(x => new ZUserRole()
+            var roles = dto.Roles?.Select(x => new ZUserRole()
             {
                 RoleId = x,
                 UserId = user.Id
