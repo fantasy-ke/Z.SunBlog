@@ -200,13 +200,13 @@ namespace Z.Ddd.Common.RedisModule
         {
             if (isredis)
             {
-              var keys = await  RedisHelper.KeysAsync(BuildKey(key) + "*");
+                var keys = await RedisHelper.KeysAsync("*" + BuildKey(key) + "*");
                 foreach (var item in keys)
                 {
                     await _cache.RemoveAsync(item);
                 }
             }
-           
+
         }
         public void RefreshCache(string key)
         {
