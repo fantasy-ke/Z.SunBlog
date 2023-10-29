@@ -1,31 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.Ddd.Common.UserSession;
 using Z.EntityFrameworkCore.Extensions;
-using Z.SunBlog.Application.AlbumsModule.BlogServer.Dto;
-using Z.SunBlog.Application.ArticleModule.BlogClient.Dto;
-using Z.SunBlog.Application.ArticleModule.BlogServer.Dto;
 using Z.SunBlog.Application.TalksModule.BlogServer.Dto;
-using Z.SunBlog.Core.AlbumsModule;
-using Z.SunBlog.Core.AlbumsModule.DomainManager;
-using Z.SunBlog.Core.ArticleCategoryModule;
-using Z.SunBlog.Core.ArticleCategoryModule.DomainManager;
-using Z.SunBlog.Core.ArticleModule;
-using Z.SunBlog.Core.ArticleModule.DomainManager;
-using Z.SunBlog.Core.ArticleTagModule;
-using Z.SunBlog.Core.ArticleTagModule.DomainManager;
-using Z.SunBlog.Core.CategoriesModule;
-using Z.SunBlog.Core.CategoriesModule.DomainManager;
-using Z.Ddd.Common.Entities.Users;
-using Z.SunBlog.Core.PicturesModule.DomainManager;
-using Z.SunBlog.Core.PraiseModule;
 using Z.SunBlog.Core.PraiseModule.DomainManager;
 using Z.SunBlog.Core.SharedDto;
-using Z.SunBlog.Core.TagModule;
-using Z.SunBlog.Core.TagsModule.DomainManager;
 using Z.SunBlog.Core.TalksModule;
 using Z.SunBlog.Core.TalksModule.DomainManager;
 
@@ -113,6 +93,16 @@ namespace Z.SunBlog.Application.TalksModule.BlogServer
             ObjectMapper.Map(dto, talks);
 
             await _talksManager.Update(talks!);
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task DeleteAsync(KeyDto dto)
+        {
+            await _talksManager.Delete(dto.Id);
         }
     }
 
