@@ -102,7 +102,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
             sysMenu.Code = null;
         }
         await _menuManager.Create(sysMenu);
-        await _cacheManager.RemoveCacheAsync(CacheConst.PermissionKey);
+        await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
     }
 
     /// <summary>
@@ -147,7 +147,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
         }
 
         await _menuManager.Update(sysMenu);
-        await _cacheManager.RemoveCacheAsync(CacheConst.PermissionKey);
+        await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
     }
 
     /// <summary>

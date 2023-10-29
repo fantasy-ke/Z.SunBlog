@@ -100,6 +100,7 @@ namespace Z.SunBlog.Application.FriendLinkModule.BlogServer
 
             await _friendLinkManager.Update(tags!);
         }
+
     }
 
 
