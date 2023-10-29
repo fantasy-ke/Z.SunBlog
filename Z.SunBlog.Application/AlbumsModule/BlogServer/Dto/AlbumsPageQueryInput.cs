@@ -8,7 +8,7 @@ public class AlbumsPageQueryInput : Pagination
     /// <summary>
     /// 相册名称
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// 相册类型
