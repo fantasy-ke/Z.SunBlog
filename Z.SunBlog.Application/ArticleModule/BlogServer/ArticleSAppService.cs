@@ -52,6 +52,7 @@ namespace Z.SunBlog.Application.ArticleModule.BlogServer
             if (dto.Id != null && dto.Id != Guid.Empty)
             {
                 await Update(dto);
+                return;
             }
 
             await Create(dto);
@@ -100,7 +101,7 @@ namespace Z.SunBlog.Application.ArticleModule.BlogServer
                                     IsAllowComments = article.IsAllowComments,
                                     IsHtml = article.IsHtml,
                                     CreationType = article.CreationType,
-                                    CategoryId = c.Id,
+                                    CategoryId = cg.Id,
                                     ExpiredTime = article.ExpiredTime,
                                     PublishTime = article.PublishTime,
                                 }).FirstOrDefaultAsync();
@@ -212,15 +213,15 @@ namespace Z.SunBlog.Application.ArticleModule.BlogServer
         {
             var article = await _articleDomainManager.QueryAsNoTracking.FirstOrDefaultAsync(p => p.Id == dto.Id);
 
-            var articleEntity = ObjectMapper.Map<Article>(dto);
+            ObjectMapper.Map(dto, article);
 
-            await _articleDomainManager.Update(articleEntity);
+            await _articleDomainManager.Update(article);
 
 
             await _articleTagManager.Delete(p => p.ArticleId == dto.Id);
             var tags = dto.Tags.Select(x => new ArticleTag()
             {
-                ArticleId = articleEntity.Id,
+                ArticleId = article.Id,
                 TagId = x
             }).ToList();
 
