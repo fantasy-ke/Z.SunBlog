@@ -22,6 +22,7 @@ public static class MinioExtensions
             p.Protal = config.Protal;
             p.SecretKey = config.SecretKey;
             p.AccessKey = config.AccessKey;
+            p.Enable = config.Enable;
             p.Host = config.Host;
             p.Password = config.Password;
             p.UserName = config.UserName;

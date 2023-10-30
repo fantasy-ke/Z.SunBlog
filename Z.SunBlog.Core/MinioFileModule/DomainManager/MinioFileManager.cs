@@ -1,0 +1,38 @@
+﻿using Microsoft.Extensions.Options;
+using Z.Ddd.Common.DomainServiceRegister.Domain;
+using Z.Ddd.Common.Minio;
+
+namespace Z.SunBlog.Core.MinioFileModule.DomainManager
+{
+    public class MinioFileManager : DomainService, IMinioFileManager
+    {
+        private readonly IMinioService _minioService;
+        private readonly MinioConfig _minioOptions;
+        public MinioFileManager(IServiceProvider serviceProvider, IMinioService minioService, IOptions<MinioConfig> minioOptions) : base(serviceProvider)
+        {
+            _minioService = minioService;
+            _minioOptions = minioOptions.Value;
+        }
+
+        public async Task<ObjectOutPut> GetFile(string filename)
+        {
+            var obj = new GetObjectInput()
+            {
+                ObjectName = filename,
+                BucketName = _minioOptions.DefaultBucket
+            };
+
+            return await _minioService.GetObjectAsync(obj);
+        }
+
+        public async Task UploadMinio(Stream stream, string file, string contentType)
+        {
+            var obj = new UploadObjectInput(_minioOptions.DefaultBucket
+                , file
+            , contentType
+                , stream);
+
+            await _minioService.UploadObjectAsync(obj);
+        }
+    }
+}

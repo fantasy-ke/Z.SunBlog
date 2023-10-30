@@ -5,7 +5,7 @@ public class UploadObjectInput
     /// <summary>
     /// 命名空间
     /// </summary>
-    public string BucketName { get; set; }
+    public string? BucketName { get; set; }
 
     /// <summary>
     /// 对象名称
@@ -24,7 +24,7 @@ public class UploadObjectInput
 
     public UploadObjectInput() { }
 
-    public UploadObjectInput(string bucketName,string objectName,string contentType,Stream stream)
+    public UploadObjectInput(string? bucketName,string objectName,string contentType,Stream stream)
     {
         BucketName= bucketName;
         ObjectName= objectName;

@@ -6,10 +6,15 @@ public class MinioConfig
 	/// minio服务器地址
 	/// </summary>
 	public string? Host { get; set; }
+
 	/// <summary>
-	/// 用户名
+	/// 是否启用
 	/// </summary>
-	public string? AccessKey { get; set; }	
+	public bool Enable { get; set; }
+    /// <summary>
+    /// 用户名
+    /// </summary>
+    public string? AccessKey { get; set; }	
 	/// <summary>
 	/// 密码
 	/// </summary>
