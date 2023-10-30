@@ -20,13 +20,13 @@ namespace Z.SunBlog.Application.TalksModule.BlogServer.Dto
         /// 说说正文
         /// </summary>
         [Required(ErrorMessage = "说说正文为必填项")]
-        public string Content { get; set; }
+        public string? Content { get; set; }
 
         /// <summary>
         /// 图片
         /// </summary>
         [MaxLength(2048)]
-        public string Images { get; set; }
+        public string? Images { get; set; }
 
         /// <summary>
         /// 是否允许评论

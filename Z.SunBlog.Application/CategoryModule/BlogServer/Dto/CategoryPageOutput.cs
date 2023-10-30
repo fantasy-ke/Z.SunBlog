@@ -42,7 +42,7 @@ public class CategoryPageOutput
     /// <summary>
     /// 创建时间
     /// </summary>
-    public DateTime CreatedTime { get; set; }
+    public DateTime? CreationTime { get; set; }
 
     /// <summary>
     /// 子栏目

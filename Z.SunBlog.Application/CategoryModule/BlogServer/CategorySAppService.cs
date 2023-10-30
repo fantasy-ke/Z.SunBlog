@@ -66,7 +66,9 @@ namespace Z.SunBlog.Application.CategoryModule.BlogServer
                 return ObjectMapper.Map<List<CategoryPageOutput>>(list);
             }
 
-            var categoriesList = await _categoriesManager.QueryAsNoTracking.Where(x => x.ParentId == null).OrderBy(x => x.Sort).ToListAsync();
+            var categoriesList = await _categoriesManager.QueryAsNoTracking
+                .Where(x => x.ParentId == null).OrderBy(x => x.Sort)
+                .ToListAsync();
 
             await BuildCategories(categoriesList);
 
