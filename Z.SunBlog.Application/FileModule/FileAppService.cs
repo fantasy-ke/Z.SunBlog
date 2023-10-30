@@ -1,6 +1,8 @@
 ﻿
+using Azure.Core;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Options;
 using Yitter.IdGenerator;
 using Z.Ddd.Common.Attributes;
@@ -10,12 +12,13 @@ using Z.Module.DependencyInjection;
 using Z.SunBlog.Application.FileModule.Dto;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.MinioFileModule.DomainManager;
+using static System.Net.WebRequestMethods;
 
 namespace Z.SunBlog.Application.FileModule;
 
 public interface IFileAppService : IApplicationService, ITransientDependency
 {
-    Task<List<UploadFileOutput>> Upload(IFormFile file);
+    Task<List<UploadFileOutput>> UploadFile(IFormFile file);
 }
 
 public class FileAppService : ApplicationService, IFileAppService
@@ -42,8 +45,7 @@ public class FileAppService : ApplicationService, IFileAppService
     /// </summary>
     /// <param name="file"></param>
     /// <returns></returns>
-    [NoResult]
-    public async Task<List<UploadFileOutput>> Upload(IFormFile file)
+    public async Task<List<UploadFileOutput>> UploadFile(IFormFile file)
     {
         if (file is null or { Length: 0 })
         {
@@ -56,13 +58,17 @@ public class FileAppService : ApplicationService, IFileAppService
         }
         //文件路径
 
-        var minioname = $"{ZSunBlogConst.MinioAvatar}_{file.FileName}";
+        var minioname = $"{ZSunBlogConst.MinioAvatar}_{Guid.NewGuid().ToString("N")}{extension}";
         // 文件完整名称
         var now = DateTime.Today;
-        string filePath = $"/{now.Year}/{now.Month:D2}/{now.Day:D2}/";
+        string filePath = $"/{now.Year}/{now.Month:D2}-{now.Day:D2}/";
+        var fileUrl = $"{filePath}{minioname}";
+        var request = _httpContextAccessor.HttpContext!.Request;
         if (!_minioOptions.Enable)
         {
-            string s = Path.Combine(_webHostEnvironment.WebRootPath, filePath);
+            filePath = string.Concat(_minioOptions.DefaultBucket!.TrimEnd('/'), filePath);
+            var webrootpath = _webHostEnvironment.WebRootPath;
+            string s = Path.Combine(webrootpath, filePath);
             if (!Directory.Exists(s))
             {
                 Directory.CreateDirectory(s);
@@ -71,8 +77,8 @@ public class FileAppService : ApplicationService, IFileAppService
             var stream = System.IO.File.Create($"{s}{minioname}");
             await file.CopyToAsync(stream);
             await stream.DisposeAsync();
-            var request = _httpContextAccessor.HttpContext!.Request;
-            string url = $"{request.Scheme}://{request.Host.Value}/{filePath}{minioname}";
+            fileUrl = string.Concat(_minioOptions.DefaultBucket.TrimEnd('/'), fileUrl);
+            string url = $"{request.Scheme}://{request.Host.Value}/{fileUrl}";
             return new List<UploadFileOutput>()
             {
                 new()
@@ -82,15 +88,14 @@ public class FileAppService : ApplicationService, IFileAppService
                 }
             };
         }
-        var fileUrl = $"{filePath}{minioname}";
 
-        await _minioFileManager.UploadMinio(file.OpenReadStream(), minioname, file.ContentType);
+        await _minioFileManager.UploadMinio(file.OpenReadStream(), fileUrl, file.ContentType);
         return new List<UploadFileOutput>()
         {
             new()
             {
                 Name = minioname,
-                Url = $"{_minioOptions.Host.TrimEnd('/')}/{fileUrl}"
+                Url = $"{request.Scheme}://{_minioOptions.Host!.TrimEnd('/')}/{string.Concat(_minioOptions.DefaultBucket!.TrimEnd('/'), fileUrl)}"
             }
         };
     }

@@ -8,6 +8,6 @@ namespace Z.SunBlog.Core.Const
 {
     public class ZSunBlogConst
     {
-        public const string MinioAvatar = "Z_Minio";
+        public const string MinioAvatar = "z_minio";
     }
 }
