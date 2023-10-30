@@ -31,6 +31,7 @@ namespace Z.SunBlog.Application.FriendLinkModule.BlogServer
             if (dto.Id != null && dto.Id != Guid.Empty)
             {
                 await Update(dto);
+                return;
             }
 
             await Create(dto);
