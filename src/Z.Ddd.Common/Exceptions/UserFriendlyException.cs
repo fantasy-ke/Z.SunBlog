@@ -1,4 +1,6 @@
-﻿namespace Z.Ddd.Common.Exceptions
+﻿using Microsoft.Extensions.Logging;
+
+namespace Z.Ddd.Common.Exceptions
 {
     public class UserFriendlyException : ZException
     {

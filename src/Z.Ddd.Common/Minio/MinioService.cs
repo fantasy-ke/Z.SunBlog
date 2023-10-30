@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using Z.Module.DependencyInjection;
 using Minio.DataModel.Args;
 using Minio.DataModel.Encryption;
+using Serilog;
 
 namespace Z.Ddd.Common.Minio
 {
@@ -14,14 +15,11 @@ namespace Z.Ddd.Common.Minio
 
         private readonly IOptions<MinioConfig> _minioOptions;
 
-        private readonly ILogger _logger;
         public MinioService(MinioClient minioClient
-            , IOptions<MinioConfig> minioOptions
-            , ILoggerFactory loggerFactory)
+            , IOptions<MinioConfig> minioOptions)
         {
             _minioClient = minioClient;
             _minioOptions = minioOptions;
-            _logger = loggerFactory.CreateLogger<IMinioService>();
         }
 
         /// <summary>
@@ -141,7 +139,7 @@ namespace Z.Ddd.Common.Minio
             }
             catch (Exception ex)
             {
-                _logger.LogWarning($"{DateTime.Now}:{ex.Message}--{ex.ToString()}");
+                Log.Warning($"{DateTime.Now}:{ex.Message}--{ex.ToString()}");
             }
 
             if(stat != null )
@@ -237,7 +235,7 @@ namespace Z.Ddd.Common.Minio
             }
             catch (Exception ex)
             {
-                _logger.LogWarning($"{DateTime.Now}:{ex.Message}--{ex.ToString()}");
+                Log.Warning($"{DateTime.Now}:{ex.Message}--{ex.ToString()}");
 
                 ThrowMinioFileExistsException.FileNotExistsException(input.ObjectName);
             }
@@ -266,13 +264,13 @@ namespace Z.Ddd.Common.Minio
 
             observable.Subscribe(item =>
             {
-                _logger.LogWarning($"{item.Key}文件对象删除失败");
+                Log.Warning($"{item.Key}文件对象删除失败");
             }, ex =>
             {
-                _logger.LogWarning($"{DateTime.Now}:{ex.Message}-{ex.ToString()}");
+                Log.Warning($"{DateTime.Now}:{ex.Message}-{ex.ToString()}");
             }, () =>
             {
-                _logger.LogInformation("批量删除文件对象成功");
+                Log.Information("批量删除文件对象成功");
             });
         }
     }
