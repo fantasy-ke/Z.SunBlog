@@ -8,11 +8,11 @@ public class AddPictureInput
     /// 相册Id
     /// </summary>
     [Required(ErrorMessage = "缺少必要参数")]
-    public Guid AlbumId { get; set; }
+    public Guid? AlbumId { get; set; }
 
     /// <summary>
     /// 图片地址
     /// </summary>
     [Required(ErrorMessage = "请上传图片")]
-    public string Url { get; set; }
+    public string? Url { get; set; }
 }

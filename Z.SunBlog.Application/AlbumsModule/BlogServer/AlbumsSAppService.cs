@@ -81,6 +81,7 @@ namespace Z.SunBlog.Application.AlbumsModule.BlogServer
         /// </summary>
         /// <returns></returns>
         private async Task Update(CreateOrUpdateAlbumsInput dto)
+
         {
             var albums = await _albumsManager.FindByIdAsync(dto.Id!.Value);
 
