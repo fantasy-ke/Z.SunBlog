@@ -10,6 +10,7 @@ using Z.Ddd.Common.Entities.IAuditing;
 using Z.Ddd.Common.Entities.Organizations;
 using Z.Ddd.Common.Entities.Roles;
 using Z.Ddd.Common.Entities.Users;
+using Z.Ddd.Common.Entities.Files;
 using Z.EntityFrameworkCore.Extensions;
 using Z.EntityFrameworkCore.Options;
 
@@ -24,6 +25,7 @@ namespace Z.EntityFrameworkCore
         public virtual DbSet<ZUserRole> ZUserRoles { get; set; }
         public virtual DbSet<ZSigninLog> ZSigninLog { get; set; }
         public virtual DbSet<ZOperationLog> ZOperationLog { get; set; }
+        public virtual DbSet<ZFileInfo> ZFileInfo { get; set; }
 
         protected ZDbContext(ZDbContextOptions options)
         : base(options)

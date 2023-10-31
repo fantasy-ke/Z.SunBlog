@@ -169,4 +169,28 @@ public static class StringExtensions
 
         return strTarget.ToString();
     }
+
+    /// <summary>
+    /// char类型
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="strList"></param>
+    /// <param name="separator"></param>
+    /// <returns></returns>
+    public static string JoinAsString<T>(this IEnumerable<T> strList, char separator)
+    {
+        return  string.Join(separator, strList);
+    }
+
+    /// <summary>
+    /// string类型
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="strList"></param>
+    /// <param name="separator"></param>
+    /// <returns></returns>
+    public static string JoinAsString<T>(this IEnumerable<T> strList, string separator)
+    {
+        return string.Join(separator, strList);
+    }
 }
