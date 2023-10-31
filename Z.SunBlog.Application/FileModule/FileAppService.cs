@@ -10,6 +10,8 @@ using System.Web;
 using Z.Ddd.Common;
 using Z.Ddd.Common.Attributes;
 using Z.Ddd.Common.DomainServiceRegister;
+using Z.Ddd.Common.Entities.Files;
+using Z.Ddd.Common.Entities.Repositories;
 using Z.Ddd.Common.Minio;
 using Z.Module.DependencyInjection;
 using Z.SunBlog.Application.FileModule.Dto;
@@ -30,18 +32,21 @@ public class FileAppService : ApplicationService, IFileAppService
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IMinioFileManager _minioFileManager;
+    private readonly IBasicRepository<ZFileInfo> _fileRepository;
     private readonly MinioConfig _minioOptions;
 
     public FileAppService(IServiceProvider serviceProvider,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         IMinioFileManager minioFileManager,
-         IOptions<MinioConfig> minioOptions) : base(serviceProvider)
+         IOptions<MinioConfig> minioOptions,
+         IBasicRepository<ZFileInfo> fileRepository) : base(serviceProvider)
     {
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
         _minioFileManager = minioFileManager;
         _minioOptions = minioOptions.Value;
+        _fileRepository = fileRepository;
     }
 
     /// <summary>
@@ -68,6 +73,17 @@ public class FileAppService : ApplicationService, IFileAppService
         string filePath = $"/{now.Year}/{now.Month:D2}-{now.Day:D2}/";
         var fileUrl = $"{filePath}{minioname}";
         var request = _httpContextAccessor.HttpContext!.Request;
+        var fileinfo = new ZFileInfo()
+        {
+            FileName = file.FileName,
+            ContentType = file.ContentType,
+            FilePath = string.Concat(_minioOptions.DefaultBucket!.TrimEnd('/'), filePath),
+            FileSize = file.Length.ToString(),
+            FileExt = extension,
+            FileDisplayName = file.FileName.Replace(extension, ""),
+            Code = ZFileInfo.CreateCode(1)
+        };
+
         if (!_minioOptions.Enable)
         {
             filePath = string.Concat(_minioOptions.DefaultBucket!.TrimEnd('/'), filePath);
@@ -77,7 +93,7 @@ public class FileAppService : ApplicationService, IFileAppService
             {
                 Directory.CreateDirectory(s);
             }
-
+            await _fileRepository.InsertAsync(fileinfo);
             var stream = System.IO.File.Create($"{s}{minioname}");
             await file.CopyToAsync(stream);
             await stream.DisposeAsync();
@@ -92,7 +108,7 @@ public class FileAppService : ApplicationService, IFileAppService
                 }
             };
         }
-
+        await _fileRepository.InsertAsync(fileinfo);
         await _minioFileManager.UploadMinio(file.OpenReadStream(), fileUrl, file.ContentType);
         return new List<UploadFileOutput>()
         {
@@ -115,13 +131,13 @@ public class FileAppService : ApplicationService, IFileAppService
         //是否开启minio
         if (!_minioOptions.Enable)
         {
-            var filePath = string.Concat(_minioOptions.DefaultBucket!.TrimEnd('/') + "/", fileUrl);
             var webrootpath = _webHostEnvironment.WebRootPath;
-            string s = Path.Combine(webrootpath, filePath);
+            string s = Path.Combine(webrootpath, fileUrl);
             var contentType = MimeTypes.GetMimeType(fileUrl);
             var stream = System.IO.File.OpenRead(s);
             return new FileStreamResult(stream, contentType);
         }
+        fileUrl = fileUrl.Replace(_minioOptions.DefaultBucket!.TrimEnd('/'), "");
         var output = await _minioFileManager.GetFile(fileUrl);
 
         return new FileStreamResult(output.Stream, output.ContentType);
