@@ -14,11 +14,11 @@ namespace Z.SunBlog.Core.MinioFileModule.DomainManager
             _minioOptions = minioOptions.Value;
         }
 
-        public async Task<ObjectOutPut> GetFile(string filename)
+        public async Task<ObjectOutPut> GetFile(string fileUrl)
         {
             var obj = new GetObjectInput()
             {
-                ObjectName = filename,
+                ObjectName = fileUrl,
                 BucketName = _minioOptions.DefaultBucket
             };
 

@@ -1,10 +1,13 @@
 ﻿
 using Azure.Core;
+using Cuemon.Messaging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Options;
-using Yitter.IdGenerator;
+using System.Web;
+using Z.Ddd.Common;
 using Z.Ddd.Common.Attributes;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Minio;
@@ -12,13 +15,14 @@ using Z.Module.DependencyInjection;
 using Z.SunBlog.Application.FileModule.Dto;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.MinioFileModule.DomainManager;
-using static System.Net.WebRequestMethods;
 
 namespace Z.SunBlog.Application.FileModule;
 
 public interface IFileAppService : IApplicationService, ITransientDependency
 {
     Task<List<UploadFileOutput>> UploadFile(IFormFile file);
+
+    Task<IActionResult> GetFile(string fileUrl);
 }
 
 public class FileAppService : ApplicationService, IFileAppService
@@ -98,5 +102,28 @@ public class FileAppService : ApplicationService, IFileAppService
                 Url = $"{request.Scheme}://{_minioOptions.Host!.TrimEnd('/')}/{string.Concat(_minioOptions.DefaultBucket!.TrimEnd('/'), fileUrl)}"
             }
         };
+    }
+
+
+    /// <summary>
+    /// 获取文件
+    /// </summary>
+    /// <param name="fileUrl"></param>
+    /// <returns></returns>
+    public async Task<IActionResult> GetFile(string fileUrl)
+    {
+        //是否开启minio
+        if (!_minioOptions.Enable)
+        {
+            var filePath = string.Concat(_minioOptions.DefaultBucket!.TrimEnd('/') + "/", fileUrl);
+            var webrootpath = _webHostEnvironment.WebRootPath;
+            string s = Path.Combine(webrootpath, filePath);
+            var contentType = MimeTypes.GetMimeType(fileUrl);
+            var stream = System.IO.File.OpenRead(s);
+            return new FileStreamResult(stream, contentType);
+        }
+        var output = await _minioFileManager.GetFile(fileUrl);
+
+        return new FileStreamResult(output.Stream, output.ContentType);
     }
 }

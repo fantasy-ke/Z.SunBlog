@@ -25,6 +25,8 @@ public class FilterActionResultWrapFactory : IActionResultWrapFactory, ITransien
                 return new JsonActionResultWrap();
             case ResultExecutingContext resultExecutingContext when resultExecutingContext.Result is EmptyResult:
                 return new ActionEmptyResultWrap();
+            case ResultExecutingContext resultExecutedContext when resultExecutedContext.Result is FileStreamResult:
+                return new FileActionResultWarp();
             default: return new NullAactionResultWrap();
         }
     }
