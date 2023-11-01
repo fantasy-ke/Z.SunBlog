@@ -229,7 +229,7 @@ public class SunBlogHostModule : ZModule
             {
                 OnSigningOut = async context =>
                 {
-                    context.Response.Cookies.Delete("x-access-token");
+                    context.Response.Cookies.Delete("access-token");
 
                     await Task.CompletedTask;
                 }

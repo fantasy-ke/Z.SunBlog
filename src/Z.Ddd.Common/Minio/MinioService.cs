@@ -6,6 +6,7 @@ using Z.Module.DependencyInjection;
 using Minio.DataModel.Args;
 using Minio.DataModel.Encryption;
 using Serilog;
+using System.Diagnostics;
 
 namespace Z.Ddd.Common.Minio
 {
@@ -139,10 +140,10 @@ namespace Z.Ddd.Common.Minio
             }
             catch (Exception ex)
             {
-                Log.Warning($"{DateTime.Now}:{ex.Message}--{ex.ToString()}");
+                Log.Warning($"{ex.Message}");
             }
 
-            if(stat != null )
+            if (stat != null)
             {
                 ThrowMinioFileExistsException.FileExistsException(input.ObjectName);
             }
