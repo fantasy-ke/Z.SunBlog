@@ -20,6 +20,7 @@ using Z.Ddd.Common.Attributes;
 using System.ComponentModel;
 using Z.Ddd.Common.UserSession;
 using Z.Ddd.Common.Entities.Enum;
+using Z.Ddd.Common;
 
 namespace Z.SunBlog.Application.UserModule
 {
@@ -140,11 +141,13 @@ namespace Z.SunBlog.Application.UserModule
             UserTokenModel tokenModel = new UserTokenModel();
             tokenModel.UserName = user.UserName!;
             tokenModel.UserId = user.Id!;
+            //.GetSection("App:JWtSetting").Get<JwtSettings>()
+            var tokenConfig = AppSettings.AppOption<JwtSettings>("App:JWtSetting");
             var token = _jwtTokenProvider.GenerateAccessToken(tokenModel);
             var context = _httpContextAccessor.HttpContext;
             context.Response.Cookies.Append("access-token", token, new CookieOptions()
             {
-                Expires = DateTimeOffset.UtcNow.AddDays(1)
+                Expires = DateTimeOffset.UtcNow.AddMinutes(tokenConfig.AccessTokenExpirationMinutes)
             });
 
             var claimsIdentity = new ClaimsIdentity(tokenModel.Claims, "Login");
