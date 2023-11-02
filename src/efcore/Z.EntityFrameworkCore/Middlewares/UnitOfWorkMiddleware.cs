@@ -61,7 +61,7 @@ public class UnitOfWorkMiddleware : IMiddleware
                 {
                     await d.RollbackTransactionAsync();
                 }
-                throw new UserFriendlyException(ex.Message);
+                throw new UserFriendlyException(ex.ToString());
             }
         }
     }
