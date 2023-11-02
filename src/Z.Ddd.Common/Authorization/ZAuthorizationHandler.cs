@@ -54,7 +54,7 @@ namespace Z.Ddd.Common.Authorization
             }
             //判断token是否过期
             DateTime expire;
-            var expiraton = claims?.FirstOrDefault(p => p.Type == ZClaimTypes.Expiration);
+            var expiraton = claims?.FirstOrDefault(p => p.Type == ClaimTypes.Expiration);
             DateTime.TryParse(expiraton?.Value ?? "", out expire);
             if (expire < DateTime.Now)
             {

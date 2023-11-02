@@ -20,9 +20,5 @@ namespace Z.SunBlog.Application.UserModule
 
         Task<ZUserInfoOutput> CurrentUserInfo();
 
-        Task SignIn(ZUserInfoDto dto);
-
-        IActionResult Captcha([FromQuery] string id);
-
     }
 }

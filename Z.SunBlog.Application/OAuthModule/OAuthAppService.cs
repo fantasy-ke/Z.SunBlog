@@ -22,7 +22,6 @@ using Z.SunBlog.Core.FriendLinkModule;
 using Z.SunBlog.Core.FriendLinkModule.DomainManager;
 using Z.SunBlog.Core.PicturesModule.DomainManager;
 using Z.Ddd.Common.Entities.Enum;
-using Z.SunBlog.Core.AlbumsModule;
 
 namespace Z.SunBlog.Application.OAuthModule
 {

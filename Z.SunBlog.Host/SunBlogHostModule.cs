@@ -256,7 +256,7 @@ public class SunBlogHostModule : ZModule
             {
                 OnMessageReceived = context =>
                 {
-                    var accessToken = context.Request.Cookies["x-access-token"];
+                    var accessToken = context.Request.Cookies["access-token"];
 
                     if (!string.IsNullOrEmpty(accessToken))
                     {
