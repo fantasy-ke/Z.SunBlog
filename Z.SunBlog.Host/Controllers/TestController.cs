@@ -57,7 +57,7 @@ namespace Z.SunBlog.Host.Controllers
             tokenModel.UserId = userinfo.Id!;
             var token = _jwtTokenProvider.GenerateAccessToken(tokenModel);
 
-            Response.Cookies.Append("x-access-token", token, new CookieOptions()
+            Response.Cookies.Append("access-token", token, new CookieOptions()
             {
                 Expires = DateTimeOffset.UtcNow.AddMinutes(20)
         });

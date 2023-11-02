@@ -60,6 +60,7 @@ namespace Z.SunBlog.Application.CategoryModule.BlogServer
         [HttpGet]
         public async Task<List<CategoryPageOutput>> GetPage([FromQuery] string? name)
         {
+            var df = _userSession.UserId;
             if (!string.IsNullOrWhiteSpace(name))
             {
                 var list = await _categoriesManager.QueryAsNoTracking.Where(x => x.Name.Contains(name)).ToListAsync();
