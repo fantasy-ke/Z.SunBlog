@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using Z.Ddd.Common;
 using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.Extensions;
 using Z.EntityFrameworkCore;
+using Z.EntityFrameworkCore.SqlServer.Extensions;
 using Z.SunBlog.Core.MenuModule;
 using Z.SunBlog.Core.MenuModule.Dtos;
 
@@ -31,13 +33,24 @@ namespace Z.SunBlog.EntityFrameworkCore.EntityFrameworkCore.Seed.SeedData
 
         private void CreateDefaultMenu()
         {
-            var defaultMenu = _context.Menu.IgnoreQueryFilters().ToList();
+            var defaultMenu = _context.Menu.IgnoreQueryFilters().ToList(); 
             if (defaultMenu == null || defaultMenu.Count == 0)
             {
                 var jsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Configs{Path.DirectorySeparatorChar}InitData{Path.DirectorySeparatorChar}Menu.txt");
                 var pageFilterJson = File.ReadAllText(jsonFileName);
-
                 var dynamicMenuList = JsonConvert.DeserializeObject<List<Menu>>(pageFilterJson);
+                //Type type;
+                //var dat =  SqlBulkCopyHelper.InnerGetDataTable(_context, dynamicMenuList);
+                ////dat = dynamicMenuList;
+                //var bulkCopy = SqlBulkCopyHelper.GetSqlBulkCopy(_context.Database.GetConnectionString()!, p =>
+                //{
+                //    p.FullTableName = "Menu";
+                //});
+                ////foreach (DataColumn item in dynamicMenuList!.Columns)  //Add mapping
+                //{
+                //    bulkCopy.ColumnMappings.Add(item.ColumnName, item.ColumnName);
+                //}
+                //bulkCopy.WriteToServer(dynamicMenuList);
                 if (dynamicMenuList != null && dynamicMenuList.Count > 0)
                 {
                     _context.Menu.AddRange(dynamicMenuList);
