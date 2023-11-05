@@ -2,11 +2,14 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Z.Ddd.Common;
 using Z.Ddd.Common.Entities.Users;
+using Z.Ddd.Common.Extensions;
+using Z.EntityFrameworkCore;
 using Z.SunBlog.Core.MenuModule;
 using Z.SunBlog.Core.MenuModule.Dtos;
 
@@ -31,18 +34,17 @@ namespace Z.SunBlog.EntityFrameworkCore.EntityFrameworkCore.Seed.SeedData
             var defaultMenu = _context.Menu.IgnoreQueryFilters().ToList();
             if (defaultMenu == null || defaultMenu.Count == 0)
             {
-                var jsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Configs{Path.DirectorySeparatorChar}MenuDynamic.json");
+                var jsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Configs{Path.DirectorySeparatorChar}InitData{Path.DirectorySeparatorChar}Menu.txt");
                 var pageFilterJson = File.ReadAllText(jsonFileName);
 
-                var dynamicMenuList = JsonConvert.DeserializeObject<List<MenuCreateDto>>(pageFilterJson);
-
-                var menuList = SplicingMenu(dynamicMenuList, new List<Menu>(), null);
-
-                _context.Menu.AddRange(menuList);
-                _context.SaveChanges();
+                var dynamicMenuList = JsonConvert.DeserializeObject<List<Menu>>(pageFilterJson);
+                if (dynamicMenuList != null && dynamicMenuList.Count > 0)
+                {
+                    _context.Menu.AddRange(dynamicMenuList);
+                    _context.SaveChanges();
+                }
 
             }
-
         }
 
         private List<Menu> SplicingMenu(List<MenuCreateDto> mentDtos, List<Menu> menus, Guid? panentId)
@@ -73,5 +75,67 @@ namespace Z.SunBlog.EntityFrameworkCore.EntityFrameworkCore.Seed.SeedData
             }
             return menus;
         }
+
+        //public DataTable GetData(DataTable dataTable, DataTable newtable,DataTable oldtable, string Id = "")
+        //{
+        //    string path = Path.Combine(AppContext.BaseDirectory, $"Configs{Path.DirectorySeparatorChar}InitData");
+        //    var dir = new DirectoryInfo(path);
+        //    var files = dir.GetFiles("*.txt");
+        //    foreach (var file in files)
+        //    {
+        //        using var reader = file.OpenText();
+        //        string s = reader.ReadToEnd();
+        //        var table = JsonConvert.DeserializeObject<DataTable>(s);
+        //        var tableA = new DataTable();
+        //        foreach (DataColumn column in table.Columns)
+        //        {
+        //            tableA.Columns.Add(column.ColumnName, column.DataType);
+        //        }
+        //        reader.Dispose();
+        //        var df = GetData(table, tableA, table);
+        //        using (StreamWriter writer = new StreamWriter(file.FullName))
+        //        {
+        //            var dfs = JsonConvert.SerializeObject(df);
+        //            writer.Write(dfs);
+        //        }
+        //        // File.WriteAllText(file.FullName, JsonConvert.SerializeObject(df));
+        //    }
+        //    foreach (DataRow item in dataTable.Rows)
+        //    {
+        //        var id = item["Id"].ToString();
+        //        var pand = oldtable.AsEnumerable().ToList().Where(p => p.Field<string>("ParentId") == id);
+        //        item["Id"] = Guid.NewGuid().ToString();
+        //        item["ParentId"] = !string.IsNullOrWhiteSpace(item["ParentId"].ToString()) ? Id : null;
+        //        var bos = newtable.AsEnumerable().ToList().Where(p =>!string.IsNullOrWhiteSpace(p.Field<string>("Code")) && p.Field<string>("Code") == item["Code"].ToString());
+        //        var boss = newtable.AsEnumerable().ToList().Where(p =>string.IsNullOrWhiteSpace(p.Field<string>("Code")) && p.Field<string>("Name") == item["Name"].ToString());
+        //        if (bos != null && bos.Any())
+        //        {
+        //            continue;
+        //        }
+        //        if (boss != null && boss.Any())
+        //        {
+        //            continue;
+        //        }
+        //        DataRow newRow = newtable.NewRow();
+        //        newRow.ItemArray = item.ItemArray;
+        //        newtable.Rows.Add(newRow);
+        //        if (pand != null && pand.Any())
+        //        {
+        //            GetData(pand.CopyToDataTable(), newtable,oldtable, item["Id"].ToString());
+        //        }
+
+        //    }
+
+        //foreach (var item in dic)
+        //{
+        //    var pand = dataTable.AsEnumerable().ToList().Where(p => p.Field<string>("Id") == item.Key && !string.IsNullOrWhiteSpace(p.Field<string>("ParentId")));
+        //}
+
+        //    return newtable;
+        //}
+
+
+
+
     }
 }
