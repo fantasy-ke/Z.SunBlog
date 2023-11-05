@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Configs\InitData\Menu.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Configs\MenuDynamic.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
