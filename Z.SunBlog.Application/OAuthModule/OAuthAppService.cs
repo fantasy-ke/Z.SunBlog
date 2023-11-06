@@ -12,7 +12,6 @@ using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.RedisModule;
 using Z.Ddd.Common.UserSession;
-using Z.SunBlog.Application.FriendLinkModule.BlogServer;
 using Z.SunBlog.Application.OAuthModule.Dto;
 using Z.SunBlog.Core.AlbumsModule.DomainManager;
 using Z.SunBlog.Core.AuthAccountModule;
@@ -22,6 +21,7 @@ using Z.SunBlog.Core.FriendLinkModule;
 using Z.SunBlog.Core.FriendLinkModule.DomainManager;
 using Z.SunBlog.Core.PicturesModule.DomainManager;
 using Z.Ddd.Common.Entities.Enum;
+using Z.SunBlog.Application.ConfigModule;
 
 namespace Z.SunBlog.Application.OAuthModule
 {
