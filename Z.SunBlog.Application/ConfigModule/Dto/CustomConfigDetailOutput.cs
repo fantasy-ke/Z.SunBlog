@@ -17,5 +17,5 @@ public class CustomConfigDetailOutput
     /// <summary>
     /// 配置项Id
     /// </summary>
-    public Guid ItemId { get; set; }
+    public Guid? ItemId { get; set; }
 }

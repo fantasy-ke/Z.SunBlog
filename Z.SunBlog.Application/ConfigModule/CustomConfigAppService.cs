@@ -208,7 +208,7 @@ namespace Z.SunBlog.Application.ConfigModule
         {
             var output = new CustomConfigDetailOutput()
             {
-                ItemId = input.ItemId ?? Guid.Empty
+                ItemId = input.ItemId ?? null
             };
             string? json = await _customConfigManager.QueryAsNoTracking
                      .Where(x => x.Id == input.Id)
