@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Enum;
@@ -42,17 +44,17 @@ public class MenuAppService : ApplicationService, IMenuAppService
     {
         //if (_userSession.UserId != null)
         //{
-        var menuQuery = _menuManager.QueryAsNoTracking
-            .OrderBy(x => x.Sort);
+        var menuList = await _menuManager.QueryAsNoTracking
+            .OrderBy(x => x.Sort).ToListAsync();
         if (!string.IsNullOrWhiteSpace(name))
         {
-            var list = await menuQuery.Where(x => x.Name.Contains(name)).ToListAsync();
+            var list = menuList.Where(x => x.Name.Contains(name)).ToList();
             return ObjectMapper.Map<List<MenuPageOutput>>(list);
         }
 
-        var menus = await menuQuery.Where(x => x.ParentId == null).ToListAsync();
+        var menus = menuList.Where(x => x.ParentId == null).ToList();
 
-        await BuildMenu(menus);
+        await BuildMenu(menus, menuList);
 
         return ObjectMapper.Map<List<MenuPageOutput>>(menus);
         //}
@@ -192,9 +194,10 @@ public class MenuAppService : ApplicationService, IMenuAppService
     public async Task<List<TreeSelectOutput>> TreeSelect()
     {
         var list = await _menuManager.QueryAsNoTracking
-            .OrderBy(x => x.Sort).Where(p => p.ParentId == null).ToListAsync();
-        await BuildMenu(list);
-        return ObjectMapper.Map<List<TreeSelectOutput>>(list);
+            .OrderBy(x => x.Sort).ToListAsync();
+        var parentList = list.Where(p => p.ParentId == null).ToList();
+        await BuildMenu(parentList, list);
+        return ObjectMapper.Map<List<TreeSelectOutput>>(parentList);
     }
 
     /// <summary>
@@ -235,15 +238,15 @@ public class MenuAppService : ApplicationService, IMenuAppService
 
         var value = await _cacheManager.GetCacheAsync($"{CacheConst.PermissionMenuKey}{userId}", async () =>
         {
-            var queryable = _menuManager.QueryAsNoTracking
+            var queryList = await _menuManager.QueryAsNoTracking
                 .Where(x => x.Status == AvailabilityStatus.Enable)
-                .OrderBy(x => x.Sort);
+                .OrderBy(x => x.Sort).ToListAsync();
             //if (_authManager.IsSuperAdmin)
             //{
 
-            var menus = await queryable.Where(x => x.ParentId == null && x.Type != MenuType.Button).ToListAsync();
+            var menus = queryList.Where(x => x.ParentId == null && x.Type != MenuType.Button).ToList();
 
-            await BuildMenu(menus);
+            await BuildMenu(menus, queryList.Where(x => x.Type != MenuType.Button).ToList());
             //}
             //else
             //{
@@ -275,9 +278,9 @@ public class MenuAppService : ApplicationService, IMenuAppService
         //if (_authManager.IsSuperAdmin)//超级管理员
         //{
 
-        var menus = await _menuManager.QueryAsNoTracking.Where(x => x.ParentId == null).ToListAsync();
-
-        await BuildMenu(menus);
+        var menusList = await _menuManager.QueryAsNoTracking.ToListAsync();
+        var parentList = menusList.Where(p => p.ParentId == null).ToList();
+        await BuildMenu(parentList, menusList);
         //}
         //else
         //{
@@ -292,7 +295,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
         //        .ToTreeAsync(x => x.Children, x => x.ParentId, null);
         //}
 
-        return ObjectMapper.Map<List<TreeSelectOutput>>(menus);
+        return ObjectMapper.Map<List<TreeSelectOutput>>(parentList);
     }
 
     /// <summary>
@@ -360,16 +363,16 @@ public class MenuAppService : ApplicationService, IMenuAppService
 
     #region 私有方法
 
-    private async Task BuildMenu(List<Menu> menuPanentLists)
+    private async Task BuildMenu(List<Menu> menuPanentLists, List<Menu> menusAllList)
     {
         foreach (var menuPan in menuPanentLists)
         {
-            var menuList = await _menuManager.QueryAsNoTracking
-                .Where(p => p.ParentId == menuPan.Id).ToListAsync();
+            var menuList = menusAllList
+                .Where(p => p.ParentId == menuPan.Id).ToList();
             if (menuList.Any())
             {
                 menuPan.Children = menuList;
-                await BuildMenu(menuList);
+                await BuildMenu(menuList, menusAllList);
             }
         }
     }
