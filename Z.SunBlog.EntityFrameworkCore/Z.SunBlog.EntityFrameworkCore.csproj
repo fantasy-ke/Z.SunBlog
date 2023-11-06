@@ -18,6 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Configs\InitData\Customconfig.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Configs\InitData\Customconfigitem.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Configs\InitData\Menu.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

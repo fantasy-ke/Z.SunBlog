@@ -26,6 +26,8 @@ public static class SeedHelper
     {
         new DefaultUserBuilder(context).Create();
         new DefaultMenuBuilder(context).Create();
+        new DefaultCustomconfigBuilde(context).Create();
+        new DefaultCustomconfigitemBuilde(context).Create();
     }
 
     private static void WithDbContext<TDbContext>(IServiceProvider serviceProvider, TDbContext dbContext, Action<TDbContext> contextAction)
