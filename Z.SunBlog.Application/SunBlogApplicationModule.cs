@@ -7,6 +7,7 @@ using Z.SunBlog.Application.ArticleModule;
 using Z.SunBlog.Application.ArticleModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.CategoryModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.CommentsModule;
+using Z.SunBlog.Application.ConfigModule;
 using Z.SunBlog.Application.FriendLinkModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.MenuModule.MapperConfig;
 using Z.SunBlog.Application.OAuthModule.BlogServer.MapperConfig;
@@ -55,6 +56,7 @@ namespace Z.SunBlog.Application
                     MenuAutoMapper.CreateMappings(ctx.MapperConfiguration);
                     PictureAutoMapper.CreateMappings(ctx.MapperConfiguration);
                     CategoryAutoMapper.CreateMappings(ctx.MapperConfiguration);
+                    CustomConfigAutoMapper.CreateMappings(ctx.MapperConfiguration);
 
                 });
             });

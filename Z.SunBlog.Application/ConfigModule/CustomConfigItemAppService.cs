@@ -9,6 +9,7 @@ using Z.SunBlog.Application.Dto;
 using Z.SunBlog.Core.CustomConfigModule;
 using Z.Ddd.Common.RedisModule;
 using Z.SunBlog.Core.Const;
+using Z.SunBlog.Core.SharedDto;
 
 namespace Z.SunBlog.Application.ConfigModule
 {
@@ -17,6 +18,8 @@ namespace Z.SunBlog.Application.ConfigModule
         Task<PageResult<object>> GetPage([FromBody] CustomConfigItemQueryInput dto);
         Task AddItem(AddCustomConfigItemInput dto);
         Task UpdateItem(UpdateCustomConfigItemInput dto);
+
+        Task Delete(KeyDto dto);
     }
     /// <summary>
     /// 标签管理
@@ -89,6 +92,19 @@ namespace Z.SunBlog.Application.ConfigModule
             await ClearCache();
         }
 
+
+        /// <summary>
+        /// 删除信息
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [DisplayName("删除信息")]
+        [HttpDelete]
+        public async Task Delete(KeyDto dto)
+        {
+            await _customConfigItemManager.Delete(x => x.Id == dto.Id);
+            await ClearCache();
+        }
         internal Task ClearCache()
         {
             return _cacheManager.RefreshCacheAsync(CacheConst.ConfigCacheKey);

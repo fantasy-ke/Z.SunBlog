@@ -14,11 +14,10 @@ using Z.Ddd.Common.ResultResponse;
 using Z.Ddd.Common.UserSession;
 using Z.EntityFrameworkCore.Extensions;
 using Z.Module.DependencyInjection;
-using Z.SunBlog.Application.FriendLinkModule.BlogServer;
+using Z.SunBlog.Application.ConfigModule;
 using Z.SunBlog.Application.SystemServiceModule.UserService.Dto;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.CustomConfigModule;
-using Z.SunBlog.Core.SharedDto;
 using Z.SunBlog.Core.UserModule.DomainManager;
 
 namespace Z.SunBlog.Application.SystemServiceModule.UserService
