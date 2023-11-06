@@ -1,27 +1,47 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
-using System.Text.RegularExpressions;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.ResultResponse;
 using Z.SunBlog.Application.Dto;
-using Z.SunBlog.Application.FriendLinkModule.BlogServer.Dto;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.CustomConfigModule;
-using Z.SunBlog.Core.SharedDto;
 using System.Collections;
 using Z.Ddd.Common.RedisModule;
 using Z.SunBlog.Core.CustomConfigModule.DomainManager;
 using Microsoft.EntityFrameworkCore;
+using Z.EntityFrameworkCore.Extensions;
+using Z.Ddd.Common.Exceptions;
+using Z.SunBlog.Core.SharedDto;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using System.Text.RegularExpressions;
+using Z.SunBlog.Application.ConfigModule.Dto;
 
-namespace Z.SunBlog.Application.FriendLinkModule.BlogServer
+namespace Z.SunBlog.Application.ConfigModule
 {
     public interface ICustomConfigAppService : IApplicationService
     {
         Task<T> Get<T>();
+
+        Task<dynamic> GetConfig([FromQuery] string code);
+
+        Task<PageResult<CustomConfigPageOutput>> GetPage(CustomConfigQueryInput dto);
+
+        Task AddConfig(AddCustomConfigInput dto);
+
+        Task UpdateConfig(UpdateCustomConfigInput dto);
+
+        Task<CustomConfigDetailOutput> GetFormJson(GetConfigDetailInput input);
+
+        Task SetJson(CustomConfigSetJsonInput dto);
+
+        Task Generate(KeyDto dto);
+
+        Task DeleteClass(KeyDto dto);
+
+        Task Delete(KeyDto dto);
     }
     /// <summary>
     /// 文章管理
@@ -31,11 +51,17 @@ namespace Z.SunBlog.Application.FriendLinkModule.BlogServer
         private readonly ICacheManager _cacheManager;
         private readonly ICustomConfigManager _customConfigManager;
         private readonly ICustomConfigItemManager _customConfigItemManager;
-        public CustomConfigAppService(IServiceProvider serviceProvider, ICacheManager cacheManager, ICustomConfigManager customConfigManager, ICustomConfigItemManager customConfigItemManager) : base(serviceProvider)
+        private readonly IHostEnvironment _environment;
+        public CustomConfigAppService(IServiceProvider serviceProvider, 
+            ICacheManager cacheManager, 
+            ICustomConfigManager customConfigManager, 
+            ICustomConfigItemManager customConfigItemManager, 
+            IHostEnvironment environment) : base(serviceProvider)
         {
             _cacheManager = cacheManager;
             _customConfigManager = customConfigManager;
             _customConfigItemManager = customConfigItemManager;
+            _environment = environment;
         }
 
         /// <summary>
@@ -71,6 +97,240 @@ namespace Z.SunBlog.Application.FriendLinkModule.BlogServer
             }, TimeSpan.FromDays(1));
 
             return value;
+        }
+
+        /// <summary>
+        /// 获取自定义配置
+        /// </summary>
+        /// <param name="code">自定义配置唯一编码</param>
+        /// <returns></returns>
+        [DisplayName("获取自定义配置")]
+        [HttpGet]
+        public async Task<dynamic> GetConfig([FromQuery] string code)
+        {
+            var value = await _cacheManager.GetCacheAsync<object>($"{CacheConst.ConfigCacheKey}{code}", async () =>
+            {
+                var c = await _customConfigManager.QueryAsNoTracking.FirstOrDefaultAsync(x => x.Code == code);
+                if (c == null) return null;
+                var queryable = _customConfigManager.QueryAsNoTracking
+                .Join(_customConfigItemManager.QueryAsNoTracking, p => p.Id,
+                c => c.ConfigId,
+                (c, p) => new { config = c, item = p })
+                    .Where(all => all.config.Code == code)
+                    .Select(all => all.item.Json);
+                if (c.IsMultiple)
+                {
+                    List<string> list = await queryable.ToListAsync();
+                    if (!list.Any()) return null;
+                    return JArray.Parse($"[{string.Join(",", list)}]");
+                }
+
+                string s = await queryable.FirstAsync();
+                return string.IsNullOrWhiteSpace(s) ? null : JObject.Parse(s);
+            }, TimeSpan.FromDays(1));
+            return value;
+        }
+
+        /// <summary>
+        /// 自定义配置分页查询
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [DisplayName("自定义配置分页查询")]
+        [HttpPost]
+        public async Task<PageResult<CustomConfigPageOutput>> GetPage([FromBody] CustomConfigQueryInput dto)
+        {
+            return await _customConfigManager.QueryAsNoTracking
+                .WhereIf(!string.IsNullOrWhiteSpace(dto.Name), x => x.Name.Contains(dto.Name))
+                .WhereIf(!string.IsNullOrWhiteSpace(dto.Code), x => x.Code.Contains(dto.Code))
+                .OrderByDescending(x => x.Id)
+                .Select(x => new CustomConfigPageOutput
+                {
+                    Id = x.Id,
+                    Status = x.Status,
+                    Remark = x.Remark,
+                    Name = x.Name,
+                    Code = x.Code,
+                    IsMultiple = x.IsMultiple,
+                    AllowCreationEntity = x.AllowCreationEntity,
+                    IsGenerate = x.IsGenerate,
+                    CreatedTime = x.CreationTime
+                }).ToPagedListAsync(dto);
+        }
+
+        /// <summary>
+        /// 添加自定义配置
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [DisplayName("添加自定义配置")]
+        [HttpPost]
+        public async Task AddConfig(AddCustomConfigInput dto)
+        {
+            if (await _customConfigManager.QueryAsNoTracking.AnyAsync(x => x.Code == dto.Code))
+            {
+                throw new UserFriendlyException("编码已存在");
+            }
+            var config = ObjectMapper.Map<CustomConfig>(dto);
+            await _customConfigManager.Create(config);
+            await _cacheManager.RemoveByPrefixAsync($"{CacheConst.ConfigCacheKey}{config.Code}");
+        }
+
+        /// <summary>
+        /// 修改自定义配置
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [DisplayName("修改自定义配置")]
+        [HttpPost]
+        public async Task UpdateConfig(UpdateCustomConfigInput dto)
+        {
+            var config = await _customConfigManager.FindByIdAsync(dto.Id);
+            if (config == null)
+            {
+                throw new UserFriendlyException("无效参数");
+            }
+            if (dto.Code != config.Code && await _customConfigManager.IsAnyAsync(x => x.Code == dto.Code && x.Id != dto.Id))
+            {
+                throw new UserFriendlyException("编码已存在");
+            }
+            ObjectMapper.Map(dto, config);
+            await _customConfigManager.Update(config);
+            await _cacheManager.RemoveByPrefixAsync($"{CacheConst.ConfigCacheKey}{config.Code}");
+        }
+
+        /// <summary>
+        /// 获取配置表单设计和表单数据
+        /// </summary>
+        [DisplayName("获取配置表单设计和表单数据")]
+        [HttpPost]
+        public async Task<CustomConfigDetailOutput> GetFormJson(GetConfigDetailInput input)
+        {
+            var output = new CustomConfigDetailOutput()
+            {
+                ItemId = input.ItemId ?? Guid.Empty
+            };
+            string? json = await _customConfigManager.QueryAsNoTracking
+                     .Where(x => x.Id == input.Id)
+                     .Select(x => x.Json).FirstOrDefaultAsync();
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return output;
+            };
+            output.FormJson = json;
+            if (input.ItemId == null || !input.ItemId.HasValue) return output;
+            var data = input.ItemId.HasValue ? await _customConfigItemManager.QueryAsNoTracking.Where(x => x.Id == input.ItemId)
+                .Select(x => new { x.Id, x.Json }).FirstAsync()
+                : await _customConfigItemManager.QueryAsNoTracking
+                .Where(x => x.ConfigId == input.Id).Select(x => new { x.Id, x.Json })
+                .FirstAsync();
+            if (data != null)
+            {
+                output.DataJson = data.Json;
+                output.ItemId = data.Id;
+            }
+            return output;
+        }
+
+        /// <summary>
+        /// 修改配置表单设计
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [DisplayName("修改配置表单设计")]
+        [HttpPatch]
+        public async Task SetJson(CustomConfigSetJsonInput dto)
+        {
+            string json = JsonConvert.SerializeObject(dto.Json);
+            await _customConfigManager.UpdateAsync(new CustomConfig()
+            {
+                Json = json
+            }, x => x.Id == dto.Id);
+            await ClearCache();
+        }
+
+        internal Task ClearCache()
+        {
+            return _cacheManager.RemoveByPrefixAsync(CacheConst.ConfigCacheKey);
+        }
+
+        /// <summary>
+        /// 生成自定配置类
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [DisplayName("生成自定配置类")]
+        [HttpPost]
+        public async Task Generate(KeyDto dto)
+        {
+            if (!_environment.IsDevelopment())
+            {
+                throw new UserFriendlyException("生成配置类仅限开发环境使用");
+            }
+            var config = await _customConfigManager.FindByIdAsync(dto.Id);
+            if (config == null) throw new UserFriendlyException("无效参数");
+            if (string.IsNullOrWhiteSpace(config.Json)) throw new UserFriendlyException("请配置设计");
+            var controls = ResolveJson(config.Json);
+            if (!controls.Any()) throw new UserFriendlyException("请配置设计");
+            //await GenerateCode(config.Code, controls);
+            await _customConfigManager.UpdateAsync(new CustomConfig()
+            {
+                IsGenerate = true
+            }, x => x.Id == config.Id);
+            await _cacheManager.RemoveByPrefixAsync($"{CacheConst.ConfigCacheKey}{config.Code}");
+        }
+
+        /// <summary>
+        /// 删除信息
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [DisplayName("删除信息")]
+        [HttpDelete]
+        public async Task Delete(KeyDto dto)
+        {
+            await _customConfigManager.Delete(x => x.Id == dto.Id);
+            await ClearCache();
+        }
+
+        /// <summary>
+        /// 删除自定义配置类
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        /// <exception cref="UserFriendlyException"></exception>
+        [DisplayName("删除自定义配置类")]
+        [HttpPatch]
+        public async Task DeleteClass(KeyDto dto)
+        {
+            if (!_environment.IsDevelopment())
+            {
+                throw new UserFriendlyException("删除配置类仅限开发环境使用");
+            }
+
+            string className = await _customConfigManager.QueryAsNoTracking.Where(x => x.Id == dto.Id).Select(x => x.Code).FirstAsync();
+            if (className == null) throw new UserFriendlyException("无效参数");
+            //string path = Path.Combine(_environment.ContentRootPath.Replace(_environment.ApplicationName, ""), "Easy.Admin.Core/Config", $"{className}.cs");
+            //if (System.IO.File.Exists(path))
+            //{
+            //    System.IO.File.Delete(path);
+            //}
+            await _customConfigManager.UpdateAsync(new CustomConfig() { IsGenerate = false }, x => x.Id == dto.Id);
+            await _cacheManager.RemoveByPrefixAsync($"{CacheConst.ConfigCacheKey}{className}");
+        }
+
+        /// <summary>
+        /// 解析表单设计
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        [NonAction]
+        public List<CustomControl> ResolveJson(string json)
+        {
+            string s = "{\"key\":\\d+,\"type\":\"(input|select|date|switch|number|textarea|radio|checkbox|time|time-range|date-range|rate|color|slider|cascader|rich-editor|file-upload|picture-upload)\".*?\"id\".*?}";
+            string value = string.Join(",", Regex.Matches(json, s, RegexOptions.IgnoreCase).Select(x => x.Value));
+            string temp = $"[{value}]";
+            return JsonConvert.DeserializeObject<List<CustomControl>>(temp);
         }
     }
 }
