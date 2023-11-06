@@ -10,7 +10,6 @@ using Z.Ddd.Common.Authorization;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.RedisModule;
-using Z.SunBlog.Application.FriendLinkModule.BlogServer;
 using Z.SunBlog.Core.CustomConfigModule;
 using Z.Ddd.Common.Entities.Enum;
 using Z.Module.DependencyInjection;
@@ -19,7 +18,7 @@ using Lazy.Captcha.Core;
 using Z.Ddd.Common.Attributes;
 using Z.SunBlog.Core.UserModule.DomainManager;
 using Z.Ddd.Common.Extensions;
-using Azure;
+using Z.SunBlog.Application.ConfigModule;
 
 namespace Z.SunBlog.Application.OAuthModule
 {
