@@ -7,15 +7,15 @@ public class CustomConfigDetailOutput
     /// <summary>
     /// 表单渲染Json
     /// </summary>
-    public JObject FormJson { get; set; }
+    public string FormJson { get; set; }
 
     /// <summary>
     /// 表单数据
     /// </summary>
-    public JObject DataJson { get; set; }
+    public string DataJson { get; set; }
 
     /// <summary>
     /// 配置项Id
     /// </summary>
-    public long ItemId { get; set; }
+    public Guid ItemId { get; set; }
 }

@@ -39,5 +39,5 @@ public class CustomConfigPageOutput
     /// <summary>
     /// 创建时间
     /// </summary>
-    public DateTime CreatedTime { get; set; }
+    public DateTime? CreatedTime { get; set; }
 }
