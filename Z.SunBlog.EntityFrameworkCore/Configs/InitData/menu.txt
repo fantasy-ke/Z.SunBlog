@@ -16,7 +16,7 @@
         "IsKeepAlive":true,
         "IsFixed":true,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"0",
         "Remark":"首页",
         "IsDeleted":false
     },
@@ -37,7 +37,7 @@
         "IsKeepAlive":false,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"2",
         "Remark":"",
         "IsDeleted":false
     },
@@ -58,7 +58,7 @@
         "IsKeepAlive":true,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"0",
         "Remark":"",
         "IsDeleted":false
     },
@@ -184,7 +184,7 @@
         "IsKeepAlive":true,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"1",
         "Remark":"",
         "IsDeleted":false
     },
@@ -289,7 +289,7 @@
         "IsKeepAlive":true,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"2",
         "Remark":"",
         "IsDeleted":false
     },
@@ -394,7 +394,7 @@
         "IsKeepAlive":true,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"3",
         "Remark":"",
         "IsDeleted":false
     },
@@ -499,7 +499,7 @@
         "IsKeepAlive":true,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"4",
         "Remark":"",
         "IsDeleted":false
     },
@@ -709,7 +709,7 @@
         "IsKeepAlive":false,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"1",
         "Remark":"",
         "IsDeleted":false
     },
@@ -730,7 +730,7 @@
         "IsKeepAlive":true,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"1",
         "Remark":"",
         "IsDeleted":false
     },
@@ -856,7 +856,7 @@
         "IsKeepAlive":true,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"2",
         "Remark":"",
         "IsDeleted":false
     },
@@ -982,7 +982,7 @@
         "IsKeepAlive":true,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"3",
         "Remark":"",
         "IsDeleted":false
     },
@@ -1108,7 +1108,7 @@
         "IsKeepAlive":true,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"4",
         "Remark":"",
         "IsDeleted":false
     },
@@ -1318,7 +1318,7 @@
         "IsKeepAlive":true,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"5",
         "Remark":"",
         "IsDeleted":false
     },
@@ -1423,7 +1423,7 @@
         "IsKeepAlive":true,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"6",
         "Remark":"",
         "IsDeleted":false
     },
@@ -1528,7 +1528,7 @@
         "IsKeepAlive":true,
         "IsFixed":false,
         "Status":"0",
-        "Sort":"100",
+        "Sort":"3",
         "Remark":"",
         "IsDeleted":false
     },
@@ -1638,11 +1638,32 @@
         "IsDeleted":false
     },
     {
+        "Id":"9f8513c5-7f71-87d6-d1b7-bb9055f03989",
+        "Name":"博客用户",
+        "Type":1,
+        "Code":"",
+        "ParentId":"26fc65d9-afda-44e5-97bd-f77437b6821a",
+        "RouteName":"auth-account",
+        "Path":"/blog/account",
+        "Component":"blog/account/index",
+        "Redirect":"",
+        "Icon":"ele-Avatar",
+        "IsIframe":"0",
+        "Link":"",
+        "IsVisible":"1",
+        "IsKeepAlive":"1",
+        "IsFixed":"0",
+        "Status":0,
+        "Sort":7,
+        "Remark":"",
+        "IsDeleted":false
+    },
+    {
         "Id":"6d0db7b5-6d82-4761-a293-a4b4f93801a6",
         "Name":"用户列表",
         "Type":"2",
         "Code":"authaccount:list",
-        "ParentId":"",
+        "ParentId":"9f8513c5-7f71-87d6-d1b7-bb9055f03989",
         "RouteName":"",
         "Path":"",
         "Component":"",
@@ -1663,7 +1684,7 @@
         "Name":"设置博主",
         "Type":"2",
         "Code":"authaccount:setblogger",
-        "ParentId":"",
+        "ParentId":"9f8513c5-7f71-87d6-d1b7-bb9055f03989",
         "RouteName":"",
         "Path":"",
         "Component":"",
@@ -1684,7 +1705,7 @@
         "Name":"删除",
         "Type":"2",
         "Code":"authaccount:delete",
-        "ParentId":"",
+        "ParentId":"9f8513c5-7f71-87d6-d1b7-bb9055f03989",
         "RouteName":"",
         "Path":"",
         "Component":"",
