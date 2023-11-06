@@ -12,6 +12,7 @@ using Z.Module.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.ResultResponse;
+using Minio.DataModel.Notification;
 
 namespace Z.Ddd.Common.DomainServiceRegister;
 
@@ -45,6 +46,11 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
     {
         await ValidateOnCreateOrUpdate(entity);
         return await EntityRepo.InsertAsync(entity);
+    }
+
+    public virtual async Task<bool> IsAnyAsync(Expression<Func<TEntity, bool>> predicate)
+    {
+        return await QueryAsNoTracking.AnyAsync(predicate);
     }
 
     public async Task Create(IEnumerable<TEntity> entities)

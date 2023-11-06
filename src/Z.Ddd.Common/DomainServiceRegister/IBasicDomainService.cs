@@ -145,4 +145,8 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     // 参数:
     //   entities:
     Task CreateOrUpdate(Expression<Func<TEntity, bool>> predicate, IEnumerable<TEntity> entities);
+
+
+   
+    Task<bool> IsAnyAsync(Expression<Func<TEntity, bool>> predicate);
 }
