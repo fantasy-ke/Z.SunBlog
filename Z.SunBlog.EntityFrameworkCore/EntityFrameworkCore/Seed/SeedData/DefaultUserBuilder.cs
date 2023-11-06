@@ -33,8 +33,11 @@ namespace Z.SunBlog.EntityFrameworkCore.EntityFrameworkCore.Seed.SeedData
             {
                 defaultUser = new ZUserInfo
                 {
+                    Id = ZConfigBase.DefaultUserId,
                     UserName = ZConfigBase.DefaultUserName,
                     PassWord = ZConfigBase.DefaultPassWord,
+                    OrgId = ZConfigBase.DefaultOrgId,
+                    IsDeleted = false,
                 };
 
                 _context.ZUsers.Add(defaultUser);

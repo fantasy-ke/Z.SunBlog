@@ -43,7 +43,7 @@ namespace Z.SunBlog.Application.ConfigModule
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResult<object>> GetPage([FromBody] CustomConfigItemQueryInput dto)
+        public async Task<PageResult<dynamic>> GetPage([FromBody] CustomConfigItemQueryInput dto)
         {
             var result = await _customConfigItemManager.QueryAsNoTracking.Where(x => x.ConfigId == dto.Id)
                 .Select(x => new { x.Id, x.Json, x.Status, x.CreationTime }).ToPagedListAsync(dto);
@@ -55,9 +55,9 @@ namespace Z.SunBlog.Application.ConfigModule
                 o["__CreatedTime"] = x.CreationTime;
                 return o;
             }).ToList();
-            return new PageResult<object>()
+            return new PageResult<dynamic>()
             {
-                //Rows = list,
+                Rows = (IList<dynamic>)list,
                 PageNo = result.PageNo,
                 PageSize = result.PageSize,
                 Pages = result.Pages,

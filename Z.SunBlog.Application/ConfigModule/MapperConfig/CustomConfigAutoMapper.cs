@@ -22,6 +22,7 @@ namespace Z.SunBlog.Application.ConfigModule
         {
             configuration.CreateMap<CustomConfig, AddCustomConfigInput>().ReverseMap();
             configuration.CreateMap<CustomConfig, UpdateCustomConfigInput>().ReverseMap();
+            configuration.CreateMap<CustomConfigItem, AddCustomConfigItemInput>().ReverseMap();
             //configuration.CreateMap<Article, AddArticleInput>().ReverseMap();
         }
     }
