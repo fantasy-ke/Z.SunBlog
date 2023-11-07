@@ -10,12 +10,13 @@ using Z.SunBlog.Core.CustomConfigModule;
 using Z.Ddd.Common.RedisModule;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.SharedDto;
+using Newtonsoft.Json;
 
 namespace Z.SunBlog.Application.ConfigModule
 {
     public interface ICustomConfigItemAppService : IApplicationService
     {
-        Task<PageResult<object>> GetPage([FromBody] CustomConfigItemQueryInput dto);
+        Task<PageResult<string>> GetPage([FromBody] CustomConfigItemQueryInput dto);
         Task AddItem(AddCustomConfigItemInput dto);
         Task UpdateItem(UpdateCustomConfigItemInput dto);
 
@@ -43,21 +44,21 @@ namespace Z.SunBlog.Application.ConfigModule
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResult<dynamic>> GetPage([FromBody] CustomConfigItemQueryInput dto)
+        public async Task<PageResult<string>> GetPage([FromBody] CustomConfigItemQueryInput dto)
         {
             var result = await _customConfigItemManager.QueryAsNoTracking.Where(x => x.ConfigId == dto.Id)
                 .Select(x => new { x.Id, x.Json, x.Status, x.CreationTime }).ToPagedListAsync(dto);
             var list = result.Rows.Select(x =>
             {
                 var o = JObject.Parse(x.Json);
-                o["__Id"] = x.Id;
-                o["__Status"] = (int)x.Status;
-                o["__CreatedTime"] = x.CreationTime;
-                return o;
+                o["tempId"] = x.Id;
+                o["tempStatus"] = (int)x.Status;
+                o["tempCreatedTime"] = x.CreationTime;
+                return JsonConvert.SerializeObject(o);
             }).ToList();
-            return new PageResult<dynamic>()
+            return new PageResult<string>()
             {
-                Rows = (IList<dynamic>)list,
+                Rows = list,
                 PageNo = result.PageNo,
                 PageSize = result.PageSize,
                 Pages = result.Pages,
