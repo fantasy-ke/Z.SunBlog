@@ -32,6 +32,11 @@ public class CustomConfigPageOutput
     /// 是否允许创建实体
     /// </summary>
     public bool AllowCreationEntity { get; set; }
+
+    /// <summary>
+    /// 配置id
+    /// </summary>
+    public List<Guid>? ConfigItemId { get; set; }
     /// <summary>
     /// 是否已生成实体
     /// </summary>

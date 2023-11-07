@@ -140,7 +140,7 @@ namespace Z.SunBlog.Application.ConfigModule
         [HttpPost]
         public async Task<PageResult<CustomConfigPageOutput>> GetPage([FromBody] CustomConfigQueryInput dto)
         {
-            return await _customConfigManager.QueryAsNoTracking
+            var dataList = await _customConfigManager.QueryAsNoTracking
                 .WhereIf(!string.IsNullOrWhiteSpace(dto.Name), x => x.Name.Contains(dto.Name))
                 .WhereIf(!string.IsNullOrWhiteSpace(dto.Code), x => x.Code.Contains(dto.Code))
                 .OrderByDescending(x => x.Id)
@@ -156,6 +156,12 @@ namespace Z.SunBlog.Application.ConfigModule
                     IsGenerate = x.IsGenerate,
                     CreatedTime = x.CreationTime
                 }).ToPagedListAsync(dto);
+
+            var configId = dataList.Rows.Select(x => x.Id).ToList();
+            var configItem = await _customConfigItemManager.QueryAsNoTracking.Where(p => configId.Contains(p.ConfigId)).ToListAsync();
+            dataList.Rows.ToList().ForEach(x => x.ConfigItemId = configItem.Where(p => p.ConfigId == x.Id).Select(p=>p.Id).ToList());
+
+            return dataList;
         }
 
         /// <summary>
