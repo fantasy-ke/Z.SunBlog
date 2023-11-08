@@ -22,6 +22,7 @@ using Z.SunBlog.Core.FriendLinkModule.DomainManager;
 using Z.SunBlog.Core.PicturesModule.DomainManager;
 using Z.Ddd.Common.Entities.Enum;
 using Z.SunBlog.Application.ConfigModule;
+using Serilog;
 
 namespace Z.SunBlog.Application.OAuthModule
 {
@@ -255,9 +256,12 @@ namespace Z.SunBlog.Application.OAuthModule
         public async Task<BlogOutput> Info()
         {
             var blogSetting = await  _customConfigAppService.Get<BlogSetting>();
-
+            blogSetting.WxPayUrl = blogSetting.WxPay.FirstOrDefault()?.url;
+            blogSetting.AliPayUrl = blogSetting.AliPay.FirstOrDefault()?.url;
+            blogSetting.LogoUrl = blogSetting.Logo.FirstOrDefault()?.url;
+            blogSetting.FaviconUrl = blogSetting.Favicon.FirstOrDefault()?.url;
             var info = await _customConfigAppService.Get<BloggerInfo>();
-
+            info.AvatarUrl = info.Avatar.FirstOrDefault()?.url;
             var pics = await _albumsManager.QueryAsNoTracking
                 .Join(_picturesManager.QueryAsNoTracking,a=>a.Id,p=>p.AlbumId,(a,p)=>new { album = a,pic = p})
                 .Where(p => p.album.Type.HasValue)

@@ -7,11 +7,15 @@ public class BlogSetting
     /// <summary>
     /// 网站Logo
     /// </summary>
-    public string Logo { get; set; }
+    public List<dynamic> Logo { get; set; }
+
+    public string? LogoUrl { get; set; }
     /// <summary>
     /// 站点图标
     /// </summary>
-    public string Favicon { get; set; }
+    public List<dynamic> Favicon { get; set; }
+
+    public string? FaviconUrl { get; set; }
     /// <summary>
     /// 开启打赏
     /// </summary>
@@ -19,11 +23,15 @@ public class BlogSetting
     /// <summary>
     /// 支付宝
     /// </summary>
-    public string AliPay { get; set; }
+    public List<dynamic> AliPay { get; set; }
+
+    public string? AliPayUrl { get; set; }
     /// <summary>
     /// 微信收款码
     /// </summary>
-    public string WxPay { get; set; }
+    public List<dynamic> WxPay { get; set; }
+
+    public string? WxPayUrl { get; set; }
     /// <summary>
     /// 允许留言
     /// </summary>
