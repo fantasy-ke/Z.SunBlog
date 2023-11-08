@@ -89,7 +89,7 @@ namespace Z.SunBlog.Application.ConfigModule
 
             ObjectMapper.Map(dto, item);
 
-            await _customConfigItemManager.Create(item);
+            await _customConfigItemManager.Update(item);
             await ClearCache();
         }
 
