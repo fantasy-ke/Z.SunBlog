@@ -7,7 +7,12 @@ public class BloggerInfo
     /// <summary>
     /// 头像
     /// </summary>
-    public string Avatar { get; set; }
+    public List<dynamic> Avatar { get; set; }
+
+    /// <summary>
+    /// 头像
+    /// </summary>
+    public string? AvatarUrl { get; set; }
     /// <summary>
     /// 昵称
     /// </summary>
