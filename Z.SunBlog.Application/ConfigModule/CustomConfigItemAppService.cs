@@ -108,7 +108,7 @@ namespace Z.SunBlog.Application.ConfigModule
         }
         internal Task ClearCache()
         {
-            return _cacheManager.RefreshCacheAsync(CacheConst.ConfigCacheKey);
+            return _cacheManager.RemoveByPrefixAsync(CacheConst.ConfigCacheKey);
         }
     }
 
