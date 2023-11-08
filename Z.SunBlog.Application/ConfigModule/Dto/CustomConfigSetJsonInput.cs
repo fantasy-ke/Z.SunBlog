@@ -15,5 +15,5 @@ public class CustomConfigSetJsonInput
     /// 表单设计
     /// </summary>
     [Required(ErrorMessage = "请设计表单")]
-    public dynamic Json { get; set; }
+    public string Json { get; set; }
 }

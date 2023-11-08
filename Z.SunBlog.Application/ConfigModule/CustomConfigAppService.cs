@@ -247,11 +247,9 @@ namespace Z.SunBlog.Application.ConfigModule
         [HttpPatch]
         public async Task SetJson(CustomConfigSetJsonInput dto)
         {
-            string json = JsonConvert.SerializeObject(dto.Json);
-            await _customConfigManager.UpdateAsync(new CustomConfig()
-            {
-                Json = json
-            }, x => x.Id == dto.Id);
+            var entity = await _customConfigManager.QueryAsNoTracking.Where(x => x.Id == dto.Id).FirstAsync();
+            entity.Json = dto.Json;
+            await _customConfigManager.Update(entity);
             await ClearCache();
         }
 
