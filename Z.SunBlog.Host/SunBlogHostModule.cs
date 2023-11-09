@@ -48,7 +48,6 @@ public class SunBlogHostModule : ZModule
 
         ServicesJwtToken(context.Services);
 
-
         // 注入自动事务中间件
         context.Services.AddUnitOfWorkMiddleware();
 

@@ -1,6 +1,3 @@
-using Cuemon.Diagnostics;
-using Serilog;
-using Serilog.Events;
 using Z.Ddd.Common;
 using Z.Ddd.Common.Serilog;
 using Z.Module.Extensions;
@@ -9,7 +6,7 @@ using Z.SunBlog.Host;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var configuration = builder.Configuration;
+//var configuration = builder.Configuration;
 
 //int.TryParse(configuration["App:WebHostPort"], out var port);
 
@@ -21,7 +18,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Logging.ClearProviders();
 
-AppSettings.ConfigurationBuilder(builder.Services,AppContext.BaseDirectory);
+builder.Services.AddSingleton(new AppSettings(builder));
 
 builder.Host.AddSerilogSetup();
 
