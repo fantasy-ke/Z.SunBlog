@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MrHuo.OAuth.QQ;
 using System.Security.Claims;
 using Yitter.IdGenerator;
 using Z.Ddd.Common;
@@ -23,6 +22,9 @@ using Z.SunBlog.Core.PicturesModule.DomainManager;
 using Z.Ddd.Common.Entities.Enum;
 using Z.SunBlog.Application.ConfigModule;
 using Serilog;
+using MrHuo.OAuth;
+using MrHuo.OAuth.QQ;
+using MrHuo.OAuth.Gitee;
 
 namespace Z.SunBlog.Application.OAuthModule
 {
@@ -40,6 +42,7 @@ namespace Z.SunBlog.Application.OAuthModule
         /// </summary>
         private const string OAuthRedirectKey = "oauth.redirect.";
         private readonly QQOAuth _qqoAuth;
+        private readonly GiteeOAuth _giteeoAuth;
         private readonly IUserSession _userSession;
         private readonly IAuthAccountDomainManager _authAccountDomainManager;
         private readonly IFriendLinkManager _friendLinkManager;
@@ -60,7 +63,8 @@ namespace Z.SunBlog.Application.OAuthModule
             IJwtTokenProvider jwtTokenProvider,
             ICustomConfigAppService customConfigAppService,
             IAlbumsManager albumsManager,
-            IPicturesManager picturesManager) : base(serviceProvider)
+            IPicturesManager picturesManager,
+            GiteeOAuth giteeoAuth) : base(serviceProvider)
         {
             _qqoAuth = qqoAuth;
             _userSession = userSession;
@@ -72,6 +76,7 @@ namespace Z.SunBlog.Application.OAuthModule
             _customConfigAppService = customConfigAppService;
             _albumsManager = albumsManager;
             _picturesManager = picturesManager;
+            _giteeoAuth = giteeoAuth;
         }
 
         /// <summary>
@@ -88,6 +93,7 @@ namespace Z.SunBlog.Application.OAuthModule
             string url = type.ToLower() switch
             {
                 "qq" => _qqoAuth.GetAuthorizeUrl(code),
+                "gitee" => _giteeoAuth.GetAuthorizeUrl(code),
                 _ => throw new UserFriendlyException("无效请求")
             };
             return url;
@@ -110,22 +116,22 @@ namespace Z.SunBlog.Application.OAuthModule
             switch (type.ToLower())
             {
                 case "qq":
-                    var auth = await _qqoAuth.AuthorizeCallback(code, state);
-                    if (!auth.IsSccess)
+                    var qqResult = await _qqoAuth.AuthorizeCallback(code, state);
+                    if (!qqResult.IsSccess)
                     {
-                        throw new UserFriendlyException(auth.ErrorMessage);
+                        throw new UserFriendlyException(qqResult.ErrorMessage);
                     }
-                    var info = auth.UserInfo;
-                    string openId = await _qqoAuth.GetOpenId(auth.AccessToken.AccessToken);
+                    var qqInfo = qqResult.UserInfo;
+                    string openId = await _qqoAuth.GetOpenId(qqResult.AccessToken.AccessToken);
                     account = await _authAccountDomainManager.QueryAsNoTracking.FirstAsync(x => x.OAuthId == openId && x.Type.ToLower() == "qq");
-                    var gender = info.Gender == "男" ? Gender.Male :
-                        info.Gender == "女" ? Gender.Female : Gender.Unknown;
+                    var gender = qqInfo.Gender == "男" ? Gender.Male :
+                        qqInfo.Gender == "女" ? Gender.Female : Gender.Unknown;
                     if (account != null)
                     {
                         await _authAccountDomainManager.UpdateAsync(new AuthAccount()
                         {
-                            Avatar = string.IsNullOrWhiteSpace(info.QQ100Avatar) ? info.Avatar : info.QQ100Avatar,
-                            Name = info.Name,
+                            Avatar = string.IsNullOrWhiteSpace(qqInfo.QQ100Avatar) ? qqInfo.Avatar : qqInfo.QQ100Avatar,
+                            Name = qqInfo.Name,
                             Gender = gender
                         },
                             x => x.OAuthId == openId && x.Type.ToLower() == "qq");
@@ -135,14 +141,43 @@ namespace Z.SunBlog.Application.OAuthModule
                         account = await _authAccountDomainManager.Create(new AuthAccount()
                         {
                             Gender = gender,
-                            Avatar = info.Avatar,
-                            Name = info.Name,
+                            Avatar = qqInfo.Avatar,
+                            Name = qqInfo.Name,
                             OAuthId = openId,
                             Type = "QQ"
                         });
                     }
                     break;
-
+                case "gitee":
+                    var giteeResult = await _giteeoAuth.AuthorizeCallback(code, state);
+                    if (!giteeResult.IsSccess)
+                    {
+                        throw new UserFriendlyException(giteeResult.ErrorMessage);
+                    }
+                    var giteeInfo = giteeResult.UserInfo;
+                    account = await _authAccountDomainManager.QueryAsNoTracking.FirstAsync(x => x.OAuthId == giteeInfo.Email && x.Type.ToLower() == "gitee");
+                    if (account != null)
+                    {
+                        await _authAccountDomainManager.UpdateAsync(new AuthAccount()
+                        {
+                            Avatar = giteeInfo.Avatar ,
+                            Name = giteeInfo.Name,
+                            Gender = Gender.Unknown
+                        },
+                            x => x.OAuthId == giteeInfo.Email && x.Type.ToLower() == "qq");
+                    }
+                    else
+                    {
+                        account = await _authAccountDomainManager.Create(new AuthAccount()
+                        {
+                            Gender = Gender.Unknown,
+                            Avatar = giteeInfo.Avatar,
+                            Name = giteeInfo.Name,
+                            OAuthId = giteeInfo.Email,
+                            Type = "Gitee"
+                        });
+                    }
+                    break;
                 default:
                     throw new UserFriendlyException("无效请求");
             }
@@ -168,7 +203,6 @@ namespace Z.SunBlog.Application.OAuthModule
             {
                 throw new UserFriendlyException("无效参数");
             }
-            long uniqueId = _idGenerator.NewLong();
             var account = value!;
             UserTokenModel tokenModel = new UserTokenModel();
             tokenModel.UserName = account.Name!;
@@ -206,8 +240,8 @@ namespace Z.SunBlog.Application.OAuthModule
         {
             string id = _userSession.UserId;
             return await _authAccountDomainManager.QueryAsNoTracking
-                .GroupJoin(_friendLinkManager.QueryAsNoTracking,ac=>ac.Id,link=>link.AppUserId,(ac,link)=>new { ac=ac,link=link })
-                .SelectMany(p=>p.link.DefaultIfEmpty(), (ac, link) => new { ac = ac.ac, link = link })
+                .GroupJoin(_friendLinkManager.QueryAsNoTracking, ac => ac.Id, link => link.AppUserId, (ac, link) => new { ac = ac, link = link })
+                .SelectMany(p => p.link.DefaultIfEmpty(), (ac, link) => new { ac = ac.ac, link = link })
                 .Where(al => al.ac.Id == id)
                 .Select(al => new OAuthAccountDetailOutput
                 {
@@ -242,7 +276,7 @@ namespace Z.SunBlog.Application.OAuthModule
                 return;
             }
 
-            ObjectMapper.Map(dto,link);
+            ObjectMapper.Map(dto, link);
             link.Status = AvailabilityStatus.Disable;
             await _friendLinkManager.Update(link);
         }
@@ -255,7 +289,7 @@ namespace Z.SunBlog.Application.OAuthModule
         [HttpGet]
         public async Task<BlogOutput> Info()
         {
-            var blogSetting = await  _customConfigAppService.Get<BlogSetting>();
+            var blogSetting = await _customConfigAppService.Get<BlogSetting>();
             blogSetting.WxPayUrl = blogSetting.WxPay.FirstOrDefault()?.url;
             blogSetting.AliPayUrl = blogSetting.AliPay.FirstOrDefault()?.url;
             blogSetting.LogoUrl = blogSetting.Logo.FirstOrDefault()?.url;
@@ -263,7 +297,7 @@ namespace Z.SunBlog.Application.OAuthModule
             var info = await _customConfigAppService.Get<BloggerInfo>();
             info.AvatarUrl = info.Avatar.FirstOrDefault()?.url;
             var pics = await _albumsManager.QueryAsNoTracking
-                .Join(_picturesManager.QueryAsNoTracking,a=>a.Id,p=>p.AlbumId,(a,p)=>new { album = a,pic = p})
+                .Join(_picturesManager.QueryAsNoTracking, a => a.Id, p => p.AlbumId, (a, p) => new { album = a, pic = p })
                 .Where(p => p.album.Type.HasValue)
                 .Select(p => new
                 {
