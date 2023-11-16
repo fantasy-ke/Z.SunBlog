@@ -21,6 +21,9 @@ using Z.Module.Extensions;
 using Z.Module.Modules;
 using Z.SunBlog.Application;
 using Z.SunBlog.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Minio.DataModel;
+using MrHuo.OAuth.Gitee;
 
 namespace Z.SunBlog.Host;
 
@@ -69,8 +72,8 @@ public class SunBlogHostModule : ZModule
                     )
             ));
 
-        var auth = new QQOAuth(OAuthConfig.LoadFrom(configuration, "oauth:qq"));
-        context.Services.AddSingleton(auth);
+        context.Services.AddSingleton(new GiteeOAuth(OAuthConfig.LoadFrom(configuration, "oauth:gitee")));
+        context.Services.AddSingleton(new QQOAuth(OAuthConfig.LoadFrom(configuration, "oauth:qq")));
 
         #region 图形验证码
 
