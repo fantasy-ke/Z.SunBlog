@@ -25,6 +25,7 @@ using Serilog;
 using MrHuo.OAuth;
 using MrHuo.OAuth.QQ;
 using MrHuo.OAuth.Gitee;
+using Z.Ddd.Common.Attributes;
 
 namespace Z.SunBlog.Application.OAuthModule
 {
@@ -87,7 +88,7 @@ namespace Z.SunBlog.Application.OAuthModule
         [HttpGet]
         public async Task<string> GetIpAddress(string type)
         {
-            string code = _idGenerator.Encode(Guid.NewGuid().ToString());
+            string code = Guid.NewGuid().ToString();
             var referer = App.HttpContext!.Request.Headers.FirstOrDefault(x => x.Key.Equals("Referer", StringComparison.CurrentCultureIgnoreCase)).Value;
             await _cacheManager.SetCacheAsync($"{OAuthRedirectKey}{code}", referer, TimeSpan.FromMinutes(5));
             string url = type.ToLower() switch
@@ -106,7 +107,9 @@ namespace Z.SunBlog.Application.OAuthModule
         /// <param name="code"></param>
         /// <param name="state">缓存唯一ID</param>
         /// <returns></returns>
-        public async Task<IActionResult> Callback(string type, [FromQuery] string code, [FromQuery] string state)
+        [HttpGet]
+        [NoResult]
+        public async Task<IActionResult> Callback( [FromQuery] string code, [FromQuery] string state, string type = "gitee")
         {
             if (string.IsNullOrWhiteSpace(state) || !await _cacheManager.ExistsAsync($"{OAuthRedirectKey}{state}"))
             {
@@ -155,7 +158,7 @@ namespace Z.SunBlog.Application.OAuthModule
                         throw new UserFriendlyException(giteeResult.ErrorMessage);
                     }
                     var giteeInfo = giteeResult.UserInfo;
-                    account = await _authAccountDomainManager.QueryAsNoTracking.FirstAsync(x => x.OAuthId == giteeInfo.Email && x.Type.ToLower() == "gitee");
+                    account = await _authAccountDomainManager.QueryAsNoTracking.FirstOrDefaultAsync(x => x.OAuthId == giteeInfo.Name && x.Type.ToLower() == "gitee");
                     if (account != null)
                     {
                         await _authAccountDomainManager.UpdateAsync(new AuthAccount()
@@ -164,7 +167,7 @@ namespace Z.SunBlog.Application.OAuthModule
                             Name = giteeInfo.Name,
                             Gender = Gender.Unknown
                         },
-                            x => x.OAuthId == giteeInfo.Email && x.Type.ToLower() == "qq");
+                            x => x.OAuthId == giteeInfo.Name && x.Type.ToLower() == "gitee");
                     }
                     else
                     {
@@ -173,7 +176,7 @@ namespace Z.SunBlog.Application.OAuthModule
                             Gender = Gender.Unknown,
                             Avatar = giteeInfo.Avatar,
                             Name = giteeInfo.Name,
-                            OAuthId = giteeInfo.Email,
+                            OAuthId = giteeInfo.Name,
                             Type = "Gitee"
                         });
                     }
@@ -194,12 +197,12 @@ namespace Z.SunBlog.Application.OAuthModule
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
+        [HttpGet]
         public async Task<string> Login(string code)
         {
-            long decode = _idGenerator.Decode(code);
-            string key = $"{OAuthKey}{code}", key2 = $"{OAuthRedirectKey}{decode}";
+            string key = $"{OAuthKey}{code}", key2 = $"{OAuthRedirectKey}{code}";
             var value = await _cacheManager.GetCacheAsync<AuthAccount>(key);
-            if (value != null)
+            if (value == null)
             {
                 throw new UserFriendlyException("无效参数");
             }
