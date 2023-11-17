@@ -193,4 +193,7 @@ public static class StringExtensions
     {
         return string.Join(separator, strList);
     }
+
+
+    public static string NotNullString(this object obj) => obj != null ? obj.ToString()!.Trim() : string.Empty;
 }

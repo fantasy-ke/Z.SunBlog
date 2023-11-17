@@ -212,7 +212,7 @@ namespace Z.SunBlog.Application.OAuthModule
             tokenModel.UserId = account.Id!;
             var token = _jwtTokenProvider.GenerateAccessToken(tokenModel);
 
-            App.HttpContext.Response.Cookies.Append("x-access-token", token, new CookieOptions()
+            App.HttpContext.Response.Cookies.Append("access-token", token, new CookieOptions()
             {
                 Expires = DateTimeOffset.UtcNow.AddMinutes(20)
             });
