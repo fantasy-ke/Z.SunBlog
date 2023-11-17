@@ -7,7 +7,7 @@ public class BloggerInfo
     /// <summary>
     /// 头像
     /// </summary>
-    public List<dynamic> Avatar { get; set; }
+    public List<ImgInfo> Avatar { get; set; }
 
     /// <summary>
     /// 头像

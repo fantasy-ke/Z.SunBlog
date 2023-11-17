@@ -90,7 +90,7 @@ namespace Z.SunBlog.Application.OAuthModule
         {
             string code = Guid.NewGuid().ToString();
             var referer = App.HttpContext!.Request.Headers.FirstOrDefault(x => x.Key.Equals("Referer", StringComparison.CurrentCultureIgnoreCase)).Value;
-            await _cacheManager.SetCacheAsync($"{OAuthRedirectKey}{code}", referer, TimeSpan.FromMinutes(5));
+            await _cacheManager.SetCacheAsync($"{OAuthRedirectKey}{code}", referer.FirstOrDefault().ToLower(), TimeSpan.FromMinutes(5));
             string url = type.ToLower() switch
             {
                 "qq" => _qqoAuth.GetAuthorizeUrl(code),
@@ -109,7 +109,7 @@ namespace Z.SunBlog.Application.OAuthModule
         /// <returns></returns>
         [HttpGet]
         [NoResult]
-        public async Task<IActionResult> Callback( [FromQuery] string code, [FromQuery] string state, string type = "gitee")
+        public async Task<IActionResult> Callback([FromQuery] string code, [FromQuery] string state, string type = "gitee")
         {
             if (string.IsNullOrWhiteSpace(state) || !await _cacheManager.ExistsAsync($"{OAuthRedirectKey}{state}"))
             {
@@ -163,7 +163,7 @@ namespace Z.SunBlog.Application.OAuthModule
                     {
                         await _authAccountDomainManager.UpdateAsync(new AuthAccount()
                         {
-                            Avatar = giteeInfo.Avatar ,
+                            Avatar = giteeInfo.Avatar,
                             Name = giteeInfo.Name,
                             Gender = Gender.Unknown
                         },
@@ -211,19 +211,20 @@ namespace Z.SunBlog.Application.OAuthModule
             tokenModel.UserName = account.Name!;
             tokenModel.UserId = account.Id!;
             var token = _jwtTokenProvider.GenerateAccessToken(tokenModel);
-
+            var tokenConfig = AppSettings.AppOption<JwtSettings>("App:JWtSetting");
             App.HttpContext.Response.Cookies.Append("access-token", token, new CookieOptions()
             {
-                Expires = DateTimeOffset.UtcNow.AddMinutes(20)
+                Expires = DateTimeOffset.UtcNow.AddMinutes(tokenConfig.AccessTokenExpirationMinutes)
             });
 
             var claimsIdentity = new ClaimsIdentity(tokenModel.Claims, "Login");
+
 
             AuthenticationProperties properties = new AuthenticationProperties();
             properties.AllowRefresh = true;
             properties.IsPersistent = true;
             properties.IssuedUtc = DateTimeOffset.UtcNow;
-            properties.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(20);
+            properties.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1);
 
             await App.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
             // 设置响应报文头
@@ -242,7 +243,7 @@ namespace Z.SunBlog.Application.OAuthModule
         public async Task<OAuthAccountDetailOutput> UserInfo()
         {
             string id = _userSession.UserId;
-            return await _authAccountDomainManager.QueryAsNoTracking
+            var result=  await _authAccountDomainManager.QueryAsNoTracking
                 .GroupJoin(_friendLinkManager.QueryAsNoTracking, ac => ac.Id, link => link.AppUserId, (ac, link) => new { ac = ac, link = link })
                 .SelectMany(p => p.link.DefaultIfEmpty(), (ac, link) => new { ac = ac.ac, link = link })
                 .Where(al => al.ac.Id == id)
@@ -250,14 +251,16 @@ namespace Z.SunBlog.Application.OAuthModule
                 {
                     Id = al.ac.Id,
                     Avatar = al.ac.Avatar,
-                    Status = al.link.Status,
+                    Status = al.link != null ? al.link.Status : null,
                     NickName = al.ac.Name,
-                    Link = al.link.Link,
-                    Logo = al.link.Logo,
-                    SiteName = al.link.SiteName,
-                    Url = al.link.Url,
-                    Remark = al.link.Remark
-                }).FirstAsync();
+                    Link = al.link != null ? al.link.Link : null,
+                    Logo = al.link != null ? al.link.Logo : null,
+                    SiteName = al.link != null ? al.link.SiteName : null,
+                    Url = al.link != null ? al.link.Url : null,
+                    Remark = al.link != null ? al.link.Remark : null,
+                }).FirstOrDefaultAsync();
+
+            return result;
         }
 
         /// <summary>
@@ -293,12 +296,12 @@ namespace Z.SunBlog.Application.OAuthModule
         public async Task<BlogOutput> Info()
         {
             var blogSetting = await _customConfigAppService.Get<BlogSetting>();
-            blogSetting.WxPayUrl = blogSetting.WxPay.FirstOrDefault()?.url;
-            blogSetting.AliPayUrl = blogSetting.AliPay.FirstOrDefault()?.url;
-            blogSetting.LogoUrl = blogSetting.Logo.FirstOrDefault()?.url;
-            blogSetting.FaviconUrl = blogSetting.Favicon.FirstOrDefault()?.url;
+            blogSetting.WxPayUrl = blogSetting.WxPay.FirstOrDefault()?.Url;
+            blogSetting.AliPayUrl = blogSetting.AliPay.FirstOrDefault()?.Url;
+            blogSetting.LogoUrl = blogSetting.Logo.FirstOrDefault()?.Url;
+            blogSetting.FaviconUrl = blogSetting.Favicon.FirstOrDefault()?.Url;
             var info = await _customConfigAppService.Get<BloggerInfo>();
-            info.AvatarUrl = info.Avatar.FirstOrDefault()?.url;
+            info.AvatarUrl = info.Avatar.FirstOrDefault()?.Url;
             var pics = await _albumsManager.QueryAsNoTracking
                 .Join(_picturesManager.QueryAsNoTracking, a => a.Id, p => p.AlbumId, (a, p) => new { album = a, pic = p })
                 .Where(p => p.album.Type.HasValue)
