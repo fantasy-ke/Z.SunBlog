@@ -7,13 +7,13 @@ public class BlogSetting
     /// <summary>
     /// 网站Logo
     /// </summary>
-    public List<dynamic> Logo { get; set; }
+    public List<ImgInfo> Logo { get; set; }
 
     public string? LogoUrl { get; set; }
     /// <summary>
     /// 站点图标
     /// </summary>
-    public List<dynamic> Favicon { get; set; }
+    public List<ImgInfo> Favicon { get; set; }
 
     public string? FaviconUrl { get; set; }
     /// <summary>
@@ -23,13 +23,13 @@ public class BlogSetting
     /// <summary>
     /// 支付宝
     /// </summary>
-    public List<dynamic> AliPay { get; set; }
+    public List<ImgInfo> AliPay { get; set; }
 
     public string? AliPayUrl { get; set; }
     /// <summary>
     /// 微信收款码
     /// </summary>
-    public List<dynamic> WxPay { get; set; }
+    public List<ImgInfo> WxPay { get; set; }
 
     public string? WxPayUrl { get; set; }
     /// <summary>

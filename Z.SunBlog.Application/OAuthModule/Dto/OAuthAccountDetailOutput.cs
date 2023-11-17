@@ -20,7 +20,7 @@ public class OAuthAccountDetailOutput
     /// <summary>
     /// 状态
     /// </summary>
-    public AvailabilityStatus Status { get; set; }
+    public AvailabilityStatus? Status { get; set; }
     /// <summary>
     /// 网站链接
     /// </summary>
