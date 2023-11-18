@@ -13,6 +13,7 @@ using Serilog;
 using Z.Ddd.Common.RedisModule;
 using Z.SunBlog.Application.UserModule.Dto;
 using Z.Ddd.Common.Exceptions;
+using Z.Ddd.Common;
 
 namespace Z.SunBlog.Host.Controllers
 {
@@ -55,23 +56,23 @@ namespace Z.SunBlog.Host.Controllers
             }
             tokenModel.UserName = userinfo.UserName!;
             tokenModel.UserId = userinfo.Id!;
-            var token = _jwtTokenProvider.GenerateAccessToken(tokenModel);
+            var tokenConfig = AppSettings.AppOption<JwtSettings>("App:JWtSetting");
+            // 设置Token的Claims
+            List<Claim> claims = new List<Claim>
+            {
+               new Claim(ZClaimTypes.UserName, user.Name!), //HttpContext.User.Identity.Name
+                new Claim(ZClaimTypes.UserId, user.Id!.ToString()),
+                new Claim(ZClaimTypes.Expiration, DateTimeOffset.Now.AddMinutes(tokenConfig.AccessTokenExpirationMinutes).ToString()),
+            };
+            var token = _jwtTokenProvider.GenerateZToken(claims.ToArray());
 
-            Response.Cookies.Append("access-token", token, new CookieOptions()
+            Response.Cookies.Append("access-token", token.AccessToken, new CookieOptions()
             {
                 Expires = DateTimeOffset.UtcNow.AddMinutes(20)
-        });
-            var claimsIdentity = new ClaimsIdentity(tokenModel.Claims, "Login");
-
-            AuthenticationProperties properties = new AuthenticationProperties();
-            properties.AllowRefresh = true;
-            properties.IsPersistent = true;
-            properties.IssuedUtc = DateTimeOffset.UtcNow;
-            properties.ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(20);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
+             });
 
             Log.Logger.Information("登录成功");
-            return token;
+            return token.AccessToken;
         }
 
 

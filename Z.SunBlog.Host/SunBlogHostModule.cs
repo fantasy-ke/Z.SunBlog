@@ -213,30 +213,31 @@ public class SunBlogHostModule : ZModule
         // 添加JWT身份验证服务
         services.AddAuthentication(options =>
         {
-            options.RequireAuthenticatedSignIn = true;
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddCookie(options =>
-        {
-            //cokkie名称
-            options.Cookie.Name = "Z.BearerCokkie";
-            //cokkie过期时间
-            options.ExpireTimeSpan = TimeSpan.FromMinutes(config!.CokkieExpirationMinutes);
-            //cokkie启用滑动过期时间
-            options.SlidingExpiration = false;
-
-            options.LogoutPath = "/Home/Index";
-
-            options.Events = new CookieAuthenticationEvents
-            {
-                OnSigningOut = async context =>
-                {
-                    context.Response.Cookies.Delete("access-token");
-
-                    await Task.CompletedTask;
-                }
-            };
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
         })
+        // .AddCookie(options =>
+        //{
+        //    //cokkie名称
+        //    options.Cookie.Name = "Z.BearerCokkie";
+        //    //cokkie过期时间
+        //    options.ExpireTimeSpan = TimeSpan.FromMinutes(config!.CokkieExpirationMinutes);
+        //    //cokkie启用滑动过期时间
+        //    options.SlidingExpiration = false;
+
+        //    options.LogoutPath = "/Home/Index";
+
+        //    options.Events = new CookieAuthenticationEvents
+        //    {
+        //        OnSigningOut = async context =>
+        //        {
+        //            context.Response.Cookies.Delete("access-token");
+
+        //            await Task.CompletedTask;
+        //        }
+        //    };
+        //})
         .AddJwtBearer(options =>
         {
 
