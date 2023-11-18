@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.ResultResponse;
 using Minio.DataModel.Notification;
+using System.Reflection;
 
 namespace Z.Ddd.Common.DomainServiceRegister;
 
@@ -67,9 +68,36 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
     public virtual async Task<TEntity> UpdateAsync(TEntity columns, Expression<Func<TEntity, bool>> whereExpression)
     {
         var entity = await QueryAsNoTracking.Where(whereExpression).FirstAsync();
-        ObjectMapper.Map(columns, entity);
+        //ObjectMapper.Map(columns, entity);
+        CopyNonNullProperties(columns, entity);
         await ValidateOnCreateOrUpdate(entity);
         return await EntityRepo.UpdateAsync(entity);
+    }
+
+    void CopyNonNullProperties<TEntity>(TEntity source, TEntity destination)
+    {
+        // 获取源和目标类型的所有属性
+        PropertyInfo[] sourceProperties = source.GetType().GetProperties();
+        PropertyInfo[] destinationProperties = destination.GetType().GetProperties();
+
+        // 遍历源类型的属性
+        foreach (var sourceProperty in sourceProperties)
+        {
+            // 获取属性名称
+            string propertyName = sourceProperty.Name;
+
+            // 获取源属性的值
+            object sourceValue = sourceProperty.GetValue(source);
+
+            // 查找目标类型中是否存在同名属性
+            PropertyInfo destinationProperty = destinationProperties.FirstOrDefault(p => p.Name == propertyName);
+
+            // 如果存在同名属性且源属性的值不为空，则将值复制到目标属性中
+            if (destinationProperty != null && sourceValue != null)
+            {
+                destinationProperty.SetValue(destination, sourceValue);
+            }
+        }
     }
 
     public virtual async Task Update(IEnumerable<TEntity> entities)
