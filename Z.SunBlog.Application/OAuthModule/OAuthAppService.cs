@@ -26,6 +26,7 @@ using MrHuo.OAuth;
 using MrHuo.OAuth.QQ;
 using MrHuo.OAuth.Gitee;
 using Z.Ddd.Common.Attributes;
+using Z.Ddd.Common.Authorization.Dtos;
 
 namespace Z.SunBlog.Application.OAuthModule
 {
@@ -109,7 +110,7 @@ namespace Z.SunBlog.Application.OAuthModule
         /// <returns></returns>
         [HttpGet]
         [NoResult]
-        public async Task<IActionResult> Callback([FromQuery] string code, [FromQuery] string state, string type = "gitee")
+        public async Task<IActionResult> Callback(string type,[FromQuery] string code, [FromQuery] string state)
         {
             if (string.IsNullOrWhiteSpace(state) || !await _cacheManager.ExistsAsync($"{OAuthRedirectKey}{state}"))
             {
@@ -198,7 +199,7 @@ namespace Z.SunBlog.Application.OAuthModule
         /// <param name="code"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<string> Login(string code)
+        public async Task<ZFantasyToken> Login(string code)
         {
             string key = $"{OAuthKey}{code}", key2 = $"{OAuthRedirectKey}{code}";
             var value = await _cacheManager.GetCacheAsync<AuthAccount>(key);
@@ -207,33 +208,20 @@ namespace Z.SunBlog.Application.OAuthModule
                 throw new UserFriendlyException("无效参数");
             }
             var account = value!;
-            UserTokenModel tokenModel = new UserTokenModel();
-            tokenModel.UserName = account.Name!;
-            tokenModel.UserId = account.Id!;
-            var token = _jwtTokenProvider.GenerateAccessToken(tokenModel);
             var tokenConfig = AppSettings.AppOption<JwtSettings>("App:JWtSetting");
-            App.HttpContext.Response.Cookies.Append("access-token", token, new CookieOptions()
+            // 设置Token的Claims
+            List<Claim> claims = new List<Claim>
             {
-                Expires = DateTimeOffset.UtcNow.AddMinutes(tokenConfig.AccessTokenExpirationMinutes)
-            });
-
-            var claimsIdentity = new ClaimsIdentity(tokenModel.Claims, "Login");
-
-
-            AuthenticationProperties properties = new AuthenticationProperties();
-            properties.AllowRefresh = true;
-            properties.IsPersistent = true;
-            properties.IssuedUtc = DateTimeOffset.UtcNow;
-            properties.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1);
-
-            await App.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
-            // 设置响应报文头
-            //App.HttpContext.Response.Headers["access-token"] = accessToken;
-            //App.HttpContext.Response.Headers["x-access-token"] = token;
+                new Claim(ZClaimTypes.UserName, account.Name!), //HttpContext.User.Identity.Name
+                new Claim(ZClaimTypes.UserId, account.Id!.ToString()),
+                new Claim(ZClaimTypes.Expiration, DateTimeOffset.Now.AddMinutes(tokenConfig.AccessTokenExpirationMinutes).ToString()),
+            };
+            var token = _jwtTokenProvider.GenerateZToken(claims.ToArray());
             string url = await _cacheManager.GetCacheAsync<string>(key2);
             await _cacheManager.RemoveCacheAsync(key);
             await _cacheManager.RemoveCacheAsync(key2);
-            return url;
+            token.RedirectUrl = url;
+            return token;
         }
 
         /// <summary>
