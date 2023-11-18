@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Z.Ddd.Common.Authorization.Dtos;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.SunBlog.Application.OAuthModule.Dto;
 
@@ -18,7 +19,7 @@ namespace Z.SunBlog.Application.OAuthModule
 
         Task<IActionResult> Callback(string type, string code, string state);
 
-        Task<string> Login(string code);
+        Task<ZFantasyToken> Login(string code);
 
         Task<OAuthAccountDetailOutput> UserInfo();
 

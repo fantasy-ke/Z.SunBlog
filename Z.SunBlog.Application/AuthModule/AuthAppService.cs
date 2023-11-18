@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -19,14 +17,20 @@ using Z.Ddd.Common.Attributes;
 using Z.SunBlog.Core.UserModule.DomainManager;
 using Z.Ddd.Common.Extensions;
 using Z.SunBlog.Application.ConfigModule;
+using Z.Ddd.Common.Authorization.Dtos;
+using Z.Ddd.Common.UserSession;
 
 namespace Z.SunBlog.Application.OAuthModule
 {
     public interface IAuthAppService : IApplicationService, ITransientDependency
     {
-        Task SignIn(ZUserInfoDto dto);
+        Task<ZFantasyToken> SignIn(ZUserInfoDto dto);
 
         IActionResult Captcha([FromQuery] string id);
+
+        Task<ZFantasyToken> RefreshToken(ZFantasyToken token);
+
+        Task ZSignOut([FromBody] string token);
     }
     /// <summary>
     /// 第三方登陆
@@ -37,6 +41,7 @@ namespace Z.SunBlog.Application.OAuthModule
         private readonly IIdGenerator _idGenerator;
         private readonly IJwtTokenProvider _jwtTokenProvider;
         private readonly ICacheManager _cacheManager;
+        private readonly IUserSession _userSession;
         private readonly ICaptcha _captcha;
         private readonly IUserDomainManager _userDomainManager;
         public AuthAppService(
@@ -44,7 +49,7 @@ namespace Z.SunBlog.Application.OAuthModule
             ICustomConfigAppService customConfigService,
             IIdGenerator idGenerator, IJwtTokenProvider jwtTokenProvider,
             IHttpContextAccessor httpContextAccessor,
-            ICacheManager cacheManager, ICaptcha captcha, IUserDomainManager userDomainManager) : base(serviceProvider)
+            ICacheManager cacheManager, ICaptcha captcha, IUserDomainManager userDomainManager, IUserSession userSession) : base(serviceProvider)
         {
             _customConfigService = customConfigService;
             _idGenerator = idGenerator;
@@ -52,6 +57,7 @@ namespace Z.SunBlog.Application.OAuthModule
             _cacheManager = cacheManager;
             _captcha = captcha;
             _userDomainManager = userDomainManager;
+            _userSession = userSession;
         }
 
         /// <summary>
@@ -60,7 +66,7 @@ namespace Z.SunBlog.Application.OAuthModule
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task SignIn(ZUserInfoDto dto)
+        public async Task<ZFantasyToken> SignIn(ZUserInfoDto dto)
         {
             bool validate = _captcha.Validate(dto.Id, dto.Code);
             if (!validate)
@@ -92,26 +98,66 @@ namespace Z.SunBlog.Application.OAuthModule
                 await _cacheManager.SetCacheAsync(signInErrorCacheKey, value + 1, TimeSpan.FromMinutes(5));
                 throw new UserFriendlyException("用户名或密码错误");
             }
-            UserTokenModel tokenModel = new UserTokenModel();
-            tokenModel.UserName = user.UserName!;
-            tokenModel.UserId = user.Id!;
-            //.GetSection("App:JWtSetting").Get<JwtSettings>()
             var tokenConfig = AppSettings.AppOption<JwtSettings>("App:JWtSetting");
-            var token = _jwtTokenProvider.GenerateAccessToken(tokenModel);
-
-            App.HttpContext.Response.Cookies.Append("access-token", token, new CookieOptions()
+            // 设置Token的Claims
+            List<Claim> claims = new List<Claim>
             {
-                Expires = DateTimeOffset.UtcNow.AddMinutes(tokenConfig.AccessTokenExpirationMinutes)
-            });
+               new Claim(ZClaimTypes.UserName, user.Name!), //HttpContext.User.Identity.Name
+                new Claim(ZClaimTypes.UserId, user.Id!.ToString()),
+                new Claim(ZClaimTypes.Expiration, DateTimeOffset.Now.AddMinutes(tokenConfig.AccessTokenExpirationMinutes).ToString()),
+            };
+            var token = _jwtTokenProvider.GenerateZToken(claims.ToArray());
 
-            var claimsIdentity = new ClaimsIdentity(tokenModel.Claims, "Login");
+            await _cacheManager.SetCacheAsync($"Token_{user.Id}", new ZFantasyToken { AccessToken = token.AccessToken, RefreshToken = token.RefreshToken }, TimeSpan.FromMilliseconds(tokenConfig.AccessTokenExpirationMinutes));
+            await _cacheManager.SetCacheAsync($"Token_{user.Id}_Refresh", new ZFantasyToken { AccessToken = token.AccessToken, RefreshToken = token.RefreshToken }, TimeSpan.FromMilliseconds(tokenConfig.AccessTokenExpirationMinutes));
+            return token;
+        }
 
-            AuthenticationProperties properties = new AuthenticationProperties();
-            properties.AllowRefresh = true;
-            properties.IsPersistent = true;
-            properties.IssuedUtc = DateTimeOffset.UtcNow;
-            properties.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1);
-            await App.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
+        /// <summary>
+        /// 刷新token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ZFantasyToken> RefreshToken(ZFantasyToken token)
+        {
+            var principal = _jwtTokenProvider.GetPrincipalToken(token.AccessToken);
+            if (principal?.Claims?.Any() ?? false)
+            {
+                string id = principal?.Claims?.FirstOrDefault(m => m.Type == ZClaimTypes.UserId)?.Value.CastTo<string>() ?? "";
+
+                var zToken = await _cacheManager.GetCacheAsync<ZFantasyToken>($"Token_{id}_Refresh");
+
+                if (zToken == null || zToken.RefreshToken != token.RefreshToken)
+                {
+                    return null;
+                }
+                var tokenConfig = AppSettings.AppOption<JwtSettings>("App:JWtSetting");
+                DateTime expireTime = DateTime.Now.AddSeconds(tokenConfig.AccessTokenExpirationMinutes);
+                var list = principal.Claims.Where(m => m.Type != ClaimTypes.Expiration).ToList();
+                list.Add(new Claim(ClaimTypes.Expiration, expireTime.ToString()));
+                var newToken = _jwtTokenProvider.GenerateZToken(list.ToArray());
+                int expireMinutes = tokenConfig.RefreshTokenExpirationMinutes;
+                await _cacheManager.SetCacheAsync($"Token_{id}_Refresh", newToken, TimeSpan.FromMinutes(expireMinutes));
+                return newToken;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task ZSignOut([FromBody] string token)
+        {
+            if (token.IsNullWhiteSpace()) throw new UserFriendlyException("token失效或不存在!");
+            var userid = _userSession.UserId;
+            if (!userid.IsNullWhiteSpace())
+            {
+               await  _cacheManager.RemoveCacheAsync($"Token_{userid}");
+            }
         }
 
         /// <summary>
