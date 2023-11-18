@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Z.Ddd.Common;
 using Z.Ddd.Common.Authorization;
+using Z.Ddd.Common.UserSession;
 
 namespace Z.SunBlog.Host.Controllers
 {
@@ -39,9 +42,17 @@ namespace Z.SunBlog.Host.Controllers
             UserTokenModel tokenModel = new UserTokenModel();
             tokenModel.UserName = "test";
             tokenModel.UserId =Guid.NewGuid().ToString("N");
-            var dfs = _jwtTokenProvider.GenerateAccessToken(tokenModel);
+            var tokenConfig = AppSettings.AppOption<JwtSettings>("App:JWtSetting");
+            // 设置Token的Claims
+            List<Claim> claims = new List<Claim>
+            {
+               new Claim(ZClaimTypes.UserName, tokenModel.UserName!), //HttpContext.User.Identity.Name
+                new Claim(ZClaimTypes.UserId, tokenModel.UserId!.ToString()),
+                new Claim(ZClaimTypes.Expiration, DateTimeOffset.Now.AddMinutes(tokenConfig.AccessTokenExpirationMinutes).ToString()),
+            };
+            var token = _jwtTokenProvider.GenerateZToken(claims.ToArray());
 
-            return dfs;
+            return token.AccessToken;
         }
     }
 }
