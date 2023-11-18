@@ -2,7 +2,9 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
+using Z.Ddd.Common.Authorization.Dtos;
 using Z.Ddd.Common.UserSession;
 using Z.Module.DependencyInjection;
 
@@ -15,27 +17,29 @@ public class JwtTokenProvider : IJwtTokenProvider
     {
         _jwtConfig = configuration.GetSection("App:JWtSetting").Get<JwtSettings>() ?? throw new ArgumentException("请先检查appsetting中JWT配置");
     }
-    public string GenerateAccessToken(UserTokenModel user)
+    /// <summary>
+    /// 生成ZToken
+    /// </summary>
+    /// <param name="claims"></param>
+    /// <returns></returns>
+    public ZFantasyToken GenerateZToken(params Claim[] claims)
     {
-        // 设置Token的Claims
-        List<Claim> claims = new List<Claim>
-        {
-            new Claim(ZClaimTypes.UserName, user.UserName), //HttpContext.User.Identity.Name
-            new Claim(ZClaimTypes.UserId, user.UserId.ToString()),
-            new Claim (JwtRegisteredClaimNames.Exp,$"{new DateTimeOffset(DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes)).ToUnixTimeSeconds()}"),
-            new Claim(ZClaimTypes.Expiration, DateTimeOffset.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes).ToString()),
-        };
+        var accessToken = GenerateAccessToken(claims);
+        var refreshToken = GenerateRefreshToken();
+        return new ZFantasyToken { AccessToken = accessToken, RefreshToken = refreshToken };
+    }
+    public string GenerateAccessToken(params Claim[] claims)
+    {
+        claims.ToList().Add(new Claim(JwtRegisteredClaimNames.Exp, $"{new DateTimeOffset(DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes)).ToUnixTimeSeconds()}"));
 
-        if (user.RoleIds != null && user.RoleIds.Any())
-        {
-            claims.AddRange(user.RoleIds.Select(p => new Claim(ZClaimTypes.RoleIds, p.ToString())));
-        }
-        if (user.RoleNames != null && user.RoleNames.Any())
-        {
-            claims.AddRange(user.RoleNames.Select(p => new Claim(ZClaimTypes.Role, p)));
-        }
-
-        user.Claims = claims.ToArray();
+        //if (user.RoleIds != null && user.RoleIds.Any())
+        //{
+        //    claims.AddRange(user.RoleIds.Select(p => new Claim(ZClaimTypes.RoleIds, p.ToString())));
+        //}
+        //if (user.RoleNames != null && user.RoleNames.Any())
+        //{
+        //    claims.AddRange(user.RoleNames.Select(p => new Claim(ZClaimTypes.Role, p)));
+        //}
 
         // 生成Token的密钥
         SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.SecretKey));
@@ -48,9 +52,9 @@ public class JwtTokenProvider : IJwtTokenProvider
 
         // 创建Token
         JwtSecurityToken token = new JwtSecurityToken(
-            _jwtConfig.Issuer,
-            _jwtConfig.Audience,
-            claims,
+           issuer: _jwtConfig.Issuer,
+           audience: _jwtConfig.Audience,
+           claims: claims,
             expires: expires,
             signingCredentials: creds
         );
@@ -60,13 +64,21 @@ public class JwtTokenProvider : IJwtTokenProvider
 
         return tokenString;
     }
+    // 创建刷新token
+    public string GenerateRefreshToken()
+    {
+        var randomNumber = new byte[32];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumber);
+        return Convert.ToBase64String(randomNumber);
+    }
 
-    public bool ValidateAccessToken(string token)
+    public ClaimsPrincipal GetPrincipalToken(string token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         try
         {
-            tokenHandler.ValidateToken(token, new TokenValidationParameters
+            return tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,
@@ -79,14 +91,28 @@ public class JwtTokenProvider : IJwtTokenProvider
         }
         catch (Exception x)
         {
-            return false;
+            return null;
         }
-        return true;
     }
+
+    /// <summary>
+    /// token解码
+    /// </summary>
+    /// <param name="jwtToken"></param>
+    /// <returns></returns>
+    public Claim[] DecodeToken(string jwtToken)
+    {
+        var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+        var jwtSecurityToken = jwtSecurityTokenHandler.ReadJwtToken(jwtToken);
+        return jwtSecurityToken?.Claims?.ToArray();
+    }
+
 }
 
 public interface IJwtTokenProvider : ITransientDependency
 {
-    string GenerateAccessToken(UserTokenModel user);
-    bool ValidateAccessToken(string token);
+    ZFantasyToken GenerateZToken(params Claim[] claims);
+    ClaimsPrincipal GetPrincipalToken(string token);
+
+    Claim[] DecodeToken(string jwtToken);
 }
