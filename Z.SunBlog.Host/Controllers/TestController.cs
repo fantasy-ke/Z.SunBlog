@@ -47,21 +47,18 @@ namespace Z.SunBlog.Host.Controllers
         [HttpPost]
         public async Task<string> Login(ZUserInfoDto user)
         {
-            UserTokenModel tokenModel = new UserTokenModel();
             var userinfo = await _userAppService.Login(user);
             if (userinfo == null)
             {
                 throw new UserFriendlyException("账号密码错误");
 
             }
-            tokenModel.UserName = userinfo.UserName!;
-            tokenModel.UserId = userinfo.Id!;
             var tokenConfig = AppSettings.AppOption<JwtSettings>("App:JWtSetting");
             // 设置Token的Claims
             List<Claim> claims = new List<Claim>
             {
-               new Claim(ZClaimTypes.UserName, user.Name!), //HttpContext.User.Identity.Name
-                new Claim(ZClaimTypes.UserId, user.Id!.ToString()),
+               new Claim(ZClaimTypes.UserName, userinfo.UserName!), //HttpContext.User.Identity.Name
+                new Claim(ZClaimTypes.UserId, userinfo.Id!.ToString()),
                 new Claim(ZClaimTypes.Expiration, DateTimeOffset.Now.AddMinutes(tokenConfig.AccessTokenExpirationMinutes).ToString()),
             };
             var token = _jwtTokenProvider.GenerateZToken(claims.ToArray());
