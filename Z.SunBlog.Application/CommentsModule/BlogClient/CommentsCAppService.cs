@@ -18,7 +18,7 @@ using Z.SunBlog.Core.SharedDto;
 namespace Z.SunBlog.Application.CommentsModule.BlogClient
 {
     /// <summary>
-    /// 评论
+    /// CommentsCAppService评论
     /// </summary>
     public class CommentsCAppService : ApplicationService, ICommentsCAppService
     {

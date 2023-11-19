@@ -7,7 +7,7 @@ using Z.SunBlog.Core.ArticleCategoryModule.DomainManager;
 namespace Z.SunBlog.Application.ArticleCategoryModule.BlogServer
 {
     /// <summary>
-    /// 文章所属栏目管理
+    /// ArticleCategoryAppService文章所属栏目管理
     /// </summary>
     public class ArticleCategoryAppService : ApplicationService, IArticleCategoryAppService
     {
