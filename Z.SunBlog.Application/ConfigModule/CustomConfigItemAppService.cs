@@ -23,7 +23,7 @@ namespace Z.SunBlog.Application.ConfigModule
         Task Delete(KeyDto dto);
     }
     /// <summary>
-    /// 标签管理
+    /// CustomConfigItemAppService标签管理
     /// </summary>
     public class CustomConfigItemAppService : ApplicationService, ICustomConfigItemAppService
     {

@@ -24,6 +24,7 @@ using Z.SunBlog.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Minio.DataModel;
 using MrHuo.OAuth.Gitee;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Z.SunBlog.Host;
 
@@ -171,8 +172,8 @@ public class SunBlogHostModule : ZModule
             options.OperationFilter<SecurityRequirementsOperationFilter>();
             options.SwaggerDoc("v1", new OpenApiInfo
             {
-                Version = "NETWiki API v1",
-                Title = "NETWiki API",
+                Version = "SunBlog API v1",
+                Title = "SunBlog API",
                 Description = "Web API for managing By Z.SunBlog",
                 TermsOfService = new Uri("https://github.com/Fantasy-Ke"),
                 Contact = new OpenApiContact
@@ -188,15 +189,8 @@ public class SunBlogHostModule : ZModule
             });
 
             var xmlList = Directory.GetFiles(AppContext.BaseDirectory, "*.xml").ToList();
-            xmlList.ForEach(xml => options.IncludeXmlComments(xml, true));
-            options.OrderActionsBy(o => o.GroupName);
-            //options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-            //{
-            //    Description = "JWT授权(数据将在请求头中进行传输) 直接在下框中输入Bearer {token}（注意两者之间是一个空格）\"",
-            //    Name = "Authorization",//jwt默认的参数名称
-            //    In = ParameterLocation.Header,//jwt默认存放Authorization信息的位置(请求头中)
-            //    Type = SecuritySchemeType.ApiKey
-            //});
+            xmlList.ForEach(xml =>options.IncludeXmlComments(xml,true));
+            options.OrderActionsBy(o => o.RelativePath);
         });
     }
 

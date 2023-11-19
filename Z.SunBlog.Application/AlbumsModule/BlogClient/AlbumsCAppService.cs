@@ -13,7 +13,7 @@ using Z.SunBlog.Core.PicturesModule.DomainManager;
 namespace Z.SunBlog.Application.AlbumsModule.BlogClient
 {
     /// <summary>
-    /// 相册前台管理
+    /// AlbumsCAppService相册前台管理
     /// </summary>
     public class AlbumsCAppService : ApplicationService, IAlbumsCAppService
     {

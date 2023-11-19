@@ -12,7 +12,7 @@ using Z.SunBlog.Core.SharedDto;
 namespace Z.SunBlog.Application.AlbumsModule.BlogServer
 {
     /// <summary>
-    /// 相册后台管理
+    /// AlbumsSAppService相册后台管理
     /// </summary>
     public class AlbumsSAppService : ApplicationService, IAlbumsSAppService
     {

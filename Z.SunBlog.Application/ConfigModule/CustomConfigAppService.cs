@@ -44,7 +44,7 @@ namespace Z.SunBlog.Application.ConfigModule
         Task Delete(KeyDto dto);
     }
     /// <summary>
-    /// 文章管理
+    /// CustomConfigAppService文章管理
     /// </summary>
     public class CustomConfigAppService : ApplicationService, ICustomConfigAppService
     {

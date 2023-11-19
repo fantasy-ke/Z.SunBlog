@@ -19,7 +19,7 @@ using Z.SunBlog.Core.TagsModule.DomainManager;
 namespace Z.SunBlog.Application.ArticleModule.BlogClient
 {
     /// <summary>
-    /// 文章前台管理
+    /// ArticleCAppService文章前台管理
     /// </summary>
     public class ArticleCAppService : ApplicationService, IArticleCAppService
     {

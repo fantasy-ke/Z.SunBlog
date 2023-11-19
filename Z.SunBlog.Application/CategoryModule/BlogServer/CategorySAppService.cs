@@ -14,7 +14,7 @@ using Z.SunBlog.Core.SharedDto;
 namespace Z.SunBlog.Application.CategoryModule.BlogServer
 {
     /// <summary>
-    /// 相册图片管理
+    /// CategorySAppService相册图片管理
     /// </summary>
     public class CategorySAppService : ApplicationService, ICategorySAppService
     {

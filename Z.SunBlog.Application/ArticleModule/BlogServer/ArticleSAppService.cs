@@ -22,7 +22,7 @@ using Z.SunBlog.Core.TagsModule.DomainManager;
 namespace Z.SunBlog.Application.ArticleModule.BlogServer
 {
     /// <summary>
-    /// 文章后台管理
+    /// ArticleSAppService文章后台管理
     /// </summary>
     public class ArticleSAppService : ApplicationService, IArticleSAppService
     {
