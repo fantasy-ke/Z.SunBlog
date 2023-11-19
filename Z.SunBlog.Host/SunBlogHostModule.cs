@@ -189,7 +189,7 @@ public class SunBlogHostModule : ZModule
             });
 
             var xmlList = Directory.GetFiles(AppContext.BaseDirectory, "*.xml").ToList();
-            xmlList.ForEach(xml =>options.IncludeXmlComments(xml,true));
+            xmlList.ForEach(xml =>options.IncludeXmlComments(xml));
             options.OrderActionsBy(o => o.RelativePath);
         });
     }
