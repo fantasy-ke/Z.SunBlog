@@ -29,7 +29,7 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 #修改apt-get源，加速apt下载
-RUN sed -i s@/deb.debian.org/@/mirrors.163.com/@g /etc/apt/sources.list
+RUN sed -i "s@/archive.ubuntu.com/@/mirrors.tuna.tsinghua.edu.cn/@g"  /etc/apt/sources.list
 RUN cat /etc/apt/sources.list
 #安装fontconfig
 RUN apt-get clean
