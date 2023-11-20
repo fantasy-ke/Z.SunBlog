@@ -25,8 +25,10 @@ FROM build AS publish
 RUN dotnet publish "Z.SunBlog.Host.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
+# 创建一个文件夹，存放文件，同时是被复制到宿主机的
+RUN mkdir -p /data
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=publish /app/publish /data
 
 #修改apt-get源，加速apt下载
 RUN sed -i s@/deb.debian.org/@/mirrors.163.com/@g /etc/apt/sources.list
