@@ -90,7 +90,9 @@ namespace Z.SunBlog.Application.OAuthModule
         public async Task<string> GetIpAddress(string type)
         {
             string code = Guid.NewGuid().ToString();
+            Log.Warning("code内容", code);
             var referer = App.HttpContext!.Request.Headers.FirstOrDefault(x => x.Key.Equals("Referer", StringComparison.CurrentCultureIgnoreCase)).Value;
+            Log.Warning("referer内容", referer);
             await _cacheManager.SetCacheAsync($"{OAuthRedirectKey}{code}", referer.FirstOrDefault().ToLower(), TimeSpan.FromMinutes(5));
             string url = type.ToLower() switch
             {
@@ -98,6 +100,7 @@ namespace Z.SunBlog.Application.OAuthModule
                 "gitee" => _giteeoAuth.GetAuthorizeUrl(code),
                 _ => throw new UserFriendlyException("无效请求")
             };
+            Log.Warning("url内容", url);
             return url;
         }
 
