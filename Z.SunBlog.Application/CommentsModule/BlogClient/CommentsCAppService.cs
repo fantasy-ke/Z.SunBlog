@@ -88,22 +88,24 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
                     Avatar = c.auth.Avatar,
                     AccountId = c.auth.Id,
                     NickName = c.auth.Name,
-                    IsBlogger = c.auth.IsBlogger,
+                    IsBlogger = c.auth != null ? c.auth.IsBlogger : false,
                     Geolocation = c.comment.Geolocation,
                     CreatedTime = c.comment.CreationTime
                 })
-                //.Mapper(it =>
-                //{
-                //    if (it.ReplyCount > 0)
-                //    {
-                //        it.ReplyList = ReplyList(new CommentPageQueryInput()
-                //        {
-                //            PageNo = 1,
-                //            Id = it.Id
-                //        }).GetAwaiter().GetResult();
-                //    }
-                //})
                 .ToPagedListAsync(dto);
+
+            result.Rows.ToList().ForEach(row =>
+            {
+                if (row.ReplyCount > 0)
+                {
+                    row.ReplyList = ReplyList(new CommentPageQueryInput()
+                    {
+                        PageNo = 1,
+                        Id = row.Id
+                    }).GetAwaiter().GetResult();
+                }
+            });
+
             return result;
         }
 
@@ -166,7 +168,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
                       ParentId = c.comAuth.comment.ParentId,
                       AccountId = c.comAuth.comment.AccountId,
                       ReplyAccountId = c.comAuth.comment.ReplyAccountId,
-                      IsBlogger = true,//c.comAuth.auth.IsBlogger,
+                      IsBlogger = c.comAuth.auth.IsBlogger,
                       NickName = c.comAuth.auth.Name,
                       RelyNickName = c.auth1.Name,
                       RootId = c.comAuth.comment.RootId,
