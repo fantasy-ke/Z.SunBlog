@@ -58,4 +58,4 @@ jobs:
         run: |
           container_name="netwiki"
           tag_name="${{secrets.IMAGETAG}}"
-          sudo docker run --name $container_name  -v /data/sunblog/hostblog:/app -p ${{secrets.PORT}}:80 -d ${{ secrets.ALIREPOSITORY }}:$tag_name
+          sudo docker run --name $container_name --restart=always -itd -p ${{secrets.PORT}}:80  -v /data/sunblog/hostblog:/app ${{ secrets.ALIREPOSITORY }}:$tag_name
