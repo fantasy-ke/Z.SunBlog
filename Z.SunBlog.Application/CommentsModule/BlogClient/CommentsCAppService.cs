@@ -88,7 +88,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
                     Avatar = c.auth.Avatar,
                     AccountId = c.auth.Id,
                     NickName = c.auth.Name,
-                    IsBlogger = true,//c.auth.IsBlogger,
+                    IsBlogger = c.auth.IsBlogger,
                     Geolocation = c.comment.Geolocation,
                     CreatedTime = c.comment.CreationTime
                 })
