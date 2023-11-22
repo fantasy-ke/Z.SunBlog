@@ -22,7 +22,7 @@ internal static class ServiceCollectionRepositoryExtensions
         where TDbContext : DbContext
     {
 
-        var allTypes = assemblies.SelectMany(assembly => assembly.GetTypes()).ToList();
+        var allTypes = assemblies.SelectMany(assembly => assembly.GetExportedTypes()).ToList();
         var entityTypes = types ?? allTypes.Where(type => type.IsEntity());
         foreach (var entityType in entityTypes)
         {
