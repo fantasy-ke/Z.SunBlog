@@ -38,7 +38,7 @@ jobs:
           sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hangzhou.aliyuncs.com
       - name: check container
         run: |
-          container_name="netwiki"
+          container_name="hostblog"
           tag_name="${{secrets.IMAGETAG}}"
           if docker ps -a | grep $container_name > /dev/null ; then
             echo "Docker container already exists, removing..."        
@@ -56,6 +56,6 @@ jobs:
       
       - name: Run Docker container
         run: |
-          container_name="netwiki"
+          container_name="hostblog"
           tag_name="${{secrets.IMAGETAG}}"
-          sudo docker run --name $container_name --restart=always -itd -p ${{secrets.PORT}}:80 ${{ secrets.ALIREPOSITORY }}:$tag_name
+          sudo docker run --name $container_name --restart=always -itd -p ${{secrets.PORT}}:80 -e ASPNETCORE_HTTP_PORTS=80 ${{ secrets.ALIREPOSITORY }}:$tag_name
