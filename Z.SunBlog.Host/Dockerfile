@@ -30,6 +30,8 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
+ENV ENVASPNETCORE_HTTP_PORTS=80
+
 #°²×°fontconfig
 RUN apt-get clean
 RUN apt-get update && apt-get install -y fontconfig
