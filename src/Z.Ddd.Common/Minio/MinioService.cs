@@ -129,24 +129,31 @@ namespace Z.Ddd.Common.Minio
         {
             SetDefaultBucket(input.BucketName);
 
-            ObjectStat stat = null;
-
-            try
+            bool found = await _minioClient.BucketExistsAsync(new BucketExistsArgs().WithBucket(input.BucketName));
+            //如果桶不存在则创建桶
+            if (!found)
             {
-                StatObjectArgs statObjectArgs = new StatObjectArgs()
-                                    .WithBucket(input.BucketName)
-                                    .WithObject(input.ObjectName);
-                stat = await _minioClient.StatObjectAsync(statObjectArgs);
-            }
-            catch (Exception ex)
-            {
-                Log.Warning($"{ex.Message}");
+                await _minioClient.MakeBucketAsync(new MakeBucketArgs().WithBucket(input.BucketName));
             }
 
-            if (stat != null)
-            {
-                ThrowMinioFileExistsException.FileExistsException(input.ObjectName);
-            }
+            //ObjectStat stat = null;
+
+            //try
+            //{
+            //    StatObjectArgs statObjectArgs = new StatObjectArgs()
+            //                        .WithBucket(input.BucketName)
+            //                        .WithObject(input.ObjectName);
+            //    stat = await _minioClient.StatObjectAsync(statObjectArgs);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Warning($"{ex.Message}");
+            //}
+
+            //if (stat != null)
+            //{
+            //    ThrowMinioFileExistsException.FileExistsException(input.ObjectName);
+            //}
 
             PutObjectArgs putObjectArgs = new PutObjectArgs()
                                               .WithBucket(input.BucketName)
