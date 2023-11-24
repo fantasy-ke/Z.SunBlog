@@ -45,7 +45,7 @@ public class JwtTokenProvider : IJwtTokenProvider
         SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.SecretKey));
 
         // 生成Token的签名证书
-        SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.Aes128CbcHmacSha256);
+        SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         // 设置Token的过期时间
         DateTime expires = DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes);
