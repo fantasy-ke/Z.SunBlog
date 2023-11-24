@@ -52,14 +52,7 @@ public class SunBlogHostModule : ZModule
 
         ServicesJwtToken(context.Services);
 
-        // 注入自动事务中间件
-        context.Services.AddUnitOfWorkMiddleware();
-
-
         ServicesSwagger(context.Services);
-
-        //雪花id 文档：https://github.com/yitter/IdGenerator
-        context.Services.AddIdGenerator(AppSettings.AppOption<IdGeneratorOptions>("SnowId"));
 
         context.Services.AddCors(
             options => options.AddPolicy(
@@ -72,6 +65,12 @@ public class SunBlogHostModule : ZModule
                     .ToArray()
                     )
             ));
+
+        // 注入自动事务中间件
+        context.Services.AddUnitOfWorkMiddleware();
+
+        //雪花id 文档：https://github.com/yitter/IdGenerator
+        context.Services.AddIdGenerator(AppSettings.AppOption<IdGeneratorOptions>("SnowId"));
 
         context.Services.AddSingleton(new GiteeOAuth(OAuthConfig.LoadFrom(configuration, "oauth:gitee")));
         context.Services.AddSingleton(new QQOAuth(OAuthConfig.LoadFrom(configuration, "oauth:qq")));
@@ -123,7 +122,7 @@ public class SunBlogHostModule : ZModule
     {
         var app = context.GetApplicationBuilder();
 
-        UseSwagger(app);
+        app.UseCors("ZCores");
 
         app.UseSerilogRequestLogging(options =>
         {
@@ -134,19 +133,17 @@ public class SunBlogHostModule : ZModule
 
         app.UseMiddleware<ExceptionMiddleware>();
 
+        app.UseRouting();
         //鉴权中间件
         app.UseAuthentication();
 
-        app.UseAuthorization();
-
-        app.UseRouting();
-
-
         app.UseStaticFiles();
+
+        app.UseAuthorization();
 
         app.UseUnitOfWorkMiddleware();
 
-        app.UseCors("ZCores");
+        UseSwagger(app);
 
         app.UseEndpoints(endpoints =>
         {
@@ -211,27 +208,27 @@ public class SunBlogHostModule : ZModule
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
         })
-        // .AddCookie(options =>
-        //{
-        //    //cokkie名称
-        //    options.Cookie.Name = "Z.BearerCokkie";
-        //    //cokkie过期时间
-        //    options.ExpireTimeSpan = TimeSpan.FromMinutes(config!.CokkieExpirationMinutes);
-        //    //cokkie启用滑动过期时间
-        //    options.SlidingExpiration = false;
+         .AddCookie(options =>
+        {
+            //cokkie名称
+            options.Cookie.Name = "Z.BearerCokkie";
+            //cokkie过期时间
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(config!.CokkieExpirationMinutes);
+            //cokkie启用滑动过期时间
+            options.SlidingExpiration = false;
 
-        //    options.LogoutPath = "/Home/Index";
+            options.LogoutPath = "/Home/Index";
 
-        //    options.Events = new CookieAuthenticationEvents
-        //    {
-        //        OnSigningOut = async context =>
-        //        {
-        //            context.Response.Cookies.Delete("access-token");
+            options.Events = new CookieAuthenticationEvents
+            {
+                OnSigningOut = async context =>
+                {
+                    context.Response.Cookies.Delete("access-token");
 
-        //            await Task.CompletedTask;
-        //        }
-        //    };
-        //})
+                    await Task.CompletedTask;
+                }
+            };
+        })
         .AddJwtBearer(options =>
         {
 
