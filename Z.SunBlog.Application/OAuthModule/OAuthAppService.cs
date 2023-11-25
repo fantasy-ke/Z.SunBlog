@@ -27,6 +27,7 @@ using MrHuo.OAuth.QQ;
 using MrHuo.OAuth.Gitee;
 using Z.Ddd.Common.Attributes;
 using Z.Ddd.Common.Authorization.Dtos;
+using MrHuo.OAuth.Github;
 
 namespace Z.SunBlog.Application.OAuthModule
 {
@@ -45,6 +46,7 @@ namespace Z.SunBlog.Application.OAuthModule
         private const string OAuthRedirectKey = "oauth.redirect.";
         private readonly QQOAuth _qqoAuth;
         private readonly GiteeOAuth _giteeoAuth;
+        private readonly GithubOAuth _githuboAuth;
         private readonly IUserSession _userSession;
         private readonly IAuthAccountDomainManager _authAccountDomainManager;
         private readonly IFriendLinkManager _friendLinkManager;
@@ -66,7 +68,8 @@ namespace Z.SunBlog.Application.OAuthModule
             ICustomConfigAppService customConfigAppService,
             IAlbumsManager albumsManager,
             IPicturesManager picturesManager,
-            GiteeOAuth giteeoAuth) : base(serviceProvider)
+            GiteeOAuth giteeoAuth,
+            GithubOAuth githuboAuth) : base(serviceProvider)
         {
             _qqoAuth = qqoAuth;
             _userSession = userSession;
@@ -79,6 +82,7 @@ namespace Z.SunBlog.Application.OAuthModule
             _albumsManager = albumsManager;
             _picturesManager = picturesManager;
             _giteeoAuth = giteeoAuth;
+            _githuboAuth = githuboAuth;
         }
 
         /// <summary>
@@ -98,6 +102,7 @@ namespace Z.SunBlog.Application.OAuthModule
             {
                 "qq" => _qqoAuth.GetAuthorizeUrl(code),
                 "gitee" => _giteeoAuth.GetAuthorizeUrl(code),
+                "github" => _githuboAuth.GetAuthorizeUrl(code),
                 _ => throw new UserFriendlyException("无效请求")
             };
             Log.Warning("url内容", url);
@@ -128,32 +133,8 @@ namespace Z.SunBlog.Application.OAuthModule
                     {
                         throw new UserFriendlyException(qqResult.ErrorMessage);
                     }
-                    var qqInfo = qqResult.UserInfo;
                     string openId = await _qqoAuth.GetOpenId(qqResult.AccessToken.AccessToken);
-                    account = await _authAccountDomainManager.QueryAsNoTracking.FirstAsync(x => x.OAuthId == openId && x.Type.ToLower() == "qq");
-                    var gender = qqInfo.Gender == "男" ? Gender.Male :
-                        qqInfo.Gender == "女" ? Gender.Female : Gender.Unknown;
-                    if (account != null)
-                    {
-                        await _authAccountDomainManager.UpdateAsync(new AuthAccount()
-                        {
-                            Avatar = string.IsNullOrWhiteSpace(qqInfo.QQ100Avatar) ? qqInfo.Avatar : qqInfo.QQ100Avatar,
-                            Name = qqInfo.Name,
-                            Gender = gender
-                        },
-                            x => x.OAuthId == openId && x.Type.ToLower() == "qq");
-                    }
-                    else
-                    {
-                        account = await _authAccountDomainManager.Create(new AuthAccount()
-                        {
-                            Gender = gender,
-                            Avatar = qqInfo.Avatar,
-                            Name = qqInfo.Name,
-                            OAuthId = openId,
-                            Type = "QQ"
-                        });
-                    }
+                    account = await _authAccountDomainManager.CreateQQAccount(qqResult.UserInfo, openId);
                     break;
                 case "gitee":
                     var giteeResult = await _giteeoAuth.AuthorizeCallback(code, state);
@@ -161,34 +142,19 @@ namespace Z.SunBlog.Application.OAuthModule
                     {
                         throw new UserFriendlyException(giteeResult.ErrorMessage);
                     }
-                    var giteeInfo = giteeResult.UserInfo;
-                    account = await _authAccountDomainManager.QueryAsNoTracking.FirstOrDefaultAsync(x => x.OAuthId == giteeInfo.Name && x.Type.ToLower() == "gitee");
-                    if (account != null)
+                    account = await _authAccountDomainManager.CreateGiteeAccount(giteeResult.UserInfo);
+                    break;
+                case "github":
+                    var githubResult = await _githuboAuth.AuthorizeCallback(code, state);
+                    if (!githubResult.IsSccess)
                     {
-                        await _authAccountDomainManager.UpdateAsync(new AuthAccount()
-                        {
-                            Avatar = giteeInfo.Avatar,
-                            Name = giteeInfo.Name,
-                            Gender = Gender.Unknown
-                        },
-                            x => x.OAuthId == giteeInfo.Name && x.Type.ToLower() == "gitee");
+                        throw new UserFriendlyException(githubResult.ErrorMessage);
                     }
-                    else
-                    {
-                        account = await _authAccountDomainManager.Create(new AuthAccount()
-                        {
-                            Gender = Gender.Unknown,
-                            Avatar = giteeInfo.Avatar,
-                            Name = giteeInfo.Name,
-                            OAuthId = giteeInfo.Name,
-                            Type = "Gitee"
-                        });
-                    }
+                    account = await _authAccountDomainManager.CreateGitHubAccount(githubResult.UserInfo);
                     break;
                 default:
                     throw new UserFriendlyException("无效请求");
             }
-
             string key = $"{OAuthKey}{state}";
             await _cacheManager.SetCacheAsync(key, account, TimeSpan.FromSeconds(30));
             //登录成功后的回调页面

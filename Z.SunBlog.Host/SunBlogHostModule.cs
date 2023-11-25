@@ -25,6 +25,7 @@ using Microsoft.Extensions.Configuration;
 using Minio.DataModel;
 using MrHuo.OAuth.Gitee;
 using Microsoft.Extensions.DependencyInjection;
+using MrHuo.OAuth.Github;
 
 namespace Z.SunBlog.Host;
 
@@ -74,6 +75,7 @@ public class SunBlogHostModule : ZModule
 
         context.Services.AddSingleton(new GiteeOAuth(OAuthConfig.LoadFrom(configuration, "oauth:gitee")));
         context.Services.AddSingleton(new QQOAuth(OAuthConfig.LoadFrom(configuration, "oauth:qq")));
+        context.Services.AddSingleton(new GithubOAuth(OAuthConfig.LoadFrom(configuration, "oauth:github")));
 
         #region 图形验证码
 
