@@ -1,23 +1,116 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Z.Module.DependencyInjection;
+﻿using CSRedis;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Yitter.IdGenerator;
+using Z.Ddd.Common.DomainServiceRegister;
+using Z.Ddd.Common.Entities.Permission;
+using Z.Ddd.Common.Entities.Users;
+using Z.Ddd.Common.RedisModule;
 
 namespace Z.Ddd.Common.Authorization.Authorize
 {
-
     public class AuthorizeManager : IAuthorizeManager
     {
-        public async Task AddAuthorizeRegiester()
-        {
-           await Task.FromResult(0);
-        }
-    }
+        private readonly ICacheManager _cacheManager;
+        private readonly IConfiguration _configuration;
+        private readonly IAuthorizeRegister _authorizeRegister;
+        private readonly IServiceProvider _serviceProvider;
 
-    public interface IAuthorizeManager:ITransientDependency
-    {
-        Task AddAuthorizeRegiester();
+        public AuthorizeManager(
+            ICacheManager cacheManager,
+            IConfiguration configuration,
+            IAuthorizeRegister authorizeRegister,
+            IServiceProvider serviceProvider
+        )
+        {
+            _cacheManager = cacheManager;
+            _configuration = configuration;
+            _authorizeRegister = authorizeRegister;
+            _serviceProvider = serviceProvider;
+        }
+
+        public async Task AddAuthorizeRegiester(IAuthorizePermissionContext Context)
+        {
+            var key = _configuration.GetSection("App:Permission").Get<string>();
+
+            var providers = _authorizeRegister.AuthorizeProviders;
+            foreach (var provider in providers)
+            {
+                provider.PermissionDefined(Context);
+            }
+            var permissions = InitPermission(Context);
+            Context.Dispose();
+            try
+            {
+                using var scope = _serviceProvider.CreateAsyncScope();
+                var baseService = scope.ServiceProvider.GetRequiredService<IBasicDomainService<ZPermissions, string>>();
+                await baseService.BatchDeleteAsync();
+                await baseService.CreateAsync(permissions);
+                await _cacheManager.RemoveCacheAsync(key);
+                await _cacheManager.SetCacheAsync(key, permissions);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex.Message);
+                throw;
+            }
+        }
+
+        private List<ZPermissions> InitPermission(IAuthorizePermissionContext context)
+        {
+            List<ZPermissions> permissions = new List<ZPermissions>();
+            ZPermissions permission;
+
+            foreach (var childer in context.DefinePermission.Childrens)
+            {
+                permission = new ZPermissions(
+                    YitIdHelper.NextId().ToString(),
+                    childer.Name,
+                    childer.Code,
+                    childer.ParentCode,
+                    childer.IsGroup,
+                    childer.Page,
+                    childer.Button
+                );
+
+                permissions.Add(permission);
+
+                InitChilder(permissions, childer.Childrens);
+
+                childer.Dispose();
+            }
+
+            return permissions;
+        }
+
+        private void InitChilder(List<ZPermissions> permissions, List<SystemPermission> systemPermissions)
+        {
+            if (systemPermissions is null)
+            {
+                return;
+            }
+            ZPermissions permission;
+            foreach (var item in systemPermissions)
+            {
+                permission = new ZPermissions(
+                    YitIdHelper.NextId().ToString(),
+                    item.Name,
+                    item.Code,
+                    item.ParentCode,
+                    item.IsGroup,
+                    item.Page,
+                    item.Button
+                );
+
+                permissions.Add(permission);
+
+                InitChilder(permissions, item.Childrens);
+
+                item.Dispose();
+            }
+        }
     }
 }
