@@ -1,4 +1,6 @@
-﻿using Z.Ddd.Application;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Z.Ddd.Application;
+using Z.Ddd.Common.Authorization.Authorize;
 using Z.Ddd.Common.AutoMapper;
 using Z.Module;
 using Z.Module.Modules;
@@ -19,6 +21,7 @@ using Z.SunBlog.Application.TagsModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.TalksModule.BlogServer.MapperConfig;
 using Z.SunBlog.Application.UserModule.MapperConfig;
 using Z.SunBlog.Core;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Z.SunBlog.Application
 {
@@ -28,11 +31,26 @@ namespace Z.SunBlog.Application
         public override void ConfigureServices(ServiceConfigerContext context)
         {
             ConfigureAutoMapper();
+            AuthorizeRegister.Register.Init(context.Services);
         }
 
         public override void OnInitApplication(InitApplicationContext context)
         {
            
+        }
+
+        public override void PostInitApplication(InitApplicationContext context)
+        {
+            var scope = context.ServiceProvider.CreateScope();
+            var authorizeManager = scope.ServiceProvider.GetRequiredService<IAuthorizeManager>();
+
+            IAuthorizePermissionContext permissionContext = new AuthorizePermissionContext();
+            authorizeManager.AddAuthorizeRegiester(permissionContext).Wait();
+        }
+
+        private void PermissionProvider()
+        {
+
         }
 
         private void ConfigureAutoMapper()
