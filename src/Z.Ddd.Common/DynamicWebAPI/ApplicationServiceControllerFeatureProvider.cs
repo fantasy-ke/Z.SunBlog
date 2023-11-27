@@ -2,7 +2,7 @@
 using System.Reflection;
 using Z.Ddd.Common.DomainServiceRegister;
 
-namespace Z.Ddd.Common;
+namespace Z.Ddd.Common.DynamicWebAPI;
 
 public class ApplicationServiceControllerFeatureProvider : ControllerFeatureProvider
 {

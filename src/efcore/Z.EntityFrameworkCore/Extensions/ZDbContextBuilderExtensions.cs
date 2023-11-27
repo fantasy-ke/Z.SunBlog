@@ -6,7 +6,7 @@
 using Z.Ddd.Common.Entities.Repositories;
 using Z.EntityFrameworkCore.Options;
 
-namespace Microsoft.EntityFrameworkCore;
+namespace Z.EntityFrameworkCore.Extensions;
 
 public static class ZDbContextBuilderExtensions
 {

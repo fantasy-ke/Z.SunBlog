@@ -8,7 +8,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using Z.Ddd.Common.DomainServiceRegister;
 
-namespace Z.Ddd.Common;
+namespace Z.Ddd.Common.DynamicWebAPI;
 
 public class ApplicationServiceConvention : IApplicationModelConvention
 {
@@ -163,9 +163,9 @@ public class ApplicationServiceConvention : IApplicationModelConvention
         //var trimPrefixes = new[]
         //{
         //    "GetAll","GetList","Get",
-        //    "Post","Create","Add","Insert",
-        //    "Put","Update",
-        //    "Delete","Remove",
+        //    "Post","CreateAsync","Add","Insert",
+        //    "Put","UpdateAsync",
+        //    "DeleteAsync","Remove",
         //    "Patch"
         //};
         //foreach (var trimPrefix in trimPrefixes)
@@ -192,12 +192,12 @@ public class ApplicationServiceConvention : IApplicationModelConvention
             return "GET";
         }
 
-        if (actionName.StartsWith("Put") || actionName.StartsWith("Update"))
+        if (actionName.StartsWith("Put") || actionName.StartsWith("UpdateAsync"))
         {
             return "PUT";
         }
 
-        if (actionName.StartsWith("Delete") || actionName.StartsWith("Remove"))
+        if (actionName.StartsWith("DeleteAsync") || actionName.StartsWith("Remove"))
         {
             return "DELETE";
         }

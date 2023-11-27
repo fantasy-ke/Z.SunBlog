@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Z.Ddd.Common;
+namespace Z.Ddd.Common.DynamicWebAPI;
 
 public static class ZDynamicWebApiExtensions
 {

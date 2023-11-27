@@ -11,9 +11,9 @@ using Z.Ddd.Common.Entities;
 using Z.Module.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Z.Ddd.Common.Exceptions;
-using Z.Ddd.Common.ResultResponse;
 using Minio.DataModel.Notification;
 using System.Reflection;
+using Z.Ddd.Common.ResultResponse.Pager;
 
 namespace Z.Ddd.Common.DomainServiceRegister;
 
@@ -43,7 +43,7 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
         return await EntityRepo.GetAsync(id);
     }
 
-    public virtual async Task<TEntity> Create(TEntity entity)
+    public virtual async Task<TEntity> CreateAsync(TEntity entity)
     {
         await ValidateOnCreateOrUpdate(entity);
         return await EntityRepo.InsertAsync(entity);
@@ -54,12 +54,12 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
         return await QueryAsNoTracking.AnyAsync(predicate);
     }
 
-    public async Task Create(IEnumerable<TEntity> entities)
+    public async Task CreateAsync(IEnumerable<TEntity> entities)
     {
         await EntityRepo.InsertManyAsync(entities);
     }
 
-    public virtual async Task<TEntity> Update(TEntity entity)
+    public virtual async Task<TEntity> UpdateAsync(TEntity entity)
     {
         await ValidateOnCreateOrUpdate(entity);
         return await EntityRepo.UpdateAsync(entity);
@@ -100,11 +100,11 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
         }
     }
 
-    public virtual async Task Update(IEnumerable<TEntity> entities)
+    public virtual async Task UpdateAsync(IEnumerable<TEntity> entities)
     {
         foreach (TEntity entity in entities)
         {
-            await Update(entity);
+            await UpdateAsync(entity);
         }
     }
 
@@ -129,17 +129,17 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
         };
     }
 
-    public virtual async Task Delete(TPrimaryKey id)
+    public virtual async Task DeleteAsync(TPrimaryKey id)
     {
         await EntityRepo.DeleteIDAsync(id);
     }
 
-    public virtual async Task Delete(TEntity entity)
+    public virtual async Task DeleteAsync(TEntity entity)
     {
         await EntityRepo.DeleteAsync(entity);
     }
 
-    public virtual async Task Delete(List<TPrimaryKey> idList)
+    public virtual async Task DeleteAsync(List<TPrimaryKey> idList)
     {
         if (idList != null && idList.Count != 0)
         {
@@ -147,23 +147,28 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
         }
     }
 
-    public async Task Delete(Expression<Func<TEntity, bool>> predicate)
+    public async Task BatchDeleteAsync()
+    {
+        await EntityRepo.DeleteManyAsync(Query);
+    }
+
+    public async Task DeleteAsync(Expression<Func<TEntity, bool>> predicate)
     {
         await EntityRepo.DeleteAsync(predicate);
     }
 
-    public async Task<bool> Exist(TPrimaryKey id)
+    public async Task<bool> ExistAsync(TPrimaryKey id)
     {
         return await EntityRepo.CountAsync((TEntity o) => o.Id.Equals(id)) > 0;
     }
 
-    public async Task<TEntity> CreateOrUpdate(Expression<Func<TEntity, bool>> predicate,
+    public async Task<TEntity> CreateOrUpdateAsync(Expression<Func<TEntity, bool>> predicate,
         TEntity entity)
     {
         return await EntityRepo.InsertOrUpdateAsync(predicate, entity);
     }
 
-    public async Task CreateOrUpdate(Expression<Func<TEntity, bool>> predicate, IEnumerable<TEntity> entities)
+    public async Task CreateOrUpdateAsync(Expression<Func<TEntity, bool>> predicate, IEnumerable<TEntity> entities)
     {
         foreach (TEntity entity in entities)
         {
@@ -207,4 +212,5 @@ public abstract class BasicDomainService<TEntity, TPrimaryKey> : DomainService, 
     {
         return ServiceProvider.GetRequiredService<T>();
     }
+
 }

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Z.Ddd.Common.LogHelper;
+namespace Z.Ddd.Common.Helper;
 
 public class LogContextStatic
 {

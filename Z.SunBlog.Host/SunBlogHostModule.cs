@@ -26,6 +26,8 @@ using Minio.DataModel;
 using MrHuo.OAuth.Gitee;
 using Microsoft.Extensions.DependencyInjection;
 using MrHuo.OAuth.Github;
+using Z.Ddd.Common.Helper;
+using Z.Ddd.Common.DynamicWebAPI;
 
 namespace Z.SunBlog.Host;
 

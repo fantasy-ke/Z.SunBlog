@@ -4,9 +4,9 @@ using System.Linq.Expressions;
 using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
-using Z.Ddd.Common.ResultResponse;
 using Cuemon.Text;
 using Microsoft.EntityFrameworkCore;
+using Z.Ddd.Common.ResultResponse.Pager;
 
 namespace Z.EntityFrameworkCore.Extensions;
 

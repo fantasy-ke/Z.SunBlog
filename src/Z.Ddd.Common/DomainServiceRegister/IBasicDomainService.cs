@@ -8,7 +8,7 @@ using Z.Ddd.Common.DomainServiceRegister.Domain;
 using Z.Ddd.Common.Entities.Repositories;
 using Z.Ddd.Common.Entities;
 using Z.Module.DependencyInjection;
-using Z.Ddd.Common.ResultResponse;
+using Z.Ddd.Common.ResultResponse.Pager;
 
 namespace Z.Ddd.Common.DomainServiceRegister;
 
@@ -46,7 +46,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     //   createAndGetId:
     //     是否获取id
-    Task<TEntity> Create(TEntity entity);
+    Task<TEntity> CreateAsync(TEntity entity);
 
     //
     // 摘要:
@@ -58,7 +58,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     //   createAndGetId:
     //     是否获取id
-    Task Create(IEnumerable<TEntity> entities);
+    Task CreateAsync(IEnumerable<TEntity> entities);
 
 
     Task<PageResult<TEntity>> ToPagedListAsync(IPagination input);
@@ -69,7 +69,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     // 参数:
     //   entity:
-    Task<TEntity> Update(TEntity entity);
+    Task<TEntity> UpdateAsync(TEntity entity);
 
     //
     // 摘要:
@@ -78,7 +78,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     // 参数:
     //   entities:
     //     实体对象
-    Task Update(IEnumerable<TEntity> entities);
+    Task UpdateAsync(IEnumerable<TEntity> entities);
 
     /// <summary>
     /// 修改
@@ -95,7 +95,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     // 参数:
     //   id:
-    Task Delete(TPrimaryKey id);
+    Task DeleteAsync(TPrimaryKey id);
 
     //
     // 摘要:
@@ -103,7 +103,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     // 参数:
     //   entity:
-    Task Delete(TEntity entity);
+    Task DeleteAsync(TEntity entity);
 
     //
     // 摘要:
@@ -111,7 +111,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     // 参数:
     //   predicate:
-    Task Delete(Expression<Func<TEntity, bool>> predicate);
+    Task DeleteAsync(Expression<Func<TEntity, bool>> predicate);
 
     //
     // 摘要:
@@ -119,7 +119,15 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     // 参数:
     //   idList:
-    Task Delete(List<TPrimaryKey> idList);
+    Task DeleteAsync(List<TPrimaryKey> idList);
+
+    //
+    // 摘要:
+    //     批量删除
+    //
+    // 参数:
+    //   idList:
+    Task BatchDeleteAsync();
 
     //
     // 摘要:
@@ -127,7 +135,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     // 参数:
     //   id:
-    Task<bool> Exist(TPrimaryKey id);
+    Task<bool> ExistAsync(TPrimaryKey id);
 
     //
     // 摘要:
@@ -135,7 +143,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     // 参数:
     //   entity:
-    Task<TEntity> CreateOrUpdate(Expression<Func<TEntity, bool>> predicate,
+    Task<TEntity> CreateOrUpdateAsync(Expression<Func<TEntity, bool>> predicate,
         TEntity entity);
 
     //
@@ -144,7 +152,7 @@ public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITr
     //
     // 参数:
     //   entities:
-    Task CreateOrUpdate(Expression<Func<TEntity, bool>> predicate, IEnumerable<TEntity> entities);
+    Task CreateOrUpdateAsync(Expression<Func<TEntity, bool>> predicate, IEnumerable<TEntity> entities);
 
 
    

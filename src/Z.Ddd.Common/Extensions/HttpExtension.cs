@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Text;
+using Z.Ddd.Common.Helper;
 
 namespace Z.Ddd.Common.Extensions;
 

@@ -9,12 +9,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Z.Ddd.Common.Exceptions;
 
-namespace Z.Ddd.Common
+namespace Z.Ddd.Common.Helper
 {
     /// <summary>
     /// appsettings.json操作类
     /// </summary>
-    public  class AppSettings
+    public class AppSettings
     {
         public static IConfiguration Configuration;
 
