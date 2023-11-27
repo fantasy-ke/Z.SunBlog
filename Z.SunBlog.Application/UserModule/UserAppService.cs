@@ -8,7 +8,6 @@ using Z.SunBlog.Core.UserModule.DomainManager;
 using System.ComponentModel;
 using Z.Ddd.Common.UserSession;
 using Yitter.IdGenerator;
-using Z.Ddd.Common;
 
 namespace Z.SunBlog.Application.UserModule
 {
@@ -38,8 +37,8 @@ namespace Z.SunBlog.Application.UserModule
         {
             var dfs = await _userDomainManager.QueryAsNoTracking.FirstOrDefaultAsync();
 
-            //await _userDomainManager.Delete("6e37cc6e9b1948dba987d07b25ffc138");
-            //await _userDomainManager.Delete("acab70064e8a45a0bef2074b42d9165e");
+            //await _userDomainManager.DeleteAsync("6e37cc6e9b1948dba987d07b25ffc138");
+            //await _userDomainManager.DeleteAsync("acab70064e8a45a0bef2074b42d9165e");
             var df1 = ObjectMapper.Map<ZUserInfoDto>(dfs);
             HttpExtension.Fill(new { df1.UserName, df1.PassWord });
             return dfs;

@@ -1,21 +1,21 @@
-﻿using Easy.Admin.Core.Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Data;
 using Yitter.IdGenerator;
-using Z.Ddd.Common;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Enum;
 using Z.Ddd.Common.Entities.Repositories;
 using Z.Ddd.Common.Entities.Roles;
 using Z.Ddd.Common.Exceptions;
+using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.RedisModule;
-using Z.Ddd.Common.ResultResponse;
+using Z.Ddd.Common.ResultResponse.Pager;
 using Z.EntityFrameworkCore.Extensions;
 using Z.Module.DependencyInjection;
 using Z.SunBlog.Application.SystemServiceModule.RoleService.Dto;
 using Z.SunBlog.Core.Const;
+using Z.SunBlog.Core.MenuModule;
 using Z.SunBlog.Core.MenuModule.DomainManager;
 using Z.SunBlog.Core.SharedDto;
 
@@ -111,7 +111,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
                 RoleId = role.Id
             }).ToList();
             await _roleRepository.InsertAsync(role);
-            await _roleMenuManager.Create(roleMenus);
+            await _roleMenuManager.CreateAsync(roleMenus);
         }
 
         /// <summary>
@@ -140,8 +140,8 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
                 RoleId = sysRole.Id
             }).ToList();
             await _roleRepository.UpdateAsync(sysRole);
-            await _roleMenuManager.Delete(x => x.RoleId == sysRole.Id);
-            await _roleMenuManager.Create(roleMenus);
+            await _roleMenuManager.DeleteAsync(x => x.RoleId == sysRole.Id);
+            await _roleMenuManager.CreateAsync(roleMenus);
             await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
         }
 

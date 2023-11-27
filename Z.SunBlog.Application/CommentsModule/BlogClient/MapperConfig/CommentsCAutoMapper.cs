@@ -8,7 +8,7 @@ using Z.SunBlog.Application.CommentsModule.BlogClient.Dto;
 using Z.SunBlog.Core.ArticleModule;
 using Z.SunBlog.Core.CommentsModule;
 
-namespace Z.SunBlog.Application.CommentsModule
+namespace Z.SunBlog.Application.CommentsModule.BlogClient.MapperConfig
 {
     public static class CommentsCAutoMapper
     {

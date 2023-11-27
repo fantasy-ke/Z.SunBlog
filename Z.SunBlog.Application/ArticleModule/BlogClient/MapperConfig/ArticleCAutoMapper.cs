@@ -6,7 +6,7 @@ using AutoMapper;
 using Z.SunBlog.Application.ArticleModule.BlogClient.Dto;
 using Z.SunBlog.Core.ArticleModule;
 
-namespace Z.SunBlog.Application.ArticleModule
+namespace Z.SunBlog.Application.ArticleModule.BlogClient.MapperConfig
 {
     public static class ArticleCAutoMapper
     {

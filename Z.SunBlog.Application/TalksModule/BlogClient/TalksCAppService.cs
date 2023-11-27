@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Extensions;
-using Z.Ddd.Common.ResultResponse;
 using Z.Ddd.Common.UserSession;
 using Z.EntityFrameworkCore;
 using Z.EntityFrameworkCore.Extensions;
@@ -17,6 +16,7 @@ using Z.SunBlog.Core.PraiseModule;
 using Z.SunBlog.Core.PraiseModule.DomainManager;
 using Z.SunBlog.Core.TalksModule.DomainManager;
 using Z.Ddd.Common.Entities.Enum;
+using Z.Ddd.Common.ResultResponse.Pager;
 
 namespace Z.SunBlog.Application.TalksModule.BlogClient
 {

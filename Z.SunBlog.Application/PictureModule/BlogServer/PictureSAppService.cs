@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Linq.Dynamic.Core;
 using Z.Ddd.Common.DomainServiceRegister;
-using Z.Ddd.Common.ResultResponse;
+using Z.Ddd.Common.ResultResponse.Pager;
 using Z.Ddd.Common.UserSession;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.PictureModule.BlogServer.Dto;
@@ -42,12 +42,12 @@ namespace Z.SunBlog.Application.PictureModule.BlogServer
         public async Task AddPictures(AddPictureInput dto)
         {
             var entity = ObjectMapper.Map<Pictures>(dto);
-            await _pictureManager.Create(entity);
+            await _pictureManager.CreateAsync(entity);
         }
 
         public async Task Delete(KeyDto dto)
         {
-            await _pictureManager.Delete(x => x.Id == dto.Id);
+            await _pictureManager.DeleteAsync(x => x.Id == dto.Id);
         }
 
         /// <summary>

@@ -25,7 +25,7 @@ namespace Z.SunBlog.Application.ArticleCategoryModule.BlogServer
         /// <returns></returns>
         public async Task Create(CreateOrUpdateArticleCategoryDto dto)
         {
-            await _articleCategoryManager.Create(new ArticleCategory()
+            await _articleCategoryManager.CreateAsync(new ArticleCategory()
             {
                 CategoryId = dto.CategoryId,
                 ArticleId = dto.ArticleId,
@@ -43,7 +43,7 @@ namespace Z.SunBlog.Application.ArticleCategoryModule.BlogServer
 
             articleCategory!.CategoryId = dto.CategoryId;
 
-            await _articleCategoryManager.Update(articleCategory);
+            await _articleCategoryManager.UpdateAsync(articleCategory);
         }
     }
 

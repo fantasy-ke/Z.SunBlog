@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Enum;
-using Z.Ddd.Common.ResultResponse;
+using Z.Ddd.Common.ResultResponse.Pager;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.ArticleModule.BlogClient.Dto;
 using Z.SunBlog.Application.ArticleModule.BlogServer.Dto;
@@ -17,7 +17,7 @@ using Z.SunBlog.Core.CategoriesModule;
 using Z.SunBlog.Core.CategoriesModule.DomainManager;
 using Z.SunBlog.Core.SharedDto;
 using Z.SunBlog.Core.TagModule;
-using Z.SunBlog.Core.TagsModule.DomainManager;
+using Z.SunBlog.Core.TagModule.DomainManager;
 
 namespace Z.SunBlog.Application.ArticleModule.BlogServer
 {
@@ -66,7 +66,7 @@ namespace Z.SunBlog.Application.ArticleModule.BlogServer
         [HttpPost]
         public async Task DeleteAsync(KeyDto dto)
         {
-            await _articleDomainManager.Delete(dto.Id);
+            await _articleDomainManager.DeleteAsync(dto.Id);
         }
 
         /// <summary>
@@ -195,14 +195,14 @@ namespace Z.SunBlog.Application.ArticleModule.BlogServer
                 ArticleId = article.Id,
                 TagId = x
             }).ToList();
-            await _articleDomainManager.Create(article);
-            await _articleTagManager.Create(tags);
+            await _articleDomainManager.CreateAsync(article);
+            await _articleTagManager.CreateAsync(tags);
             var articleCategory = new ArticleCategory()
             {
                 ArticleId = article.Id,
                 CategoryId = dto.CategoryId
             };
-            await _articleCategoryManager.Create(articleCategory);
+            await _articleCategoryManager.CreateAsync(articleCategory);
         }
 
         /// <summary>
@@ -215,21 +215,21 @@ namespace Z.SunBlog.Application.ArticleModule.BlogServer
 
             ObjectMapper.Map(dto, article);
 
-            await _articleDomainManager.Update(article);
+            await _articleDomainManager.UpdateAsync(article);
 
 
-            await _articleTagManager.Delete(p => p.ArticleId == dto.Id);
+            await _articleTagManager.DeleteAsync(p => p.ArticleId == dto.Id);
             var tags = dto.Tags.Select(x => new ArticleTag()
             {
                 ArticleId = article.Id,
                 TagId = x
             }).ToList();
 
-            await _articleTagManager.Create(tags);
+            await _articleTagManager.CreateAsync(tags);
 
             var cate = await _articleCategoryManager.QueryAsNoTracking.FirstOrDefaultAsync(x => x.ArticleId == dto.Id);
             cate.CategoryId = dto.CategoryId;
-            await _articleCategoryManager.Update(cate);
+            await _articleCategoryManager.UpdateAsync(cate);
         }
     }
 

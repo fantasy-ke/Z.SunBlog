@@ -9,7 +9,7 @@ using Z.SunBlog.Core.ArticleModule;
 using Z.SunBlog.Core.FriendLinkModule;
 using Z.SunBlog.Core.TagModule;
 
-namespace Z.SunBlog.Application.OAuthModule.BlogServer.MapperConfig
+namespace Z.SunBlog.Application.OAuthModule.MapperConfig
 {
     public static class OAuthAutoMapper
     {

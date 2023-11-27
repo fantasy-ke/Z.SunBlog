@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace Z.SunBlog.Application.Dto;
+namespace Z.SunBlog.Application.ConfigModule.Dto;
 
 public class CustomConfigDetailOutput
 {

@@ -1,6 +1,6 @@
-﻿using Z.Ddd.Common.ResultResponse;
+﻿using Z.Ddd.Common.ResultResponse.Pager;
 
-namespace Z.SunBlog.Application.Dto;
+namespace Z.SunBlog.Application.ConfigModule.Dto;
 
 public class CustomConfigItemQueryInput : Pagination
 {

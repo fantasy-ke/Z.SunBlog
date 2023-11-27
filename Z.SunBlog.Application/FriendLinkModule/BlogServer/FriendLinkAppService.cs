@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Z.Ddd.Common.DomainServiceRegister;
-using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.FriendLinkModule.BlogServer.Dto;
 using Z.SunBlog.Core.SharedDto;
 using Z.SunBlog.Core.FriendLinkModule.DomainManager;
 using Z.SunBlog.Core.FriendLinkModule;
+using Z.Ddd.Common.ResultResponse.Pager;
 
 namespace Z.SunBlog.Application.FriendLinkModule.BlogServer
 {
@@ -44,7 +44,7 @@ namespace Z.SunBlog.Application.FriendLinkModule.BlogServer
         /// <returns></returns>
         public async Task DeleteAsync(KeyDto dto)
         {
-            await _friendLinkManager.Delete(dto.Id);
+            await _friendLinkManager.DeleteAsync(dto.Id);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Z.SunBlog.Application.FriendLinkModule.BlogServer
             var tags = ObjectMapper.Map<FriendLink>(dto);
             tags.Id = Guid.NewGuid();
 
-            await _friendLinkManager.Create(tags);
+            await _friendLinkManager.CreateAsync(tags);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Z.SunBlog.Application.FriendLinkModule.BlogServer
 
             ObjectMapper.Map(dto, tags);
 
-            await _friendLinkManager.Update(tags!);
+            await _friendLinkManager.UpdateAsync(tags!);
         }
 
     }

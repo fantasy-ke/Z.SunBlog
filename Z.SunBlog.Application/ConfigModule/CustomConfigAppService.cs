@@ -3,8 +3,6 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.ComponentModel;
 using Z.Ddd.Common.DomainServiceRegister;
-using Z.Ddd.Common.ResultResponse;
-using Z.SunBlog.Application.Dto;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.CustomConfigModule;
 using System.Collections;
@@ -18,6 +16,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System.Text.RegularExpressions;
 using Z.SunBlog.Application.ConfigModule.Dto;
+using Z.Ddd.Common.ResultResponse.Pager;
 
 namespace Z.SunBlog.Application.ConfigModule
 {
@@ -178,7 +177,7 @@ namespace Z.SunBlog.Application.ConfigModule
                 throw new UserFriendlyException("编码已存在");
             }
             var config = ObjectMapper.Map<CustomConfig>(dto);
-            await _customConfigManager.Create(config);
+            await _customConfigManager.CreateAsync(config);
             await _cacheManager.RemoveByPrefixAsync($"{CacheConst.ConfigCacheKey}{config.Code}");
         }
 
@@ -201,7 +200,7 @@ namespace Z.SunBlog.Application.ConfigModule
                 throw new UserFriendlyException("编码已存在");
             }
             ObjectMapper.Map(dto, config);
-            await _customConfigManager.Update(config);
+            await _customConfigManager.UpdateAsync(config);
             await _cacheManager.RemoveByPrefixAsync($"{CacheConst.ConfigCacheKey}{config.Code}");
         }
 
@@ -249,7 +248,7 @@ namespace Z.SunBlog.Application.ConfigModule
         {
             var entity = await _customConfigManager.QueryAsNoTracking.Where(x => x.Id == dto.Id).FirstAsync();
             entity.Json = dto.Json;
-            await _customConfigManager.Update(entity);
+            await _customConfigManager.UpdateAsync(entity);
             await ClearCache();
         }
 
@@ -293,7 +292,7 @@ namespace Z.SunBlog.Application.ConfigModule
         [HttpDelete]
         public async Task Delete(KeyDto dto)
         {
-            await _customConfigManager.Delete(x => x.Id == dto.Id);
+            await _customConfigManager.DeleteAsync(x => x.Id == dto.Id);
             await ClearCache();
         }
 
@@ -317,7 +316,7 @@ namespace Z.SunBlog.Application.ConfigModule
             //string path = Path.Combine(_environment.ContentRootPath.Replace(_environment.ApplicationName, ""), "Easy.Admin.Core/Config", $"{className}.cs");
             //if (System.IO.File.Exists(path))
             //{
-            //    System.IO.File.Delete(path);
+            //    System.IO.File.DeleteAsync(path);
             //}
             await _customConfigManager.UpdateAsync(new CustomConfig() { IsGenerate = false }, x => x.Id == dto.Id);
             await _cacheManager.RemoveByPrefixAsync($"{CacheConst.ConfigCacheKey}{className}");

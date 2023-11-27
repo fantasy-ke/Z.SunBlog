@@ -103,7 +103,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
             }
             sysMenu.Code = null;
         }
-        await _menuManager.Create(sysMenu);
+        await _menuManager.CreateAsync(sysMenu);
         await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
     }
 
@@ -148,7 +148,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
             sysMenu.Code = null;
         }
 
-        await _menuManager.Update(sysMenu);
+        await _menuManager.UpdateAsync(sysMenu);
         await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
     }
 
@@ -208,7 +208,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
     [DisplayName("删除菜单/按钮"), HttpDelete]
     public async Task Delete(KeyDto dto)
     {
-        await _menuManager.Delete(dto.Id);
+        await _menuManager.DeleteAsync(dto.Id);
         await _cacheManager.RefreshCacheAsync(CacheConst.PermissionKey);
     }
 
@@ -222,7 +222,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
     {
         var entity = await _menuManager.FindByIdAsync((Guid)dto.GId!);
         entity.Status = dto.Status;
-        var entityAfter = await _menuManager.Update(entity);
+        var entityAfter = await _menuManager.UpdateAsync(entity);
         await _cacheManager.RefreshCacheAsync(CacheConst.PermissionKey);
     }
 

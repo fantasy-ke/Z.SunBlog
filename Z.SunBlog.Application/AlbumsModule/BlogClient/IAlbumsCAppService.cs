@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Z.Ddd.Common.DomainServiceRegister;
-using Z.Ddd.Common.ResultResponse;
+using Z.Ddd.Common.ResultResponse.Pager;
 using Z.SunBlog.Application.AlbumsModule.BlogClient.Dto;
 
 namespace Z.SunBlog.Application.AlbumsModule.BlogClient
