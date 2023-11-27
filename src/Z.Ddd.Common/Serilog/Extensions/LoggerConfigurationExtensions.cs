@@ -1,7 +1,7 @@
 ﻿using Serilog;
 using Serilog.Events;
 using Serilog.Filters;
-using Z.Ddd.Common.LogHelper;
+using Z.Ddd.Common.Helper;
 
 namespace Z.Ddd.Common.Serilog.Extensions;
 
@@ -43,7 +43,7 @@ public static class LoggerConfigurationExtensions
 
     //public static IEnumerable<LogEvent> FilterSqlLog(this IEnumerable<LogEvent> batch)
     //{
-    //    //只记录 Insert、Update、Delete语句
+    //    //只记录 Insert、UpdateAsync、Delete语句
     //    return batch.Where(s => s.WithProperty<string>(LogContextStatic.LogSource, q => LogContextStatic.AopSql.Equals(q)))
     //        .Where(s => s.WithProperty<SugarActionType>(LogContextStatic.SugarActionType,
     //            q => !new[] { SugarActionType.UnKnown, SugarActionType.Query }.Contains(q)));

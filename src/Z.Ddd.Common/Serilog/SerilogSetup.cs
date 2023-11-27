@@ -2,7 +2,7 @@
 using Serilog;
 using Serilog.Debugging;
 using Serilog.Events;
-using Z.Ddd.Common.LogHelper;
+using Z.Ddd.Common.Helper;
 using Z.Ddd.Common.Serilog.Extensions;
 
 namespace Z.Ddd.Common.Serilog;

@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Z.Ddd.Common.Attributes;
+using Z.Ddd.Common.ResultResponse;
 
-namespace Z.Ddd.Common.ResultResponse;
+namespace Z.Ddd.Common.Filters;
 
 public class ResultFilter : IResultFilter
 {

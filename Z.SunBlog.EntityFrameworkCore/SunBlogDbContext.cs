@@ -1,5 +1,4 @@
-﻿using Easy.Admin.Core.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Z.EntityFrameworkCore;
 using Z.EntityFrameworkCore.Attributes;
 using Z.EntityFrameworkCore.Options;

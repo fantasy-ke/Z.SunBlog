@@ -3,9 +3,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using Yitter.IdGenerator;
-using Z.Ddd.Common;
+using Z.Ddd.Common.Helper;
 
-namespace Z.Ddd.Common;
+namespace Z.Ddd.Common.Extensions;
 
 public static class YitIdHelperExtension
 {

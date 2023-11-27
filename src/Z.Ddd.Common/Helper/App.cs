@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Z.Ddd.Common.Exceptions;
 
-namespace Z.Ddd.Common;  
+namespace Z.Ddd.Common.Helper;
 public static class App
 {
     /// <summary>
@@ -56,7 +56,7 @@ public static class App
         }
         catch (Exception e)
         {
-           throw new UserFriendlyException(e.Message);
+            throw new UserFriendlyException(e.Message);
         }
     }
 
@@ -77,7 +77,7 @@ public static class App
             //获取ip信息
             string json = httpclient.GetStringAsync($"http://whois.pconline.com.cn/ipJson.jsp?ip={ip}&json=true").GetAwaiter().GetResult();
             //string json = Encoding.UTF8.GetString(bytes);          
-            return JsonConvert.DeserializeObject<IpInfoDto>(json)?? new IpInfoDto();
+            return JsonConvert.DeserializeObject<IpInfoDto>(json) ?? new IpInfoDto();
         }
         catch
         {

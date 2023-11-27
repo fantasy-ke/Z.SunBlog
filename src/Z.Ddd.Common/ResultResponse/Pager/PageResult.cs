@@ -1,4 +1,4 @@
-﻿namespace Z.Ddd.Common.ResultResponse;
+﻿namespace Z.Ddd.Common.ResultResponse.Pager;
 
 public class PageResult<T>
 {

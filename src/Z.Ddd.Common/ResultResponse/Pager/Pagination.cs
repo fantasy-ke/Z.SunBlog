@@ -1,4 +1,4 @@
-﻿namespace Z.Ddd.Common.ResultResponse;
+﻿namespace Z.Ddd.Common.ResultResponse.Pager;
 /// <summary>
 /// 分页查询基类
 /// </summary>
