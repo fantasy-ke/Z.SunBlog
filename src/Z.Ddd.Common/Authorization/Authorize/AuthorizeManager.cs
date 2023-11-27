@@ -67,7 +67,6 @@ namespace Z.Ddd.Common.Authorization.Authorize
             foreach (var childer in context.DefinePermission.Childrens)
             {
                 permission = new ZPermissions(
-                    YitIdHelper.NextId().ToString(),
                     childer.Name,
                     childer.Code,
                     childer.ParentCode,
@@ -96,7 +95,6 @@ namespace Z.Ddd.Common.Authorization.Authorize
             foreach (var item in systemPermissions)
             {
                 permission = new ZPermissions(
-                    YitIdHelper.NextId().ToString(),
                     item.Name,
                     item.Code,
                     item.ParentCode,
