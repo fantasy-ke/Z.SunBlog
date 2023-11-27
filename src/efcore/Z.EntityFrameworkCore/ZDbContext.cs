@@ -13,6 +13,7 @@ using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.Entities.Files;
 using Z.EntityFrameworkCore.Extensions;
 using Z.EntityFrameworkCore.Options;
+using Z.Ddd.Common.Entities.Permission;
 
 namespace Z.EntityFrameworkCore
 {
@@ -26,6 +27,8 @@ namespace Z.EntityFrameworkCore
         public virtual DbSet<ZSigninLog> ZSigninLog { get; set; }
         public virtual DbSet<ZOperationLog> ZOperationLog { get; set; }
         public virtual DbSet<ZFileInfo> ZFileInfo { get; set; }
+        public virtual DbSet<ZPermissions> ZPermissions { get; set; }
+
 
         protected ZDbContext(ZDbContextOptions options)
         : base(options)
