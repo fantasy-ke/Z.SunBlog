@@ -1,6 +1,6 @@
 ﻿using Z.Ddd.Common.Entities.Auditing;
 
-namespace Easy.Admin.Core.Entities;
+namespace Z.SunBlog.Core.MenuModule;
 
 /// <summary>
 /// 角色权限表

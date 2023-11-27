@@ -43,7 +43,7 @@ namespace Z.SunBlog.Core.AuthAccountModule.DomainManager
             }
             else
             {
-                account = await Create(new AuthAccount()
+                account = await CreateAsync(new AuthAccount()
                 {
                     Gender = gender,
                     Avatar = qqInfo.Avatar,
@@ -71,7 +71,7 @@ namespace Z.SunBlog.Core.AuthAccountModule.DomainManager
             }
             else
             {
-                account = await Create(new AuthAccount()
+                account = await CreateAsync(new AuthAccount()
                 {
                     Gender = Gender.Unknown,
                     Avatar = giteeInfo.Avatar,
@@ -99,7 +99,7 @@ namespace Z.SunBlog.Core.AuthAccountModule.DomainManager
             }
             else
             {
-                account = await Create(new AuthAccount()
+                account = await CreateAsync(new AuthAccount()
                 {
                     Gender = Gender.Unknown,
                     Avatar = githubInfo.Avatar,

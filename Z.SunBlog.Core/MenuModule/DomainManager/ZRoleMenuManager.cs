@@ -1,5 +1,4 @@
-﻿using Easy.Admin.Core.Entities;
-using Z.Ddd.Common.DomainServiceRegister;
+﻿using Z.Ddd.Common.DomainServiceRegister.Domain;
 
 namespace Z.SunBlog.Core.MenuModule.DomainManager
 {
