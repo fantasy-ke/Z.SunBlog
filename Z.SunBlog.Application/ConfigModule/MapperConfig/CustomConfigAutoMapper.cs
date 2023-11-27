@@ -5,12 +5,12 @@
 using AutoMapper;
 using Z.SunBlog.Application.ArticleModule.BlogClient.Dto;
 using Z.SunBlog.Application.CommentsModule.BlogClient.Dto;
-using Z.SunBlog.Application.Dto;
+using Z.SunBlog.Application.ConfigModule.Dto;
 using Z.SunBlog.Core.ArticleModule;
 using Z.SunBlog.Core.CommentsModule;
 using Z.SunBlog.Core.CustomConfigModule;
 
-namespace Z.SunBlog.Application.ConfigModule
+namespace Z.SunBlog.Application.ConfigModule.MapperConfig
 {
     public static class CustomConfigAutoMapper
     {

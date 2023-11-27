@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 using Z.Ddd.Common.DomainServiceRegister;
-using Z.Ddd.Common.ResultResponse;
+using Z.Ddd.Common.ResultResponse.Pager;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.AlbumsModule.BlogServer.Dto;
 using Z.SunBlog.Core.AlbumsModule;
@@ -74,7 +74,7 @@ namespace Z.SunBlog.Application.AlbumsModule.BlogServer
         private async Task Create(CreateOrUpdateAlbumsInput dto)
         {
             var albums = ObjectMapper.Map<Albums>(dto);
-            await _albumsManager.Create(albums);
+            await _albumsManager.CreateAsync(albums);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Z.SunBlog.Application.AlbumsModule.BlogServer
 
             ObjectMapper.Map(dto, albums);
 
-            await _albumsManager.Update(albums!);
+            await _albumsManager.UpdateAsync(albums!);
         }
 
 
@@ -100,7 +100,7 @@ namespace Z.SunBlog.Application.AlbumsModule.BlogServer
         [DisplayName("删除菜单/按钮"), HttpDelete]
         public async Task Delete(KeyDto dto)
         {
-            await _albumsManager.Delete(dto.Id);
+            await _albumsManager.DeleteAsync(dto.Id);
         }
     }
 

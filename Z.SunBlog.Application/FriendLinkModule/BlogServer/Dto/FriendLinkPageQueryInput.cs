@@ -1,4 +1,4 @@
-﻿using Z.Ddd.Common.ResultResponse;
+﻿using Z.Ddd.Common.ResultResponse.Pager;
 
 namespace Z.SunBlog.Application.FriendLinkModule.BlogServer.Dto;
 

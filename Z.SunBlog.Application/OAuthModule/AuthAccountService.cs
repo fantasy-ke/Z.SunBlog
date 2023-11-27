@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 using Z.Ddd.Common.DomainServiceRegister;
-using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
 using Z.Module.DependencyInjection;
 using Z.SunBlog.Application.OAuthModule.Dto;
@@ -10,6 +9,7 @@ using Z.SunBlog.Core.AuthAccountModule.DomainManager;
 using Z.SunBlog.Core.SharedDto;
 using Z.SunBlog.Core.UserModule.DomainManager;
 using Z.SunBlog.Core.AuthAccountModule;
+using Z.Ddd.Common.ResultResponse.Pager;
 
 namespace Z.SunBlog.Application.OAuthModule;
 
@@ -72,7 +72,7 @@ public class AuthAccountAppService :ApplicationService, IAuthAccountAppService
 
         entity.IsBlogger = !entity.IsBlogger;
 
-        await _authAccountDomainManager.Update(entity);
+        await _authAccountDomainManager.UpdateAsync(entity);
     }
 
     /// <summary>
@@ -84,6 +84,6 @@ public class AuthAccountAppService :ApplicationService, IAuthAccountAppService
     [HttpDelete]
     public async Task Delete(string id)
     {
-        await _authAccountDomainManager.Delete(id);
+        await _authAccountDomainManager.DeleteAsync(id);
     }
 }

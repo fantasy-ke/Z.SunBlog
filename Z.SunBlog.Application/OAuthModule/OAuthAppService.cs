@@ -28,6 +28,7 @@ using MrHuo.OAuth.Gitee;
 using Z.Ddd.Common.Attributes;
 using Z.Ddd.Common.Authorization.Dtos;
 using MrHuo.OAuth.Github;
+using Z.Ddd.Common.Helper;
 
 namespace Z.SunBlog.Application.OAuthModule
 {
@@ -235,13 +236,13 @@ namespace Z.SunBlog.Application.OAuthModule
                 link = ObjectMapper.Map<FriendLink>(dto);
                 link.AppUserId = userId;
                 link.Status = AvailabilityStatus.Disable;
-                await _friendLinkManager.Create(link);
+                await _friendLinkManager.CreateAsync(link);
                 return;
             }
 
             ObjectMapper.Map(dto, link);
             link.Status = AvailabilityStatus.Disable;
-            await _friendLinkManager.Update(link);
+            await _friendLinkManager.UpdateAsync(link);
         }
 
 

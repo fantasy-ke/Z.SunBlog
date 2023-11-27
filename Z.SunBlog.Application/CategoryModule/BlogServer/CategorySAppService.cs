@@ -37,7 +37,7 @@ namespace Z.SunBlog.Application.CategoryModule.BlogServer
         public async Task AddCategory(AddCategoryInput dto)
         {
             var entity = ObjectMapper.Map<Categories>(dto);
-            await _categoriesManager.Create(entity);
+            await _categoriesManager.CreateAsync(entity);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Z.SunBlog.Application.CategoryModule.BlogServer
         [HttpPost]
         public async Task Delete(KeyDto dto)
         {
-            await _categoriesManager.Delete(x => x.Id == dto.Id);
+            await _categoriesManager.DeleteAsync(x => x.Id == dto.Id);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Z.SunBlog.Application.CategoryModule.BlogServer
             var entity = await _categoriesManager.FindByIdAsync(dto.Id);
             if (entity == null) throw new UserFriendlyException("无效参数");
             ObjectMapper.Map(dto, entity);
-            await _categoriesManager.Update(entity);
+            await _categoriesManager.UpdateAsync(entity);
         }
 
         private async Task BuildCategories(List<Categories> categoriesPanentLists)

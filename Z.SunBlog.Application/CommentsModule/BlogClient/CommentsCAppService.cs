@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Linq.Dynamic.Core;
-using Z.Ddd.Common;
 using Z.Ddd.Common.DomainServiceRegister;
-using Z.Ddd.Common.ResultResponse;
+using Z.Ddd.Common.Helper;
+using Z.Ddd.Common.ResultResponse.Pager;
 using Z.Ddd.Common.UserSession;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.CommentsModule.BlogClient.Dto;
@@ -52,7 +52,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
             comments.AccountId = _userSession.UserId;
             comments.IP = _httpContextAccessor.HttpContext.GetRemoteIp();
             comments.Geolocation = address;
-            await _commentsManager.Create(comments);
+            await _commentsManager.CreateAsync(comments);
         }
 
 
@@ -117,7 +117,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
         {
             if (_praiseManager.QueryAsNoTracking.Any(x => x.ObjectId == dto.Id))
             {
-                await _praiseManager.Delete(x => x.ObjectId == dto.Id);//"糟糕，取消失败了..."
+                await _praiseManager.DeleteAsync(x => x.ObjectId == dto.Id);//"糟糕，取消失败了..."
 
                 return false;
             };
@@ -126,7 +126,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
                 AccountId = _userSession.UserId,
                 ObjectId = dto.Id,
             };
-            await _praiseManager.Create(praise);//"糟糕，点赞失败了..."
+            await _praiseManager.CreateAsync(praise);//"糟糕，点赞失败了..."
             return true;
         }
 

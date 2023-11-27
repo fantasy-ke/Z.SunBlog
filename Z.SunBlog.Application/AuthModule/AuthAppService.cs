@@ -19,8 +19,9 @@ using Z.Ddd.Common.Extensions;
 using Z.SunBlog.Application.ConfigModule;
 using Z.Ddd.Common.Authorization.Dtos;
 using Z.Ddd.Common.UserSession;
+using Z.Ddd.Common.Helper;
 
-namespace Z.SunBlog.Application.OAuthModule
+namespace Z.SunBlog.Application.AuthModule
 {
     public interface IAuthAppService : IApplicationService, ITransientDependency
     {
@@ -88,7 +89,7 @@ namespace Z.SunBlog.Application.OAuthModule
                 throw new UserFriendlyException("用户名或密码错误");
             }
 
-            if (user.Status == AvailabilityStatus.Disable || (user.LockExpired.HasValue && DateTime.Now < user.LockExpired))
+            if (user.Status == AvailabilityStatus.Disable || user.LockExpired.HasValue && DateTime.Now < user.LockExpired)
             {
                 throw new UserFriendlyException("您的账号被锁定");
             }
@@ -156,7 +157,7 @@ namespace Z.SunBlog.Application.OAuthModule
             var userid = _userSession.UserId;
             if (!userid.IsNullWhiteSpace())
             {
-               await  _cacheManager.RemoveCacheAsync($"Token_{userid}");
+                await _cacheManager.RemoveCacheAsync($"Token_{userid}");
             }
         }
 

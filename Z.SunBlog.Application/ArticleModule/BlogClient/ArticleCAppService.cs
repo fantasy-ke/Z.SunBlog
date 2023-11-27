@@ -6,7 +6,7 @@ using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Enum;
 using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.Extensions;
-using Z.Ddd.Common.ResultResponse;
+using Z.Ddd.Common.ResultResponse.Pager;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.ArticleModule.BlogClient.Dto;
 using Z.SunBlog.Core.ArticleCategoryModule.DomainManager;
@@ -14,7 +14,7 @@ using Z.SunBlog.Core.ArticleModule.DomainManager;
 using Z.SunBlog.Core.ArticleTagModule.DomainManager;
 using Z.SunBlog.Core.CategoriesModule.DomainManager;
 using Z.SunBlog.Core.PraiseModule.DomainManager;
-using Z.SunBlog.Core.TagsModule.DomainManager;
+using Z.SunBlog.Core.TagModule.DomainManager;
 
 namespace Z.SunBlog.Application.ArticleModule.BlogClient
 {
@@ -224,7 +224,7 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
 
             updateArt!.Views += 1;
 
-            await _articleDomainManager.Update(updateArt);
+            await _articleDomainManager.UpdateAsync(updateArt);
 
             //上一篇
             var prevQuery = _articleDomainManager.QueryAsNoTracking.Where(x => x.PublishTime < article.PublishTime && x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable)

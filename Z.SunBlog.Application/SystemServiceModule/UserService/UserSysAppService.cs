@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using Yitter.IdGenerator;
-using Z.Ddd.Common;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Organizations;
 using Z.Ddd.Common.Entities.Repositories;
@@ -10,7 +9,7 @@ using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.RedisModule;
-using Z.Ddd.Common.ResultResponse;
+using Z.Ddd.Common.ResultResponse.Pager;
 using Z.Ddd.Common.UserSession;
 using Z.EntityFrameworkCore.Extensions;
 using Z.Module.DependencyInjection;
@@ -145,7 +144,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
                 RoleId = x,
                 UserId = user.Id
             }).ToList();
-            await _userDomainManager.Create(user);
+            await _userDomainManager.CreateAsync(user);
             await _userRoleRepository.InsertManyAsync(roles);
         }
 
@@ -166,7 +165,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
                 RoleId = x,
                 UserId = user.Id
             }).ToList();
-            await _userDomainManager.Update(user);
+            await _userDomainManager.UpdateAsync(user);
             await _userRoleRepository.DeleteAsync(x => x.UserId == user.Id);
             if (roles!=null && roles.Any())
             {
@@ -305,7 +304,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         [DisplayName("删除菜单/按钮"), HttpDelete]
         public async Task Delete(string id)
         {
-            await _userDomainManager.Delete(id);
+            await _userDomainManager.DeleteAsync(id);
             await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
         }
     }

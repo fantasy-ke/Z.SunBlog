@@ -1,6 +1,6 @@
 ﻿using Z.Ddd.Common.Entities.Enum;
 
-namespace Z.SunBlog.Application.Dto;
+namespace Z.SunBlog.Application.ConfigModule.Dto;
 
 public class CustomConfigPageOutput
 {

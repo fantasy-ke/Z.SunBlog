@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Z.Ddd.Common.DomainServiceRegister;
-using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.TagsModule.BlogServer.Dto;
 using Z.SunBlog.Core.SharedDto;
 using Z.SunBlog.Core.TagModule;
-using Z.SunBlog.Core.TagsModule.DomainManager;
 using Z.Ddd.Common.Entities.Enum;
+using Z.Ddd.Common.ResultResponse.Pager;
+using Z.SunBlog.Core.TagModule.DomainManager;
 
 namespace Z.SunBlog.Application.TagsModule.BlogServer
 {
@@ -46,7 +46,7 @@ namespace Z.SunBlog.Application.TagsModule.BlogServer
         /// <returns></returns>
         public async Task DeleteAsync(KeyDto dto)
         {
-            await _tagsManager.Delete(dto.Id);
+            await _tagsManager.DeleteAsync(dto.Id);
         }
 
 
@@ -104,7 +104,7 @@ namespace Z.SunBlog.Application.TagsModule.BlogServer
             var tags = ObjectMapper.Map<Tags>(dto);
             tags.Id = Guid.NewGuid();
 
-            await _tagsManager.Create(tags);
+            await _tagsManager.CreateAsync(tags);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Z.SunBlog.Application.TagsModule.BlogServer
 
             ObjectMapper.Map(dto, tags);
 
-            await _tagsManager.Update(tags!);
+            await _tagsManager.UpdateAsync(tags!);
         }
     }
 

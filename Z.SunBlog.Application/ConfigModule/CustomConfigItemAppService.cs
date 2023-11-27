@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Z.Ddd.Common.DomainServiceRegister;
-using Z.Ddd.Common.ResultResponse;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Core.CustomConfigModule.DomainManager;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel;
-using Z.SunBlog.Application.Dto;
 using Z.SunBlog.Core.CustomConfigModule;
 using Z.Ddd.Common.RedisModule;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.SharedDto;
 using Newtonsoft.Json;
+using Z.Ddd.Common.ResultResponse.Pager;
+using Z.SunBlog.Application.ConfigModule.Dto;
 
 namespace Z.SunBlog.Application.ConfigModule
 {
@@ -74,7 +74,7 @@ namespace Z.SunBlog.Application.ConfigModule
         public async Task AddItem(AddCustomConfigItemInput dto)
         {
             var item = ObjectMapper.Map<CustomConfigItem>(dto);
-            await _customConfigItemManager.Create(item);
+            await _customConfigItemManager.CreateAsync(item);
             await ClearCache();
         }
 
@@ -89,7 +89,7 @@ namespace Z.SunBlog.Application.ConfigModule
 
             ObjectMapper.Map(dto, item);
 
-            await _customConfigItemManager.Update(item);
+            await _customConfigItemManager.UpdateAsync(item);
             await ClearCache();
         }
 
@@ -103,7 +103,7 @@ namespace Z.SunBlog.Application.ConfigModule
         [HttpDelete]
         public async Task Delete(KeyDto dto)
         {
-            await _customConfigItemManager.Delete(x => x.Id == dto.Id);
+            await _customConfigItemManager.DeleteAsync(x => x.Id == dto.Id);
             await ClearCache();
         }
         internal Task ClearCache()

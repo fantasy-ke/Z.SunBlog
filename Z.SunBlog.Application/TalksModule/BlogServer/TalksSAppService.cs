@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Z.Ddd.Common.DomainServiceRegister;
-using Z.Ddd.Common.ResultResponse;
+using Z.Ddd.Common.ResultResponse.Pager;
 using Z.Ddd.Common.UserSession;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.TalksModule.BlogServer.Dto;
@@ -80,7 +80,7 @@ namespace Z.SunBlog.Application.TalksModule.BlogServer
         private async Task Create(CreateOrUpdateTalksInput dto)
         {
             var talks = ObjectMapper.Map<Talks>(dto);
-            await _talksManager.Create(talks);
+            await _talksManager.CreateAsync(talks);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Z.SunBlog.Application.TalksModule.BlogServer
 
             ObjectMapper.Map(dto, talks);
 
-            await _talksManager.Update(talks!);
+            await _talksManager.UpdateAsync(talks!);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Z.SunBlog.Application.TalksModule.BlogServer
         /// <returns></returns>
         public async Task DeleteAsync(KeyDto dto)
         {
-            await _talksManager.Delete(dto.Id);
+            await _talksManager.DeleteAsync(dto.Id);
         }
     }
 
