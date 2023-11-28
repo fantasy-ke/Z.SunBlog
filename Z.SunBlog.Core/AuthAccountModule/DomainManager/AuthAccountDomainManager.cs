@@ -37,6 +37,7 @@ namespace Z.SunBlog.Core.AuthAccountModule.DomainManager
                 {
                     Avatar = string.IsNullOrWhiteSpace(qqInfo.QQ100Avatar) ? qqInfo.Avatar : qqInfo.QQ100Avatar,
                     Name = qqInfo.Name,
+                    IsBlogger = account.IsBlogger,
                     Gender = gender
                 },
                     x => x.OAuthId == oauthId && x.Type.ToLower() == "qq");
@@ -65,6 +66,7 @@ namespace Z.SunBlog.Core.AuthAccountModule.DomainManager
                 {
                     Avatar = giteeInfo.Avatar,
                     Name = giteeInfo.Name,
+                    IsBlogger = account.IsBlogger,
                     Gender = Gender.Unknown
                 },
                     x => x.OAuthId == giteeInfo.Name && x.Type.ToLower() == "gitee");
@@ -93,6 +95,7 @@ namespace Z.SunBlog.Core.AuthAccountModule.DomainManager
                 {
                     Avatar = githubInfo.Avatar,
                     Name = githubInfo.Name,
+                    IsBlogger = account.IsBlogger,
                     Gender = Gender.Unknown
                 },
                     x => x.OAuthId == githubInfo.Name && x.Type.ToLower() == "github");
