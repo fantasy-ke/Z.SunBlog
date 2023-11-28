@@ -26,15 +26,13 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
         private readonly IAuthAccountDomainManager _authAccountDomainManager;
         private readonly IPraiseManager _praiseManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IUserSession _userSession;
 
         public CommentsCAppService(
-            IServiceProvider serviceProvider, ICommentsManager commentsManager, IAuthAccountDomainManager authAccountDomainManager, IPraiseManager praiseManager, IUserSession userSession, IHttpContextAccessor httpContextAccessor) : base(serviceProvider)
+            IServiceProvider serviceProvider, ICommentsManager commentsManager, IAuthAccountDomainManager authAccountDomainManager, IPraiseManager praiseManager,IHttpContextAccessor httpContextAccessor) : base(serviceProvider)
         {
             _commentsManager = commentsManager;
             _authAccountDomainManager = authAccountDomainManager;
             _praiseManager = praiseManager;
-            _userSession = userSession;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -49,7 +47,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
         {
             string address = _httpContextAccessor.HttpContext.GetGeolocation()?.Address;
             var comments = ObjectMapper.Map<Comments>(dto);
-            comments.AccountId = _userSession.UserId;
+            comments.AccountId = UserService.UserId;
             comments.IP = _httpContextAccessor.HttpContext.GetRemoteIp();
             comments.Geolocation = address;
             await _commentsManager.CreateAsync(comments);
@@ -64,7 +62,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
         public async Task<PageResult<CommentOutput>> GetList([FromBody] CommentPageQueryInput dto)
         {
             var praiseList = _praiseManager.QueryAsNoTracking;
-            string userId = _userSession.UserId;
+            string userId = UserService.UserId;
             var result = await _commentsManager.QueryAsNoTracking
                 .GroupJoin(_authAccountDomainManager.QueryAsNoTracking,
                 c => c.AccountId, au => au.Id,
@@ -123,7 +121,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
             };
             var praise = new Praise()
             {
-                AccountId = _userSession.UserId,
+                AccountId = UserService.UserId,
                 ObjectId = dto.Id,
             };
             await _praiseManager.CreateAsync(praise);//"糟糕，点赞失败了..."
@@ -138,7 +136,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
         [HttpPost]
         public async Task<PageResult<ReplyOutput>> ReplyList([FromBody] CommentPageQueryInput dto)
         {
-            string userId = _userSession.UserId;
+            string userId = UserService.UserId;
             return await _commentsManager.QueryAsNoTracking
                     .GroupJoin(_authAccountDomainManager.QueryAsNoTracking,
                     c => c.AccountId,

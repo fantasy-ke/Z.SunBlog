@@ -22,13 +22,11 @@ namespace Z.SunBlog.Application.PictureModule.BlogServer
     public class PictureSAppService : ApplicationService, IPictureSAppService
     {
         private readonly IPicturesManager _pictureManager;
-        private readonly IUserSession _userSession;
         private readonly IAlbumsManager _albumsManager;
         public PictureSAppService(
-            IServiceProvider serviceProvider, IPicturesManager pictureManager, IUserSession userSession, IAlbumsManager albumsManager) : base(serviceProvider)
+            IServiceProvider serviceProvider, IPicturesManager pictureManager, IAlbumsManager albumsManager) : base(serviceProvider)
         {
             _pictureManager = pictureManager;
-            _userSession = userSession;
             _albumsManager = albumsManager;
         }
 

@@ -17,15 +17,12 @@ namespace Z.SunBlog.Application.UserModule
 	public class UserAppService : ApplicationService, IUserAppService
     {
         public readonly IUserDomainManager _userDomainManager;
-        public readonly IUserSession _userSession;
         private readonly IIdGenerator _idGenerator;
         public UserAppService(IUserDomainManager userDomainManager,
             IServiceProvider serviceProvider,
-            IUserSession userSession,
             IIdGenerator idGenerator) : base(serviceProvider)
         {
             _userDomainManager = userDomainManager;
-            _userSession = userSession;
             _idGenerator = idGenerator;
         }
 
@@ -77,7 +74,7 @@ namespace Z.SunBlog.Application.UserModule
         [HttpGet]
         public async Task<ZUserInfoOutput> CurrentUserInfo()
         {
-            var userId = _userSession.UserId;
+            var userId = UserService.UserId;
             return await _userDomainManager.QueryAsNoTracking.Where(x => x.Id == userId)
                   .Select(x => new ZUserInfoOutput
                   {

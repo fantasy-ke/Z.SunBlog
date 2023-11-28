@@ -19,11 +19,9 @@ namespace Z.SunBlog.Application.CategoryModule.BlogServer
     public class CategorySAppService : ApplicationService, ICategorySAppService
     {
         private readonly ICategoriesManager _categoriesManager;
-        private readonly IUserSession _userSession;
         public CategorySAppService(
-            IServiceProvider serviceProvider, IUserSession userSession, ICategoriesManager categoriesManager) : base(serviceProvider)
+            IServiceProvider serviceProvider, ICategoriesManager categoriesManager) : base(serviceProvider)
         {
-            _userSession = userSession;
             _categoriesManager = categoriesManager;
         }
 
@@ -60,7 +58,7 @@ namespace Z.SunBlog.Application.CategoryModule.BlogServer
         [HttpGet]
         public async Task<List<CategoryPageOutput>> GetPage([FromQuery] string? name)
         {
-            var df = _userSession.UserId;
+            var df = UserService.UserId;
             if (!string.IsNullOrWhiteSpace(name))
             {
                 var list = await _categoriesManager.QueryAsNoTracking.Where(x => x.Name.Contains(name)).ToListAsync();

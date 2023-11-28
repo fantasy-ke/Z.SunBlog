@@ -26,17 +26,14 @@ namespace Z.SunBlog.Application.TalksModule.BlogClient
     public class TalksCAppService : ApplicationService, ITalksCAppService
     {
         private readonly ITalksManager _talksManager;
-        private readonly IUserSession _userSession;
         private readonly IPraiseManager _praiseManager;
         private readonly ICommentsManager _commentsManager;
         public TalksCAppService(
             IServiceProvider serviceProvider,
-            IUserSession userSession,
             ITalksManager talksManager,
             IPraiseManager praiseManager,
             ICommentsManager commentsManager) : base(serviceProvider)
         {
-            _userSession = userSession;
             _talksManager = talksManager;
             _praiseManager = praiseManager;
             _commentsManager = commentsManager;
@@ -50,10 +47,9 @@ namespace Z.SunBlog.Application.TalksModule.BlogClient
         [HttpPost]
         public async Task<PageResult<TalksOutput>> GetList([FromBody] Pagination dto)
         {
-
             var praiseList = _praiseManager.QueryAsNoTracking;
 
-            string userId = _userSession.UserId;
+            string userId = UserService.UserId;
             return await _talksManager.QueryAsNoTracking.Where(x => x.Status == AvailabilityStatus.Enable)
                   .OrderByDescending(x => x.IsTop)
                   .Select(x => new TalksOutput
@@ -76,7 +72,7 @@ namespace Z.SunBlog.Application.TalksModule.BlogClient
         /// <returns></returns>
         public async Task<TalkDetailOutput> TalkDetail([FromQuery] Guid id)
         {
-            string userId = _userSession.UserId;
+            string userId = UserService.UserId;
             var praiseList = _praiseManager.QueryAsNoTracking;
             return await _talksManager.QueryAsNoTracking
                 .Where(x => x.Id == id)
