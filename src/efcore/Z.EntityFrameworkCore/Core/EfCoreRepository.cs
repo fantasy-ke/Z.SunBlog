@@ -125,6 +125,12 @@ public abstract class EfCoreRepository<TDbContext, TEntity> : IBasicRepository<T
         return Task.CompletedTask;
     }
 
+    public Task DeleteManyAsync(CancellationToken cancellationToken = default)
+    {
+        DbSet.RemoveRange(DbSet);
+        return Task.CompletedTask;
+    }
+
 
     public async Task<TEntity> UpdateAsync(TEntity entity)
     {

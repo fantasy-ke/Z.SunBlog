@@ -7,6 +7,7 @@ using Serilog;
 using Yitter.IdGenerator;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Permission;
+using Z.Ddd.Common.Entities.Repositories;
 using Z.Ddd.Common.Entities.Users;
 using Z.Ddd.Common.RedisModule;
 
@@ -46,9 +47,9 @@ namespace Z.Ddd.Common.Authorization.Authorize
             try
             {
                 using var scope = _serviceProvider.CreateAsyncScope();
-                var baseService = scope.ServiceProvider.GetRequiredService<IBasicDomainService<ZPermissions, string>>();
-                await baseService.BatchDeleteAsync();
-                await baseService.CreateAsync(permissions);
+                var baseService = scope.ServiceProvider.GetRequiredService<IBasicRepository<ZPermissions, string>>();
+                await baseService.DeleteManyAsync();
+                await baseService.InsertManyAsync(permissions);
                 await _cacheManager.RemoveCacheAsync(key);
                 await _cacheManager.SetCacheAsync(key, permissions);
             }
@@ -63,6 +64,8 @@ namespace Z.Ddd.Common.Authorization.Authorize
         {
             List<ZPermissions> permissions = new List<ZPermissions>();
             ZPermissions permission;
+
+            if (context.DefinePermission.Childrens == null) goto end;
 
             foreach (var childer in context.DefinePermission.Childrens)
             {
@@ -81,7 +84,7 @@ namespace Z.Ddd.Common.Authorization.Authorize
 
                 childer.Dispose();
             }
-
+            end:
             return permissions;
         }
 
