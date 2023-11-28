@@ -17,13 +17,11 @@ namespace Z.SunBlog.Application.TalksModule.BlogServer
     public class TalksSAppService : ApplicationService, ITalksSAppService
     {
         private readonly ITalksManager _talksManager;
-        private readonly IUserSession _userSession;
         private readonly IPraiseManager _praiseManager;
         public TalksSAppService(
-            IServiceProvider serviceProvider, ITalksManager talksManager, IUserSession userSession, IPraiseManager praiseManager) : base(serviceProvider)
+            IServiceProvider serviceProvider, ITalksManager talksManager,  IPraiseManager praiseManager) : base(serviceProvider)
         {
             _talksManager = talksManager;
-            _userSession = userSession;
             _praiseManager = praiseManager;
         }
 
@@ -51,7 +49,7 @@ namespace Z.SunBlog.Application.TalksModule.BlogServer
         [HttpPost]
         public async Task<PageResult<TalksPageOutput>> GetPage([FromBody] TalksPageQueryInput dto)
         {
-            string userId = _userSession.UserId;
+            string userId = UserService.UserId;
             return await _talksManager.QueryAsNoTracking
                   .WhereIf(!string.IsNullOrWhiteSpace(dto.Keyword), x => x.Content.Contains(dto.Keyword))
                   .OrderByDescending(x => x.Id)

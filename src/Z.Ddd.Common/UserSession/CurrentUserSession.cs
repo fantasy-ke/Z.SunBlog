@@ -21,10 +21,20 @@ namespace Z.Ddd.Common.UserSession
             _httpContextAccessor = httpContextAccessor;
             _principal = _httpContextAccessor.HttpContext?.User;
         }
-
+        /// <summary>
+        /// 用户id
+        /// </summary>
         public virtual string UserId => this.FindClaimValue(ZClaimTypes.UserId) ?? string.Empty;
 
+        /// <summary>
+        /// 用户名称
+        /// </summary>
         public virtual string UserName => this.FindClaimValue(ZClaimTypes.UserName) ?? string.Empty;
+
+        /// <summary>
+        /// 是否是超级管理员
+        /// </summary>
+        public bool IsAdmin => UserId == ZConfigBase.DefaultUserId;
 
         public virtual IEnumerable<string>? RoleName => FindClaims(ZClaimTypes.Role).Select(c => c.Value).Distinct().ToArray();
 

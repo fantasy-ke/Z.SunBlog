@@ -42,7 +42,6 @@ namespace Z.SunBlog.Application.AuthModule
         private readonly IIdGenerator _idGenerator;
         private readonly IJwtTokenProvider _jwtTokenProvider;
         private readonly ICacheManager _cacheManager;
-        private readonly IUserSession _userSession;
         private readonly ICaptcha _captcha;
         private readonly IUserDomainManager _userDomainManager;
         public AuthAppService(
@@ -50,7 +49,7 @@ namespace Z.SunBlog.Application.AuthModule
             ICustomConfigAppService customConfigService,
             IIdGenerator idGenerator, IJwtTokenProvider jwtTokenProvider,
             IHttpContextAccessor httpContextAccessor,
-            ICacheManager cacheManager, ICaptcha captcha, IUserDomainManager userDomainManager, IUserSession userSession) : base(serviceProvider)
+            ICacheManager cacheManager, ICaptcha captcha, IUserDomainManager userDomainManager) : base(serviceProvider)
         {
             _customConfigService = customConfigService;
             _idGenerator = idGenerator;
@@ -58,7 +57,6 @@ namespace Z.SunBlog.Application.AuthModule
             _cacheManager = cacheManager;
             _captcha = captcha;
             _userDomainManager = userDomainManager;
-            _userSession = userSession;
         }
 
         /// <summary>
@@ -154,7 +152,7 @@ namespace Z.SunBlog.Application.AuthModule
         public async Task ZSignOut([FromBody] string token)
         {
             if (token.IsNullWhiteSpace()) throw new UserFriendlyException("token失效或不存在!");
-            var userid = _userSession.UserId;
+            var userid = UserService.UserId;
             if (!userid.IsNullWhiteSpace())
             {
                 await _cacheManager.RemoveCacheAsync($"Token_{userid}");

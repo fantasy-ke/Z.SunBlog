@@ -7,6 +7,7 @@ using Z.Ddd.Common.Entities.Enum;
 using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.ResultResponse.Pager;
+using Z.Ddd.Common.UserSession;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.ArticleModule.BlogClient.Dto;
 using Z.SunBlog.Core.ArticleCategoryModule.DomainManager;
@@ -170,7 +171,7 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
         [HttpGet]
         public async Task<ArticleInfoOutput> Info([FromQuery] Guid id)
         {
-
+            var userId = UserService.UserId;
             var article = await (from a in _articleDomainManager.QueryAsNoTracking
                         .Where(x => x.Id == id && x.PublishTime <= DateTime.Now && x.Status == AvailabilityStatus.Enable)
                         .Where(x=>x.ExpiredTime == null || x.ExpiredTime > DateTime.Now)
@@ -199,7 +200,7 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
                             UpdatedTime = a.UpdatedTime,
                             CategoryId = cg.Id,
                             PraiseTotal = _praiseManager.QueryAsNoTracking.Count(p => p.ObjectId == a.Id),
-                            IsPraise = _praiseManager.QueryAsNoTracking.Where(p => p.ObjectId == a.Id).Any(),
+                            IsPraise = _praiseManager.QueryAsNoTracking.Where(p => p.ObjectId == a.Id && p.AccountId == userId).Any(),
                             CategoryName = cg.Name
                         }).FirstOrDefaultAsync();
             var tagsList = await (from t in _tagsManager.QueryAsNoTracking.Where(p=>p.Status == AvailabilityStatus.Enable)

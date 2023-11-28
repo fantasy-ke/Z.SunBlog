@@ -51,7 +51,6 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         private readonly IIdGenerator _idGenerator;
         private readonly ICustomConfigAppService _customConfigService;
         private readonly ICacheManager _cacheManager;
-        private readonly IUserSession _userSession;
 
         private readonly IUserDomainManager _userDomainManager;
         public UserSysAppService(IServiceProvider serviceProvider,
@@ -60,8 +59,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
             IIdGenerator idGenerator,
             ICustomConfigAppService customConfigService,
             IBasicRepository<ZUserRole> userRoleRepository,
-            ICacheManager cacheManager,
-            IUserSession userSession) : base(serviceProvider)
+            ICacheManager cacheManager) : base(serviceProvider)
         {
             _orgRepository = orgRepository;
             _userDomainManager = userDomainManager;
@@ -69,7 +67,6 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
             _customConfigService = customConfigService;
             _userRoleRepository = userRoleRepository;
             _cacheManager = cacheManager;
-            _userSession = userSession;
         }
 
         private async Task<List<ZOrganization>> GetChildOrg(string id, List<ZOrganization> orgLists)
@@ -221,7 +218,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         [HttpGet]
         public async Task<UserInfoOutput> CurrentUserInfo()
         {
-            var userId = _userSession.UserId;
+            var userId = UserService.UserId;
             return await _userDomainManager.QueryAsNoTracking.Where(x => x.Id == userId)
                   .Select(x => new UserInfoOutput
                   {
@@ -250,7 +247,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         [HttpPatch]
         public async Task ChangePassword(ChangePasswordOutput dto)
         {
-            var userId = _userSession.UserId;
+            var userId = UserService.UserId;
             string encode = _idGenerator.Encode(userId);
             string pwd = MD5Encryption.Encrypt($"{encode}{dto.OriginalPwd}");
             if (!await _userDomainManager.QueryAsNoTracking.AnyAsync(x => x.Id == userId && x.PassWord == pwd))
@@ -274,7 +271,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         [HttpPatch]
         public async Task UploadAvatar([FromBody] string url)
         {
-            var userId = _userSession.UserId;
+            var userId = UserService.UserId;
             await _userDomainManager.UpdateAsync(new ZUserInfo()
             {
                 Avatar = url
@@ -289,7 +286,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         [HttpPatch("updateCurrentUser")]
         public async Task UpdateCurrentUser(UpdateCurrentUserInput dto)
         {
-            var userId = _userSession.UserId;
+            var userId = UserService.UserId;
             await _userDomainManager.UpdateAsync(new ZUserInfo()
             {
                 Name = dto.Name,

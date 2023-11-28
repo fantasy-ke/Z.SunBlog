@@ -23,13 +23,11 @@ namespace Z.SunBlog.Application.MenuModule;
 public class MenuAppService : ApplicationService, IMenuAppService
 {
     private readonly IMenuManager _menuManager;
-    private readonly IUserSession _userSession;
     private readonly ICacheManager _cacheManager;
     public MenuAppService(
-        IServiceProvider serviceProvider, IMenuManager menuManager, IUserSession userSession, ICacheManager cacheManager) : base(serviceProvider)
+        IServiceProvider serviceProvider, IMenuManager menuManager, ICacheManager cacheManager) : base(serviceProvider)
     {
         _menuManager = menuManager;
-        _userSession = userSession;
         _cacheManager = cacheManager;
     }
 
@@ -234,7 +232,7 @@ public class MenuAppService : ApplicationService, IMenuAppService
     [HttpGet]
     public async Task<List<RouterOutput>> PermissionMenus()
     {
-        var userId = _userSession.UserId;
+        var userId = UserService.UserId;
 
         var value = await _cacheManager.GetCacheAsync($"{CacheConst.PermissionMenuKey}{userId}", async () =>
         {

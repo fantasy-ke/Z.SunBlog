@@ -48,7 +48,6 @@ namespace Z.SunBlog.Application.OAuthModule
         private readonly QQOAuth _qqoAuth;
         private readonly GiteeOAuth _giteeoAuth;
         private readonly GithubOAuth _githuboAuth;
-        private readonly IUserSession _userSession;
         private readonly IAuthAccountDomainManager _authAccountDomainManager;
         private readonly IFriendLinkManager _friendLinkManager;
         private readonly IIdGenerator _idGenerator;
@@ -60,7 +59,6 @@ namespace Z.SunBlog.Application.OAuthModule
         public OAuthAppService(
             IServiceProvider serviceProvider,
             QQOAuth qqoAuth,
-            IUserSession userSession,
             IAuthAccountDomainManager authAccountDomainManager,
             IFriendLinkManager friendLinkManager,
             IIdGenerator idGenerator,
@@ -73,7 +71,6 @@ namespace Z.SunBlog.Application.OAuthModule
             GithubOAuth githuboAuth) : base(serviceProvider)
         {
             _qqoAuth = qqoAuth;
-            _userSession = userSession;
             _authAccountDomainManager = authAccountDomainManager;
             _friendLinkManager = friendLinkManager;
             _idGenerator = idGenerator;
@@ -200,7 +197,7 @@ namespace Z.SunBlog.Application.OAuthModule
         /// <returns></returns>
         public async Task<OAuthAccountDetailOutput> UserInfo()
         {
-            string id = _userSession.UserId;
+            string id = UserService.UserId;
             var result=  await _authAccountDomainManager.QueryAsNoTracking
                 .GroupJoin(_friendLinkManager.QueryAsNoTracking, ac => ac.Id, link => link.AppUserId, (ac, link) => new { ac = ac, link = link })
                 .SelectMany(p => p.link.DefaultIfEmpty(), (ac, link) => new { ac = ac.ac, link = link })
@@ -228,7 +225,7 @@ namespace Z.SunBlog.Application.OAuthModule
         /// <returns></returns>
         public async Task AddLink(AddLinkOutput dto)
         {
-            string userId = _userSession.UserId;
+            string userId = UserService.UserId;
 
             var link = await _friendLinkManager.QueryAsNoTracking.FirstAsync(x => x.AppUserId == userId);
             if (link == null)
