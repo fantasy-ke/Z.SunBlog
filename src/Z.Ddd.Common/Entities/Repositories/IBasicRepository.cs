@@ -126,4 +126,11 @@ public interface IBasicRepository<TEntity, TKey> : IBasicRepository<TEntity>, IR
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     Task DeleteManyAsync(IEnumerable<TKey> ids, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// 批量删除
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    Task DeleteManyAsync(CancellationToken cancellationToken = default);
 }
