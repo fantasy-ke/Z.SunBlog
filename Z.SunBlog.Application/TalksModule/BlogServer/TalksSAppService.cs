@@ -101,6 +101,7 @@ namespace Z.SunBlog.Application.TalksModule.BlogServer
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
+        [HttpDelete]
         public async Task DeleteAsync(KeyDto dto)
         {
             await _talksManager.DeleteAsync(dto.Id);

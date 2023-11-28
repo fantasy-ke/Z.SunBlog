@@ -42,6 +42,7 @@ namespace Z.SunBlog.Application.FriendLinkModule.BlogServer
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
+        [HttpDelete]
         public async Task DeleteAsync(KeyDto dto)
         {
             await _friendLinkManager.DeleteAsync(dto.Id);
