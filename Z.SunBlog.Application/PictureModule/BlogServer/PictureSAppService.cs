@@ -44,7 +44,12 @@ namespace Z.SunBlog.Application.PictureModule.BlogServer
             var entity = ObjectMapper.Map<Pictures>(dto);
             await _pictureManager.CreateAsync(entity);
         }
-
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpDelete]
         public async Task Delete(KeyDto dto)
         {
             await _pictureManager.DeleteAsync(x => x.Id == dto.Id);
@@ -56,7 +61,7 @@ namespace Z.SunBlog.Application.PictureModule.BlogServer
         /// <param name="dto"></param>
         /// <returns></returns>
         [DisplayName("删除相册图片")]
-        [HttpDelete]
+        [HttpPost]
         public async Task<PageResult<PicturesPageOutput>> GetPage([FromBody] PicturesPageQueryInput dto)
         {
             return await _pictureManager.QueryAsNoTracking.GroupJoin(
