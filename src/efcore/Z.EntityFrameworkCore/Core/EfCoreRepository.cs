@@ -163,10 +163,10 @@ public abstract class EfCoreRepository<TDbContext, TEntity> : IBasicRepository<T
 
     public async Task DeleteAsync(Expression<Func<TEntity, bool>> predicate)
     {
-        var entity = await DbSet.FirstOrDefaultAsync(predicate);
-        if (entity != null)
+        var entityList = await DbSet.Where(predicate).ToListAsync();
+        if (entityList != null && entityList.Any())
         {
-            DbSet.Remove(entity);
+            DbSet.RemoveRange(entityList);
         }
     }
 
