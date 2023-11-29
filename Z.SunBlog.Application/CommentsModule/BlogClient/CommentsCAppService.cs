@@ -165,7 +165,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
                       ParentId = c.comAuth.comment.ParentId,
                       AccountId = c.comAuth.comment.AccountId,
                       ReplyAccountId = c.comAuth.comment.ReplyAccountId,
-                      IsBlogger = true,//c.comAuth.auth.IsBlogger,
+                      IsBlogger = c.comAuth.auth != null ? c.comAuth.auth.IsBlogger : false,
                       NickName = c.comAuth.auth.Name,
                       RelyNickName = c.auth1.Name,
                       RootId = c.comAuth.comment.RootId,
