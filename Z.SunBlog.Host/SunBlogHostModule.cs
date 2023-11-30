@@ -188,10 +188,10 @@ public class SunBlogHostModule : ZModule
                     Url = new Uri("https://www.cnblogs.com/fantasy-ke/")
                 }
             });
+            options.OrderActionsBy(o => o.RelativePath);
 
             var xmlList = Directory.GetFiles(AppContext.BaseDirectory, "*.xml").ToList();
-            xmlList.ForEach(xml =>options.IncludeXmlComments(xml));
-            options.OrderActionsBy(o => o.RelativePath);
+            xmlList.ForEach(xml => options.IncludeXmlComments(xml));
         });
     }
 
@@ -280,7 +280,7 @@ public class SunBlogHostModule : ZModule
 
         app.UseSwaggerUI(options =>
         {
-            options.SwaggerEndpoint("/swagger/v1/swagger.json", "NETWiki API V1");
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "SunBlog API V1");
             options.EnableDeepLinking();//深链接功能
             options.DocExpansion(DocExpansion.None);//swagger文档是否打开
             options.IndexStream = () =>
