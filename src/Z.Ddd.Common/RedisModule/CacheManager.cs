@@ -185,6 +185,16 @@ namespace Z.Ddd.Common.RedisModule
                     result = item;
                 }
             }
+            else
+            {
+                Task<T> task = dataRetriever();
+                T item = await task;
+                if (item == null) { return result; }
+                await _cache.SetStringAsync(cacheKey, item.ToJson(), new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpiration = new DateTimeOffset(DateTime.Now + timeout)
+                });
+            }
             return result;
         }
 
