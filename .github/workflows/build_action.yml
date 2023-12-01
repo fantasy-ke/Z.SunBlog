@@ -19,7 +19,9 @@ jobs:
     steps:
       - name: Build Sunblog_host Images
         run: |
-          efind . -maxdepth 1
+          find . -maxdepth 1
+          cd ../
+          find . -maxdepth 1
           image_name="${{ secrets.USERNAME }}/sunblog"
           tag_name="${{secrets.IMAGETAG}}"
           if docker images | grep $image_name:$tag_name > /dev/null; then
@@ -42,6 +44,8 @@ jobs:
     steps:
       - name: Build Docker SunBlogAdmin Image
         run: |
+          find . -maxdepth 1
+          cd ../../
           find . -maxdepth 1
           image_name="${{ secrets.USERNAME }}/sunblogadmin"
           tag_name="${{secrets.VUETAG}}"
