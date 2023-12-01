@@ -17,7 +17,7 @@ COPY ["Z.SunBlog.Core/Z.SunBlog.Core.csproj", "Z.SunBlog.Core/"]
 COPY ["Z.SunBlog.Common/Z.SunBlog.Common.csproj", "Z.SunBlog.Common/"]
 COPY ["src/efcore/Z.EntityFrameworkCore.SqlServer/Z.EntityFrameworkCore.SqlServer.csproj", "src/efcore/Z.EntityFrameworkCore.SqlServer/"]
 COPY ["src/efcore/Z.EntityFrameworkCore/Z.EntityFrameworkCore.csproj", "src/efcore/Z.EntityFrameworkCore/"]
-COPY ["Z.SunBlog.EntityFrameworkCore/Z.SunBlog.EntityFrameworkCore.csproj", "Z.SunBlog.EntityFrameworkCore/"]
+COPY ["./Z.SunBlog.EntityFrameworkCore/Z.SunBlog.EntityFrameworkCore.csproj", "Z.SunBlog.EntityFrameworkCore/"]
 RUN dotnet restore "Z.SunBlog.Host/Z.SunBlog.Host.csproj"
 COPY . .
 WORKDIR "/src/Z.SunBlog.Host"
