@@ -24,6 +24,7 @@ jobs:
           if docker images | grep $image_name:$tag_name > /dev/null; then
            docker rmi $image_name:$tag_name
           fi
+          ll
           sudo docker build -t $image_name:$tag_name -f ${{ secrets.HOSTDOCKERFILE }} .
 
       - name: Build and push ALI Host
@@ -46,6 +47,7 @@ jobs:
           if docker images | grep $image_name:$tag_name > /dev/null; then
            docker rmi $image_name:$tag_name
           fi
+          ls
           sudo docker build -t $image_name:$tag_name -f ${{ secrets.ADMINDOCKERFILEVUE }} .
 
       - name: Build and push ALI Admin
