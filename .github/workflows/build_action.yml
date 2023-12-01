@@ -19,9 +19,9 @@ jobs:
     steps:
       - name: Build Sunblog_host Images
         run: |
-          find . -maxdepth 1
+          ls -a
           cd ../
-          find . -maxdepth 1
+          ls -a
           image_name="${{ secrets.USERNAME }}/sunblog"
           tag_name="${{secrets.IMAGETAG}}"
           if docker images | grep $image_name:$tag_name > /dev/null; then
@@ -44,9 +44,11 @@ jobs:
     steps:
       - name: Build Docker SunBlogAdmin Image
         run: |
-          find . -maxdepth 1
+          ls -a
           cd ../../
-          find . -maxdepth 1
+          ls -a
+          cd ../../../
+          ls -a
           image_name="${{ secrets.USERNAME }}/sunblogadmin"
           tag_name="${{secrets.VUETAG}}"
           if docker images | grep $image_name:$tag_name > /dev/null; then
