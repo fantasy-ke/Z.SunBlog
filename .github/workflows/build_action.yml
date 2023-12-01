@@ -22,7 +22,7 @@ jobs:
       - name: Build Sunblog_host Images
         run: |
           host_image_name="${{ secrets.USERNAME }}/sunbloghost"
-          host_tag_name="${{secrets.IMAGETAG}}"
+          host_tag_name="${{secrets.HOSTIMAGETAG}}"
           if docker images | grep $host_image_name:$host_tag_name > /dev/null; then
            docker rmi $host_image_name:$host_tag_name
           fi
@@ -32,7 +32,7 @@ jobs:
         id: ALI_build_host
         run: |
           host_image_name="${{ secrets.USERNAME }}/sunbloghost"
-          host_tag_name="${{secrets.IMAGETAG}}"
+          host_tag_name="${{secrets.HOSTIMAGETAG}}"
           sudo docker tag  $host_image_name:$host_tag_name registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$host_tag_name
           sudo docker push registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$host_tag_name
 
@@ -46,7 +46,7 @@ jobs:
       - name: Build Docker SunBlogAdmin Image
         run: |
           admin_image_name="${{ secrets.USERNAME }}/sunblogadmin"
-          admin_tag_name="${{secrets.VUETAG}}"
+          admin_tag_name="${{secrets.ADMINTAG}}"
           if docker images | grep $admin_image_name:$admin_tag_name > /dev/null; then
            docker rmi $admin_image_name:$admin_tag_name
           fi
@@ -56,7 +56,7 @@ jobs:
         id: ALI_build_admin
         run: |
           admin_image_name="${{ secrets.USERNAME }}/sunblogadmin"
-          admin_tag_name="${{secrets.VUETAG}}"
+          admin_tag_name="${{secrets.ADMINTAG}}"
           sudo docker tag  $admin_image_name:$admin_tag_name registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$admin_tag_name
           sudo docker push registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$admin_tag_name
 
