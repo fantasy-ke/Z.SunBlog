@@ -17,10 +17,11 @@ jobs:
     needs: build_env
 
     steps:
-      - name: Build Sunblog_host Images
+      - name: 检出代码  sunbloghost
         uses: actions/checkout@v2
+      - name: Build Sunblog_host Images
         run: |
-          image_name="${{ secrets.USERNAME }}/sunblog"
+          image_name="${{ secrets.USERNAME }}/sunbloghost"
           tag_name="${{secrets.IMAGETAG}}"
           if docker images | grep $image_name:$tag_name > /dev/null; then
            docker rmi $image_name:$tag_name
@@ -30,7 +31,7 @@ jobs:
       - name: Build and push ALI Host
         id: ALI_build_host
         run: |
-          image_name="${{ secrets.USERNAME }}/sunblog"
+          image_name="${{ secrets.USERNAME }}/sunbloghost"
           tag_name="${{secrets.IMAGETAG}}"
           sudo docker tag  $image_name:$tag_name registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$tag_name
           sudo docker push registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$tag_name
@@ -40,8 +41,9 @@ jobs:
     needs: build_env
 
     steps:
-      - name: Build Docker SunBlogAdmin Image
+      - name: 检出代码  sunblogadmin
         uses: actions/checkout@v2
+      - name: Build Docker SunBlogAdmin Image
         run: |
           image_name="${{ secrets.USERNAME }}/sunblogadmin"
           tag_name="${{secrets.VUETAG}}"
@@ -63,10 +65,11 @@ jobs:
     needs: build_env
 
     steps:
-      - name: Build Docker Image
+      - name: 检出代码  sunblogvue
         uses: actions/checkout@v2
+      - name: Build Docker Image
         run: |
-          image_name="${{ secrets.USERNAME }}/sunblog"
+          image_name="${{ secrets.USERNAME }}/sunblogvue"
           tag_name="${{secrets.VUETAG}}"
           if docker images | grep $image_name:$tag_name > /dev/null; then
            docker rmi $image_name:$tag_name
@@ -76,7 +79,7 @@ jobs:
       - name: Build and push ALI Vue
         id: ALI_build_vue
         run: |
-          image_name="${{ secrets.USERNAME }}/sunblog"
+          image_name="${{ secrets.USERNAME }}/sunblogvue"
           tag_name="${{secrets.VUETAG}}"
           sudo docker tag  $image_name:$tag_name registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$tag_name
           sudo docker push registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$tag_name
