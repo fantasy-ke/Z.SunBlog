@@ -7,7 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
       - name: login aliyun
         run: |
           sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hangzhou.aliyuncs.com
@@ -18,10 +17,8 @@ jobs:
 
     steps:
       - name: Build Sunblog_host Images
+        uses: actions/checkout@v2
         run: |
-          ls -a
-          cd ../
-          ls -a
           image_name="${{ secrets.USERNAME }}/sunblog"
           tag_name="${{secrets.IMAGETAG}}"
           if docker images | grep $image_name:$tag_name > /dev/null; then
@@ -43,12 +40,8 @@ jobs:
 
     steps:
       - name: Build Docker SunBlogAdmin Image
+        uses: actions/checkout@v2
         run: |
-          ls -a
-          cd ../../
-          ls -a
-          cd ../../../
-          ls -a
           image_name="${{ secrets.USERNAME }}/sunblogadmin"
           tag_name="${{secrets.VUETAG}}"
           if docker images | grep $image_name:$tag_name > /dev/null; then
@@ -70,6 +63,7 @@ jobs:
 
     steps:
       - name: Build Docker Image
+        uses: actions/checkout@v2
         run: |
           image_name="${{ secrets.USERNAME }}/sunblog"
           tag_name="${{secrets.VUETAG}}"
