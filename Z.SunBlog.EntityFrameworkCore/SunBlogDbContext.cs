@@ -20,7 +20,6 @@ using Z.SunBlog.EntityFrameworkCore.ConfigureExtensions;
 
 namespace Z.SunBlog.EntityFrameworkCore
 {
-    [ConnectionStringName("App:ConnectionString:Default")]
     public class SunBlogDbContext : ZDbContext<SunBlogDbContext>
     {
         public SunBlogDbContext(ZDbContextOptions<SunBlogDbContext> options) : base(options)

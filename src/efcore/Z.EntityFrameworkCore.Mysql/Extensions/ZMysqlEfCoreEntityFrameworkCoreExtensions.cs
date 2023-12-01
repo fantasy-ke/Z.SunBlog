@@ -13,14 +13,10 @@ namespace Z.EntityFrameworkCore.Mysql.Extensions;
 
 public static class ZMysqlEfCoreEntityFrameworkCoreExtensions
 {
-    public static ServiceConfigerContext AddMysqlEfCoreEntityFrameworkCore<TDbContext>(this ServiceConfigerContext context,
-        Version version, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
+    public static IServiceCollection AddMysqlEfCoreEntityFrameworkCore<TDbContext>(this ServiceConfigerContext context,
+        Version version,string connectionString, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
         where TDbContext : ZDbContext<TDbContext>
     {
-        var configuration = context.GetConfiguration();
-        var connectString = typeof(TDbContext).GetCustomAttribute<ConnectionStringNameAttribute>();
-
-        var connectionString = connectString?.ConnectionString ?? "Default";
 
         if (string.IsNullOrEmpty(connectionString))
         {
@@ -29,13 +25,13 @@ public static class ZMysqlEfCoreEntityFrameworkCoreExtensions
 
         context.Services.AddEfCoreEntityFrameworkCore<TDbContext>(x =>
         {
-            x.UseMySql(configuration.GetConnectionString(connectionString)!
+            x.UseMySql(connectionString
                 , new MySqlServerVersion(version))
             .UseFilter();
 
         },serviceLifetime);
 
-        return context;
+        return context.Services;
     }
 
 

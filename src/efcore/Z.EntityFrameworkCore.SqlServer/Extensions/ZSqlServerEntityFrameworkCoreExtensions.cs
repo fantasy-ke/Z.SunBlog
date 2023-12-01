@@ -14,13 +14,9 @@ namespace Z.EntityFrameworkCore.SqlServer.Extensions;
 
 public static class ZSqlServerEntityFrameworkCoreExtensions
 {
-    public static IServiceCollection AddSqlServerEfCoreEntityFrameworkCore<TDbContext>(this ServiceConfigerContext context )
+    public static IServiceCollection AddSqlServerEfCoreEntityFrameworkCore<TDbContext>(this ServiceConfigerContext context ,string connectionString)
         where TDbContext : ZDbContext<TDbContext>
     {
-        var configuration = context.GetConfiguration();
-        var connectString = typeof(TDbContext).GetCustomAttribute<ConnectionStringNameAttribute>();
-
-        var connectionString = connectString?.ConnectionString ?? "Default";
 
         if (string.IsNullOrEmpty(connectionString))
         {
@@ -30,7 +26,7 @@ public static class ZSqlServerEntityFrameworkCoreExtensions
         context.Services.AddEfCoreEntityFrameworkCore<TDbContext>(
             x =>
             {
-                x.UseSqlServer(configuration[connectionString]!)
+                x.UseSqlServer(connectionString)
                 .UseFilter();
             },
             ServiceLifetime.Scoped)
