@@ -50,7 +50,7 @@ jobs:
           if docker images | grep $admin_image_name:$admin_tag_name > /dev/null; then
            docker rmi $admin_image_name:$admin_tag_name
           fi
-          sudo docker build -t $admin_image_name:$admin_tag_name -f ${{ secrets.ADMINDOCKERFILE }} .
+          sudo docker build -t $admin_image_name:$admin_tag_name --no-cache -f ${{ secrets.ADMINDOCKERFILE }} .
 
       - name: Build and push ALI Admin
         id: ALI_build_admin
