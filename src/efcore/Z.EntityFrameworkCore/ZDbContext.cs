@@ -43,7 +43,7 @@ namespace Z.EntityFrameworkCore
 
             modelBuilder.AddZCoreConfigure();
             // 可选
-            modelBuilder.UseCollation("Chinese_PRC_CI_AS");
+            modelBuilder.UseCollation("utf8mb4_general_ci");
 
             OnModelCreatingConfigureGlobalFilters(modelBuilder);
         }
