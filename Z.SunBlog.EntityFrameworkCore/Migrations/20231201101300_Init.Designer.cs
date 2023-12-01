@@ -11,7 +11,7 @@ using Z.SunBlog.EntityFrameworkCore;
 namespace Z.SunBlog.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(SunBlogDbContext))]
-    [Migration("20231201095831_Init")]
+    [Migration("20231201101300_Init")]
     partial class Init
     {
         /// <inheritdoc />

@@ -30,8 +30,8 @@ namespace Z.SunBlog.EntityFrameworkCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
             modelBuilder.ConfigureModel();
+            base.OnModelCreating(modelBuilder);
         }
 
         public virtual DbSet<Article> Article { get; set; }
