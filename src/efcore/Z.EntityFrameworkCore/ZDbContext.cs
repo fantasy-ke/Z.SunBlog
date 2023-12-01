@@ -42,8 +42,6 @@ namespace Z.EntityFrameworkCore
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.AddZCoreConfigure();
-            // 可选
-            modelBuilder.UseCollation("utf8mb4_general_ci");
 
             OnModelCreatingConfigureGlobalFilters(modelBuilder);
         }
