@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: Build Docker SunBlogAdmin Image
         run: |
-          ls -al
+          ls
           image_name="${{ secrets.USERNAME }}/sunblogadmin"
           tag_name="${{secrets.VUETAG}}"
           if docker images | grep $image_name:$tag_name > /dev/null; then
