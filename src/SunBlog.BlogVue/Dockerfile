@@ -17,6 +17,8 @@ RUN echo "build is success"
 
 FROM nginx
 
+RUN ls -a
+
 # 复制 nginx.conf 配置文件到镜像中
 COPY ["./_nginx/default.conf", "/etc/nginx/nginx.conf"]
 
