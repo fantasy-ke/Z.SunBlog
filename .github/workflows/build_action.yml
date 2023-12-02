@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
   build_env:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -13,7 +13,7 @@ jobs:
           sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hangzhou.aliyuncs.com
 
   build_host:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build_env
 
     steps:
