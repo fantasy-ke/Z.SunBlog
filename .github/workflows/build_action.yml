@@ -24,7 +24,9 @@ jobs:
           if docker images | grep $host_image_name:$host_tag_name > /dev/null; then
            docker rmi $host_image_name:$host_tag_name
           fi
-
+          echo "Current Working Directory: $(pwd)"
+          cd ./src/SunBlog.AspNetCore/Z.SunBlog.Host
+          echo "Current Working Directory: $(pwd)"
           sudo docker build . --force-rm=true  -t $host_image_name:$host_tag_name -f ${{ secrets.HOSTDOCKERFILE }}
 
       - name: Build and push ALI Host
