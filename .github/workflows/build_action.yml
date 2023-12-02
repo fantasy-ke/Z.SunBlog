@@ -86,7 +86,7 @@ jobs:
   #         sudo docker push registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$vue_tag_name
 
   deploy:
-    needs: [build_host, build_admin, build_vue]
+    needs: [build_host]
     runs-on: self-hosted
     steps:
       - name: login aliyun
