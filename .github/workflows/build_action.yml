@@ -31,6 +31,9 @@ jobs:
   build_host:
     runs-on: ubuntu-latest
     needs: build_env
+    strategy:
+      matrix:
+        jobName: [build_host]
     if: github.event.inputs.run_build_env == 'true'
     steps:
       - name: login aliyun 登录阿里云
@@ -62,6 +65,9 @@ jobs:
   build_admin:
     runs-on: ubuntu-latest
     needs: build_env
+    strategy:
+      matrix:
+        jobName: [build_admin]
     if: github.event.inputs.build_admin == 'true'
     steps:
       - name: login aliyun 登录阿里云
@@ -90,6 +96,9 @@ jobs:
   build_vue:
     runs-on: ubuntu-latest
     needs: build_env
+    strategy:
+      matrix:
+        jobName: [build_vue]
     if: github.event.inputs.build_vue == 'true'
     steps:
       - name: login aliyun 登录阿里云
