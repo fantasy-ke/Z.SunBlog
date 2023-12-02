@@ -26,6 +26,9 @@ jobs:
           if docker images | grep $host_image_name:$host_tag_name > /dev/null; then
            docker rmi $host_image_name:$host_tag_name
           fi
+
+          sudo docker builder prune -a
+
           sudo docker build . --force-rm=true  -t $host_image_name:$host_tag_name -f ${{ secrets.HOSTDOCKERFILE }}
 
       - name: Build and push ALI Host
