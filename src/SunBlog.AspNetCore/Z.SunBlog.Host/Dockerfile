@@ -26,7 +26,7 @@ WORKDIR "/src/Z.SunBlog.Host"
 FROM build AS publish
 
 # RUN ls -l
-RUN dotnet restore --ignore-failed-sources
+RUN dotnet restore "Z.SunBlog.Host.csproj" --ignore-failed-sources
 RUN dotnet publish --no-restore "Z.SunBlog.Host.csproj"  -c Release -o /app/publish
 
 
