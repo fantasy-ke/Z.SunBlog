@@ -1,6 +1,12 @@
 name: build_action
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      build_admin:
+        description: "Specify the job to run"
+        required: true
+        default: "build_admin"
 
 jobs:
   build_env:
