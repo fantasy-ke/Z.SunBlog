@@ -6,14 +6,16 @@ jobs:
   build_env:
     runs-on: ubuntu-latest
     steps:
-      - name: login aliyun
+      - name: check login aliyun  验证阿里云登录
         run: |
           sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hangzhou.aliyuncs.com
 
   build_host:
-    needs: build_env
-
+    runs-on: ubuntu-latest
     steps:
+      - name: login aliyun 登录阿里云
+        run: |
+          sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hangzhou.aliyuncs.com
       - name: 检出代码  sunbloghost
         uses: actions/checkout@v2
       - name: Build Sunblog_host Images
@@ -31,13 +33,17 @@ jobs:
         run: |
           host_image_name="${{ secrets.USERNAME }}/sunbloghost"
           host_tag_name="${{secrets.HOSTIMAGETAG}}"
+          echo "Current Working Directory: $(pwd)"
+          echo "host_image_name: $host_image_name"
           sudo docker tag  $host_image_name:$host_tag_name registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$host_tag_name
           sudo docker push registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$host_tag_name
 
   build_admin:
-    needs: build_env
-
+    runs-on: ubuntu-latest
     steps:
+      - name: login aliyun 登录阿里云
+        run: |
+          sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hangzhou.aliyuncs.com
       - name: 检出代码  sunblogadmin
         uses: actions/checkout@v2
       - name: Build Docker SunBlogAdmin Image
@@ -59,9 +65,11 @@ jobs:
           sudo docker push registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:$admin_tag_name
 
   build_vue:
-    needs: build_env
-
+    runs-on: ubuntu-latest
     steps:
+      - name: login aliyun 登录阿里云
+        run: |
+          sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hangzhou.aliyuncs.com
       - name: 检出代码  sunblogvue
         uses: actions/checkout@v2
       - name: Build Docker Image
