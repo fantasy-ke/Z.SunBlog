@@ -6,10 +6,11 @@ WORKDIR /app
 # ���õ����˿�
 EXPOSE 80
 
+ARG CACHE_BUSTER
+ENV CACHE_BUSTER=${CACHE_BUSTER}
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-RUN ls -la
-
 COPY ["Z.SunBlog.Host/Z.SunBlog.Host.csproj", "Z.SunBlog.Host/"]
 COPY ["Z.SunBlog.Application/Z.SunBlog.Application.csproj", "Z.SunBlog.Application/"]
 COPY ["src/Z.Ddd.Application/Z.Ddd.Application.csproj", "src/Z.Ddd.Application/"]
@@ -18,14 +19,8 @@ COPY ["src/Z.Module/Z.Module.csproj", "src/Z.Module/"]
 COPY ["Z.SunBlog.Core/Z.SunBlog.Core.csproj", "Z.SunBlog.Core/"]
 COPY ["Z.SunBlog.Common/Z.SunBlog.Common.csproj", "Z.SunBlog.Common/"]
 COPY ["src/efcore/Z.EntityFrameworkCore.SqlServer/Z.EntityFrameworkCore.SqlServer.csproj", "src/efcore/Z.EntityFrameworkCore.SqlServer/"]
-
-RUN ls -la
 COPY ["src/efcore/Z.EntityFrameworkCore/Z.EntityFrameworkCore.csproj", "src/efcore/Z.EntityFrameworkCore/"]
-
-RUN ls -la
-
 COPY ["Z.SunBlog.EntityFrameworkCore/Z.SunBlog.EntityFrameworkCore.csproj", "Z.SunBlog.EntityFrameworkCore/"]
-
 RUN dotnet restore "Z.SunBlog.Host/Z.SunBlog.Host.csproj"
 COPY . .
 WORKDIR "/src/Z.SunBlog.Host"
