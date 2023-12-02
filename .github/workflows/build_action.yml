@@ -26,7 +26,7 @@ jobs:
           if docker images | grep $host_image_name:$host_tag_name > /dev/null; then
            docker rmi $host_image_name:$host_tag_name
           fi
-          sudo docker build CACHE_BUSTER=$(date +%s) -t $host_image_name:$host_tag_name -f ${{ secrets.HOSTDOCKERFILE }} .
+          sudo docker build --build-arg CACHE_BUSTER=$(date +%s) -t $host_image_name:$host_tag_name -f ${{ secrets.HOSTDOCKERFILE }} .
 
       - name: Build and push ALI Host
         id: ALI_build_host
