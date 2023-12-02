@@ -25,7 +25,7 @@ jobs:
            docker rmi $host_image_name:$host_tag_name
           fi
           echo "Current Working Directory: $(pwd)"
-          cd ./src/SunBlog.AspNetCore/Z.SunBlog.Host
+          cd ./src/SunBlog.AspNetCore
           echo "Current Working Directory: $(pwd)"
           sudo docker build . --force-rm=true  -t $host_image_name:$host_tag_name -f ${{ secrets.HOSTDOCKERFILE }}
 
