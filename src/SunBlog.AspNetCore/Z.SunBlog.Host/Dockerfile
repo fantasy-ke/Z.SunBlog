@@ -18,19 +18,18 @@ WORKDIR /src
 #COPY ["src/efcore/Z.EntityFrameworkCore.SqlServer/Z.EntityFrameworkCore.SqlServer.csproj", "src/efcore/Z.EntityFrameworkCore.SqlServer/"]
 #COPY ["src/efcore/Z.EntityFrameworkCore/Z.EntityFrameworkCore.csproj", "src/efcore/Z.EntityFrameworkCore/"]
 #COPY ["Z.SunBlog.EntityFrameworkCore/Z.SunBlog.EntityFrameworkCore.csproj", "Z.SunBlog.EntityFrameworkCore/"]
-#RUN dotnet restore "Z.SunBlog.Host/Z.SunBlog.Host.csproj"
+
 COPY . .
+
+RUN dotnet restore "Z.SunBlog.Host/Z.SunBlog.Host.csproj"
+
 WORKDIR "/src/Z.SunBlog.Host"
-#RUN dotnet build "Z.SunBlog.Host.csproj" -c Release -o /app/build
+
+RUN dotnet build "Z.SunBlog.Host.csproj" -c Release -o /app/build
 
 FROM build AS publish
 
-# RUN ls -l
-RUN dotnet restore "Z.SunBlog.Host.csproj" --ignore-failed-sources
-RUN dotnet publish --no-restore "Z.SunBlog.Host.csproj"  -c Release -o /app/publish
-
-
-#RUN dotnet publish "Z.SunBlog.Host.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Z.SunBlog.Host.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
