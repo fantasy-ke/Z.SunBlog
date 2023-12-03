@@ -137,11 +137,9 @@ jobs:
       - name: check container
         run: |
           cd docker
-
           sleep 10
           sudo docker compose -f docker-compose.yml -p sunblog up -d
           cd ../../
-          rm -rf Z.SunBlog
       # - name: Pull ALI Image
       #   run: |
       #     image_name="${{ secrets.ALIREPOSITORY }}"
