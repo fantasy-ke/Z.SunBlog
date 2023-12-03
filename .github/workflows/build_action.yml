@@ -137,9 +137,11 @@ jobs:
       - name: check container
         run: |
           cd docker
-          sudo docker compose rm -f sunblog
+
           sleep 10
           sudo docker compose -f docker-compose.yml -p sunblog up -d
+          cd ../../
+          rm -rf Z.SunBlog
       # - name: Pull ALI Image
       #   run: |
       #     image_name="${{ secrets.ALIREPOSITORY }}"
@@ -147,6 +149,7 @@ jobs:
       #     if docker images | grep $image_name:$tag_name > /dev/null; then
       #      docker rmi $image_name:$tag_name
       #     fi
+      #sudo docker compose rm -f sunblog
       #     sudo  docker pull ${{ secrets.ALIREPOSITORY }}:$tag_name
 
       # - name: Run Docker container
