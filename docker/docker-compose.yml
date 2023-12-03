@@ -1,12 +1,21 @@
 version: '3.9'
 
+volumes:
+  hostapi_logs:
+  hostapi_sysfiles:
+  hostapi_fastreport:
+
+networks:
+  fantasy_net:
+    external: true
+
 services:
   # hostapi
   hostapi:
     image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:hostblog
     restart: always
     networks:
-      - internal-network
+      - fantasy_net
     ports:
       - "2001:80"
     volumes:
@@ -18,13 +27,4 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - App__ConnectionString__Default=Server=124.71.15.19;Database=NetWiki;MultipleActiveResultSets=true;Uid=sa;Pwd=wyg154511LHL;TrustServerCertificate=true; 
       - App__CorsOrigins=http://localhost:8081,http://localhost:4200
-
-volumes:
-  hostapi_logs:
-  hostapi_sysfiles:
-  hostapi_fastreport:
-
-networks:
-  internal-network:
-    external: true
 
