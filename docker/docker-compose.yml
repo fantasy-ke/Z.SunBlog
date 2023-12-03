@@ -5,6 +5,8 @@ services:
   hostapi:
     image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:hostblog
     restart: always
+    networks:
+      - internal-network
     ports:
       - "2001:80"
     volumes:
