@@ -4,6 +4,8 @@ volumes:
   hostapi_logs:
   hostapi_sysfiles:
   hostapi_fastreport:
+  vueblog_assets:
+  adminvue_assets:
 
 networks:
   fantasy_net:
@@ -28,3 +30,26 @@ services:
       - App__ConnectionString__Default=Server=124.71.15.19;Database=NetWiki;MultipleActiveResultSets=true;Uid=sa;Pwd=wyg154511LHL;TrustServerCertificate=true; 
       - App__CorsOrigins=http://localhost:8081,http://localhost:4200
 
+  vueblog:
+    image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:vueblog
+    networks:
+      - fantasy_net
+    depends_on:
+      - hostapi
+    ports:
+      - "2002:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    volumes:
+      - vueblog_assets:/usr/share/nginx/html/assets
+      
+  adminvue:
+    image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:adminvue
+    networks:
+      - fantasy_net
+    ports:
+      - "2003:80"
+    volumes:
+      - adminvue_assets:/usr/share/nginx/html/assets
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
