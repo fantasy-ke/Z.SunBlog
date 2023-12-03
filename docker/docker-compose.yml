@@ -7,8 +7,6 @@ services:
     restart: always
     ports:
       - "2001:80"
-    networks:
-      - my_net
     volumes:
       - "hostapi_logs:/app/App_Data/Logs"
       - "hostapi_sysfiles:/app/wwwroot/SysFiles"
@@ -25,6 +23,6 @@ volumes:
   hostapi_fastreport:
 
 networks:
-  my_net:
-    driver: overlay
+  internal-network:
+    external: true
 

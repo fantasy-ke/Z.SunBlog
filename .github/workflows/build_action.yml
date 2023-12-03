@@ -137,7 +137,7 @@ jobs:
       - name: check container
         run: |
           cd docker
-          sudo docker-compose up -d
+          sudo docker compose -f docker-compose.yml -p fantasy up -d
       # - name: Pull ALI Image
       #   run: |
       #     image_name="${{ secrets.ALIREPOSITORY }}"
