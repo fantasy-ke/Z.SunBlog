@@ -35,8 +35,6 @@ services:
     image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:vueblog
     networks:
       - fantasy_net
-    depends_on:
-      - hostapi
     ports:
       - "2002:80"
     environment:
