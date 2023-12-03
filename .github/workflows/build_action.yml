@@ -145,9 +145,8 @@ jobs:
           container_name="hostblog"
           host_tag_name="${{secrets.HOSTIMAGETAG}}"
           if docker ps -a | grep $container_name > /dev/null ; then
-            echo "Docker container already exists, removing..."        
-            docker stop $container_name
-            docker rm $container_name
+            echo "Docker container already exists, removing..."
+            docker rm -f $container_name
           fi
       - name: Pull ALI Image
         run: |
@@ -206,9 +205,8 @@ jobs:
           container_name="sunblogadmin"
           admin_tag_name="${{secrets.ADMINTAG}}"
           if docker ps -a | grep $container_name > /dev/null ; then
-            echo "Docker container already exists, removing..."        
-            docker stop $container_name
-            docker rm $container_name
+            echo "Docker container already exists, removing..."     
+            docker rm -f $container_name
           fi
       - name: Pull ALI Image
         run: |
