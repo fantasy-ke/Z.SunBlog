@@ -9,7 +9,8 @@ volumes:
 
 networks:
   fantasy_net:
-    external: true
+    driver: bridge
+    attachable: true
 
 services:
   # hostapi
