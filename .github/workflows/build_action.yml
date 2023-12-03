@@ -136,6 +136,9 @@ jobs:
   deploy_host:
     needs: deploy
     runs-on: self-hosted
+    strategy:
+      matrix:
+        jobName: [deploy_host]
     steps:
       - name: login aliyun 登录阿里云
         run: |
@@ -166,6 +169,9 @@ jobs:
   deploy_vue:
     needs: deploy
     runs-on: self-hosted
+    strategy:
+      matrix:
+        jobName: [deploy_vue]
     steps:
       - name: login aliyun 登录阿里云
         run: |
@@ -196,6 +202,9 @@ jobs:
   deploy_admin:
     needs: deploy
     runs-on: self-hosted
+    strategy:
+      matrix:
+        jobName: [deploy_admin]
     steps:
       - name: login aliyun 登录阿里云
         run: |
