@@ -1,19 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using System.Linq.Dynamic.Core;
 using Z.Ddd.Common.DomainServiceRegister;
 using Z.Ddd.Common.Entities.Enum;
 using Z.Ddd.Common.Exceptions;
 using Z.Ddd.Common.Extensions;
 using Z.Ddd.Common.ResultResponse.Pager;
-using Z.Ddd.Common.UserSession;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.ArticleModule.BlogClient.Dto;
 using Z.SunBlog.Core.ArticleCategoryModule.DomainManager;
 using Z.SunBlog.Core.ArticleModule.DomainManager;
 using Z.SunBlog.Core.ArticleTagModule.DomainManager;
+using Z.SunBlog.Core.AuthAccountModule.DomainManager;
 using Z.SunBlog.Core.CategoriesModule.DomainManager;
+using Z.SunBlog.Core.FriendLinkModule.DomainManager;
 using Z.SunBlog.Core.PraiseModule.DomainManager;
 using Z.SunBlog.Core.TagModule.DomainManager;
 
@@ -29,10 +29,12 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
         private readonly IArticleCategoryManager _articleCategoryManager;
         private readonly ICategoriesManager _categoriesManager;
         private readonly ITagsManager _tagsManager;
+        private readonly IAuthAccountDomainManager _authAccountDomainManager;
+        private readonly IFriendLinkManager _friendLinkManager;
         private readonly IPraiseManager _praiseManager;
         public ArticleCAppService(
             IServiceProvider serviceProvider, IArticleDomainManager articleDomainManager,
-            IArticleTagManager articleTagManager, IArticleCategoryManager articleCategoryManager, ICategoriesManager categoriesManager, ITagsManager tagsManager, IPraiseManager praiseManager) : base(serviceProvider)
+            IArticleTagManager articleTagManager, IArticleCategoryManager articleCategoryManager, ICategoriesManager categoriesManager, ITagsManager tagsManager, IPraiseManager praiseManager, IAuthAccountDomainManager authAccountDomainManager, IFriendLinkManager friendLinkManager) : base(serviceProvider)
         {
             _articleDomainManager = articleDomainManager;
             _articleTagManager = articleTagManager;
@@ -40,6 +42,8 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
             _categoriesManager = categoriesManager;
             _tagsManager = tagsManager;
             _praiseManager = praiseManager;
+            _authAccountDomainManager = authAccountDomainManager;
+            _friendLinkManager = friendLinkManager;
         }
 
         /// <summary>
@@ -293,9 +297,9 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
             //栏目统计
             int categoryCount = await _categoriesManager.QueryAsNoTracking.Where(x => x.Status == AvailabilityStatus.Enable).CountAsync();
 
-            int userCount = 10;// await _authAccountRepository.AsQueryable().CountAsync();
+            int userCount = await _authAccountDomainManager.QueryAsNoTracking.CountAsync();
 
-            int linkCount = 15;//await _friendLinkRepository.AsQueryable().CountAsync(x => x.Status == AvailabilityStatus.Enable);
+            int linkCount = await _friendLinkManager.QueryAsNoTracking.CountAsync(x => x.Status == AvailabilityStatus.Enable);
 
             return new ArticleReportOutput
             {
