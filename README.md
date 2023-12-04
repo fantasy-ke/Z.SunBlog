@@ -220,3 +220,22 @@
 - 调整codeGenerators后端api地址
   ![image](https://github.com/Fantasy-Ke/SunBlog-Vue/assets/85232349/ffe453ac-c45d-43eb-8643-a8f06bca3bc5)
 - 双击refresh.bat 执行 
+
+
+## 感谢
+- [Easy.Admin](https://gitee.com/miss_you/easy-admin)
+  - SunBlog网站前后台基于该开源项目编写，在线网址：https://www.okay123.top/
+
+- [Vue](https://cn.vuejs.org/)
+  - 网站前后台前端使用Vue搭建
+
+- [element-plus](https://element-plus.gitee.io/zh-CN/) 
+  - Vue组件库
+
+- [vue-next-admin](https://gitee.com/lyt-top/vue-next-admin)
+  - 后台前端框架
+
+- [vue-toastification](https://github.com/Maronato/vue-toastification)
+  - 一个弹窗组件
+
+还有太多框架未一一列举，感谢开源给予的力量。
