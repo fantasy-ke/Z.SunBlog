@@ -29,7 +29,7 @@ namespace Z.SunBlog.EntityFrameworkCore
                     break;
                 case "mysql":
                     connectionString = configuration.GetSection("App:ConnectionString:Mysql").Get<string>();
-                    context.AddMysqlEfCoreEntityFrameworkCore<SunBlogDbContext>(new Version(5, 7), connectionString);
+                    context.AddMysqlEfCoreEntityFrameworkCore<SunBlogDbContext>(new Version(8, 0,21), connectionString);
                     break;
                 default:
                     throw new UserFriendlyException("不支持的数据库类型");
