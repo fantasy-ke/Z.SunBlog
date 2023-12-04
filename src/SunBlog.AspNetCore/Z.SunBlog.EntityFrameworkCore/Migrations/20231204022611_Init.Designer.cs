@@ -11,7 +11,7 @@ using Z.SunBlog.EntityFrameworkCore;
 namespace Z.SunBlog.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(SunBlogDbContext))]
-    [Migration("20231201101300_Init")]
+    [Migration("20231204022611_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -200,10 +200,10 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsFolder")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid?>("ParentId")
                         .HasColumnType("char(36)");
@@ -239,7 +239,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(32)
@@ -273,7 +273,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(36)");
 
                     b.Property<bool>("Button")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Code")
                         .HasColumnType("longtext");
@@ -286,14 +286,14 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(32)");
 
                     b.Property<bool>("Group")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(40)
                         .HasColumnType("varchar(40)");
 
                     b.Property<bool>("Page")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ParentCode")
                         .HasColumnType("longtext");
@@ -329,7 +329,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(32)
@@ -386,7 +386,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("LastLoginAddress")
                         .HasColumnType("longtext");
@@ -447,7 +447,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("RoleId")
                         .HasColumnType("longtext");
@@ -487,10 +487,10 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsVisible")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -543,7 +543,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -593,16 +593,16 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool>("IsAllowComments")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsHtml")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsTop")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Link")
                         .HasMaxLength(256)
@@ -663,7 +663,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid>("TagId")
                         .HasColumnType("char(36)");
@@ -706,10 +706,10 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsBlogger")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(64)
@@ -758,7 +758,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -824,7 +824,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(128)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid?>("ModuleId")
                         .HasColumnType("char(36)");
@@ -851,7 +851,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<bool>("AllowCreationEntity")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -873,13 +873,13 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsGenerate")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsMultiple")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Json")
                         .HasMaxLength(2147483647)
@@ -927,7 +927,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Json")
                         .IsRequired()
@@ -967,10 +967,10 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsIgnoreCheck")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Link")
                         .IsRequired()
@@ -1040,19 +1040,19 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(64)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsFixed")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsIframe")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsKeepAlive")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsVisible")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Link")
                         .HasMaxLength(256)
@@ -1118,7 +1118,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid>("MenuId")
                         .HasColumnType("char(36)");
@@ -1157,7 +1157,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Remark")
                         .HasMaxLength(256)
@@ -1199,7 +1199,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<Guid>("ObjectId")
                         .HasColumnType("char(36)");
@@ -1244,7 +1244,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(32)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1295,13 +1295,13 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(2048)");
 
                     b.Property<bool>("IsAllowComments")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsTop")
-                        .HasColumnType("bit(1)");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");

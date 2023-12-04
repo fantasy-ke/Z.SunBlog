@@ -22,12 +22,12 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     Sort = table.Column<int>(type: "int", nullable: false),
                     Remark = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_general_ci"),
-                    IsVisible = table.Column<bool>(type: "bit(1)", nullable: false),
+                    IsVisible = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CreatorId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -43,24 +43,24 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     Title = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false, collation: "utf8mb4_general_ci"),
                     Summary = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false, collation: "utf8mb4_general_ci"),
                     Cover = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false, collation: "utf8mb4_general_ci"),
-                    IsTop = table.Column<bool>(type: "bit(1)", nullable: false),
+                    IsTop = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Views = table.Column<int>(type: "int", nullable: false),
                     Author = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false, collation: "utf8mb4_general_ci"),
                     Link = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_general_ci"),
                     CreationType = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "longtext", maxLength: 2147483647, nullable: false, collation: "utf8mb4_general_ci"),
-                    IsHtml = table.Column<bool>(type: "bit(1)", nullable: false),
+                    IsHtml = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     PublishTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Sort = table.Column<int>(type: "int", nullable: false),
-                    IsAllowComments = table.Column<bool>(type: "bit(1)", nullable: false),
+                    IsAllowComments = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ExpiredTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     UpdatedTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CreatorId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -79,7 +79,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -98,7 +98,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -113,7 +113,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     Id = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false, collation: "utf8mb4_general_ci"),
                     OAuthId = table.Column<string>(type: "longtext", nullable: false, collation: "utf8mb4_general_ci"),
                     Type = table.Column<string>(type: "longtext", nullable: false, collation: "utf8mb4_general_ci"),
-                    IsBlogger = table.Column<bool>(type: "bit(1)", nullable: false),
+                    IsBlogger = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Name = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true, collation: "utf8mb4_general_ci"),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     Avatar = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_general_ci"),
@@ -123,7 +123,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -146,7 +146,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -171,7 +171,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -186,17 +186,17 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     Id = table.Column<Guid>(type: "char(36)", maxLength: 36, nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false, collation: "utf8mb4_general_ci"),
                     Code = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: false, collation: "utf8mb4_general_ci"),
-                    IsMultiple = table.Column<bool>(type: "bit(1)", nullable: false),
+                    IsMultiple = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Json = table.Column<string>(type: "longtext", maxLength: 2147483647, nullable: true, collation: "utf8mb4_general_ci"),
-                    AllowCreationEntity = table.Column<bool>(type: "bit(1)", nullable: false),
-                    IsGenerate = table.Column<bool>(type: "bit(1)", nullable: false),
+                    AllowCreationEntity = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsGenerate = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Remark = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_general_ci"),
                     CreatorId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -216,7 +216,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -234,7 +234,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     Link = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false, collation: "utf8mb4_general_ci"),
                     Logo = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false, collation: "utf8mb4_general_ci"),
                     Url = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_general_ci"),
-                    IsIgnoreCheck = table.Column<bool>(type: "bit(1)", nullable: false),
+                    IsIgnoreCheck = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Remark = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_general_ci"),
                     Sort = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
@@ -242,7 +242,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -264,11 +264,11 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     Component = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true, collation: "utf8mb4_general_ci"),
                     Redirect = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true, collation: "utf8mb4_general_ci"),
                     Icon = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true, collation: "utf8mb4_general_ci"),
-                    IsIframe = table.Column<bool>(type: "bit(1)", nullable: false),
+                    IsIframe = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Link = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_general_ci"),
-                    IsVisible = table.Column<bool>(type: "bit(1)", nullable: false),
-                    IsKeepAlive = table.Column<bool>(type: "bit(1)", nullable: false),
-                    IsFixed = table.Column<bool>(type: "bit(1)", nullable: false),
+                    IsVisible = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsKeepAlive = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsFixed = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Sort = table.Column<int>(type: "int", nullable: false),
                     Remark = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true, collation: "utf8mb4_general_ci"),
@@ -276,7 +276,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -296,7 +296,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -315,7 +315,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -334,7 +334,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -358,7 +358,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -371,16 +371,16 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", maxLength: 36, nullable: false, collation: "ascii_general_ci"),
-                    IsTop = table.Column<bool>(type: "bit(1)", nullable: false),
+                    IsTop = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Content = table.Column<string>(type: "longtext", nullable: false, collation: "utf8mb4_general_ci"),
                     Images = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: true, collation: "utf8mb4_general_ci"),
-                    IsAllowComments = table.Column<bool>(type: "bit(1)", nullable: false),
+                    IsAllowComments = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     CreatorId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -401,12 +401,12 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     FilePath = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_general_ci"),
                     FileSize = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_general_ci"),
                     Code = table.Column<string>(type: "varchar(95)", maxLength: 95, nullable: false, collation: "utf8mb4_general_ci"),
-                    IsFolder = table.Column<bool>(type: "bit(1)", nullable: false),
+                    IsFolder = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CreatorId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -462,7 +462,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -485,9 +485,9 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     ParentCode = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_general_ci"),
                     Name = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true, collation: "utf8mb4_general_ci"),
                     Code = table.Column<string>(type: "longtext", nullable: true, collation: "utf8mb4_general_ci"),
-                    Group = table.Column<bool>(type: "bit(1)", nullable: false),
-                    Page = table.Column<bool>(type: "bit(1)", nullable: false),
-                    Button = table.Column<bool>(type: "bit(1)", nullable: false)
+                    Group = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Page = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Button = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -509,7 +509,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -548,7 +548,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -578,7 +578,7 @@ namespace Z.SunBlog.EntityFrameworkCore.Migrations
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     DeleterId = table.Column<string>(type: "varchar(32)", maxLength: 32, nullable: true, collation: "utf8mb4_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit(1)", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: true)
                 },
                 constraints: table =>
                 {
