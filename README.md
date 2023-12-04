@@ -1,9 +1,28 @@
 # Z.SunBlog
 
-#### 该项目已通过阿里云仓库、GithubAction持续集成与部署（[Fantasy-Ke -Z.SunBlog.Host](http://124.71.15.19:5155/)）
+#### 该项目已通过阿里云仓库、GithubAction持续集成与部署（[Fantasy-Ke -Z.SunBlog.Blog](http://101.201.118.85:5100/)）
 
 
-## 模块化类库，参照AbpVnext实现，现已正常使用
+## .NET 8 后端框架
+### SunBlog.AspNetCore/src 后端自己搭建的框架
+
+- .Net8
+- EF Core 7 适配SqlServer和Mysql
+  - 仓储
+  - 简单工作单元
+- 简单Minio存储桶
+- 简单Redis缓存
+- 授权管理
+- 动态api
+- 模块化处理
+- AutoMapper (想改成 `Mapster` 对象映射 )
+- 简单EventBus (待实现)
+- HangFile 后台任务(待实现)
+- SignalR实时通信(待实现)
+- MongoDb(待实现)
+- RabbitMQ(待实现)
+
+### 模块化类库，参照AbpVnext实现，现已正常使用
 
 - abp vnext 模块依赖（已完成）
 
@@ -132,3 +151,72 @@
         options.EnrichDiagnosticContext = SerilogRequestUtility.EnrichFromRequest;
     });
     ``````
+
+
+## 前台Blog简介
+
+**项目用 Vue3 + TypeScript + Vite4 + Vuex4 + TypeScript + Vuetify + Pinia！**
+
+### 环境
+
+-  node 16+  
+-  pwsh core  
+-  yarn
+
+### 前端主要技术 
+
+所有技术都是当前最新的。
+
+- vue： ^3.3.4
+- typescript : ^5.2.2
+- vue-router : ^4.2.5
+- vite: ^4.4.11
+- vuex: ^4.0.0
+- axios: ^1.5.1
+- highlight.js: ^10.7.2
+- marked：^9.1.0
+
+
+### 前端代理类生成
+
+- cd到目录src/SunBlog.BlogVue的nswag目录
+- 调整codeGenerators后端api地址
+  ![image](https://github.com/Fantasy-Ke/SunBlog-Vue/assets/85232349/ffe453ac-c45d-43eb-8643-a8f06bca3bc5)
+- 双击refresh.bat 执行 
+
+
+
+![](https://upload-images.jianshu.io/upload_images/12890819-527034962df50506.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+## 后台Admin简介
+
+**项目用 Vue3 + TypeScript + Vite4 + Vuex4 + Vue-Router4 + element-plus ！**
+
+### 环境
+
+-  node 16+  
+-  pwsh core  
+-  yarn
+
+### 前端主要技术 
+
+所有技术都是当前最新的。
+
+- vue： ^3.3.4
+- typescript : ^5.2.2
+- element-plus: ^2.3.14
+- vue-router : ^4.2.5
+- vite: ^4.4.11
+- vuex: ^4.0.0
+- axios: ^1.5.1
+- highlight.js: ^10.7.2
+- marked：^9.1.0
+
+
+### 前端代理类生成
+
+- cd到目录src/SunBlog.AdminVue 的 nswag目录
+- 调整codeGenerators后端api地址
+  ![image](https://github.com/Fantasy-Ke/SunBlog-Vue/assets/85232349/ffe453ac-c45d-43eb-8643-a8f06bca3bc5)
+- 双击refresh.bat 执行 
