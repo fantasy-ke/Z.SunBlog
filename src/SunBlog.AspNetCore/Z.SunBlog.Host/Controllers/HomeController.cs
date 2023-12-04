@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Z.Ddd.Common.Attributes;
+using Z.Ddd.Common.Helper;
 using Z.SunBlog.Application.UserModule;
 using Z.SunBlog.Host.Models;
 
@@ -19,6 +20,15 @@ namespace Z.SunBlog.Host.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            if (AppSettings.Environment().IsDevelopment())
+            {
+                ViewBag.Url = "http://localhost:5155";
+            }
+            else
+            {
+                ViewBag.Url = "http://101.201.118.85:5155";
+            }
+            
             _logger.LogInformation("正在加载首页......");
             return View();
         }

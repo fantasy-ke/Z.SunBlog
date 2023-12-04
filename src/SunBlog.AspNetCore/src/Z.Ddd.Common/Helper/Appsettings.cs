@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Z.Ddd.Common.Exceptions;
+using Z.Module;
 
 namespace Z.Ddd.Common.Helper
 {
@@ -152,6 +153,17 @@ namespace Z.Ddd.Common.Helper
             }
 
             return "";
+        }
+
+        /// <summary>
+        /// 获取静态文件
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static IHostEnvironment Environment()
+        {
+            return RootServices.GetRequiredService<IHostEnvironment>();
         }
     }
 }
