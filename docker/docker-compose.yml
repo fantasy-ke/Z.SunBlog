@@ -1,11 +1,16 @@
-version: '3.9'
+version: "3.9"
 
 volumes:
+  nginx_log:
   hostapi_logs:
   hostapi_sysfiles:
   hostapi_fastreport:
   vueblog_assets:
   adminvue_assets:
+
+configs:
+  nginx_conf:
+    file: ./env/nginx/nginx.conf
 
 networks:
   fantasy_net:
@@ -20,7 +25,7 @@ services:
     networks:
       - fantasy_net
     ports:
-      - "2001:80"
+      - "5155:80"
     volumes:
       - "hostapi_logs:/app/App_Data/Logs"
       - "hostapi_sysfiles:/app/wwwroot/SysFiles"
@@ -28,7 +33,7 @@ services:
     environment:
       - App__WebHostPort=80
       - ASPNETCORE_ENVIRONMENT=Production
-      - App__ConnectionString__Default=Server=124.71.15.19;Database=NetWiki;MultipleActiveResultSets=true;Uid=sa;Pwd=wyg154511LHL;TrustServerCertificate=true; 
+      - App__ConnectionString__Default=Server=124.71.15.19;Database=NetWiki;MultipleActiveResultSets=true;Uid=sa;Pwd=wyg154511LHL;TrustServerCertificate=true;
       - App__CorsOrigins=http://localhost:8081,http://localhost:4200
 
   vueblog:
@@ -36,19 +41,33 @@ services:
     networks:
       - fantasy_net
     ports:
-      - "2002:80"
+      - "5100:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     volumes:
       - vueblog_assets:/usr/share/nginx/html/assets
-      
+
   adminvue:
     image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:adminvue
     networks:
       - fantasy_net
     ports:
-      - "2003:80"
+      - "5200:80"
     volumes:
       - adminvue_assets:/usr/share/nginx/html/assets
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+
+  nginx:
+    image: nginx:1.16.1
+    ports:
+      - "5100:5100"
+      - "5200:5200"
+      - "5155:5155"
+    networks:
+      - fantasy_net
+    volumes:
+      - "nginx_log:/var/log/nginx"
+    configs:
+      - source: nginx_conf
+        target: /etc/nginx/nginx.conf

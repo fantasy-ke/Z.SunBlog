@@ -1,0 +1,18 @@
+name: compose_deploy
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: login aliyun 登录阿里云
+        run: |
+          sudo docker login --username=${{ secrets.ALINAME }} --password=${{ secrets.ALIPASSWORD }}  registry.cn-hangzhou.aliyuncs.com
+      - name: 检出代码  sunbloghost
+        uses: actions/checkout@v2
+      - name: run docker compose
+        run: |
+          cd docker
+          sleep 10
+          sudo docker compose -f docker-compose.yml -p sunblog up -d
