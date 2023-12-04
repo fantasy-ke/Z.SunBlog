@@ -230,4 +230,4 @@ jobs:
         run: |
           container_name="sunblogadmin"
           admin_tag_name="${{secrets.ADMINTAG}}"
-          sudo docker run --name $container_name -p ${{secrets.ADMINPORT}}:80 -d ${{ secrets.ALIREPOSITORY }}:$admin_tag_name
+          sudo docker run --name $container_name --restart=always -itd -p ${{secrets.ADMINPORT}}:80 -d ${{ secrets.ALIREPOSITORY }}:$admin_tag_name
