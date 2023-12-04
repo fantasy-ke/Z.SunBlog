@@ -1,10 +1,10 @@
-# Z.SunBlog
+# 🧨Z.SunBlog
 
 #### 该项目已通过阿里云仓库、GithubAction持续集成与部署（[Fantasy-Ke -Z.SunBlog.Blog](http://101.201.118.85:5100/)）
 
 
-## .NET 8 后端框架
-### SunBlog.AspNetCore/src 后端自己搭建的框架
+## 🎃.NET 8 后端框架
+### 👕SunBlog.AspNetCore/src 后端自己搭建的框架
 
 - .Net8
 - EF Core 7 适配SqlServer和Mysql
@@ -25,7 +25,7 @@
 ![image](https://github.com/Fantasy-Ke/Z.SunBlog/assets/85232349/e6dce492-c4c5-4501-a888-af823b4e406a)
 
 
-### 模块化类库，参照AbpVnext实现，现已正常使用
+### 🎨模块化类库，参照AbpVnext实现，现已正常使用
 
 - abp vnext 模块依赖（已完成）
 
@@ -89,7 +89,7 @@
       {
       }
 
-## EF基础仓储实现
+### 🎡EF基础仓储实现
 
 - 实现了对`sqlserver`以及`Mysql`的支持
 
@@ -129,7 +129,7 @@
     }
     ``````
 
-## Serilog配置
+### 🧦Serilog配置
 - 引入`Z.Ddd.Common.Serilog`命名空间
 
 - 在`Program`中使用
@@ -156,7 +156,7 @@
     ``````
 
 
-## 前台Blog简介
+## 🥽前台Blog简介
 
 **项目用 Vue3 + TypeScript + Vite4 + Vuex4 + TypeScript + Vuetify + Pinia！**
 
@@ -195,7 +195,7 @@
 ![](https://upload-images.jianshu.io/upload_images/12890819-527034962df50506.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
-## 后台Admin简介
+## 🥎后台Admin简介
 
 **项目用 Vue3 + TypeScript + Vite4 + Vuex4 + Vue-Router4 + element-plus ！**
 
@@ -231,7 +231,7 @@
 - 双击refresh.bat 执行 
 
 
-## 感谢
+## 🍟感谢
 - [Easy.Admin](https://gitee.com/miss_you/easy-admin)
   - SunBlog网站前后台基于该开源项目编写，在线网址：https://www.okay123.top/
 
