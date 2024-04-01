@@ -214,10 +214,16 @@ import CommentApi from "../api/CommentApi";
 import type { CommentOutput, ReplyOutput } from "../api/models";
 import { useToast } from "~/stores/toast";
 import type { CommentPageQueryInput } from "~/api/models/comment-page-query-input";
-const props = defineProps<{
-  type?: number | string;
-  maxlength?: number;
-}>();
+const props = defineProps({
+  type: {
+    type: String,
+    default: null,
+  },
+  maxlength: {
+    type: Number,
+    default: 0,
+  },
+});
 
 const toast = useToast();
 
@@ -237,7 +243,7 @@ const state = reactive({
 const pager = ref<CommentPageQueryInput>({
   pageNo: 1,
   pageSize: 10,
-  id: props.type as string,
+  id: props.type ?? null,
   // randomNumber: Math.random(),
 });
 const reply = ref<Array<InstanceType<typeof Reply>>>([]);

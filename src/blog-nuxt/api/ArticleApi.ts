@@ -32,7 +32,7 @@ class ArticleApi {
    * @returns
    */
   categories = () => {
-    return http.get<Array<CategoryOutput>>("/article/categories");
+    return http.get<Array<CategoryOutput>>("/ArticleCs/Categories");
   };
 
   /**

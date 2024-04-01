@@ -9,9 +9,7 @@ class CommentApi {
    * @returns
    */
   list = (data: Ref<CommentPageQueryInput>) => {
-    return http.post<CommentOutputPageResult>("/CommentsCs/GetList",data, {
-      watch: [data],
-    });
+    return http.post<CommentOutputPageResult>("/CommentsCs/GetList", data);
   };
 
   /**

@@ -43,7 +43,7 @@
     </blockquote>
     <client-only>
       <!-- 评论 -->
-      <Comment :type="0" v-if="site?.result?.site?.isAllowComments" />
+      <Comment v-if="site?.result?.site?.isAllowComments" />
     </client-only>
   </v-card>
 </template>

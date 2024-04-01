@@ -68,6 +68,7 @@ class http {
           const refreshAccessToken = response.headers.get(
             refreshAccessTokenKey
           );
+          
           // 判断是否是无效 token
           if (accessToken === "invalid_token") {
             clearAccessTokens();
@@ -77,7 +78,8 @@ class http {
             token.value = accessToken;
             refreshToken.value = refreshAccessToken;
           }
-          if (import.meta.client && !response._data?.succeeded) {
+          if (import.meta.client && !response._data?.success) {
+            console.log(import.meta.client,"相应");
             let message = "";
             switch (response._data?.statusCode) {
               case 401:
@@ -93,13 +95,13 @@ class http {
             }
             useToast().error(message);
           } else if (
-            response._data?.succeeded &&
+            response._data?.success &&
             response.url.includes("/article/info")
           ) {
             let data = response._data.data;
             if (data && data.content && !data.isHtml) {
               data.content = markdownToHtml(data.content);
-              response._data.data = data;
+              response._data.result = data;
             }
           }
         }
@@ -144,7 +146,7 @@ class http {
   ) => {
     return this.request<T>(url, {
       ...options,
-      method: MethodType.POST,
+      method: "POST",
       body: data,
     });
   };

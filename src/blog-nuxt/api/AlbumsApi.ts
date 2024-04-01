@@ -10,7 +10,7 @@ class AlbumsApi {
   list = (data: Ref<Pagination>) => {
     return http.request<AlbumsOutputPageResult>("/AlbumsCs/GetList", {
       body: data,
-      method: MethodType.POST,
+      method: "POST",
     });
   };
 
@@ -27,7 +27,7 @@ class AlbumsApi {
   ) => {
     return http.request<PictureOutputPageResult>("/AlbumsCs/Pictures", {
       body:data,
-      method: MethodType.POST
+      method: "POST"
     });
   };
 }
