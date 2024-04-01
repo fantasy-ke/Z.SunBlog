@@ -84,7 +84,7 @@ const route = useRoute();
 definePageMeta({
   validate: async (route) => {
     // 验证id是否为数字
-    return /.*/.test(route.params.id as string);
+    return true;
   },
 });
 
