@@ -24,7 +24,6 @@ class http {
    */
   request = <T>(url: string, options: UseFetchOptions<ZResponseBase<T>> = {}) => {
     const apiUrl = useRuntimeConfig().public.apiBaseUrl as string;
-    console.log(apiUrl);
     
     const defaults: UseFetchOptions<ZResponseBase<T>> = {
       // 此配置在nuxt.config.ts中
@@ -79,7 +78,6 @@ class http {
             refreshToken.value = refreshAccessToken;
           }
           if (import.meta.client && !response._data?.success) {
-            console.log(import.meta.client,"相应");
             let message = "";
             switch (response._data?.statusCode) {
               case 401:
