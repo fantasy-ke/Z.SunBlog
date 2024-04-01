@@ -36,17 +36,17 @@ export default function markdownToHtml(content: string): string {
       return content;
     },
   })
-    .use(() => import("markdown-it-sub"))
-    .use(() => import("markdown-it-sup"))
-    .use(() => import("markdown-it-mark"))
-    .use(() => import("markdown-it-abbr"))
-    .use(() => import("markdown-it-container"))
-    .use(() => import("markdown-it-deflist"))
-    .use(() => import("markdown-it-emoji"))
-    .use(() => import("markdown-it-footnote"))
-    .use(() => import("markdown-it-ins"))
+    .use(() => require("markdown-it-sub"))
+    .use(() => require("markdown-it-sup"))
+    .use(() => require("markdown-it-mark"))
+    .use(() => require("markdown-it-abbr"))
+    .use(() => require("markdown-it-container"))
+    .use(() => require("markdown-it-deflist"))
+    .use(() => require("markdown-it-emoji"))
+    .use(() => require("markdown-it-footnote"))
+    .use(() => require("markdown-it-ins"))
     // .use(MarkdownItKatex)
-    .use(() => import("markdown-it-task-lists"));
+    .use(() => require("markdown-it-task-lists"));
   // 将markdown替换为html标签
   let s = md.render(content);
   if (s.length > 0) {

@@ -1,15 +1,9 @@
 import OAuthApi from "~/api/OAuthApi";
-import type { OAuthAccountDetailOutput } from "~/api/models";
 import { defineStore } from "pinia";
 import { reactive, computed } from "vue";
-import { clearAccessTokens } from "~/utils/http";
-interface OauthInfo {
-  info?: OAuthAccountDetailOutput | null;
-}
-export const useAuth = defineStore("auth", () => {
-  const store = reactive<OauthInfo>({
-    info: useCookie<OAuthAccountDetailOutput>("account_info").value,
-  });
+import signalR from "@/utils/signalRService";
+export const useAuth = defineStore(StoreKey.Auth, () => {
+  const userStore = useUserStore();
 
   /**
    * 登录
@@ -17,28 +11,44 @@ export const useAuth = defineStore("auth", () => {
    * @returns
    */
   const login = async (code: string) => {
-    const data = await OAuthApi.login(code);
-    if (data.data.value?.success) {
+    const {data} = await OAuthApi.login(code);
+    if (data.value?.success) {
+      userStore.setToken({ zToken: data.value.result });
       await getUserInfo();
     } else {
       if (import.meta.server) {
         throw createError({
-          message: data.data.value?.errors,
-          statusCode: data.data.value?.statusCode,
+          message: data.value?.errors,
+          statusCode: data.value?.statusCode,
         });
       }
     }
-    return data.data.value?.result;
+    return data.value?.result;
   };
 
   /**
    * 退出登录
    */
-  const logout = () => {
-    store.info = null;
-    const cookie = useCookie("account_info");
-    cookie.value = null;
-    clearAccessTokens();
+
+    /**
+   * 退出登录
+   */
+    const logout = () => {
+      OAuthApi.logout(userStore.zToken?.accessToken!).then(() => {
+        const toast = useToast();
+        userStore.clearToken();
+        signalR.close();
+        signalR.start();
+        toast.success("退出登录成功！");
+      });
+    };
+
+  /**
+   * 退出登录
+   */
+  const clearToken = async () => {
+    await OAuthApi.logout(userStore.zToken?.accessToken!);
+    userStore.clearToken();
   };
 
   /**
@@ -48,14 +58,16 @@ export const useAuth = defineStore("auth", () => {
     const {
       data: { value },
     } = await OAuthApi.info();
-    store.info = value?.result;
-    const info = useCookie<OAuthAccountDetailOutput>("account_info");
-    info.value = value!.result!;
+    userStore.setUserInfo(value?.result);
   };
 
   const info = computed(() => {
-    return store.info;
+    return userStore.userInfo;
   });
 
-  return { login, logout, getUserInfo, info };
+  const token = computed(() => {
+    return userStore.zToken;
+  });
+
+  return { login, logout, getUserInfo, clearToken, info, token };
 });

@@ -87,8 +87,6 @@ export const useApp = defineStore("app", () => {
       app.covers.link = covers.Link ?? ["/cover/default.jpg"];
       app.covers.tagList = covers.TagList ?? ["/cover/default.jpg"];
       app.covers.categories = covers.Categories ?? ["/cover/default.jpg"];
-
-      console.log(app);
     });
   };
   /**

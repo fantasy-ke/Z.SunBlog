@@ -15,6 +15,7 @@ export const useApp = defineStore("app", () => {
       home: [] as string[],
       about: [] as string[],
       archives: [] as string[],
+      donation: [] as string[],
       category: [] as string[],
       tag: [] as string[],
       album: [] as string[],
@@ -47,36 +48,37 @@ export const useApp = defineStore("app", () => {
     const data = result.value?.result!;
     const covers = data!.covers!;
     app.info = data!.info ?? {
-      nikeName: "可乐不加冰",
-      motto: "凡是过往，皆为序章。",
-      qq: "823302316",
+      nikeName: "Fantasy-Ke",
+      motto: "凡是过往，皆为序章",
+      qq: "2246080525",
       avatar: "/default.jpg",
     } as unknown as BloggerInfo;
     app.blogSetting = data!.site ?? {
-      siteName: "可乐不加冰",
+      siteName: "Fantasy-Ke",
       motto: "凡是过往，皆为序章",
       isAllowComments: true,
       isAllowMessage: true,
       runTime: new Date("2023/06/01"),
-      copyright: "©2019 - 2023 By 可乐不加冰",
-      description: "可乐不加冰的博客",
-      filing: "鄂ICP备2020020251号-1",
+      copyright: "©2023 By Fantasy-Ke",
+      description: "Fantasy-Ke的博客",
+      filing: "鄂ICP备没有号-2",
       favicon: "favicon.ico",
-      keyword: "可乐不加冰的博客",
+      keyword: "Fantasy-Ke的博客",
       visitorNumbers: 0,
     } as any;
-    app.covers.home = covers.home ?? ["/cover/default.jpg"];
-    app.covers.about = covers.about ?? ["/cover/about.jpg"];
-    app.covers.archives = covers.archives ?? ["/cover/archives.jpg"];
-    app.covers.category = covers.category ?? ["/cover/category.jpg"];
-    app.covers.tag = covers.tag ?? ["/cover/tag.png"];
-    app.covers.album = covers.album ?? ["/cover/album.jpg"];
-    app.covers.talk = covers.talk ?? ["/cover/talk.jpg"];
-    app.covers.message = covers.message ?? ["/cover/message.png"];
-    app.covers.user = covers.user ?? ["/cover/user.jpg"];
-    app.covers.link = covers.link ?? ["/cover/default.jpg"];
-    app.covers.tagList = covers.tagList ?? ["/cover/default.jpg"];
-    app.covers.categories = covers.categories ?? ["/cover/default.jpg"];
+    app.covers.home = covers.Home ?? ["/cover/default.jpg"];
+    app.covers.about = covers.About ?? ["/cover/about.jpg"];
+    app.covers.donation = covers.Donation ?? ["/cover/about.jpg"];
+    app.covers.archives = covers.Archives ?? ["/cover/archives.jpg"];
+    app.covers.category = covers.Category ?? ["/cover/category.jpg"];
+    app.covers.tag = covers.Tag ?? ["/cover/tag.png"];
+    app.covers.album = covers.Album ?? ["/cover/album.jpg"];
+    app.covers.talk = covers.Talk ?? ["/cover/talk.jpg"];
+    app.covers.message = covers.Message ?? ["/cover/message.png"];
+    app.covers.user = covers.User ?? ["/cover/user.jpg"];
+    app.covers.link = covers.Link ?? ["/cover/default.jpg"];
+    app.covers.tagList = covers.TagList ?? ["/cover/default.jpg"];
+    app.covers.categories = covers.Categories ?? ["/cover/default.jpg"];
   };
   /**
    * 首页cover
@@ -149,6 +151,13 @@ export const useApp = defineStore("app", () => {
     const arr = app.covers.link;
     return arr[randomNumber(0, arr.length - 1)];
   };
+    /**
+   * 打赏
+   */
+    const donationCover = () => {
+      const arr = app.covers.donation;
+      return arr[randomNumber(0, arr.length - 1)];
+    };
   /**
    * 标签列表封面
    * @returns
@@ -206,6 +215,7 @@ export const useApp = defineStore("app", () => {
     tagListCover,
     categoriesCover,
     getSiteReport,
+    donationCover,
     isInit,
     info,
     blogSetting,

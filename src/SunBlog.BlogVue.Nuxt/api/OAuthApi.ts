@@ -21,6 +21,15 @@ class OAuthApi {
       query: { code },
     });
   };
+
+  /**
+ * 获取用户信息
+ * @returns
+ */
+  logout = (data: string) => {
+    return http.post<void>("/Auths/ZSignOut",data);
+  };
+  
   /**
    * 获取用户信息
    * @returns

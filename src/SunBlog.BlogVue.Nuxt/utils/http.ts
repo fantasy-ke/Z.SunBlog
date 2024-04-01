@@ -7,12 +7,28 @@ export const accessTokenKey = "access-token";
 export const refreshAccessTokenKey = `x-${accessTokenKey}`;
 
 // 清除 token
-export const clearAccessTokens = () => {
-  const accessToken = useCookie(accessTokenKey);
-  accessToken.value = null;
-  const refreshAccessToken = useCookie(refreshAccessTokenKey);
-  refreshAccessToken.value = null;
-};
+export const clearAccessTokens = () => { };
+
+
+/**
+ * 检查并存储授权信息
+ * @param res 响应对象
+ */
+export function checkAndStoreAuthentication(res: any): void {
+  // 读取响应报文头 token 信息
+  const accessToken = res.headers[accessTokenKey];
+  const refreshAccessToken = res.headers[refreshAccessTokenKey];
+
+  // 判断是否是无效 token
+  if (accessToken === "invalid_token") {
+    clearAccessTokens();
+  }
+  // 判断是否存在刷新 token，如果存在则存储在本地
+  else if (refreshAccessToken && accessToken && accessToken !== "invalid_token") {
+    Session.set(accessTokenKey, accessToken);
+    Session.set(refreshAccessTokenKey, refreshAccessToken);
+  }
+}
 
 class http {
   /**
@@ -33,26 +49,26 @@ class http {
           : apiUrl,
       key: url,
       onRequest({ request, options }) {
-        const userAuth = useCookie(accessTokenKey);
-        if (userAuth.value) {
+        const userStore = useUserStore();
+        if (userStore.zToken?.accessToken) {
           options.headers = {
             ...options.headers,
-            Authorization: `Bearer ${userAuth.value}`,
+            Authorization: `Bearer ${userStore.zToken?.accessToken}`,
           };
           // 判断 accessToken 是否过期
-          const jwt: any = decryptJWT(userAuth.value);
+          const jwt: any = decryptJWT(userStore.zToken?.accessToken);
           const exp = getJWTDate(jwt.exp as number);
           //token已过期
           if (new Date() >= exp) {
             // 获取刷新 token
-            const refreshAccessToken = useCookie(refreshAccessTokenKey);
-            // 携带刷新 token
-            if (refreshAccessToken) {
-              options.headers = {
-                ...options.headers,
-                "X-Authorization": `Bearer ${refreshAccessToken}`,
-              };
-            }
+            // const refreshAccessToken = useCookie(refreshAccessTokenKey);
+            // // 携带刷新 token
+            // if (refreshAccessToken) {
+            //   options.headers = {
+            //     ...options.headers,
+            //     "X-Authorization": `Bearer ${refreshAccessToken}`,
+            //   };
+            // }
           }
         }
       },
