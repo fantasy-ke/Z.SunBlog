@@ -139,10 +139,10 @@
               </nuxt-link>
             </li>
             <li>
-              <!-- <nuxt-link class="menu-btn" to="/donation">
+              <nuxt-link class="menu-btn" to="/donation">
                 <v-icon size="small">mdi mdi-heart</v-icon>
                 打赏
-              </nuxt-link> -->
+              </nuxt-link>
             </li>
           </ul>
         </div>

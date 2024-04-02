@@ -83,7 +83,6 @@ class http {
           const refreshAccessToken = response.headers.get(
             refreshAccessTokenKey
           );
-          
           // 判断是否是无效 token
           if (accessToken === "invalid_token") {
             clearAccessTokens();
@@ -108,16 +107,17 @@ class http {
                 break;
             }
             useToast().error(message);
-          } else if (
-            response._data?.success &&
-            response.url.includes("/article/info")
-          ) {
-            let data = response._data.data;
-            if (data && data.content && !data.isHtml) {
-              data.content = markdownToHtml(data.content);
-              response._data.result = data;
-            }
-          }
+          } 
+          // else if (
+          //   response._data?.success &&
+          //   response.url.includes("/ArticleCs/Info")
+          // ) {
+          //   let data = response._data.data;
+          //   if (data && data.content && !data.isHtml) {
+          //     data.content = markdownToHtml(data.content);
+          //     response._data.result = data;
+          //   }
+          // }
         }
       },
 

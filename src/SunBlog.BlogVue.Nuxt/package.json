@@ -3,7 +3,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "openapi": "node ./script/openapi.js",
     "build": "nuxt build --dotenv .env.production",
     "dev": "nuxt dev --dotenv .env.development",
     "generate": "nuxt generate",
