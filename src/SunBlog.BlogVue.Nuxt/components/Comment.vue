@@ -64,7 +64,7 @@
           <!-- 楼层 -->
           <span style="margin-right: 10px">{{ state.count - index }}楼</span>
           <!-- 发表时间 -->
-          <span style="margin-right: 10px">{{ item.createdTime }}</span>
+          <span style="margin-right: 10px">{{ moment(item.createdTime!).format("YYYY-MM-DD HH:mm:ss") }}</span>
           <!-- 点赞 -->
           <span
             :class="
@@ -209,10 +209,12 @@ import img from "../assets/images/1.jpg";
 import Emoji from "./Emoji.vue";
 import Reply from "./Replay.vue";
 import Paging from "./Paging.vue";
+import moment from "moment";
 import EmojiList from "../assets/emoji";
 import CommentApi from "../api/CommentApi";
-import type { CommentOutput, ReplyOutput } from "../api/models";
+import type { CommentOutput, KeyDto, ReplyOutput } from "../api/models";
 import { useToast } from "~/stores/toast";
+import { useUserStore } from "@/stores/user";
 import type { CommentPageQueryInput } from "~/api/models/comment-page-query-input";
 const props = defineProps({
   type: {
@@ -221,10 +223,11 @@ const props = defineProps({
   },
   maxlength: {
     type: Number,
-    default: 0,
+    default: null,
   },
 });
 
+const userStore = useUserStore();
 const toast = useToast();
 
 const emit = defineEmits<{
@@ -249,7 +252,7 @@ const pager = ref<CommentPageQueryInput>({
 const reply = ref<Array<InstanceType<typeof Reply>>>([]);
 
 const { data } = await CommentApi.list(pager);
-watch(data, () => {
+nextTick(()=>{
   if (data.value?.success) {
     state.count = data.value?.result?.total ?? 0;
     state.pages = data.value?.result?.pages ?? 0;
@@ -258,8 +261,33 @@ watch(data, () => {
     } else {
       state.commentList.push(...(data.value?.result?.rows ?? []));
     }
+    emit("getCommentCount", state.count);
   }
-});
+})
+
+
+
+const loadData = async () => {
+ const { data } = await CommentApi.list(pager);
+    if (data.value?.success) {
+    state.count = data.value?.result?.total ?? 0;
+    state.pages = data.value?.result?.pages ?? 0;
+    if (pager.value.pageNo === 1) {
+      state.commentList = data.value?.result?.rows ?? [];
+    } else {
+      state.commentList.push(...(data.value?.result?.rows ?? []));
+    }
+  }
+  
+};
+
+// watch(
+//   () => props.type,
+//   async (val) => {
+//     console.log(val);
+//     await loadData();
+//   }
+// );
 
 const onMore = async () => {
   pager.value.pageNo!++;
@@ -288,6 +316,10 @@ const addEmoji = (key: string): void => {
 
 //提交评论
 const insertComment = async () => {
+  if (userStore.userInfo == null) {
+    toast.warning("请登录后发表评论哦！！");
+    return;
+  }
   //删除html标签
   const content = formatContent(state.commentContent);
   if (content.length === 0) {
@@ -307,7 +339,7 @@ const insertComment = async () => {
 
 // 点赞或取消点赞
 const onPraise = async (item: ReplyOutput) => {
-  const { data } = await CommentApi.praise(item.id!);
+  const { data } = await CommentApi.praise({ id: item.id! } as KeyDto);
   if (data.value?.success) {
     item.isPraise = data.value.result;
     item.praiseTotal = data ? item.praiseTotal! + 1 : item.praiseTotal! - 1;
@@ -330,6 +362,10 @@ const replyComment = (
 };
 
 const reloadReply = async (index: number) => {
+  if (userStore.userInfo == null) {
+    toast.warning("请登录后发表评论哦！！");
+    return;
+  }
   const item = reply.value[index].replay;
   const content = formatContent(item.commentContent ?? "");
   if (content.length === 0) {
@@ -366,10 +402,6 @@ const formatContent = (content: string, isHandleEmoji: boolean = false) => {
     );
   });
 };
-
-onMounted(() => {
-  // pager.value.randomNumber = Math.random();
-});
 </script>
 
 <style scoped>

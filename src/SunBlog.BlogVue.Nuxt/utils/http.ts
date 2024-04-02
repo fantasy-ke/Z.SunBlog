@@ -108,16 +108,16 @@ class http {
             }
             useToast().error(message);
           } 
-          // else if (
-          //   response._data?.success &&
-          //   response.url.includes("/ArticleCs/Info")
-          // ) {
-          //   let data = response._data.data;
-          //   if (data && data.content && !data.isHtml) {
-          //     data.content = markdownToHtml(data.content);
-          //     response._data.result = data;
-          //   }
-          // }
+          else if (
+            response._data?.success &&
+            response.url.includes("/ArticleCs/Info")
+          ) {
+            let data = response._data.result;
+            if (data && data.content && !data.isHtml) {
+              data.content = markdownToHtml(data.content);
+              response._data.result = data;
+            }
+          }
         }
       },
 

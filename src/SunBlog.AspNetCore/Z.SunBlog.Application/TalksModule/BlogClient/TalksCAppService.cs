@@ -50,9 +50,9 @@ namespace Z.SunBlog.Application.TalksModule.BlogClient
                       IsTop = x.IsTop,
                       Content = x.Content.Replace("\"", ""),
                       Images = x.Images,
-                      Upvote = praiseList.Where(p => p.ObjectId == x.Id).Count(),
-                      Comments = _commentsManager.QueryAsNoTracking.Where(c => c.ModuleId == x.Id && c.RootId == null).Count(),
-                      IsPraise = praiseList.Where(p => p.ObjectId == x.Id && p.AccountId == userId).Any(),
+                      Upvote = praiseList.Count(p => p.ObjectId == x.Id),
+                      Comments = _commentsManager.QueryAsNoTracking.Count(c => c.ModuleId == x.Id && c.RootId == null),
+                      IsPraise = praiseList.Any(p => p.ObjectId == x.Id && p.AccountId == userId),
                       CreatedTime = x.CreationTime
                   }).ToPagedListAsync(dto);
         }
@@ -62,7 +62,8 @@ namespace Z.SunBlog.Application.TalksModule.BlogClient
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<TalkDetailOutput> TalkDetail([FromQuery] Guid id)
+        [HttpGet]
+        public async Task<TalkDetailOutput> TalkDetail(Guid id)
         {
             string userId = UserService.UserId;
             var praiseList = _praiseManager.QueryAsNoTracking;
@@ -75,8 +76,8 @@ namespace Z.SunBlog.Application.TalksModule.BlogClient
                     Images = x.Images,
                     IsTop = x.IsTop,
                     IsAllowComments = x.IsAllowComments,
-                    IsPraise = praiseList.Where(p => p.ObjectId == x.Id && p.AccountId == userId).Any(),
-                    Upvote = praiseList.Where(p => p.ObjectId == x.Id).Count(),
+                    IsPraise = praiseList.Any(p => p.ObjectId == x.Id && p.AccountId == userId),
+                    Upvote = praiseList.Count(p => p.ObjectId == x.Id),
                     CreatedTime = x.CreationTime
                 }).FirstAsync();
         }

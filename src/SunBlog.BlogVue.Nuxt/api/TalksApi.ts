@@ -19,7 +19,9 @@ class TalksApi {
    * @returns
    */
   talkDetail = (id: string) => {
-    return http.post<TalkDetailOutput>("/TalksCs/TalkDetail", { id });
+    return http.get<TalkDetailOutput>("/TalksCs/TalkDetail", {
+      query: { id },
+    });
   };
 }
 

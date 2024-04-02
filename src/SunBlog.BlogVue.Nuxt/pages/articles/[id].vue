@@ -9,14 +9,14 @@
           <!-- 发表时间 -->
           <span>
             <i class="iconfont iconrili" />
-            发表于 {{ info.publishTime }}
+            发表于 {{ moment(info.publishTime!).format("YYYY-MM-DD HH:mm:ss") }}
           </span>
           <span class="separator">|</span>
           <!-- 发表时间 -->
           <span>
             <i class="iconfont icongengxinshijian" />
             更新于
-            {{ info.updatedTime ? info.updatedTime : info.publishTime }}
+            {{ moment(info.updatedTime ? info.updatedTime : info.publishTime).format("YYYY-MM-DD HH:mm:ss") }}
           </span>
           <template v-if="info.categoryId">
             <span class="separator">|</span>
@@ -266,13 +266,16 @@ import "viewerjs/dist/viewer.css";
 import { storeToRefs } from "pinia";
 import * as tocbot from "tocbot";
 import dayjs from "dayjs";
+import moment from "moment";
 import Clipboard from "clipboard";
 import Viewer from "viewerjs";
 import { useApp } from "~/stores/app";
 import { useToast } from "~/stores/toast";
 import { ShareType } from "~/components/Share/ShareType";
 import CommentApi from "~/api/CommentApi";
+import markdownToHtml from "~/utils/markdown";
 import ArticleApi from "~/api/ArticleApi";
+import type { KeyDto } from "~/api/models";
 const Share = defineAsyncComponent(
   () => import("~/components/Share/Index.vue")
 );
@@ -288,7 +291,7 @@ definePageMeta({
 });
 
 const id = route.params.id as string;
-const [{ data: first, error }, { data: last }] = await Promise.all([
+const [{ data: first, error },{ data: last }] = await Promise.all([
   ArticleApi.info(id),
   ArticleApi.latest(),
 ]);
@@ -303,6 +306,11 @@ if (error.value || !first.value?.result) {
 const viewer = ref<Viewer | null>(null);
 
 const info = computed(() => {
+  let dataInfo = first.value?.result;
+  // if(dataInfo){
+  //   dataInfo.content = dataInfo.isHtml ? dataInfo.content : markdownToHtml(dataInfo.content ?? '')
+  //   return dataInfo;
+  // }
   return first.value!.result!;
 });
 
@@ -343,7 +351,7 @@ const isFull = computed(() => {
 
 // 点赞/取消点赞
 const onPraise = async () => {
-  const { data } = await CommentApi.praise(id);
+  const { data } = await CommentApi.praise({ id: id } as KeyDto);
   if (data.value?.success) {
     state.isPraise = data.value.result;
     state.praiseTotal = state.isPraise

@@ -1,6 +1,6 @@
 import http from "~/utils/http";
 import type { CommentPageQueryInput } from "./models/comment-page-query-input";
-import type { AddCommentInput, ReplyOutputPageResult,CommentOutputPageResult } from "./models";
+import type { AddCommentInput, ReplyOutputPageResult,CommentOutputPageResult, KeyDto } from "./models";
 
 class CommentApi {
   /**
@@ -35,8 +35,8 @@ class CommentApi {
    * @param id 对象ID
    * @returns
    */
-  praise = (id: string) => {
-    return http.post<boolean>("/CommentsCs/Praise", { id });
+  praise = (data: KeyDto) => {
+    return http.post<boolean>("/CommentsCs/Praise", data);
   };
 }
 

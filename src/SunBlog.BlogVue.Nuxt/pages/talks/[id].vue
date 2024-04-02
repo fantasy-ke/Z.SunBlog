@@ -77,7 +77,7 @@ import "viewerjs/dist/viewer.css";
 import CommentApi from "~/api/CommentApi";
 import AppApi from "~/api/AppApi";
 import TalksApi from "~/api/TalksApi";
-import type { TalkDetailOutput } from "~/api/models";
+import type { KeyDto, TalkDetailOutput } from "~/api/models";
 
 const route = useRoute();
 
@@ -127,7 +127,7 @@ const like = async () => {
     useToast().error("请登录后重试！");
     return false;
   }
-  const { data } = await CommentApi.praise(id);
+  const { data } = await CommentApi.praise({ id: id } as KeyDto);
   if (data.value?.success) {
     state.talk.isPraise = data.value.result ?? false;
     state.talk.upvote = data.value.result
