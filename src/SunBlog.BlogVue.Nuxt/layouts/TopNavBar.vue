@@ -94,7 +94,7 @@
               <nuxt-link to="/albums">
                 <!-- <i class="iconfont iconxiangce1" /> -->
                 <v-icon size="small">mdi mdi-image-size-select-actual</v-icon>
-                相册
+                模块封面
               </nuxt-link>
             </li>
             <li>
@@ -107,42 +107,73 @@
           </ul>
         </div>
         <div class="menus-item">
-          <nuxt-link class="menu-btn" to="/links">
-            <!-- <i class="iconfont iconlianjie" />  -->
-            <v-icon size="small">mdi mdi-camera-iris</v-icon>
-            友链
-          </nuxt-link>
-        </div>
-        <div class="menus-item">
-          <nuxt-link class="menu-btn" to="/about">
-            <!-- <i class="iconfont iconzhifeiji" />  -->
-            <v-icon
-              size="small"
-              style="
-                transform: rotate(-45deg);
-                margin-bottom: 3px;
-                margin-right: 0px;
-              "
-              >mdi mdi-send-variant</v-icon
-            >
-            关于
-          </nuxt-link>
-        </div>
-        <div class="menus-item">
-          <nuxt-link class="menu-btn" to="/message">
-            <!-- <i class="iconfont iconpinglunzu" />  -->
-            <v-icon size="small">mdi mdi-message-bulleted</v-icon>
-            留言
-          </nuxt-link>
+          <a class="menu-btn">
+            <!-- <i class="iconfont iconqita" />  -->
+            <v-icon size="small">mdi mdi-silverware-variant</v-icon>
+            更多
+            <!-- <i class="iconfont iconxiangxia2 expand" /> -->
+            <v-icon>mdi mdi-chevron-down</v-icon>
+          </a>
+          <ul class="menus-submenu">
+            <li>
+              <nuxt-link class="menu-btn" to="/about">
+                <!-- <i class="iconfont iconzhifeiji" />  -->
+                <v-icon size="small" style="transform: rotate(-45deg); margin-bottom: 3px; margin-right: 0px"
+                  >mdi mdi-send-variant</v-icon
+                >
+                关于
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link to="/links">
+                <!-- <i class="iconfont iconlianjie" />  -->
+                <v-icon size="small">mdi mdi-camera-iris</v-icon>
+                友链
+              </nuxt-link>
+            </li>
+            <li>
+              <nuxt-link class="menu-btn" to="/message">
+                <!-- <i class="iconfont iconpinglunzu" />  -->
+                <v-icon size="small">mdi mdi-message-bulleted</v-icon>
+                留言
+              </nuxt-link>
+            </li>
+            <li>
+              <!-- <nuxt-link class="menu-btn" to="/donation">
+                <v-icon size="small">mdi mdi-heart</v-icon>
+                打赏
+              </nuxt-link> -->
+            </li>
+          </ul>
         </div>
         <client-only>
           <div class="menus-item">
             <!-- <a class="menu-btn"> <i class="iconfont icondenglu" /> 登录 </a> -->
-            <a v-if="!authStore.info" @click="handleLogin" class="menu-btn">
-              <!-- <i class="iconfont iconqq" />  -->
-              <v-icon size="small">mdi mdi-qqchat</v-icon>
-              登录
-            </a>
+            <div v-if="!authStore.info">
+              <a class="menu-btn">
+                <!-- <i class="iconfont iconqita" />  -->
+                <v-icon size="small">mdi mdi-login</v-icon>
+                登录
+                <!-- <i class="iconfont iconxiangxia2 expand" /> -->
+                <v-icon>mdi mdi-chevron-down</v-icon>
+              </a>
+              <ul class="menus-submenu">
+                <li>
+                  <a v-if="!authStore.info" @click="handleLogin('gitee')" class="menu-btn">
+                    <!-- <i class="iconfont iconqq" />  -->
+                    <v-icon size="small">mdi mdi-gitlab</v-icon>
+                    Gitee
+                  </a>
+                </li>
+                <li>
+                  <a v-if="!authStore.info" @click="handleLogin('github')" class="menu-btn">
+                    <!-- <i class="iconfont iconqq" />  -->
+                    <v-icon size="small">mdi mdi-github</v-icon>
+                    Github
+                  </a>
+                </li>
+              </ul>
+            </div>
 
             <template v-else>
               <img
@@ -215,17 +246,10 @@ const searchModelHandel = () => {
   vm.isShow = true;
 };
 
-const handleLogin = async () => {
-  const { data } = await OAuthApi.get(location.href);
-  //const width = window.outerWidth;
-  //const height = window.outerHeight;
-  // window.open(data,
-  //   "_blank",
-  //   `width=450,height=320,menubar=0,scrollbars=1,resizable=1,status=1,titlebar=0,toolbar=0,top=${
-  //     (height - 320) / 2
-  //   },left=${(width - 450) / 2}`
-  // );
-  location.href = data.value!.result!;
+// 跳转登录
+const handleLogin = async (type: string) => {
+  const { data } = await OAuthApi.get(type);
+  location.href = data!.value?.result!;
 };
 const handleLoginOut = () => {
   authStore.logout();

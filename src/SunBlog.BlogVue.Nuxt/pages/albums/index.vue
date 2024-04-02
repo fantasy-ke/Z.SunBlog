@@ -56,7 +56,7 @@ const [{ data: list }, { data: site }] = await Promise.all([
 
 // 封面图
 const cover = computed(() => {
-  const arr = site.value?.result?.covers?.album ?? ["/cover/album.jpg"];
+  const arr = site.value?.result?.covers?.Album ?? ["/cover/album.jpg"];
   const url = arr[randomNumber(0, arr.length - 1)];
   return "background: url(" + url + ") center center / cover no-repeat";
 });

@@ -25,8 +25,8 @@ export function checkAndStoreAuthentication(res: any): void {
   }
   // 判断是否存在刷新 token，如果存在则存储在本地
   else if (refreshAccessToken && accessToken && accessToken !== "invalid_token") {
-    Session.set(accessTokenKey, accessToken);
-    Session.set(refreshAccessTokenKey, refreshAccessToken);
+    // Session.set(accessTokenKey, accessToken);
+    // Session.set(refreshAccessTokenKey, refreshAccessToken);
   }
 }
 

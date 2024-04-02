@@ -44,16 +44,16 @@ export const useApp = defineStore("app", () => {
       return;
     }
     app.isInit = true;
-    const { data: result } = await AppApi.info();
-    const data = result.value?.result!;
-    const covers = data!.covers!;
-    app.info = data!.info ?? {
+    const { data } = await AppApi.info();
+    const result = data.value?.result!;
+    const covers = result.covers;
+    app.info = result.info ?? {
       nikeName: "Fantasy-Ke",
       motto: "凡是过往，皆为序章",
       qq: "2246080525",
       avatar: "/default.jpg",
     } as unknown as BloggerInfo;
-    app.blogSetting = data!.site ?? {
+    app.blogSetting = result!.site ?? {
       siteName: "Fantasy-Ke",
       motto: "凡是过往，皆为序章",
       isAllowComments: true,
@@ -61,30 +61,32 @@ export const useApp = defineStore("app", () => {
       runTime: new Date("2023/06/01"),
       copyright: "©2023 By Fantasy-Ke",
       description: "Fantasy-Ke的博客",
-      filing: "鄂ICP备没有号-2",
+      filing: "湘ICP备没有号-2",
       favicon: "favicon.ico",
       keyword: "Fantasy-Ke的博客",
       visitorNumbers: 0,
     } as any;
-    app.covers.home = covers.Home ?? ["/cover/default.jpg"];
-    app.covers.about = covers.About ?? ["/cover/about.jpg"];
-    app.covers.donation = covers.Donation ?? ["/cover/about.jpg"];
-    app.covers.archives = covers.Archives ?? ["/cover/archives.jpg"];
-    app.covers.category = covers.Category ?? ["/cover/category.jpg"];
-    app.covers.tag = covers.Tag ?? ["/cover/tag.png"];
-    app.covers.album = covers.Album ?? ["/cover/album.jpg"];
-    app.covers.talk = covers.Talk ?? ["/cover/talk.jpg"];
-    app.covers.message = covers.Message ?? ["/cover/message.png"];
-    app.covers.user = covers.User ?? ["/cover/user.jpg"];
-    app.covers.link = covers.Link ?? ["/cover/default.jpg"];
-    app.covers.tagList = covers.TagList ?? ["/cover/default.jpg"];
-    app.covers.categories = covers.Categories ?? ["/cover/default.jpg"];
+    app.covers.home = covers?.Home ?? ["/cover/default.jpg"];
+    app.covers.about = covers?.About ?? ["/cover/about.jpg"];
+    app.covers.donation = covers?.Donation ?? ["/cover/about.jpg"];
+    app.covers.archives = covers?.Archives ?? ["/cover/archives.jpg"];
+    app.covers.category = covers?.Category ?? ["/cover/category.jpg"];
+    app.covers.tag = covers?.Tag ?? ["/cover/tag.png"];
+    app.covers.album = covers?.Album ?? ["/cover/album.jpg"];
+    app.covers.talk = covers?.Talk ?? ["/cover/talk.jpg"];
+    app.covers.message = covers?.Message ?? ["/cover/message.png"];
+    app.covers.user = covers?.User ?? ["/cover/user.jpg"];
+    app.covers.link = covers?.Link ?? ["/cover/default.jpg"];
+    app.covers.tagList = covers?.TagList ?? ["/cover/default.jpg"];
+    app.covers.categories = covers?.Categories ?? ["/cover/default.jpg"];
   };
   /**
    * 首页cover
    */
   const homeCover = () => {
     const arr = app.covers.home;
+    console.log(arr);
+    
     return arr[randomNumber(0, arr.length - 1)];
   };
   /**

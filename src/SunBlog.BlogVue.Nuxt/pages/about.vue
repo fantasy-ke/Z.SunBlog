@@ -26,7 +26,7 @@ const info = computed(() => {
 
 // 封面图
 const cover = computed(() => {
-  const arr = data.value?.result?.covers?.about ?? ["/cover/about.jpg"];
+  const arr = data.value?.result?.covers?.About ?? ["/cover/about.jpg"];
   const url = arr[randomNumber(0, arr.length - 1)];
   return `background: url(${url}) center center / cover no-repeat`;
 });

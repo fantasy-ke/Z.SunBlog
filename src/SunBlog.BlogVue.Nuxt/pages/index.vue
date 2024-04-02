@@ -310,7 +310,7 @@ const isRight = (index: number): string => {
 };
 // 封面图
 const cover = computed(() => {
-  const arr = site.value?.result?.covers?.home ?? ["/cover/default.jpg"];
+  const arr = site.value?.result?.covers?.Home ?? ["/cover/default.jpg"];
   const url = arr[randomNumber(0, arr.length - 1)];
   return `background: url(${url}) center center / cover no-repeat`;
 });

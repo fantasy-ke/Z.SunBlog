@@ -112,7 +112,7 @@ const previewImg = (e: Event): void => {
 };
 // 封面图
 const cover = computed(() => {
-  const arr = site.value?.result?.covers?.talk ?? ["/cover/talk.jpg"];
+  const arr = site.value?.result?.covers?.Talk ?? ["/cover/talk.jpg"];
   const url = arr[randomNumber(0, arr.length - 1)];
   return "background: url(" + url + ") center center / cover no-repeat";
 });

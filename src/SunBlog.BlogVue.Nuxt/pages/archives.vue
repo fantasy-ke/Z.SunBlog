@@ -70,7 +70,7 @@ watch(
 
 // 封面图
 const cover = computed(() => {
-  const arr = site.value?.result?.covers?.archives ?? ["archives.jpg"];
+  const arr = site.value?.result?.covers?.Archives ?? ["archives.jpg"];
   const url = arr[randomNumber(0, arr.length - 1)];
   return "background: url(" + url + ") center center / cover no-repeat";
 });

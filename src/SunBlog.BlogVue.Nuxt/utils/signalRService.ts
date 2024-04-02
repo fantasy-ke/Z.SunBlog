@@ -5,19 +5,23 @@ import * as msgpack from "@microsoft/signalr-protocol-msgpack";
 class ChatHub {
   public connection: signalR.HubConnection | undefined;
 
-  constructor() {
-    this.initHunConnection();
-  }
+  // constructor() {
+  //   this.initHunConnection();
+  // }
 
-  private initHunConnection() {
+  initHunConnection = () =>{
     if (
       !this.connection ||
       this.connection?.state === signalR.HubConnectionState.Disconnected ||
       this.connection?.state === signalR.HubConnectionState.Disconnecting
     ) {
+      const apiUrl = useRuntimeConfig().public.apiBaseUrl as string;
+      let baseURL = import.meta.env.MODE === "production" && import.meta.client
+          ? "/api"
+          : apiUrl
       this.connection = new signalR.HubConnectionBuilder()
         .configureLogging(signalR.LogLevel.Information)
-        .withUrl(`${process.env.NUXT_API_BASE_URL}/chatHub`, {
+        .withUrl(`${baseURL}/chatHub`, {
           accessTokenFactory: () => JSON.parse(localStorage.getItem("zblog_User")?? "")?.zToken?.accessToken,
           transport: signalR.HttpTransportType.WebSockets,
           skipNegotiation: true,
@@ -43,7 +47,7 @@ class ChatHub {
     }
   }
 
-  public start() {
+  start = async ()=> {
     this.initHunConnection();
     this.connection?.start().then(() => {
       console.info("signalr启动成功");
@@ -62,7 +66,7 @@ class ChatHub {
     });
   }
 
-  public close() {
+  close = async ()=> {
     this.connection!.onclose((error: Error | undefined) => {
       console.info(error?.message ?? "断开连接");
     });

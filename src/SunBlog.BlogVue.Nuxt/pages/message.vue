@@ -102,7 +102,7 @@ const danmaku = ref<any>(null);
 
 // 封面图
 const cover = computed(() => {
-  const arr = site.value?.result?.covers?.message ?? ["/cover/message.png"];
+  const arr = site.value?.result?.covers?.Message ?? ["/cover/message.png"];
   const url = arr[randomNumber(0, arr.length - 1)];
   return "background: url(" + url + ") center center / cover no-repeat";
 });

@@ -5,9 +5,9 @@
     <v-footer app absolute>
       <div class="footer-wrap">
         <div>{{ blogSetting.copyright }}</div>
-        <!-- <a href="https://beian.miit.gov.cn/" target="_blank">
+        <a href="https://beian.miit.gov.cn/" target="_blank">
           {{ blogSetting.filing }}
-        </a> -->
+        </a>
       </div>
     </v-footer>
   </client-only>
