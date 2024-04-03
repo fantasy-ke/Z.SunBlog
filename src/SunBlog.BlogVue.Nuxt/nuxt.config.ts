@@ -10,14 +10,6 @@ export default defineNuxtConfig({
     "~/assets/css/iconfont.css",
     "~/assets/css/markdown.css",
   ],
-  //配置打包的目录
-  // nitro: {
-  //   output: {
-  //     publicDir: "./dist/public",
-  //     dir: "./dist",
-  //     serverDir: "./dist/server",
-  //   },
-  // },
   modules: [
     "@pinia/nuxt",
     (_options, nuxt) => {
@@ -44,13 +36,4 @@ export default defineNuxtConfig({
       apiBaseUrl: process.env.NUXT_API_BASE_URL,
     },
   },
-  // modules: ["vuetify-nuxt-module"],yarn add -D vuetify vite-plugin-vuetify
-  // vuetify: {
-  //   moduleOptions: {
-  //     /* module specific options */
-  //   },
-  //   vuetifyOptions: {
-  //     /* vuetify options */
-  //   },
-  // },
 });
