@@ -247,12 +247,12 @@ const pager = ref<CommentPageQueryInput>({
   pageNo: 1,
   pageSize: 10,
   id: props.type ?? null,
-  // randomNumber: Math.random(),
 });
 const reply = ref<Array<InstanceType<typeof Reply>>>([]);
 
+
 const { data } = await CommentApi.list(pager);
-nextTick(()=>{
+watch(data, () => {
   if (data.value?.success) {
     state.count = data.value?.result?.total ?? 0;
     state.pages = data.value?.result?.pages ?? 0;
@@ -263,31 +263,7 @@ nextTick(()=>{
     }
     emit("getCommentCount", state.count);
   }
-})
-
-
-
-const loadData = async () => {
- const { data } = await CommentApi.list(pager);
-    if (data.value?.success) {
-    state.count = data.value?.result?.total ?? 0;
-    state.pages = data.value?.result?.pages ?? 0;
-    if (pager.value.pageNo === 1) {
-      state.commentList = data.value?.result?.rows ?? [];
-    } else {
-      state.commentList.push(...(data.value?.result?.rows ?? []));
-    }
-  }
-  
-};
-
-// watch(
-//   () => props.type,
-//   async (val) => {
-//     console.log(val);
-//     await loadData();
-//   }
-// );
+}, { immediate:true, deep: true });
 
 const onMore = async () => {
   pager.value.pageNo!++;
@@ -333,7 +309,6 @@ const insertComment = async () => {
   if (data.value?.success) {
     state.commentContent = "";
     pager.value.pageNo = 1;
-    // pager.value.randomNumber = Math.random();
   }
 };
 
