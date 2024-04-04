@@ -53,7 +53,7 @@ namespace Z.SunBlog.Application.AlbumsModule.BlogClient
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public async Task<PageResult<PictureOutput>> Pictures([FromQuery] PicturesQueryInput dto)
+        public async Task<PageResult<PictureOutput>> Pictures(PicturesQueryInput dto)
         {
             var album = await _albumsManager.QueryAsNoTracking.Where(x => x.Id == dto.AlbumId && x.IsVisible && x.Status == AvailabilityStatus.Enable).Select(x => new
             {
