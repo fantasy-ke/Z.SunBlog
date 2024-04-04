@@ -37,7 +37,7 @@ services:
     depends_on:
       - hostbolg
     volumes:
-      - "/data/sunblog/adminvue:/usr/share/nginx/html"
+      - "/data/sunblog/blogvue:/usr/share/nginx/html"
 
   adminvue:
     image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:adminvue
