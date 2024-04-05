@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar :class="vm.navClass" flat :height="60" :style="{ transform: `translateY(${vm.top}px)` }">
+  <v-app-bar :class="vm.navClass" flat :height="60" style="overflow: visible;" :style="{ transform: `translateY(${vm.top}px)` }">
     <!-- 手机端导航栏 -->
     <div class="d-md-none nav-mobile-container">
       <div style="font-size: 18px; font-weight: bold">
