@@ -71,6 +71,6 @@ services:
     depends_on:
       - nginx
     networks:
-      - fantasy_net
+      - host
     volumes:
       - "/data/sunblog/frp/frpc.toml:/etc/frp/frpc.toml"
