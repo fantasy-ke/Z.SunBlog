@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Z.Fantasy.Core.UnitOfWork;
 using Z.EntityFrameworkCore.Attributes;
 using Z.EntityFrameworkCore.Options;
 using Microsoft.Extensions.DependencyInjection;
-using Z.Fantasy.Core.Exceptions;
+using Z.Foundation.Core.Exceptions;
 
 namespace Z.EntityFrameworkCore.Middlewares;
 

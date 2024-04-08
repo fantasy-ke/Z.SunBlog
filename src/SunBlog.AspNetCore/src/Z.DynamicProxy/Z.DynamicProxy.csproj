@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Castle.Core" Version="5.1.1" />
+        <PackageReference Include="Castle.Core.AsyncInterceptor" Version="2.1.0" />
+        <PackageReference Include="Z.Module" Version="1.0.4" />
+    </ItemGroup>
+</Project>

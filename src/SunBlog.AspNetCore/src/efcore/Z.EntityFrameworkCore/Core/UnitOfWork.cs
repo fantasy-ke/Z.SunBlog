@@ -5,9 +5,9 @@ using Z.Fantasy.Core.UnitOfWork;
 using Z.EntityFrameworkCore.Options;
 using Z.Module.DependencyInjection;
 using Z.Fantasy.Core.Entities;
-using Z.Fantasy.Core.Extensions;
-using Z.Fantasy.Core.Helper;
 using Microsoft.EntityFrameworkCore.Storage;
+using Z.Foundation.Core.Helper;
+using Z.Foundation.Core.Extensions;
 
 namespace Z.EntityFrameworkCore.Core;
 

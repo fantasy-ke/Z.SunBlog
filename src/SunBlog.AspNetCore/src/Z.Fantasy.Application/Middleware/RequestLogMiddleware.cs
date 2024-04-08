@@ -1,21 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Serilog;
 using System.Diagnostics;
 using System.Text;
 using System.Web;
 using UAParser;
 using Z.EventBus.EventBus;
 using Z.Fantasy.Application.Handlers;
-using Z.Fantasy.Core.AutofacExtensions;
-using Z.Fantasy.Core.DomainServiceRegister.Domain;
-using Z.Fantasy.Core.Entities.EntityLog;
-using Z.Fantasy.Core.Entities.Repositories;
-using Z.Fantasy.Core.Extensions;
-using Z.Fantasy.Core.Helper;
-using Z.Fantasy.Core.UnitOfWork;
 using Z.Fantasy.Core.UserSession;
+using Z.Foundation.Core.Extensions;
+using Z.Foundation.Core.Helper;
 
 namespace Z.Fantasy.Application.Middleware
 {
