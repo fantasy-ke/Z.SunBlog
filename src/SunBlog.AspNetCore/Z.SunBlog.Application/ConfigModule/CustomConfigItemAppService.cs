@@ -5,12 +5,12 @@ using Z.SunBlog.Core.CustomConfigModule.DomainManager;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel;
 using Z.SunBlog.Core.CustomConfigModule;
-using Z.Fantasy.Core.RedisModule;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.SharedDto;
 using Newtonsoft.Json;
 using Z.Fantasy.Core.ResultResponse.Pager;
 using Z.SunBlog.Application.ConfigModule.Dto;
+using Z.FreeRedis;
 
 namespace Z.SunBlog.Application.ConfigModule
 {

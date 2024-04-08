@@ -1,6 +1,6 @@
 ﻿using Z.Fantasy.Core.DomainServiceRegister.Domain;
-using Z.Fantasy.Core.Minio;
 using Z.Module.DependencyInjection;
+using Z.OSSCore.Models.Dto;
 
 namespace Z.SunBlog.Core.MinioFileModule.DomainManager
 {
@@ -23,7 +23,7 @@ namespace Z.SunBlog.Core.MinioFileModule.DomainManager
         /// <param name="file"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        Task DeleteMinioFileAsync(RemoveObjectInput input);
+        Task DeleteMinioFileAsync(OperateObjectInput input);
 
 
         /// <summary>

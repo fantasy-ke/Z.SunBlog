@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Z.Fantasy.Core.RedisModule;
 using Z.EventBus.Extensions;
 using Z.Module;
 using Z.Module.Extensions;
@@ -7,6 +6,8 @@ using Z.Module.Modules;
 using Z.SunBlog.Common;
 using Z.Fantasy.Core.Minio;
 using Z.HangFire.Builder;
+using Z.OSSCore;
+using Z.FreeRedis;
 
 namespace Z.SunBlog.Core
 {
@@ -23,7 +24,22 @@ namespace Z.SunBlog.Core
                 option.Capacity = 6;
             });
 
-            context.Services.AddZMinio(configuration);
+            // context.Services.AddZMinio(configuration);
+            context.Services.AddOSSService("z.host",option =>
+            {
+                option.Provider = OSSProvider.Minio;
+                option.Endpoint = "47.96.234.210:9000";  //不需要带有协议
+                option.AccessKey = "CqGL9hDnd1AWq2ZCO2HW";
+                option.SecretKey = "PqAKhiQhu5gsoYWcmHKlPBBQaJ8QdNRB1D1lN9hM";
+                option.IsEnableHttps = true;
+                option.IsEnableCache = true;
+            });
+            
+            context.Services.Configure<MinioConfig>(p =>
+            {
+                p.DefaultBucket = "z.host";
+                p.Host = "47.96.234.210:9000";
+            });
             // 注入事件总线
             context.Services.AddEventBus();
 

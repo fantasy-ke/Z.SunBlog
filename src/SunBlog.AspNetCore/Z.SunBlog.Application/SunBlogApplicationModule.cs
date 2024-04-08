@@ -33,13 +33,19 @@ using Z.SunBlog.Application.HangfireJob.RequestLog;
 using Z.SunBlog.Application.LogsModule.RequestLogServer.MapperConfig;
 using Z.SunBlog.Application.LogsModule.ExceptionlogServer.MapperConfig;
 using Z.SunBlog.Application.FileModule.MapperConfig;
+using Z.FreeRedis;
+using Z.OSSCore;
 
 namespace Z.SunBlog.Application
 {
     /// <summary>
     /// SunBlog应用层
     /// </summary>
-    [DependOn(typeof(SunBlogCoreModule), typeof(ZFantasyApplicationModule),typeof(ZHangFireModule))]
+    [DependOn(typeof(SunBlogCoreModule), 
+        typeof(ZFantasyApplicationModule),
+        typeof(ZFreeRedisModule),
+        typeof(ZOSSCoreModule),
+        typeof(ZHangFireModule))]
     public class SunBlogApplicationModule : ZModule
     {
         /// <summary>

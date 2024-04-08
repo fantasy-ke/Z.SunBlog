@@ -6,7 +6,6 @@ using Z.Fantasy.Core.DomainServiceRegister;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.CustomConfigModule;
 using System.Collections;
-using Z.Fantasy.Core.RedisModule;
 using Z.SunBlog.Core.CustomConfigModule.DomainManager;
 using Microsoft.EntityFrameworkCore;
 using Z.EntityFrameworkCore.Extensions;
@@ -17,6 +16,7 @@ using System.Text.RegularExpressions;
 using Z.SunBlog.Application.ConfigModule.Dto;
 using Z.Fantasy.Core.ResultResponse.Pager;
 using Z.Foundation.Core.Exceptions;
+using Z.FreeRedis;
 
 namespace Z.SunBlog.Application.ConfigModule
 {

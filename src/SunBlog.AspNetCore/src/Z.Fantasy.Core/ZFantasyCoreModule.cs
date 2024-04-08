@@ -32,11 +32,11 @@ namespace Z.Fantasy.Core
 
         public override void PostInitApplication(InitApplicationContext context)
         {
-            var scope = context.ServiceProvider.CreateAsyncScope();
+            // var scope = context.ServiceProvider.CreateAsyncScope();
             //minio需要配置https
-            scope.ServiceProvider
-               .GetRequiredService<IMinioService>()
-               .CreateDefaultBucket();
+            // scope.ServiceProvider
+            //    .GetRequiredService<IMinioService>()
+            //    .CreateDefaultBucket();
 
         }
     }

@@ -9,6 +9,7 @@ using Z.Fantasy.Core.DomainServiceRegister;
 using Z.Fantasy.Core.Minio;
 using Z.Fantasy.Core.ResultResponse.Pager;
 using Z.Module.DependencyInjection;
+using Z.OSSCore.Models.Dto;
 using Z.SunBlog.Application.FileModule.Dto;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.FileModule.FileManager;
@@ -146,7 +147,7 @@ public class FileAppService : ApplicationService, IFileAppService
         var entity = await _fileInfoManager.FindByIdAsync(dto.Id);
         await _fileInfoManager.DeleteAsync(entity);
         await _minioFileManager.DeleteMinioFileAsync(
-            new RemoveObjectInput
+            new OperateObjectInput
             {
                 BucketName = _minioOptions.DefaultBucket,
                 ObjectName = entity.FilePath.Replace(_minioOptions.DefaultBucket, string.Empty)

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Z.Fantasy.Core.DomainServiceRegister.Domain;
-using Z.Fantasy.Core.RedisModule;
+using Z.FreeRedis;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.Hubs;
 using Z.SunBlog.Core.MessageModule.Dto;

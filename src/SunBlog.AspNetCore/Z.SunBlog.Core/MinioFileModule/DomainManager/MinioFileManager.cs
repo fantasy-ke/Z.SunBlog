@@ -1,20 +1,25 @@
 ﻿using Microsoft.Extensions.Options;
 using Z.Fantasy.Core.DomainServiceRegister.Domain;
 using Z.Fantasy.Core.Minio;
+using Z.OSSCore.Interface.Service;
+using Z.OSSCore.Models.Dto;
+using GetObjectInput = Z.OSSCore.Models.Dto.GetObjectInput;
+using ObjectOutPut = Z.OSSCore.Models.Dto.ObjectOutPut;
+using UploadObjectInput = Z.OSSCore.Models.Dto.UploadObjectInput;
 
 namespace Z.SunBlog.Core.MinioFileModule.DomainManager
 {
     public class MinioFileManager : DomainService, IMinioFileManager
     {
-        private readonly IMinioService _minioService;
+        private readonly IMinioOSSService _minioService;
         private readonly MinioConfig _minioOptions;
-        public MinioFileManager(IServiceProvider serviceProvider, IMinioService minioService, IOptions<MinioConfig> minioOptions) : base(serviceProvider)
+        public MinioFileManager(IServiceProvider serviceProvider, IMinioOSSService minioService, IOptions<MinioConfig> minioOptions) : base(serviceProvider)
         {
             _minioService = minioService;
             _minioOptions = minioOptions.Value;
         }
 
-        public async Task DeleteMinioFileAsync(RemoveObjectInput input)
+        public async Task DeleteMinioFileAsync(OperateObjectInput input)
         {
             await _minioService.RemoveObjectAsync(input);
         }

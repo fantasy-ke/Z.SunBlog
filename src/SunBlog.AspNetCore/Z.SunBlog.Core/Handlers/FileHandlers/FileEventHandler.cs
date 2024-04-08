@@ -1,17 +1,19 @@
 ﻿using Microsoft.Extensions.Options;
 using Serilog;
-using Z.Fantasy.Core.Minio;
 using Z.EventBus.Handlers;
+using Z.Fantasy.Core.Minio;
 using Z.Module.DependencyInjection;
+using Z.OSSCore.Interface.Service;
+using UploadObjectInput = Z.OSSCore.Models.Dto.UploadObjectInput;
 
 namespace Z.SunBlog.Core.Handlers.FileHandlers
 {
     public class FileEventHandler : IEventHandler<FileEventDto>, ITransientDependency
     {
-        private readonly IMinioService _minioService;
+        private readonly IMinioOSSService _minioService;
         private readonly MinioConfig _minioOptions;
 
-        public FileEventHandler(IMinioService minioService, IOptions<MinioConfig> minioOptions)
+        public FileEventHandler(IMinioOSSService minioService, IOptions<MinioConfig> minioOptions)
         {
             _minioService = minioService;
             _minioOptions = minioOptions.Value;
