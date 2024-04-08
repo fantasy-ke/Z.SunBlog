@@ -1,4 +1,4 @@
-﻿namespace Z.Fantasy.Core.Minio;
+﻿namespace Z.OSSCore.Models.Dto;
 
 public class ObjectOutPut
 {

@@ -1,6 +1,6 @@
-﻿namespace Z.Fantasy.Core.Minio;
+﻿namespace Z.OSSCore.Models.Dto;
 
-public class RemoveObjectInput
+public class OperateObjectInput
 {
     /// <summary>
     /// 存储桶名称

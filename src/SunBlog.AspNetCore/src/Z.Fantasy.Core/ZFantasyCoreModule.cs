@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Z.Fantasy.Core.Aop.AopLog;
 using Z.Fantasy.Core.Filters;
-using Z.Fantasy.Core.Minio;
 using Z.Foundation.Core;
 using Z.Foundation.Core.DependencyInjection.Extensions;
 using Z.Module;
@@ -32,11 +31,11 @@ namespace Z.Fantasy.Core
 
         public override void PostInitApplication(InitApplicationContext context)
         {
-            var scope = context.ServiceProvider.CreateAsyncScope();
+            // var scope = context.ServiceProvider.CreateAsyncScope();
             //minio需要配置https
-            scope.ServiceProvider
-               .GetRequiredService<IMinioService>()
-               .CreateDefaultBucket();
+            // scope.ServiceProvider
+            //    .GetRequiredService<IMinioService>()
+            //    .CreateDefaultBucket();
 
         }
     }

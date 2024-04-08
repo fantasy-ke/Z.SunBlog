@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
-using Z.Fantasy.Core.RedisModule;
 using Z.Fantasy.Core.UserSession;
+using Z.FreeRedis;
 using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.MessageModule.DomainManager;
 using Z.SunBlog.Core.MessageModule.Dto;

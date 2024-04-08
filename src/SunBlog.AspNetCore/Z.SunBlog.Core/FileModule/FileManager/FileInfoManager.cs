@@ -6,7 +6,7 @@ using Z.EventBus.EventBus;
 using Z.Fantasy.Core.DomainServiceRegister.Domain;
 using Z.Fantasy.Core.Entities.Enum;
 using Z.Fantasy.Core.Entities.Files;
-using Z.Fantasy.Core.Minio;
+using Z.OSSCore;
 using Z.SunBlog.Core.Handlers.FileHandlers;
 
 namespace Z.SunBlog.Core.FileModule.FileManager
@@ -16,21 +16,21 @@ namespace Z.SunBlog.Core.FileModule.FileManager
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ILocalEventBus _localEvent;
-        private readonly MinioConfig _minioOptions;
+        private readonly OSSOptions _ossOptions;
 
         public FileInfoManager(
             IServiceProvider serviceProvider,
             IHttpContextAccessor httpContextAccessor,
             IWebHostEnvironment webHostEnvironment,
             ILocalEventBus localEvent,
-            IOptions<MinioConfig> minioOptions
+            IOptions<OSSOptions> minioOptions
         )
             : base(serviceProvider)
         {
             _httpContextAccessor = httpContextAccessor;
             _webHostEnvironment = webHostEnvironment;
             _localEvent = localEvent;
-            _minioOptions = minioOptions.Value;
+            _ossOptions = minioOptions.Value;
         }
 
         public override Task ValidateOnCreateOrUpdate(ZFileInfo entity)
@@ -50,7 +50,7 @@ namespace Z.SunBlog.Core.FileModule.FileManager
             {
                 FileName = file.FileName,
                 ContentType = file.ContentType,
-                FilePath = string.Concat(_minioOptions.DefaultBucket!.TrimEnd('/'), fileUrl),
+                FilePath = string.Concat(_ossOptions.DefaultBucket!.TrimEnd('/'), fileUrl),
                 FileSize = file.Length.ToString(),
                 FileExt = extension,
                 FileType = GetFileTypeFromContentType(file.ContentType),
@@ -60,11 +60,11 @@ namespace Z.SunBlog.Core.FileModule.FileManager
 
             fileinfo.Code = await GetNextChildCodeAsync(fileinfo.ParentId);
 
-            if (!_minioOptions.Enable)
+            if (!_ossOptions.Enable)
             {
-                filePath = string.Concat(_minioOptions.DefaultBucket!.TrimEnd('/'), filePath);
+                filePath = string.Concat(_ossOptions.DefaultBucket!.TrimEnd('/'), filePath);
                 var webrootpath = _webHostEnvironment.WebRootPath;
-                string s = Path.Combine(webrootpath, filePath);
+                string s = Path.Combine(webrootpath, filePath).Replace("//","/");
                 if (!Directory.Exists(s))
                 {
                     Directory.CreateDirectory(s);
@@ -74,16 +74,16 @@ namespace Z.SunBlog.Core.FileModule.FileManager
                 var stream = System.IO.File.Create($"{s}{minioName}");
                 await file.CopyToAsync(stream);
                 await stream.DisposeAsync();
-                fileUrl = string.Concat(_minioOptions.DefaultBucket.TrimEnd('/'), fileUrl);
+                fileUrl = string.Concat(_ossOptions.DefaultBucket.TrimEnd('/'), fileUrl);
                 string url = $"{request.Scheme}://{request.Host.Value}/{fileUrl}";
                 return url;
             }
-            fileinfo.FileIpAddress = $"{request.Scheme}://{_minioOptions.Host!.TrimEnd('/')}";
+            fileinfo.FileIpAddress = $"{request.Scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}";
             await CreateAsync(fileinfo);
             await _localEvent.PushAsync(
                 new FileEventDto(file.OpenReadStream(), fileUrl, file.ContentType)
             );
-            return $"{request.Scheme}://{_minioOptions.Host!.TrimEnd('/')}/{string.Concat(_minioOptions.DefaultBucket!.TrimEnd('/'), fileUrl)}";
+            return $"{request.Scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}/{string.Concat(_ossOptions.DefaultBucket!.TrimEnd('/'), fileUrl)}";
         }
 
         private static FileType GetFileTypeFromContentType(string contentType)

@@ -19,7 +19,6 @@
 	  <PrivateAssets>all</PrivateAssets>
 	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
-	<PackageReference Include="Minio" Version="6.0.1" />
 	<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
 	<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 	<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
@@ -40,6 +39,7 @@
     <ProjectReference Include="..\Z.Foundation.Core\Z.Foundation.Core.csproj" />
     <ProjectReference Include="..\Z.FreeRedis\Z.FreeRedis.csproj" />
     <ProjectReference Include="..\Z.HangFire\Z.HangFire.csproj" />
+    <ProjectReference Include="..\Z.OSSCore\Z.OSSCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,10 +1,10 @@
-﻿namespace Z.Fantasy.Core.RedisModule;
+﻿namespace Z.FreeRedis;
 
 public class RedisCacheOptions
 {
     public string Configuration { get; set; }
 
-    public string KeyPrefix { get; set; } 
+    public string KeyPrefix { get; set; }
 
     public bool Enable { get; set; }
 

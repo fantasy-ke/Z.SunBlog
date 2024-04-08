@@ -6,7 +6,6 @@ using Z.Fantasy.Core.DomainServiceRegister;
 using Z.Fantasy.Core.Entities.Enum;
 using Z.Fantasy.Core.Entities.Repositories;
 using Z.Fantasy.Core.Entities.Roles;
-using Z.Fantasy.Core.RedisModule;
 using Z.Fantasy.Core.ResultResponse.Pager;
 using Z.EntityFrameworkCore.Extensions;
 using Z.Foundation.Core.Exceptions;
@@ -17,6 +16,7 @@ using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.MenuModule;
 using Z.SunBlog.Core.MenuModule.DomainManager;
 using Z.SunBlog.Core.SharedDto;
+using Z.FreeRedis;
 
 namespace Z.SunBlog.Application.SystemServiceModule.RoleService
 {

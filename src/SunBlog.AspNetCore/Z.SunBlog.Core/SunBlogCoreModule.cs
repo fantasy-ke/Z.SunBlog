@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Z.Fantasy.Core.RedisModule;
 using Z.EventBus.Extensions;
 using Z.Module;
 using Z.Module.Extensions;
 using Z.Module.Modules;
 using Z.SunBlog.Common;
-using Z.Fantasy.Core.Minio;
 using Z.HangFire.Builder;
+using Z.OSSCore;
+using Z.FreeRedis;
 
 namespace Z.SunBlog.Core
 {
@@ -23,7 +23,12 @@ namespace Z.SunBlog.Core
                 option.Capacity = 6;
             });
 
-            context.Services.AddZMinio(configuration);
+            // context.Services.AddZMinio(configuration);
+            context.Services.AddOSSService(option =>
+            {
+                option.Provider = OSSProvider.Minio;
+            });
+            
             // 注入事件总线
             context.Services.AddEventBus();
 

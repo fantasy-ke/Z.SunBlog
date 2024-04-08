@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Z.Fantasy.Core.Entities.Permission;
 using Z.Fantasy.Core.Entities.Repositories;
-using Z.Fantasy.Core.RedisModule;
+using Z.FreeRedis;
 
 namespace Z.Fantasy.Core.Authorization.Authorize
 {

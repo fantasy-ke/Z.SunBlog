@@ -1,7 +1,7 @@
 ﻿using FreeRedis;
 using Z.Foundation.Core.Helper;
 
-namespace Z.Fantasy.Core.RedisModule;
+namespace Z.FreeRedis;
 
 public partial class RedisCacheBaseService
 {

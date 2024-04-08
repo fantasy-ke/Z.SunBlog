@@ -5,7 +5,6 @@ using Yitter.IdGenerator;
 using Z.Fantasy.Core;
 using Z.Fantasy.Core.Authorization;
 using Z.Fantasy.Core.DomainServiceRegister;
-using Z.Fantasy.Core.RedisModule;
 using Z.Fantasy.Core.UserSession;
 using Z.SunBlog.Application.OAuthModule.Dto;
 using Z.SunBlog.Core.AlbumsModule.DomainManager;
@@ -28,6 +27,7 @@ using Z.SunBlog.Core.MessageModule.DomainManager;
 using Z.SunBlog.Core.MessageModule.Dto;
 using Z.Foundation.Core.Helper;
 using Z.Foundation.Core.Extensions;
+using Z.FreeRedis;
 
 namespace Z.SunBlog.Application.OAuthModule
 {

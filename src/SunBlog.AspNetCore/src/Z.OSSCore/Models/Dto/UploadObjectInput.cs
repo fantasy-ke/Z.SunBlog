@@ -1,4 +1,4 @@
-﻿namespace Z.Fantasy.Core.Minio;
+﻿namespace Z.OSSCore.Models.Dto;
 
 public class UploadObjectInput
 {
@@ -21,6 +21,8 @@ public class UploadObjectInput
     /// 文件流
     /// </summary>
     public Stream Stream { get; set; }
+
+    public CancellationToken CancellationToken { get; set; } = default;
 
     public UploadObjectInput() { }
 
