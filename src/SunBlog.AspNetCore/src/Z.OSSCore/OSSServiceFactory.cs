@@ -3,67 +3,62 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Z.Foundation.Core.Exceptions;
+using Z.OSSCore.EntityType;
 using Z.OSSCore.Interface;
 using Z.OSSCore.Services;
 
 namespace Z.OSSCore
 {
-    public class OSSServiceFactory : IOSSServiceFactory
+    public class OSSServiceFactory<T> : IOSSServiceFactory<T>
     {
-        private readonly IOptionsMonitor<OSSOptions> optionsMonitor;
+        private readonly OSSOptions _options;
         private readonly ICacheProvider _cache;
         private readonly ILoggerFactory logger;
 
-        public OSSServiceFactory(IOptionsMonitor<OSSOptions> optionsMonitor
+        public OSSServiceFactory(IOptions<OSSOptions> optionsMonitor
             , ICacheProvider provider
             , ILoggerFactory logger)
         {
-            this.optionsMonitor = optionsMonitor ?? throw new ArgumentNullException();
+            _options = optionsMonitor.Value ?? throw new ArgumentNullException();
             _cache = provider ?? throw new ArgumentNullException(nameof(IMemoryCache));
             this.logger = logger ?? throw new ArgumentNullException(nameof(ILoggerFactory));
         }
 
-        public IOSSService Create()
+        public IOSSService<T> Create()
         {
-            return Create(DefaultOptionName.Name);
-        }
+            #region 鍙傛暟楠岃瘉
 
-        public IOSSService Create(string name)
-        {
-            #region 参数验证
-
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(_options.DefaultBucket))
             {
-                name = DefaultOptionName.Name;
+                _options.DefaultBucket = DefaultOptionName.Name;
             }
-            var options = optionsMonitor.Get(name);
-            if (options == null ||
-                options.Provider == OSSProvider.Invalid
-                && string.IsNullOrEmpty(options.Endpoint)
-                && string.IsNullOrEmpty(options.SecretKey)
-                && string.IsNullOrEmpty(options.AccessKey))
-                throw new ArgumentException($"Cannot get option by name '{name}'.");
-            if (options.Provider == OSSProvider.Invalid)
-                throw new ArgumentNullException(nameof(options.Provider));
-            if (string.IsNullOrEmpty(options.SecretKey))
-                throw new ArgumentNullException(nameof(options.SecretKey), "SecretKey can not null.");
-            if (string.IsNullOrEmpty(options.AccessKey))
-                throw new ArgumentNullException(nameof(options.AccessKey), "AccessKey can not null.");
-            if ((options.Provider == OSSProvider.Minio
-                || options.Provider == OSSProvider.QCloud)
-                && string.IsNullOrEmpty(options.Region))
+            if (_options == null ||
+                _options.Provider == OSSProvider.Invalid
+                && string.IsNullOrEmpty(_options.Endpoint)
+                && string.IsNullOrEmpty(_options.SecretKey)
+                && string.IsNullOrEmpty(_options.AccessKey))
+                throw new ArgumentException($"Cannot get option by name '{ _options.DefaultBucket}'.");
+            if (_options.Provider == OSSProvider.Invalid)
+                throw new ArgumentNullException(nameof(_options.Provider));
+            if (string.IsNullOrEmpty(_options.SecretKey))
+                throw new ArgumentNullException(nameof(_options.SecretKey), "SecretKey can not null.");
+            if (string.IsNullOrEmpty(_options.AccessKey))
+                throw new ArgumentNullException(nameof(_options.AccessKey), "AccessKey can not null.");
+            if ((_options.Provider == OSSProvider.Minio
+                || _options.Provider == OSSProvider.QCloud)
+                && string.IsNullOrEmpty(_options.Region))
             {
-                throw new ArgumentNullException(nameof(options.Region), "When your provider is Minio, region can not null.");
+                throw new ArgumentNullException(nameof(_options.Region), "When your provider is Minio, region can not null.");
             }
 
             #endregion
 
-            switch (options.Provider)
+            switch (_options.Provider)
             {
                 case OSSProvider.Aliyun:
-                    return new AliyunOSSService(_cache, options);
+                    return new AliyunOSSService<T>(_cache, _options);
                 case OSSProvider.Minio:
-                    return new MinioOSSService(_cache, options);
+                    return new MinioOSSService<T>(_cache, _options);
                 default:
                     throw new Exception("Unknow provider type");
             }

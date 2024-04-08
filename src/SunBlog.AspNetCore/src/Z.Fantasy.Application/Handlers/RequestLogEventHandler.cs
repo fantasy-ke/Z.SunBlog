@@ -1,20 +1,9 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Serilog;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Z.Fantasy.Core.Minio;
+﻿using Microsoft.Extensions.Logging;
 using Z.EventBus.Handlers;
 using Z.Module.DependencyInjection;
 using Z.Fantasy.Core.UnitOfWork;
 using Z.Fantasy.Core.Entities.Repositories;
 using Z.Fantasy.Core.Entities.EntityLog;
-using UAParser;
 using Z.Foundation.Core.AutofacExtensions;
 
 namespace Z.Fantasy.Application.Handlers

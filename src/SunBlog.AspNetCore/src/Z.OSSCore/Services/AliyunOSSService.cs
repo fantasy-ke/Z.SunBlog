@@ -10,7 +10,7 @@ using Z.OSSCore.Providers;
 
 namespace Z.OSSCore.Services
 {
-    public class AliyunOSSService : BaseOSSService, IAliyunOSSService,IScopedDependency
+    public class AliyunOSSService<T> : BaseOSSService, IAliyunOSSService<T>
     {
         private readonly OssClient _client = null;
 

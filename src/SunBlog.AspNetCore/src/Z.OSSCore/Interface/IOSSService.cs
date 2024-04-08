@@ -4,7 +4,7 @@ using Z.OSSCore.Models.Policy;
 
 namespace Z.OSSCore.Interface
 {
-    public interface IOSSService
+    public interface IOSSService<T>
     {
         OSSOptions Options { get; }
 

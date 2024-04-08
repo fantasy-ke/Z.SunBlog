@@ -6,22 +6,22 @@ namespace Z.OSSCore
     public enum OSSProvider
     {
         /// <summary>
-        /// ÎŞĞ§
+        /// æ— æ•ˆ
         /// </summary>
         Invalid = 0,
 
         /// <summary>
-        /// Minio×Ô½¨¶ÔÏó´¢´æ
+        /// Minioè‡ªå»ºå¯¹è±¡å‚¨å­˜
         /// </summary>
         Minio = 1,
 
         /// <summary>
-        /// °¢ÀïÔÆOSS
+        /// é˜¿é‡Œäº‘OSS
         /// </summary>
         Aliyun = 2,
 
         /// <summary>
-        /// ÌÚÑ¶ÔÆOSS
+        /// è…¾è®¯äº‘OSS
         /// </summary>
         QCloud = 3,
     }
@@ -29,17 +29,26 @@ namespace Z.OSSCore
     public class OSSOptions
     {
         /// <summary>
-        /// Ã¶¾Ù£¬OOSÌá¹©ÉÌ
+        /// BucketName
+        /// </summary>
+        public string DefaultBucket { get; set; }
+        /// <summary>
+        /// æšä¸¾ï¼ŒOOSæä¾›å•†
         /// </summary>
         public OSSProvider Provider { get; set; }
 
         /// <summary>
-        /// ½Úµã
+        /// èŠ‚ç‚¹
         /// </summary>
         /// <remarks>
-        /// ÌÚÑ¶ÔÆÖĞ±íÊ¾AppId
+        /// è…¾è®¯äº‘ä¸­è¡¨ç¤ºAppId
         /// </remarks>
         public string Endpoint { get; set; }
+        
+        /// <summary>
+        /// æ˜¯å¦å¯ç”¨
+        /// </summary>
+        public bool Enable { get; set; }
 
         /// <summary>
         /// AccessKey
@@ -54,7 +63,7 @@ namespace Z.OSSCore
         private string _region = "us-east-1";
 
         /// <summary>
-        /// µØÓò
+        /// åœ°åŸŸ
         /// </summary>
         public string Region
         {
@@ -76,13 +85,13 @@ namespace Z.OSSCore
         }
 
         /// <summary>
-        /// ÊÇ·ñÆôÓÃHTTPS
+        /// æ˜¯å¦å¯ç”¨HTTPS
         /// </summary>
         public bool IsEnableHttps { get; set; } = true;
 
         /// <summary>
-        /// ÊÇ·ñÆôÓÃ»º´æ£¬Ä¬ÈÏ»º´æÔÚMemeryCacheÖĞ£¨¿ÉÊ¹ÓÃ×ÔĞĞÊµÏÖµÄ»º´æÌæ´úÄ¬ÈÏ»º´æ£©
-        /// ÔÚÊ¹ÓÃÖ®Ç°ÇëÆÀ¹Àµ±Ç°Ó¦ÓÃµÄ»º´æÄÜÁ¦ÄÜ·ñ¶¥×¡µ±Ç°ÇëÇó
+        /// æ˜¯å¦å¯ç”¨ç¼“å­˜ï¼Œé»˜è®¤ç¼“å­˜åœ¨MemeryCacheä¸­ï¼ˆå¯ä½¿ç”¨è‡ªè¡Œå®ç°çš„ç¼“å­˜æ›¿ä»£é»˜è®¤ç¼“å­˜ï¼‰
+        /// åœ¨ä½¿ç”¨ä¹‹å‰è¯·è¯„ä¼°å½“å‰åº”ç”¨çš„ç¼“å­˜èƒ½åŠ›èƒ½å¦é¡¶ä½å½“å‰è¯·æ±‚
         /// </summary>
         public bool IsEnableCache { get; set; } = false;
     }

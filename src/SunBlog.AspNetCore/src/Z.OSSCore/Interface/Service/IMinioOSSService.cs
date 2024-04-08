@@ -4,7 +4,7 @@ using Z.OSSCore.Models.Policy;
 
 namespace Z.OSSCore.Interface.Service
 {
-    public interface IMinioOSSService : IOSSService,IScopedDependency
+    public interface IMinioOSSService<T> : IOSSService<T>
     {
         Task<bool> RemoveIncompleteUploadAsync(string bucketName, string objectName);
 

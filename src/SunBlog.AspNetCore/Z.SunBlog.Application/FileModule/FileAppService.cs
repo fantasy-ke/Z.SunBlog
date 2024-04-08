@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Minio;
 using Z.EntityFrameworkCore.Extensions;
 using Z.Fantasy.Core;
 using Z.Fantasy.Core.DomainServiceRegister;
-using Z.Fantasy.Core.Minio;
 using Z.Fantasy.Core.ResultResponse.Pager;
 using Z.Module.DependencyInjection;
+using Z.OSSCore;
 using Z.OSSCore.Models.Dto;
 using Z.SunBlog.Application.FileModule.Dto;
 using Z.SunBlog.Core.Const;
@@ -39,7 +40,7 @@ public class FileAppService : ApplicationService, IFileAppService
 {
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IMinioFileManager _minioFileManager;
-    private readonly MinioConfig _minioOptions;
+    private readonly OSSOptions _ossOptions;
     private readonly IFileInfoManager _fileInfoManager;
 
     /// <summary>
@@ -54,14 +55,14 @@ public class FileAppService : ApplicationService, IFileAppService
         IServiceProvider serviceProvider,
         IWebHostEnvironment webHostEnvironment,
         IMinioFileManager minioFileManager,
-        IOptions<MinioConfig> minioOptions,
+        IOptions<OSSOptions> minioOptions,
         IFileInfoManager fileInfoManager
     )
         : base(serviceProvider)
     {
         _webHostEnvironment = webHostEnvironment;
         _minioFileManager = minioFileManager;
-        _minioOptions = minioOptions.Value;
+        _ossOptions = minioOptions.Value;
         _fileInfoManager = fileInfoManager;
     }
 
@@ -95,7 +96,7 @@ public class FileAppService : ApplicationService, IFileAppService
     public async Task<IActionResult> GetFile(string fileUrl)
     {
         //是否开启minio
-        if (!_minioOptions.Enable)
+        if (!_ossOptions.Enable)
         {
             var webrootpath = _webHostEnvironment.WebRootPath;
             string s = Path.Combine(webrootpath, fileUrl);
@@ -103,7 +104,7 @@ public class FileAppService : ApplicationService, IFileAppService
             var stream = System.IO.File.OpenRead(s);
             return new FileStreamResult(stream, contentType);
         }
-        fileUrl = fileUrl.Replace(_minioOptions.DefaultBucket!.TrimEnd('/'), "");
+        fileUrl = fileUrl.Replace(_ossOptions.DefaultBucket!.TrimEnd('/'), "");
         var output = await _minioFileManager.GetFile(fileUrl);
 
         return new FileStreamResult(output.Stream, output.ContentType);
@@ -149,8 +150,8 @@ public class FileAppService : ApplicationService, IFileAppService
         await _minioFileManager.DeleteMinioFileAsync(
             new OperateObjectInput
             {
-                BucketName = _minioOptions.DefaultBucket,
-                ObjectName = entity.FilePath.Replace(_minioOptions.DefaultBucket, string.Empty)
+                BucketName = _ossOptions.DefaultBucket,
+                ObjectName = entity.FilePath.Replace(_ossOptions.DefaultBucket, string.Empty)
     }
         );
     }

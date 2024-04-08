@@ -2,10 +2,8 @@ using Minio;
 
 namespace Z.OSSCore.Interface
 {
-    public interface IOSSServiceFactory
+    public interface IOSSServiceFactory<T>
     {
-        IOSSService Create();
-
-        IOSSService Create(string name);
+        IOSSService<T> Create();
     }
 }

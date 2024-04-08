@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Z.Fantasy.Core.Aop.AopLog;
 using Z.Fantasy.Core.Filters;
-using Z.Fantasy.Core.Minio;
 using Z.Foundation.Core;
 using Z.Foundation.Core.DependencyInjection.Extensions;
 using Z.Module;

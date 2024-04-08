@@ -3,7 +3,7 @@ using Z.OSSCore.Models;
 
 namespace Z.OSSCore.Interface.Service
 {
-    public interface IAliyunOSSService : IOSSService,IScopedDependency
+    public interface IAliyunOSSService<T> : IOSSService<T>
     {
         /// <summary>
         /// 获取储存桶地域

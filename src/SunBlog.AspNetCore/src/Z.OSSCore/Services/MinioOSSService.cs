@@ -15,7 +15,7 @@ using Z.OSSCore.Providers;
 
 namespace Z.OSSCore.Services
 {
-    public class MinioOSSService : BaseOSSService, IMinioOSSService,IScopedDependency
+    public class MinioOSSService<T> : BaseOSSService, IMinioOSSService<T>
     {
         private readonly MinioClient _client = null;
         private readonly string _defaultPolicyVersion = "2012-10-17";
@@ -856,7 +856,7 @@ namespace Z.OSSCore.Services
                 .WithStreamData(input.Stream)
                 .WithContentType(input.ContentType)
                 .WithObjectSize(input.Stream.Length);
-            await _client.PutObjectAsync(args, input.CancellationToken);
+           var c= await _client.PutObjectAsync(args);
             return true;
         }
         public async Task<ItemMeta> GetObjectMetadataAsync(string bucketName
