@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Z.Fantasy.Core.Entities.Auditing;
 using Z.Fantasy.Core.Entities.Enum;
-using Z.Fantasy.Core.Extensions;
+using Z.Foundation.Core.Extensions;
 
 namespace Z.Fantasy.Core.Entities.Files
 {

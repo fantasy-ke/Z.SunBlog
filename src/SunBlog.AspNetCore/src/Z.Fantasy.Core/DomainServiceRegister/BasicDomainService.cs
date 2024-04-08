@@ -1,19 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using Z.Module.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Z.Fantasy.Core.Exceptions;
-using Minio.DataModel.Notification;
 using System.Reflection;
 using Z.Fantasy.Core.DomainServiceRegister.Domain;
 using Z.Fantasy.Core.ResultResponse.Pager;
 using Z.Fantasy.Core.Entities;
 using Z.Fantasy.Core.Entities.Repositories;
+using Z.Foundation.Core.Exceptions;
 
 namespace Z.Fantasy.Core.DomainServiceRegister;
 

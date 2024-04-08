@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Z.Fantasy.Core.Aop.AopLog;
-using Z.Fantasy.Core.DependencyInjection.Extensions;
-using Z.Fantasy.Core.DynamicProxy;
 using Z.Fantasy.Core.Filters;
 using Z.Fantasy.Core.Minio;
+using Z.Foundation.Core;
+using Z.Foundation.Core.DependencyInjection.Extensions;
 using Z.Module;
 using Z.Module.Extensions;
 using Z.Module.Modules;
 
 namespace Z.Fantasy.Core
 {
-    [DependOn(typeof(ZCastleCoreModule))]
+    [DependOn(typeof(ZFoundationCoreModule))]
     public class ZFantasyCoreModule : ZModule
     {
         public override void ConfigureServices(ServiceConfigerContext context)

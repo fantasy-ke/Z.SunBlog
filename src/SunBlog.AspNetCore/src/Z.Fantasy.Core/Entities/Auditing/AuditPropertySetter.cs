@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Z.Fantasy.Core.Entities.IAuditing;
-using Z.Fantasy.Core.Extensions;
-using Z.Fantasy.Core.Helper;
 using Z.Fantasy.Core.UserSession;
+using Z.Foundation.Core.Extensions;
+using Z.Foundation.Core.Helper;
 using Z.Module.DependencyInjection;
 
 namespace Z.Fantasy.Core.Entities.Auditing

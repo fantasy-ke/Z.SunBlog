@@ -2,8 +2,8 @@
 using Serilog;
 using Serilog.Events;
 using System.Text;
-using Z.Fantasy.Core.Extensions;
 using Z.Fantasy.Core.Https;
+using Z.Foundation.Core.Extensions;
 
 namespace Z.Fantasy.Core.Serilog.Utility;
 

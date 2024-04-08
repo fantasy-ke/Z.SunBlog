@@ -1,5 +1,5 @@
 ﻿using Serilog;
-using Z.Fantasy.Core.DynamicProxy;
+using Z.DynamicProxy;
 using Z.Module.DependencyInjection;
 
 namespace Z.Fantasy.Core.Aop.AopLog;

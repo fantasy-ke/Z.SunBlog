@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ResultExecutingContext = Microsoft.AspNetCore.Mvc.Filters.ResultExecutingContext;
 using Microsoft.AspNetCore.Http;
-using Z.Fantasy.Core.Exceptions;
-using Z.Fantasy.Core.Extensions;
+using Z.Foundation.Core.Exceptions;
+using Z.Foundation.Core.Extensions;
 
 namespace Z.Fantasy.Core.ResultResponse;
 

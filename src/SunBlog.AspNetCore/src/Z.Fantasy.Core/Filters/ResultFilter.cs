@@ -1,8 +1,8 @@
 ﻿
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Z.Fantasy.Core.Attributes;
 using Z.Fantasy.Core.ResultResponse;
+using Z.Foundation.Core.Attributes;
 
 namespace Z.Fantasy.Core.Filters;
 

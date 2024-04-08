@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using Z.Fantasy.Core.Helper;
+using Z.Foundation.Core.Helper;
 
 namespace Z.Fantasy.Core.Entities;
 

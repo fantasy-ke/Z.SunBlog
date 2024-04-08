@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Z.Fantasy.Core.DependencyInjection;
-using Z.Fantasy.Core.Extensions;
-using Z.Fantasy.Core.Helper;
+using Z.Foundation.Core.DependencyInjection;
+using Z.Foundation.Core.Extensions;
+using Z.Foundation.Core.Helper;
 
 namespace Z.Fantasy.Core.Aop.AopLog;
 

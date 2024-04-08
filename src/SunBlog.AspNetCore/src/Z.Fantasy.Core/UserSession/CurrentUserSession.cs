@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Z.Fantasy.Core;
+using Z.Foundation.Core;
 using Z.Module.DependencyInjection;
 
 namespace Z.Fantasy.Core.UserSession

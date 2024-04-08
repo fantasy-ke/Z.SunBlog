@@ -2,7 +2,7 @@
 using Serilog;
 using Serilog.Debugging;
 using Serilog.Events;
-using Z.Fantasy.Core.Helper;
+using Z.Foundation.Core.Helper;
 
 namespace Z.Fantasy.Core.Serilog;
 

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Z.Fantasy.Core.Attributes;
+﻿using System.ComponentModel;
+using Z.Foundation.Core.Attributes;
 
 namespace Z.Fantasy.Core.Entities.Enum;
 
