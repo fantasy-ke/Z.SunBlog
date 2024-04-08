@@ -1,11 +1,10 @@
-using Hangfire;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Z.Fantasy.Core.AutofacExtensions;
 using Z.Fantasy.Core.Entities.EntityLog;
 using Z.Fantasy.Core.Entities.Repositories;
-using Z.Fantasy.Core.HangFire.BackgroundJobs.Abstractions;
 using Z.Fantasy.Core.UnitOfWork;
+using Z.Foundation.Core.AutofacExtensions;
+using Z.HangFire.BackgroundJobs.Abstractions;
 using Z.Module.DependencyInjection;
 
 namespace Z.SunBlog.Application.HangfireJob.ExceptionLog;

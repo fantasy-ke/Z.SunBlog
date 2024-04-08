@@ -1,11 +1,5 @@
-﻿using Hangfire;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Z.Fantasy.Core.HangFire.BackgroundJobs.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using Z.HangFire.BackgroundJobs.Abstractions;
 using Z.Module.DependencyInjection;
 
 namespace Z.SunBlog.Core.jobs.TestJob

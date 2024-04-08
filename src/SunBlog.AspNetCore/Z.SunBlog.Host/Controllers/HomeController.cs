@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using Z.Fantasy.Core.Attributes;
-using Z.Fantasy.Core.Helper;
+using Z.Foundation.Core.Attributes;
+using Z.Foundation.Core.Helper;
 using Z.SunBlog.Application.UserModule;
 using Z.SunBlog.Host.Models;
 

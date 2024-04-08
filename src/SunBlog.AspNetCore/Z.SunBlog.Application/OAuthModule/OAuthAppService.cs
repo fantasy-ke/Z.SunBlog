@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Yitter.IdGenerator;
 using Z.Fantasy.Core;
 using Z.Fantasy.Core.Authorization;
 using Z.Fantasy.Core.DomainServiceRegister;
-using Z.Fantasy.Core.Exceptions;
 using Z.Fantasy.Core.RedisModule;
 using Z.Fantasy.Core.UserSession;
 using Z.SunBlog.Application.OAuthModule.Dto;
@@ -23,14 +19,15 @@ using Z.Fantasy.Core.Entities.Enum;
 using Z.SunBlog.Application.ConfigModule;
 using Serilog;
 using MrHuo.OAuth.QQ;
-using Z.Fantasy.Core.Attributes;
 using Z.Fantasy.Core.Authorization.Dtos;
-using Z.Fantasy.Core.Helper;
 using Z.Fantasy.Core.OAuth.Gitee;
 using Z.Fantasy.Core.OAuth.GitHub;
-using Z.Fantasy.Core.Extensions;
+using Z.Foundation.Core.Attributes;
+using Z.Foundation.Core.Exceptions;
 using Z.SunBlog.Core.MessageModule.DomainManager;
 using Z.SunBlog.Core.MessageModule.Dto;
+using Z.Foundation.Core.Helper;
+using Z.Foundation.Core.Extensions;
 
 namespace Z.SunBlog.Application.OAuthModule
 {

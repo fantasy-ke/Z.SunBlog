@@ -10,13 +10,13 @@ using Z.Fantasy.Core.RedisModule;
 using Z.SunBlog.Core.CustomConfigModule.DomainManager;
 using Microsoft.EntityFrameworkCore;
 using Z.EntityFrameworkCore.Extensions;
-using Z.Fantasy.Core.Exceptions;
 using Z.SunBlog.Core.SharedDto;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System.Text.RegularExpressions;
 using Z.SunBlog.Application.ConfigModule.Dto;
 using Z.Fantasy.Core.ResultResponse.Pager;
+using Z.Foundation.Core.Exceptions;
 
 namespace Z.SunBlog.Application.ConfigModule
 {

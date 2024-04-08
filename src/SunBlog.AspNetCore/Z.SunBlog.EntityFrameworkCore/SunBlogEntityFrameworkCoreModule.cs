@@ -9,10 +9,10 @@ using Z.Module.Extensions;
 using Z.Module.Modules;
 using Z.SunBlog.EntityFrameworkCore.EntityFrameworkCore.Seed;
 using Microsoft.Extensions.Configuration;
-using Z.Fantasy.Core.Exceptions;
 using Z.EntityFrameworkCore.Mysql;
-using Z.Fantasy.Core;
-using Z.Fantasy.Core.Entities.Enum;
+using Z.Foundation.Core.Entities.Enum;
+using Z.Foundation.Core;
+using Z.Foundation.Core.Exceptions;
 
 namespace Z.SunBlog.EntityFrameworkCore
 {

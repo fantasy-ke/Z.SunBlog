@@ -1,16 +1,16 @@
 ﻿using MrHuo.OAuth;
 using MrHuo.OAuth.QQ;
 using Yitter.IdGenerator;
-using Z.Fantasy.Core.Extensions;
 using Z.Module;
 using Z.Module.Extensions;
 using Z.Module.Modules;
 using Z.SunBlog.Application;
 using Z.SunBlog.EntityFrameworkCore;
-using Z.Fantasy.Core.Helper;
 using Z.Fantasy.Core.OAuth.Gitee;
 using Z.Fantasy.Core.OAuth.GitHub;
 using Z.SunBlog.Core.Hubs;
+using Z.Foundation.Core.Helper;
+using Z.Foundation.Core.Extensions;
 
 namespace Z.SunBlog.Host;
 

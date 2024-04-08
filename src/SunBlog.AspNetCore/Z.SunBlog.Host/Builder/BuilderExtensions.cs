@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Text;
+﻿using System.Text;
 using Lazy.Captcha.Core;
 using Lazy.Captcha.Core.Generator;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -13,11 +12,12 @@ using Z.EntityFrameworkCore.Extensions;
 using Z.Fantasy.Application.Middleware;
 using Z.Fantasy.Core;
 using Z.Fantasy.Core.DynamicWebAPI;
-using Z.Fantasy.Core.Entities.Enum;
-using Z.Fantasy.Core.Extensions;
-using Z.Fantasy.Core.HangFire.Builder;
-using Z.Fantasy.Core.Helper;
 using Z.Fantasy.Core.Serilog.Utility;
+using Z.Foundation.Core;
+using Z.Foundation.Core.Entities.Enum;
+using Z.Foundation.Core.Extensions;
+using Z.Foundation.Core.Helper;
+using Z.HangFire.Builder;
 using Z.Module;
 using Z.Module.Extensions;
 using Z.RabbitMQ.Extensions;
@@ -46,7 +46,7 @@ namespace Z.SunBlog.Host.Builder
         public static void AddCoreServices(this IServiceCollection services)
         {
             services.ServicesConfig();
-            services.ConfigureHangfireService();
+            // services.ConfigureHangfireService();
             services.ServicesMvc();
             services.ServicesSwagger();
             services.ServicesCors();
@@ -299,7 +299,7 @@ namespace Z.SunBlog.Host.Builder
 
             app.UseAuthorization();
 
-            app.UseZHangfire();
+            // app.UseZHangfire();
 
             app.UseRouting();
 

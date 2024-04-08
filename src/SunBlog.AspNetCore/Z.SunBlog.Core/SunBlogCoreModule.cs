@@ -1,17 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using StackExchange.Redis;
-using System.Net;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Z.Fantasy.Core.RedisModule;
 using Z.EventBus.Extensions;
 using Z.Module;
 using Z.Module.Extensions;
 using Z.Module.Modules;
 using Z.SunBlog.Common;
-using Z.SunBlog.Core.Handlers.FileHandlers;
-using Z.SunBlog.Core.Handlers.TestHandlers;
 using Z.Fantasy.Core.Minio;
-using Z.Fantasy.Core.HangFire.Builder;
+using Z.HangFire.Builder;
 
 namespace Z.SunBlog.Core
 {

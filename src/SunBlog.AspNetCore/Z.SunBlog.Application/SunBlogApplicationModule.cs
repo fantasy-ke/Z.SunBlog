@@ -23,11 +23,11 @@ using Z.SunBlog.Application.UserModule.MapperConfig;
 using Z.SunBlog.Core;
 using Z.EventBus.Extensions;
 using Z.Fantasy.Application.Handlers;
+using Z.HangFire;
+using Z.HangFire.Builder;
 using Z.SunBlog.Core.Handlers.FileHandlers;
 using Z.SunBlog.Core.Handlers.TestHandlers;
-using Z.Fantasy.Core.HangFire.BackgroundJobs.Abstractions;
 using Z.Module.Extensions;
-using Z.Fantasy.Core.HangFire.Builder;
 using Z.SunBlog.Application.HangfireJob.ExceptionLog;
 using Z.SunBlog.Application.HangfireJob.RequestLog;
 using Z.SunBlog.Application.LogsModule.RequestLogServer.MapperConfig;
@@ -39,7 +39,7 @@ namespace Z.SunBlog.Application
     /// <summary>
     /// SunBlog应用层
     /// </summary>
-    [DependOn(typeof(SunBlogCoreModule), typeof(ZFantasyApplicationModule))]
+    [DependOn(typeof(SunBlogCoreModule), typeof(ZFantasyApplicationModule),typeof(ZHangFireModule))]
     public class SunBlogApplicationModule : ZModule
     {
         /// <summary>
