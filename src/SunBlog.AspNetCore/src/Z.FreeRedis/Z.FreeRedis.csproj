@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Z.Foundation.Core\Z.Foundation.Core.csproj" />
+        <PackageReference Include="FreeRedis" Version="1.2.12" />
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.0.3" />
+    </ItemGroup>
+
+</Project>
