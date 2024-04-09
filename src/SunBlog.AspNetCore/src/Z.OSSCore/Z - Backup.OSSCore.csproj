@@ -8,9 +8,6 @@
         <PackageIcon>85232349.png</PackageIcon>
         <PackageReadmeFile>Readme.md</PackageReadmeFile>
         <Description>aliyun与minio的OSS管理工具</Description>
-        <RepositoryType>git</RepositoryType>
-        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -27,11 +24,11 @@
         <Pack>True</Pack>
         <PackagePath>\</PackagePath>
       </None>
-      <None Update="LICENSE">
+      <None Update="Readme.md">
         <Pack>True</Pack>
         <PackagePath>\</PackagePath>
       </None>
-      <None Update="Readme.md">
+      <None Update="LICENSE">
         <Pack>True</Pack>
         <PackagePath>\</PackagePath>
       </None>
