@@ -6,6 +6,6 @@ namespace Z.SunBlog.Core.FileModule.FileManager
 {
     public interface IFileInfoManager : IBusinessDomainService<ZFileInfo>
     {
-        Task<string> UploadFileAsync(IFormFile file, string minioName);
+        Task<string> UploadFileAsync(IFormFile file, string objectName);
     }
 }

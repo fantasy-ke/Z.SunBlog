@@ -11,10 +11,10 @@ namespace Z.SunBlog.Core.Handlers.FileHandlers
 {
     public class FileEventHandler : IEventHandler<FileEventDto>, ITransientDependency
     {
-        private readonly IOSSService<OSSMinio> _minioService;
+        private readonly IOSSService<OSSAliyun> _minioService;
         private readonly OSSOptions _ossOptions;
 
-        public FileEventHandler(IOSSService<OSSMinio> minioService, IOptions<OSSOptions> minioOptions)
+        public FileEventHandler(IOSSService<OSSAliyun> minioService, IOptions<OSSOptions> minioOptions)
         {
             _minioService = minioService;
             _ossOptions = minioOptions.Value;

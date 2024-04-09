@@ -78,13 +78,13 @@ public class FileAppService : ApplicationService, IFileAppService
             throw new Exception("请上传文件");
         }
         //文件路径
-        var minioname =
-            $"{ZSunBlogConst.MinioAvatar}_{Guid.NewGuid().ToString("N")}/{file.FileName}";
-        var url = await _fileInfoManager.UploadFileAsync(file, minioname);
+        var objectName =
+            $"{ZSunBlogConst.AliyunAvatar}_{Guid.NewGuid().ToString("N")}/{file.FileName}";
+        var url = await _fileInfoManager.UploadFileAsync(file, objectName);
         //await _minioFileManager.UploadMinio(file.OpenReadStream(), fileUrl, file.ContentType);
         return new List<UploadFileOutput>()
         {
-            new() { Name = minioname, Url = url }
+            new() { Name = objectName, Url = url }
         };
     }
 

@@ -4,25 +4,22 @@ using Z.OSSCore;
 using Z.OSSCore.EntityType;
 using Z.OSSCore.Interface;
 using Z.OSSCore.Models.Dto;
-using GetObjectInput = Z.OSSCore.Models.Dto.GetObjectInput;
-using ObjectOutPut = Z.OSSCore.Models.Dto.ObjectOutPut;
-using UploadObjectInput = Z.OSSCore.Models.Dto.UploadObjectInput;
 
 namespace Z.SunBlog.Core.MinioFileModule.DomainManager
 {
     public class MinioFileManager : DomainService, IMinioFileManager
     {
-        private readonly IOSSService<OSSMinio> _minioService;
+        private readonly IOSSService<OSSAliyun> _ossService;
         private readonly OSSOptions _ossOptions;
-        public MinioFileManager(IServiceProvider serviceProvider, IOSSService<OSSMinio> minioService, IOptions<OSSOptions> minioOptions) : base(serviceProvider)
+        public MinioFileManager(IServiceProvider serviceProvider, IOptions<OSSOptions> minioOptions, IOSSService<OSSAliyun> ossService = null) : base(serviceProvider)
         {
-            _minioService = minioService;
+            _ossService = ossService;
             _ossOptions = minioOptions.Value;
         }
 
         public async Task DeleteMinioFileAsync(OperateObjectInput input)
         {
-            await _minioService.RemoveObjectAsync(input);
+            await _ossService.RemoveObjectAsync(input);
         }
 
         public async Task<ObjectOutPut> GetFile(string fileUrl)
@@ -33,7 +30,7 @@ namespace Z.SunBlog.Core.MinioFileModule.DomainManager
                 BucketName = _ossOptions.DefaultBucket
             };
 
-            return await _minioService.GetObjectAsync(obj);
+            return await _ossService.GetObjectAsync(obj);
         }
 
         public async Task UploadMinio(Stream stream, string file, string contentType)
@@ -43,7 +40,7 @@ namespace Z.SunBlog.Core.MinioFileModule.DomainManager
             , contentType
                 , stream);
 
-            await _minioService.UploadObjectAsync(obj);
+            await _ossService.UploadObjectAsync(obj);
         }
     }
 }

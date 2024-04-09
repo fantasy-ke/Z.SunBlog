@@ -9,5 +9,9 @@ namespace Z.SunBlog.Core.Const
     public class ZSunBlogConst
     {
         public const string MinioAvatar = "z_minio";
+        
+        public const string AliyunAvatar = "z_aliyun";
+        
+        public const string FileAvatar = "z_file";
     }
 }

@@ -7,6 +7,7 @@ using Z.Fantasy.Core.DomainServiceRegister.Domain;
 using Z.Fantasy.Core.Entities.Enum;
 using Z.Fantasy.Core.Entities.Files;
 using Z.OSSCore;
+using Z.SunBlog.Core.Const;
 using Z.SunBlog.Core.Handlers.FileHandlers;
 
 namespace Z.SunBlog.Core.FileModule.FileManager
@@ -38,19 +39,19 @@ namespace Z.SunBlog.Core.FileModule.FileManager
             return Task.CompletedTask;
         }
 
-        public async Task<string> UploadFileAsync(IFormFile file, string minioName)
+        public async Task<string> UploadFileAsync(IFormFile file, string objectName)
         {
             string extension = Path.GetExtension(file.FileName);
             // 文件完整名称
             var now = DateTime.Today;
             string filePath = GetTargetDirectory(file.ContentType, $"/{now.Year}-{now.Month:D2}/");
-            var fileUrl = $"{filePath}{minioName}";
+            var fileUrl = $"{filePath}{objectName}";
             var request = _httpContextAccessor.HttpContext!.Request;
             var fileinfo = new ZFileInfo()
             {
                 FileName = file.FileName,
                 ContentType = file.ContentType,
-                FilePath = string.Concat(_ossOptions.DefaultBucket!.TrimEnd('/'), fileUrl),
+                FilePath = string.Concat(ZSunBlogConst.FileAvatar!.TrimEnd('/'), fileUrl),
                 FileSize = file.Length.ToString(),
                 FileExt = extension,
                 FileType = GetFileTypeFromContentType(file.ContentType),
@@ -60,30 +61,33 @@ namespace Z.SunBlog.Core.FileModule.FileManager
 
             fileinfo.Code = await GetNextChildCodeAsync(fileinfo.ParentId);
 
-            if (!_ossOptions.Enable)
+            if (_ossOptions == null || !_ossOptions.Enable)
             {
-                filePath = string.Concat(_ossOptions.DefaultBucket!.TrimEnd('/'), filePath);
+                filePath = string.Concat(ZSunBlogConst.FileAvatar!.TrimEnd('/'), filePath);
                 var webrootpath = _webHostEnvironment.WebRootPath;
                 string s = Path.Combine(webrootpath, filePath).Replace("//","/");
-                if (!Directory.Exists(s))
+                string fileDataPath = $"{s}{objectName}";
+                var directoryPath = Path.GetDirectoryName(fileDataPath);
+                if (!string.IsNullOrWhiteSpace(directoryPath) && !Directory.Exists(directoryPath))
                 {
-                    Directory.CreateDirectory(s);
+                    Directory.CreateDirectory(directoryPath);
                 }
                 fileinfo.FileIpAddress = $"{request.Scheme}://{request.Host.Value}";
                 await CreateAsync(fileinfo);
-                var stream = System.IO.File.Create($"{s}{minioName}");
+                await using  var stream = File.Create(fileDataPath);
                 await file.CopyToAsync(stream);
                 await stream.DisposeAsync();
-                fileUrl = string.Concat(_ossOptions.DefaultBucket.TrimEnd('/'), fileUrl);
+                fileUrl = string.Concat(ZSunBlogConst.FileAvatar.TrimEnd('/'), fileUrl);
                 string url = $"{request.Scheme}://{request.Host.Value}/{fileUrl}";
                 return url;
             }
-            fileinfo.FileIpAddress = $"{request.Scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}";
+            var scheme = _ossOptions.IsEnableHttps ? "https" : "http";
+            fileinfo.FileIpAddress = $"{scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}";
             await CreateAsync(fileinfo);
             await _localEvent.PushAsync(
                 new FileEventDto(file.OpenReadStream(), fileUrl, file.ContentType)
             );
-            return $"{request.Scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}/{string.Concat(_ossOptions.DefaultBucket!.TrimEnd('/'), fileUrl)}";
+            return $"{scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}/{string.Concat(_ossOptions.DefaultBucket!.TrimEnd('/'), fileUrl)}";
         }
 
         private static FileType GetFileTypeFromContentType(string contentType)
