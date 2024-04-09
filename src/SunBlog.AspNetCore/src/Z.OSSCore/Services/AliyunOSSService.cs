@@ -272,7 +272,10 @@ namespace Z.OSSCore.Services
                 throw new ArgumentNullException(nameof(input.BucketName));
             }
             input.ObjectName = FormatObjectName(input.ObjectName);
-            GetObjectMetadataRequest request = new GetObjectMetadataRequest(input.BucketName, input.ObjectName);
+            GetObjectMetadataRequest request = new GetObjectMetadataRequest(input.BucketName, input.ObjectName)
+            {
+                VersionId = null
+            };
             var oldMeta = _client.GetObjectMetadata(request);
             var obj = _client.GetObject(input.BucketName, input.ObjectName);
             return new ObjectOutPut(input.ObjectName
