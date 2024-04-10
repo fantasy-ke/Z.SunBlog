@@ -22,7 +22,7 @@
 import { inject, nextTick, onMounted, onUnmounted, reactive, ref } from "vue";
 import Viewer from "viewerjs";
 import "viewerjs/dist/viewer.css";
-import { AlbumsCsServiceProxy, PictureOutput } from "@/shared/service-proxies";
+import { AlbumsCsServiceProxy, PictureOutput,PicturesQueryInput } from "@/shared/service-proxies";
 import { useRoute } from "vue-router";
 const _albumsCService = new AlbumsCsServiceProxy(inject("$baseurl"), inject("$api"));
 const route = useRoute();
@@ -41,7 +41,11 @@ onMounted(() => {
   viewer.value = new Viewer(document.getElementById("photos") as HTMLElement);
 });
 onMounted(async () => {
-  await _albumsCService.pictures(state.query.albumId, state.query.pageNo, state.query.pageSize).then((res) => {
+  let input = new PicturesQueryInput();
+  input.albumId = state.query.albumId;
+  input.pageNo = state.query.pageNo;
+  input.pageSize = state.query.pageSize;
+  await _albumsCService.pictures(input).then((res) => {
     if (res.result) {
       let data = res.result;
       state.photos = data?.rows ?? [];
