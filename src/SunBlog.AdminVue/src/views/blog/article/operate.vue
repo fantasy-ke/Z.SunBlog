@@ -455,7 +455,7 @@ onMounted(async () => {
 	_fileService = new FilesServiceProxy(inject('$baseurl'), baseapi as unknown as AxiosInstance);
 	// 获取栏目和标签
 	const [c, t] = await Promise.all([_categoryService.treeSelect(), _tagsService.select()]);
-	state.form.id = (route.query.id as never) ?? 0;
+	state.form.id = (route.query.id as never) ?? null;
 	if (state.form.id) {
 		const { result, success } = await _articleService.getDetail(state.form.id);
 		if (success && result) {
