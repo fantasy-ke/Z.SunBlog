@@ -9,7 +9,7 @@
       <router-link :to="'/talks/' + item.id">
         <!-- 用户信息 -->
         <div class="user-info-wrapper">
-          <v-avatar size="36" class="user-avatar" :image="info.avatar!"> </v-avatar>
+          <v-avatar size="36" class="user-avatar" :image="info.avatarUrl!"> </v-avatar>
           <div class="user-detail-wrapper">
             <div class="user-nickname">
               {{ info.nikeName }}
