@@ -9,9 +9,9 @@ namespace Z.SunBlog.Core.MinioFileModule.DomainManager
 {
     public class MinioFileManager : DomainService, IMinioFileManager
     {
-        private readonly IOSSService<OSSAliyun> _ossService;
+        private readonly IOSSService<OSSMinio> _ossService;
         private readonly OSSOptions _ossOptions;
-        public MinioFileManager(IServiceProvider serviceProvider, IOptions<OSSOptions> minioOptions, IOSSService<OSSAliyun> ossService = null) : base(serviceProvider)
+        public MinioFileManager(IServiceProvider serviceProvider, IOptions<OSSOptions> minioOptions, IOSSService<OSSMinio> ossService = null) : base(serviceProvider)
         {
             _ossService = ossService;
             _ossOptions = minioOptions.Value;

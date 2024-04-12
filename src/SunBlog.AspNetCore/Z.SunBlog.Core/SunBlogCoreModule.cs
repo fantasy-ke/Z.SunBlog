@@ -26,7 +26,7 @@ namespace Z.SunBlog.Core
             // context.Services.AddZMinio(configuration);
             context.Services.AddOSSService(option =>
             {
-                option.Provider = OSSProvider.Aliyun;
+                option.Provider = OSSProvider.Minio;
             });
             
             // 注入事件总线

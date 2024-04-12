@@ -11,12 +11,12 @@ namespace Z.SunBlog.Core.Handlers.FileHandlers
 {
     public class FileEventHandler : IEventHandler<FileEventDto>, ITransientDependency
     {
-        private readonly IOSSService<OSSAliyun> _minioService;
+        private readonly IOSSService<OSSMinio> _ossService;
         private readonly OSSOptions _ossOptions;
 
-        public FileEventHandler(IOSSService<OSSAliyun> minioService, IOptions<OSSOptions> minioOptions)
+        public FileEventHandler(IOSSService<OSSMinio> ossService, IOptions<OSSOptions> minioOptions)
         {
-            _minioService = minioService;
+            _ossService = ossService;
             _ossOptions = minioOptions.Value;
         }
 
@@ -28,7 +28,7 @@ namespace Z.SunBlog.Core.Handlers.FileHandlers
             , eto.ContentType
                 , eto.Stream);
 
-            await _minioService.UploadObjectAsync(obj);
+            await _ossService.UploadObjectAsync(obj);
         }
     }
 }
