@@ -134,14 +134,12 @@ export class apiHttpClient {
 					}
 				}
 				// 这里错误消息可以使用全局弹框展示出来
-				if (message && err.response.status!=500) {
 					// 比如element plus 可以使用 ElMessage
-					ElMessage({
-						showClose: true,
-						message: `${message}，请检查网络或联系管理员！`,
-						type: 'error',
-					});
-				}
+				ElMessage({
+					showClose: true,
+					message: `${message}，请检查网络或联系管理员！`,
+					type: 'error',
+				});
 
 				// 这里是AxiosError类型，所以一般我们只reject我们需要的响应即可
 				console.log(err.response);
