@@ -8,7 +8,7 @@
 						<div class="personal-user-left">
 							<el-upload
 								class="h100 personal-user-left-upload"
-								action="/api/Files/UploadFile"
+								:action="`${inject('$baseurl')}/api/Files/UploadFile`"
 								:with-credentials="true"
 								accept="image/*"
 								:limit="1"
