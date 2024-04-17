@@ -13,6 +13,7 @@ export const useAuth = defineStore(StoreKey.Auth, () => {
   const login = async (code: string) => {
     const {data} = await OAuthApi.login(code);
     if (data.value?.success) {
+      signalR.start();
       userStore.setToken({ zToken: data.value.result });
       await getUserInfo();
     } else {
@@ -38,7 +39,6 @@ export const useAuth = defineStore(StoreKey.Auth, () => {
         const toast = useToast();
         userStore.clearToken();
         signalR.close();
-        signalR.start();
         toast.success("退出登录成功！");
       });
     };
