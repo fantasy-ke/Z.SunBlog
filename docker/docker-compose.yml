@@ -39,6 +39,19 @@ services:
     volumes:
       - "/data/sunblog/blogvue:/usr/share/nginx/html"
 
+  blognuxt:
+    image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:blognuxt
+    restart: always
+    networks:
+      - fantasy_net
+    depends_on:
+      - hostbolg
+    environment:
+      - PORT=80
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+    volumes:
+      - "/data/sunblog/blognuxt:/app/"
+
   adminvue:
     image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:adminvue
     restart: always

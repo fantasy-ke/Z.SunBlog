@@ -9,8 +9,10 @@ function WriteNewLine ($msg) {
 # 应用镜像集合
 $apptags = [System.Collections.ArrayList]::new()
 $count = $apptags.Add("hostblog")
-$count = $apptags.Add("vueblog")
+$count = $apptags.Add("blognuxt")
+# $count = $apptags.Add("vueblog")
 $count = $apptags.Add("adminvue")
+
 
 # 打包镜像
 WriteNewLine '开始编译镜像，请耐心等待...'
@@ -35,13 +37,19 @@ docker build . --force-rm -t $imgName  -f ./Z.SunBlog.Host/Dockerfile
 ## 推送
 # docker push $imgName
 
-# ## migrator
-Set-Location ../SunBlog.BlogVue
-$imgName = $sunblog_register  + ':' + $apptags[1]
-WriteNewLine "正在编译 vueblog 镜像： $imgName"
-docker build . --force-rm -t $imgName  -f Dockerfile
+# ## 
+# Set-Location ../SunBlog.BlogVue
+# $imgName = $sunblog_register  + ':' + $apptags[1]
+# WriteNewLine "正在编译 vueblog 镜像： $imgName"
+# docker build . --force-rm -t $imgName  -f Dockerfile
 ## 推送
 # docker push $imgName
+
+# ## 
+Set-Location ../SunBlog.BlogVue.Nuxt
+$imgName = $sunblog_register  + ':' + $apptags[1]
+WriteNewLine "正在编译 blognuxt 镜像： $imgName"
+docker build . --force-rm -t $imgName  -f Dockerfile
 
 ## ui
 Set-Location ../SunBlog.AdminVue

@@ -5,7 +5,8 @@ $sunblog_register = 'registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn'
 # 应用镜像集合
 $apptags = [System.Collections.ArrayList]::new()
 $count = $apptags.Add("hostblog")
-$count = $apptags.Add("vueblog")
+# $count = $apptags.Add("vueblog")
+$count = $apptags.Add("blognuxt")
 $count = $apptags.Add("adminvue")
 
 Write-Host "导出任务已开始"
