@@ -43,10 +43,7 @@ class http {
     
     const defaults: UseFetchOptions<ZResponseBase<T>> = {
       // 此配置在nuxt.config.ts中
-      baseURL:
-        import.meta.env.MODE === "production" && import.meta.client
-          ? "/api"
-          : apiUrl,
+      baseURL: apiUrl,
       key: url,
       onRequest({ request, options }) {
         const userStore = useUserStore();

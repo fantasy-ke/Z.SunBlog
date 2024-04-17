@@ -306,11 +306,6 @@ if (error.value || !first.value?.result) {
 const viewer = ref<Viewer | null>(null);
 
 const info = computed(() => {
-  let dataInfo = first.value?.result;
-  // if(dataInfo){
-  //   dataInfo.content = dataInfo.isHtml ? dataInfo.content : markdownToHtml(dataInfo.content ?? '')
-  //   return dataInfo;
-  // }
   return first.value!.result!;
 });
 

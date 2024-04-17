@@ -1,10 +1,8 @@
 # 使用Node.js 基础镜像
 FROM node:18-alpine as build
 WORKDIR /src
-ENV PORT 80
 
 COPY . .
-
 #设置镜像源
 RUN  yarn config set registry https://registry.npmmirror.com && yarn && yarn run build
 
