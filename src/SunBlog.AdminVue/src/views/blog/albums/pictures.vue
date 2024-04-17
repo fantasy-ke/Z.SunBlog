@@ -8,7 +8,7 @@
 						multiple
 						:show-file-list="false"
 						:with-credentials="true"
-						action="/api/Files/UploadFile"
+						:action="`${inject('$baseurl')}/api/Files/UploadFile`"
 						:on-success="onUploadSuccess"
 						><el-button type="primary">上传图片</el-button></el-upload
 					>
@@ -82,7 +82,6 @@ const state = reactive({
 	},
 	loading: false,
 });
-
 // 分页点击
 const onHandleSizeChange = (val: number) => {
 	state.tableData.param.pageSize = val;

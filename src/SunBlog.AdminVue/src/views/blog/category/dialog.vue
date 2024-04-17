@@ -5,7 +5,7 @@
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="封面" prop="cover">
-							<el-upload class="avatar-uploader" action="/api/Files/UploadFile" accept="image/*" :show-file-list="false" :on-success="onCoverSuccess">
+							<el-upload class="avatar-uploader" :action="`${inject('$baseurl')}/api/Files/UploadFile`" accept="image/*" :show-file-list="false" :on-success="onCoverSuccess">
 								<img v-if="state.ruleForm.cover" :src="state.ruleForm.cover" class="avatar" />
 								<el-icon v-else class="avatar-uploader-icon fa fa-plus"> </el-icon>
 							</el-upload>

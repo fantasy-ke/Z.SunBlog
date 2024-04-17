@@ -324,7 +324,7 @@ const state = reactive({
 		isTop: false,
 		isHtml: false,
 		content: ``,
-		id: '',
+		id: undefined,
 	} as CreateOrUpdateArticleInput,
 	categoryData: [] as TreeSelectOutput[],
 	tagsData: [] as SelectOutput[],
@@ -433,7 +433,7 @@ const onUploadMdImg = async (pos: any, file: any) => {
 const onSave = async () => {
 	await formRef.value?.validate(async (v) => {
 		if (v) {
-			const { success } = state.form.id ? await _articleService.createOrUpdate(state.form) : await _articleService.createOrUpdate(state.form);
+			const { success } = await _articleService.createOrUpdate(state.form);
 			if (success) {
 				ElMessage.success('保存成功');
 				miitBus.emit('onCurrentContextmenuClick', Object.assign({}, { contextMenuClickId: 1, ...route }));
@@ -455,7 +455,7 @@ onMounted(async () => {
 	_fileService = new FilesServiceProxy(inject('$baseurl'), baseapi as unknown as AxiosInstance);
 	// 获取栏目和标签
 	const [c, t] = await Promise.all([_categoryService.treeSelect(), _tagsService.select()]);
-	state.form.id = (route.query.id as never) ?? 0;
+	state.form.id = (route.query.id as never) ?? undefined;
 	if (state.form.id) {
 		const { result, success } = await _articleService.getDetail(state.form.id);
 		if (success && result) {

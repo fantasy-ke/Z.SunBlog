@@ -36,17 +36,17 @@ export default function markdownToHtml(content: string): string {
       return content;
     },
   })
-    .use(() => require("markdown-it-sub"))
-    .use(() => require("markdown-it-sup"))
-    .use(() => require("markdown-it-mark"))
-    .use(() => require("markdown-it-abbr"))
-    .use(() => require("markdown-it-container"))
-    .use(() => require("markdown-it-deflist"))
-    .use(() => require("markdown-it-emoji"))
-    .use(() => require("markdown-it-footnote"))
-    .use(() => require("markdown-it-ins"))
+    .use(async () =>  await import("markdown-it-sub"))
+    .use(async () =>  await import("markdown-it-sup"))
+    .use(async () =>  await import("markdown-it-mark"))
+    .use(async () =>  await import("markdown-it-abbr"))
+    .use(async () =>  await import("markdown-it-container"))
+    .use(async () =>  await import("markdown-it-deflist"))
+    .use(async () =>  await import("markdown-it-emoji"))
+    .use(async () =>  await import("markdown-it-footnote"))
+    .use(async () =>  await import("markdown-it-ins"))
     // .use(MarkdownItKatex)
-    .use(() => require("markdown-it-task-lists"));
+    .use(async () =>  await import("markdown-it-task-lists"));
   // 将markdown替换为html标签
   let s = md.render(content);
   if (s.length > 0) {

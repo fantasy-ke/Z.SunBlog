@@ -147,31 +147,21 @@ export class AlbumsCsServiceProxy {
 
     /**
      * 相册下的图片
-     * @param albumId (optional) 相册ID
-     * @param pageNo (optional) 
-     * @param pageSize (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    pictures(albumId: string | undefined, pageNo: number | undefined, pageSize: number | undefined, cancelToken?: CancelToken): Promise<ZEngineResponse<PictureOutputPageResult>> {
-        let url_ = this.baseUrl + "/api/AlbumsCs/Pictures?";
-        if (albumId === null)
-            throw new Error("The parameter 'albumId' cannot be null.");
-        else if (albumId !== undefined)
-            url_ += "AlbumId=" + encodeURIComponent("" + albumId) + "&";
-        if (pageNo === null)
-            throw new Error("The parameter 'pageNo' cannot be null.");
-        else if (pageNo !== undefined)
-            url_ += "PageNo=" + encodeURIComponent("" + pageNo) + "&";
-        if (pageSize === null)
-            throw new Error("The parameter 'pageSize' cannot be null.");
-        else if (pageSize !== undefined)
-            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    pictures(body: PicturesQueryInput | undefined, cancelToken?: CancelToken): Promise<ZEngineResponse<PictureOutputPageResult>> {
+        let url_ = this.baseUrl + "/api/AlbumsCs/Pictures";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_: AxiosRequestConfig = {
+            data: content_,
             method: "POST",
             url: url_,
             headers: {
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             },
             cancelToken
@@ -5766,7 +5756,7 @@ export class TalksCsServiceProxy {
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
-            method: "POST",
+            method: "GET",
             url: url_,
             headers: {
                 "Accept": "text/plain"
@@ -13426,6 +13416,59 @@ export interface IPicturesPageQueryInput {
     pageSize: number;
     /** 相册ID */
     id: string;
+}
+
+export class PicturesQueryInput implements IPicturesQueryInput {
+    pageNo: number;
+    pageSize: number;
+    /** 相册ID */
+    albumId: string;
+
+    constructor(data?: IPicturesQueryInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.pageNo = _data["pageNo"];
+            this.pageSize = _data["pageSize"];
+            this.albumId = _data["albumId"];
+        }
+    }
+
+    static fromJS(data: any): PicturesQueryInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new PicturesQueryInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageNo"] = this.pageNo;
+        data["pageSize"] = this.pageSize;
+        data["albumId"] = this.albumId;
+        return data;
+    }
+
+    clone(): PicturesQueryInput {
+        const json = this.toJSON();
+        let result = new PicturesQueryInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPicturesQueryInput {
+    pageNo: number;
+    pageSize: number;
+    /** 相册ID */
+    albumId: string;
 }
 
 export class QueryUserInput implements IQueryUserInput {

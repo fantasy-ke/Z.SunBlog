@@ -29,15 +29,28 @@ services:
       - App__ConnectionString__SqlServer=Server=127.0.0.1;Port=3306;Database=SunBlog_https;Uid=root;Pwd=123;CharSet=utf8;SslMode=none;AllowPublicKeyRetrieval=True;
       - App__CorsOrigins=http://localhost:5100,http://localhost:5200,http://127.0.0.1:5100,http://127.0.0.1:5200,http://192.168.0.7:3100,http://192.168.0.7:3200,https://sunadmin.zblog.love,https://sunblog.zblog.love
 
-  vueblog:
-    image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:vueblog
+#  vueblog:
+#    image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:vueblog
+#    restart: always
+#    networks:
+#      - fantasy_net
+#    depends_on:
+#      - hostbolg
+#    volumes:
+#      - "/data/sunblog/blogvue:/usr/share/nginx/html"
+
+  blognuxt:
+    image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:blognuxt
     restart: always
     networks:
       - fantasy_net
     depends_on:
       - hostbolg
+    environment:
+      - PORT=80
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
     volumes:
-      - "/data/sunblog/blogvue:/usr/share/nginx/html"
+      - "/data/sunblog/blognuxt:/app/"
 
   adminvue:
     image: registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn:adminvue
