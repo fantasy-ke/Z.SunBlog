@@ -16,12 +16,9 @@ class ChatHub {
       this.connection?.state === signalR.HubConnectionState.Disconnecting
     ) {
       const apiUrl = useRuntimeConfig().public.apiBaseUrl as string;
-      let baseURL = import.meta.env.MODE === "production" && import.meta.client
-          ? "/api"
-          : apiUrl
       this.connection = new signalR.HubConnectionBuilder()
         .configureLogging(signalR.LogLevel.Information)
-        .withUrl(`${baseURL}/chatHub`, {
+        .withUrl(`${apiUrl}/chatHub`, {
           accessTokenFactory: () => JSON.parse(localStorage.getItem("zblog_User")?? "")?.zToken?.accessToken,
           transport: signalR.HttpTransportType.WebSockets,
           skipNegotiation: true,
