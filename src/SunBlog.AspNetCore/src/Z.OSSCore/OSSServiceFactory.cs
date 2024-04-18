@@ -2,6 +2,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using OnceMi.AspNetCore.OSS;
 using Z.Foundation.Core.Exceptions;
 using Z.OSSCore.EntityType;
 using Z.OSSCore.Interface;
@@ -59,6 +60,8 @@ namespace Z.OSSCore
                     return new AliyunOSSService<T>(_cache, _options);
                 case OSSProvider.Minio:
                     return new MinioOSSService<T>(_cache, _options);
+                case OSSProvider.QCloud:
+                    return new QCloudOSSService<T>(_cache, _options);
                 default:
                     throw new Exception("Unknow provider type");
             }
