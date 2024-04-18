@@ -93,9 +93,7 @@
           :key="reply.id"
         >
           <!-- 头像 -->
-          <v-avatar size="36" class="comment-avatar">
-            <img :src="reply.avatar!" />
-          </v-avatar>
+          <v-avatar size="36" class="comment-avatar"  :image="reply.avatar!" />
           <div class="reply-meta">
             <!-- 用户名 -->
             <div class="comment-user">
