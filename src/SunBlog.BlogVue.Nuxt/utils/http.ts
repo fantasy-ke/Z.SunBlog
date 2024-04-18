@@ -84,10 +84,10 @@ class http {
           if (accessToken === "invalid_token") {
             clearAccessTokens();
           } else if (accessToken && refreshAccessToken) {
-            const token = useCookie(accessTokenKey);
-            const refreshToken = useCookie(refreshAccessTokenKey);
-            token.value = accessToken;
-            refreshToken.value = refreshAccessToken;
+            const userStore = useUserStore();
+            const zToken = userStore.zToken ?? {};
+            zToken.accessToken = accessToken;
+            zToken.refreshToken = refreshAccessToken;
           }
           if (import.meta.client && !response._data?.success) {
             let message = "";
