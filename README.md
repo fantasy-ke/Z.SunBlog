@@ -241,7 +241,8 @@
 
 - cd到目录src/SunBlog.BlogVue的nswag目录
 - 调整codeGenerators后端api地址
-  ![image](https://github.com/Fantasy-Ke/SunBlog-Vue/assets/85232349/ffe453ac-c45d-43eb-8643-a8f06bca3bc5)
+  ![image](https://github.com/Fantasy-Ke/Z.SunBlog/assets/85232349/089a9897-81e0-4299-a31f-b8b4d80c50d4)
+
 - 双击refresh.bat 执行 
 
 
@@ -277,7 +278,8 @@
 
 - cd到目录src/SunBlog.AdminVue 的 nswag目录
 - 调整codeGenerators后端api地址
-  ![image](https://github.com/Fantasy-Ke/SunBlog-Vue/assets/85232349/ffe453ac-c45d-43eb-8643-a8f06bca3bc5)
+ ![image](https://github.com/Fantasy-Ke/Z.SunBlog/assets/85232349/3cc72624-6d5c-4918-872e-e3f68e0a7347)
+
 - 双击refresh.bat 执行 
 
 
