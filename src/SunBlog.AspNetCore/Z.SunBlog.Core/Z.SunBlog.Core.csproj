@@ -9,9 +9,13 @@
 	  <PackageReference Include="SkiaSharp" Version="2.88.6" />
 	  <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.6" />
      <PackageReference Include="Lazy.Captcha.Core" Version="2.0.7" />
+    <PackageReference Include="MrHuo.OAuth.QQ" Version="1.1.1" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Z.SunBlog.Common\Z.SunBlog.Common.csproj" />
+    <ProjectReference Include="..\src\efcore\Z.EntityFrameworkCore.Mysql\Z.EntityFrameworkCore.Mysql.csproj" />
+    <ProjectReference Include="..\src\efcore\Z.EntityFrameworkCore.SqlServer\Z.EntityFrameworkCore.SqlServer.csproj" />
+    <ProjectReference Include="..\src\Z.Fantasy.Core\Z.Fantasy.Core.csproj" />
   </ItemGroup>
 
 </Project>

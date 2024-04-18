@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Z.EventBus.Extensions;
+using Z.Fantasy.Core;
 using Z.Module;
 using Z.Module.Extensions;
 using Z.Module.Modules;
-using Z.SunBlog.Common;
 using Z.HangFire.Builder;
 using Z.OSSCore;
 using Z.FreeRedis;
 
 namespace Z.SunBlog.Core
 {
-    [DependOn(typeof(SunBlogCommonModule))]
+    [DependOn(typeof(ZFantasyCoreModule))]
     public class SunBlogCoreModule : ZModule
     {
         public override void ConfigureServices(ServiceConfigerContext context)

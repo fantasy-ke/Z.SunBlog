@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.SunBlog.Application", "Z.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.SunBlog.Core", "Z.SunBlog.Core\Z.SunBlog.Core.csproj", "{4AC9E47D-B621-43D2-B5C5-DF5865CEE7E5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.SunBlog.Common", "Z.SunBlog.Common\Z.SunBlog.Common.csproj", "{068A6CBE-335D-43AF-8BB3-56B986B35D1C}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.SunBlog.Host", "Z.SunBlog.Host\Z.SunBlog.Host.csproj", "{295F7676-0E99-441D-9A84-3CB19DC608FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Z.SunBlog.EntityFrameworkCore", "Z.SunBlog.EntityFrameworkCore\Z.SunBlog.EntityFrameworkCore.csproj", "{BEEBF3D5-7834-4146-8C39-2D7E80365FD5}"
@@ -87,10 +85,6 @@ Global
 		{4AC9E47D-B621-43D2-B5C5-DF5865CEE7E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AC9E47D-B621-43D2-B5C5-DF5865CEE7E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AC9E47D-B621-43D2-B5C5-DF5865CEE7E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{068A6CBE-335D-43AF-8BB3-56B986B35D1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{068A6CBE-335D-43AF-8BB3-56B986B35D1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{068A6CBE-335D-43AF-8BB3-56B986B35D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{068A6CBE-335D-43AF-8BB3-56B986B35D1C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{295F7676-0E99-441D-9A84-3CB19DC608FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{295F7676-0E99-441D-9A84-3CB19DC608FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{295F7676-0E99-441D-9A84-3CB19DC608FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
