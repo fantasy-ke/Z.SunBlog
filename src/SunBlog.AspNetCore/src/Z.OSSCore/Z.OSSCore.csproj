@@ -7,10 +7,12 @@
         <GenerateDocumentationFile>False</GenerateDocumentationFile>
         <PackageIcon>85232349.png</PackageIcon>
         <PackageReadmeFile>Readme.md</PackageReadmeFile>
-        <Description>aliyun与minio的OSS管理工具</Description>
+        <Description>aliyun与minio的OSS管理工具
+腾讯OSS</Description>
         <RepositoryType>git</RepositoryType>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <Version>1.0.1</Version>
     </PropertyGroup>
 
     <ItemGroup>
@@ -19,6 +21,7 @@
 
     <ItemGroup>
       <PackageReference Include="Aliyun.OSS.SDK.NetCore" Version="2.13.0" />
+        <PackageReference Include="Tencent.QCloud.Cos.Sdk" Version="5.4.34" />
       <PackageReference Include="Minio" Version="6.0.2" />
     </ItemGroup>
 

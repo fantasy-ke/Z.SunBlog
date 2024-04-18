@@ -1,4 +1,30 @@
-﻿﻿### 🎨OSS类库，现已实现ALiyun和Minio正常使用
+﻿﻿﻿﻿### 🎨OSS类库，现已实现ALiyun和Minio正常使用
+
+- 基于扩展包[OnceMi.AspNetCore.OSS](https://github.com/oncemi/OnceMi.AspNetCore.OSS)修改了一下工厂实现，传入指定类型使用指定的储存
+
+  - 新增了三个方法
+
+  - ```C#
+    //获取
+    public async Task<ObjectOutPut> GetObjectAsync(GetObjectInput input)
+    {
+    	//.......
+    }
+    //上传
+    public async Task<bool> UploadObjectAsync(UploadObjectInput input)
+    {
+        //.......
+    }
+    //删除
+    public Task<bool> RemoveObjectAsync(OperateObjectInput input)
+    {
+        //.......
+    }
+    ```
+
+- Z.OSSCore`1.0.1`
+
+  - 加入腾讯云OSS `OSSQCloud`
 
 - Z.OSSCore`1.0.0`
   - 基础Options实体 以及类型枚举
@@ -36,64 +62,8 @@
         /// 枚举，OOS提供商
         /// </summary>
         public OSSProvider Provider { get; set; }
-    
-        /// <summary>
-        /// 节点
-        /// </summary>
-        /// <remarks>
-        /// 腾讯云中表示AppId
-        /// </remarks>
-        public string Endpoint { get; set; }
         
-        /// <summary>
-        /// 是否启用
-        /// </summary>
-        public bool Enable { get; set; }
-    
-        /// <summary>
-        /// AccessKey
-        /// </summary>
-        public string AccessKey { get; set; }
-    
-        /// <summary>
-        /// SecretKey
-        /// </summary>
-        public string SecretKey { get; set; }
-    
-        private string _region = "us-east-1";
-    
-        /// <summary>
-        /// 地域
-        /// </summary>
-        public string Region
-        {
-            get
-            {
-                return _region;
-            }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    _region = "us-east-1";
-                }
-                else
-                {
-                    _region = value;
-                }
-            }
-        }
-    
-        /// <summary>
-        /// 是否启用HTTPS
-        /// </summary>
-        public bool IsEnableHttps { get; set; } = true;
-    
-        /// <summary>
-        /// 是否启用缓存，默认缓存在MemeryCache中（可使用自行实现的缓存替代默认缓存）
-        /// 在使用之前请评估当前应用的缓存能力能否顶住当前请求
-        /// </summary>
-        public bool IsEnableCache { get; set; } = false;
+        //.......
     }
     ```
   - 服务注册
@@ -126,11 +96,12 @@
               "DefaultBucket": "sunblog",//默认Bucket名称
               "IsEnableHttps": true,//开启Https
               "IsEnableCache": true,
+              "Provider": "Minio"
           },
     }
     
     ```
-  
+    
   - 依赖注入使用
     ``` C#
     public class MinioFileManager : DomainService, IMinioFileManager
@@ -147,11 +118,11 @@
     ```
     - 其中`OSSAliyun`是不同类型使用的泛型
       - 现有`OSSAliyun`和`OSSMinio`
-  
+
     - 安装以上的步骤服务注册以及注入，就可正常使用
       - 常用部分方法
       - ``` C#
-      namespace Z.OSSCore.Interface
+        namespace Z.OSSCore.Interface
          {
              public interface IOSSService<T>
              {
@@ -193,4 +164,3 @@
           	}
          }
         
-      ```
