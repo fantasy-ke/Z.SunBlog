@@ -269,6 +269,20 @@ const onMore = async () => {
   pager.value.pageNo!++;
 };
 
+const commentList = async ()=>{
+  const { data } = await CommentApi.list(pager);
+  if (data.value?.success) {
+    state.count = data.value?.result?.total ?? 0;
+    state.pages = data.value?.result?.pages ?? 0;
+    if (pager.value.pageNo === 1) {
+      state.commentList = data.value?.result?.rows ?? [];
+    } else {
+      state.commentList.push(...(data.value?.result?.rows ?? []));
+    }
+    emit("getCommentCount", state.count);
+  }
+}
+
 const changeReplyCurrent = async (
   current: number,
   index: number,
@@ -308,7 +322,9 @@ const insertComment = async () => {
   });
   if (data.value?.success) {
     state.commentContent = "";
+    toast.success("评论成功");
     pager.value.pageNo = 1;
+    await commentList();
   }
 };
 
