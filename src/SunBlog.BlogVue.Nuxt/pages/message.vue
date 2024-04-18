@@ -59,6 +59,7 @@ const vueDanmaku = defineAsyncComponent(() => import("vue3-danmaku"));
 import AppApi from "~/api/AppApi";
 import type { CommentPageQueryInput } from "~/api/models/comment-page-query-input";
 import type { CommentOutput } from "~/api/models";
+
 const pager = ref<CommentPageQueryInput>({ pageNo: 1, pageSize: 1000 });
 const [{ data: list }, { data: site }] = await Promise.all([
   CommentApi.list(pager),
@@ -67,6 +68,8 @@ const [{ data: list }, { data: site }] = await Promise.all([
 
 const toast = useToast();
 const authStore = useAuth();
+
+
 const state = reactive({
   content: "",
   items: [] as CommentOutput[],
@@ -81,8 +84,7 @@ const addToList = async () => {
     toast.error("请输入内容");
     return;
   }
-  const isAuth = useCookie(accessTokenKey);
-  if (!isAuth.value) {
+  if (!authStore.token) {
     useToast().error("请登录后重试！");
     return false;
   }
