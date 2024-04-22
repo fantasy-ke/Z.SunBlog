@@ -34,7 +34,7 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-#安装fontconfig
+#安装fontconfig 验证码图片使用
 RUN apt-get clean
 RUN apt-get update && apt-get install -y fontconfig
 
