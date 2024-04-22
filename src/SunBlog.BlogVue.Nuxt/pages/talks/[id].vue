@@ -78,7 +78,6 @@ import CommentApi from "~/api/CommentApi";
 import AppApi from "~/api/AppApi";
 import TalksApi from "~/api/TalksApi";
 import type { KeyDto, TalkDetailOutput } from "~/api/models";
-import { useUserStore } from "@/stores/user";
 
 const route = useRoute();
 const userStore = useUserStore();

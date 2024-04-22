@@ -152,9 +152,6 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useDrawerSettingStore } from "~/stores/drawerSetting";
-import { useApp } from "~/stores/app";
-import { useAuth } from "~/stores/auth";
 import OAuthApi from "~/api/OAuthApi";
 const authStore = useAuth();
 const { drawer } = storeToRefs(useDrawerSettingStore());

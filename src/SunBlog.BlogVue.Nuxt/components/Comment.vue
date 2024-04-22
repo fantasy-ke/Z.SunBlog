@@ -211,8 +211,6 @@ import moment from "moment";
 import EmojiList from "../assets/emoji";
 import CommentApi from "../api/CommentApi";
 import type { CommentOutput, KeyDto, ReplyOutput } from "../api/models";
-import { useToast } from "~/stores/toast";
-import { useUserStore } from "@/stores/user";
 import type { CommentPageQueryInput } from "~/api/models/comment-page-query-input";
 const props = defineProps({
   type: {

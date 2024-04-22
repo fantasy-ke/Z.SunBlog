@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import { useThemeSettingStore } from "../stores/themeSetting";
 const scrollTop: Ref<number> = ref(0);
 const isShow: Ref<string> = ref("");
 const isOut: Ref<string> = ref("rightside-out");

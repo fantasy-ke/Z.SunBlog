@@ -9,7 +9,6 @@
   </template>
   
   <script setup lang="ts">
-  import { useApp } from "~/stores/app";
   import { computed } from "vue";
   import { storeToRefs } from "pinia";
   const appStore = useApp();

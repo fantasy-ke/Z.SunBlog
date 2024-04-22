@@ -265,15 +265,10 @@ import "highlight.js/styles/atom-one-dark.css";
 import "viewerjs/dist/viewer.css";
 import { storeToRefs } from "pinia";
 import * as tocbot from "tocbot";
-import dayjs from "dayjs";
-import moment from "moment";
 import Clipboard from "clipboard";
 import Viewer from "viewerjs";
-import { useApp } from "~/stores/app";
-import { useToast } from "~/stores/toast";
 import { ShareType } from "~/components/Share/ShareType";
 import CommentApi from "~/api/CommentApi";
-import markdownToHtml from "~/utils/markdown";
 import ArticleApi from "~/api/ArticleApi";
 import type { KeyDto } from "~/api/models";
 const Share = defineAsyncComponent(
