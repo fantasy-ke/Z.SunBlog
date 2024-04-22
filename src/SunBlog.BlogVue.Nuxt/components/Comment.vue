@@ -108,7 +108,7 @@
             <div class="comment-info">
               <!-- 发表时间 -->
               <span style="margin-right: 10px">
-                {{ reply.createdTime }}
+                {{ formatDate(reply.createdTime) }}
               </span>
               <!-- 点赞 -->
               <span
@@ -301,7 +301,6 @@ const changeReplyCurrent = async (
 const addEmoji = (key: string): void => {
   state.commentContent += key;
 };
-
 //提交评论
 const insertComment = async () => {
   if (userStore.userInfo == null) {
@@ -493,7 +492,7 @@ const formatContent = (content: string, isHandleEmoji: boolean = false) => {
   align-items: center;
 }
 .load-wrapper button {
-  background-color: #49b1f5;
+  background-color: #0099CC;
   color: #fff;
 }
 </style>

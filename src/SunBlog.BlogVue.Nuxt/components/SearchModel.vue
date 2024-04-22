@@ -103,7 +103,7 @@ watch(isMobile, () => {
   background: #fff !important;
 }
 .search-title {
-  color: #49b1f5;
+  color: #0099CC;
   font-size: 1.25rem;
   line-height: 1;
 }
