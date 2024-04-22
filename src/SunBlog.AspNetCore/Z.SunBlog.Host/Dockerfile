@@ -9,17 +9,15 @@ WORKDIR /src
 COPY ["Z.SunBlog.Host/Z.SunBlog.Host.csproj", "Z.SunBlog.Host/"]
 COPY ["src/Z.Foundation.Core/Z.Foundation.Core.csproj", "src/Z.Foundation.Core/"]
 COPY ["src/Z.DynamicProxy/Z.DynamicProxy.csproj", "src/Z.DynamicProxy/"]
-COPY ["Z.SunBlog.Application/Z.SunBlog.Application.csproj", "Z.SunBlog.Application/"]
-COPY ["src/Z.Fantasy.Application/Z.Fantasy.Application.csproj", "src/Z.Fantasy.Application/"]
+COPY ["src/efcore/Z.EntityFrameworkCore.SqlServer/Z.EntityFrameworkCore.SqlServer.csproj", "src/efcore/Z.EntityFrameworkCore.SqlServer/"]
+COPY ["src/efcore/Z.EntityFrameworkCore/Z.EntityFrameworkCore.csproj", "src/efcore/Z.EntityFrameworkCore/"]
 COPY ["src/Z.Fantasy.Core/Z.Fantasy.Core.csproj", "src/Z.Fantasy.Core/"]
 COPY ["src/Z.FreeRedis/Z.FreeRedis.csproj", "src/Z.FreeRedis/"]
 COPY ["src/Z.HangFire/Z.HangFire.csproj", "src/Z.HangFire/"]
-COPY ["src/Z.OSSCore/Z.OSSCore.csproj", "src/Z.OSSCore/"]
-COPY ["Z.SunBlog.Core/Z.SunBlog.Core.csproj", "Z.SunBlog.Core/"]
-COPY ["Z.SunBlog.Common/Z.SunBlog.Common.csproj", "Z.SunBlog.Common/"]
 COPY ["src/efcore/Z.EntityFrameworkCore.Mysql/Z.EntityFrameworkCore.Mysql.csproj", "src/efcore/Z.EntityFrameworkCore.Mysql/"]
-COPY ["src/efcore/Z.EntityFrameworkCore/Z.EntityFrameworkCore.csproj", "src/efcore/Z.EntityFrameworkCore/"]
-COPY ["src/efcore/Z.EntityFrameworkCore.SqlServer/Z.EntityFrameworkCore.SqlServer.csproj", "src/efcore/Z.EntityFrameworkCore.SqlServer/"]
+COPY ["Z.SunBlog.Application/Z.SunBlog.Application.csproj", "Z.SunBlog.Application/"]
+COPY ["src/Z.Fantasy.Application/Z.Fantasy.Application.csproj", "src/Z.Fantasy.Application/"]
+COPY ["Z.SunBlog.Core/Z.SunBlog.Core.csproj", "Z.SunBlog.Core/"]
 COPY ["Z.SunBlog.EntityFrameworkCore/Z.SunBlog.EntityFrameworkCore.csproj", "Z.SunBlog.EntityFrameworkCore/"]
 
 RUN dotnet restore "Z.SunBlog.Host/Z.SunBlog.Host.csproj"
@@ -39,5 +37,10 @@ COPY --from=publish /app/publish .
 #安装fontconfig
 RUN apt-get clean
 RUN apt-get update && apt-get install -y fontconfig
+
+#定义时区参数
+ENV TZ=Asia/Shanghai
+#设置时区
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo '$TZ' > /etc/timezone
 
 ENTRYPOINT ["dotnet", "Z.SunBlog.Host.dll"]
