@@ -202,7 +202,7 @@
           </div>
           <div class="web-info">
             <div style="padding: 4px 0 0">
-              运行时间:<span class="float-right">{{ formatDate(state.runTime) }}</span>
+              运行时间:<span class="float-right">{{ state.runTime }}</span>
             </div>
             <div style="padding: 4px 0 0">
               用户数量:<span class="float-right">
