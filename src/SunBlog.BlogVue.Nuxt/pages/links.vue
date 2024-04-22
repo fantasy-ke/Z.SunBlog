@@ -78,7 +78,7 @@ blockquote {
   line-height: 2;
   margin: 0;
   font-size: 15px;
-  border-left: 0.2rem solid #49b1f5;
+  border-left: 0.2rem solid #0099CC;
   padding: 10px 1rem !important;
   background-color: #ecf7fe;
   border-radius: 4px;
@@ -86,7 +86,7 @@ blockquote {
 .link-banner {
   /* background: url(https://www.static.talkxj.com/ne78w4%20.jpg) center center /
         cover no-repeat; */
-  background-color: #49b1f5;
+  background-color: #0099CC;
 }
 .link-title {
   color: #344c67;
@@ -145,7 +145,7 @@ blockquote {
   width: 100%;
 }
 .link-wrapper:hover {
-  box-shadow: 0 2px 20px #49b1f5;
+  box-shadow: 0 2px 20px #0099CC;
 }
 .link-wrapper:hover:before {
   transform: scale(1);
@@ -157,7 +157,7 @@ blockquote {
   right: 0;
   bottom: 0;
   left: 0;
-  background: #49b1f5 !important;
+  background: #0099CC !important;
   content: "";
   transition-timing-function: ease-out;
   transition-duration: 0.3s;

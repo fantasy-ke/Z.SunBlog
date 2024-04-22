@@ -49,7 +49,7 @@ useHead({
 .tag-banner {
   // background: url(https://www.static.talkxj.com/73lleo.png) center center /
   //   cover no-repeat;
-  background-color: #49b1f5;
+  background-color: #0099CC;
 }
 .tag-cloud-title {
   line-height: 2;

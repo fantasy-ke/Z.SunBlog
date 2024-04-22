@@ -13,7 +13,6 @@
 </template>
 
 <script setup lang="ts">
-import { useThemeSettingStore } from "../stores/themeSetting";
 const scrollTop: Ref<number> = ref(0);
 const isShow: Ref<string> = ref("");
 const isOut: Ref<string> = ref("rightside-out");
@@ -77,9 +76,10 @@ onUnmounted(() => {
 .setting-container {
   display: block;
   margin-bottom: 2px;
+  border-radius: 10px;
   width: 30px;
   height: 30px;
-  background-color: #49b1f5;
+  background-color: #0099CC;
   color: #fff;
   text-align: center;
   font-size: 16px;

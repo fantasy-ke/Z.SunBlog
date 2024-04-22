@@ -121,9 +121,6 @@
 </template>
 
 <script setup lang="ts">
-import { useApp } from "~/stores/app";
-import { useAuth } from "~/stores/auth";
-import { useToast } from "~/stores/toast";
 import img from "~/assets/images/1.jpg";
 import { storeToRefs } from "pinia";
 import type { AddLinkOutput } from "~/api/models";

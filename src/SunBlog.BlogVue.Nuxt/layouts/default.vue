@@ -20,8 +20,6 @@ import TopNavBar from "./TopNavBar.vue";
 import SideNavBar from "./SideNavBar.vue";
 import Footer from "./Footer.vue";
 import BackTop from "./BackTop.vue";
-import { useThemeSettingStore } from "~/stores/themeSetting";
-import { useAuth } from "~/stores/auth";
 
 const { theme } = storeToRefs(useThemeSettingStore());
 const authStore = useAuth();

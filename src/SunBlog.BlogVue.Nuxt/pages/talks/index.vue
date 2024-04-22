@@ -20,7 +20,7 @@
             </div>
             <!-- 发表时间 -->
             <div class="time">
-              {{ item.createdTime }}
+              {{ formatDate(item.createdTime) }}
               <span class="top" v-if="item.isTop">
                 <i class="iconfont iconzhiding" /> 置顶
               </span>
@@ -298,7 +298,7 @@ useHead({
   align-items: center;
 }
 .load-wrapper button {
-  background-color: #49b1f5;
+  background-color: #0099CC;
   color: #fff;
 }
 .like-btn {

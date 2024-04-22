@@ -32,7 +32,7 @@
             <div style="margin-top: 0.375rem">
               <!-- 发表时间 -->
               <v-icon size="20">mdi-clock-outline</v-icon>
-              {{ item.publishTime }}
+              {{ formatDate(item.publishTime) }}
               <!-- 文章分类 -->
               <a
                 class="float-right"

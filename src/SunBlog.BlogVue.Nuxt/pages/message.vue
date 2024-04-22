@@ -51,9 +51,7 @@
 <script setup lang="ts">
 //弹幕开源地址：https://github.com/hellodigua/vue-danmaku/tree/vue3
 // import vueDanmaku from "vue3-danmaku";
-import { useAuth } from "~/stores/auth";
 import CommentApi from "~/api/CommentApi";
-import { useToast } from "~/stores/toast";
 // import vueDanmaku from "vue3-danmaku";
 const vueDanmaku = defineAsyncComponent(() => import("vue3-danmaku"));
 import AppApi from "~/api/AppApi";
@@ -139,7 +137,7 @@ useHead({
   height: 100vh;
   /* background: url(https://www.static.talkxj.com/d5ojdj.jpg) center center /
         cover no-repeat; */
-  background-color: #49b1f5;
+  background-color: #0099CC;
   animation: header-effect 1s;
   margin-top: 60px;
 }

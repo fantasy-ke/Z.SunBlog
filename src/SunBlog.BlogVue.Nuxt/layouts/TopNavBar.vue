@@ -210,10 +210,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { onMounted, watch, reactive, defineAsyncComponent } from "vue";
-import { useDrawerSettingStore } from "~/stores/drawerSetting";
-import { useApp } from "~/stores/app";
 import OAuthApi from "~/api/OAuthApi";
-import { useAuth } from "~/stores/auth";
 const SearchModel = defineAsyncComponent(() => import("~/components/SearchModel.vue"));
 const authStore = useAuth();
 const appStore = useApp();
@@ -331,7 +328,7 @@ ul {
   transition: all 0.2s;
 }
 .nav-fixed .menu-btn:hover {
-  color: #49b1f5 !important;
+  color: #0099CC !important;
 }
 .menu-btn:hover:after {
   width: 100%;

@@ -9,14 +9,14 @@
           <!-- 发表时间 -->
           <span>
             <i class="iconfont iconrili" />
-            发表于 {{ moment(info.publishTime!).format("YYYY-MM-DD HH:mm:ss") }}
+            发表于 {{ formatDate(info.publishTime!) }}
           </span>
           <span class="separator">|</span>
           <!-- 发表时间 -->
           <span>
             <i class="iconfont icongengxinshijian" />
             更新于
-            {{ moment(info.updatedTime ? info.updatedTime : info.publishTime).format("YYYY-MM-DD HH:mm:ss") }}
+            {{ formatDate(info.updatedTime ? info.updatedTime : info.publishTime) }}
           </span>
           <template v-if="info.categoryId">
             <span class="separator">|</span>
@@ -196,7 +196,7 @@
                 <div class="recommend-info">
                   <div class="recommend-date">
                     <i class="iconfont iconrili" />
-                    {{ dayjs(item.publishTime!).format("YYYY-MM-DD") }}
+                    {{ formatDate(item.publishTime!,"YYYY-MM-DD") }}
                   </div>
                   <div>{{ item.title }}</div>
                 </div>
@@ -247,7 +247,7 @@
                   </a>
                 </div>
                 <div class="content-time">
-                  {{ dayjs(item.publishTime!).format("YYYY-MM-DD") }}
+                  {{ formatDate(item.publishTime!,"YYYY-MM-DD")}}
                 </div>
               </div>
             </div>
@@ -265,15 +265,10 @@ import "highlight.js/styles/atom-one-dark.css";
 import "viewerjs/dist/viewer.css";
 import { storeToRefs } from "pinia";
 import * as tocbot from "tocbot";
-import dayjs from "dayjs";
-import moment from "moment";
 import Clipboard from "clipboard";
 import Viewer from "viewerjs";
-import { useApp } from "~/stores/app";
-import { useToast } from "~/stores/toast";
 import { ShareType } from "~/components/Share/ShareType";
 import CommentApi from "~/api/CommentApi";
-import markdownToHtml from "~/utils/markdown";
 import ArticleApi from "~/api/ArticleApi";
 import type { KeyDto } from "~/api/models";
 const Share = defineAsyncComponent(
@@ -535,15 +530,15 @@ useSeoMeta({
   margin: 0.5rem 0.5rem 0.5rem 0;
   padding: 0 0.75rem;
   width: fit-content;
-  border: 1px solid #49b1f5;
+  border: 1px solid #0099CC;
   border-radius: 1rem;
-  color: #49b1f5 !important;
+  color: #0099CC !important;
   font-size: 12px;
   line-height: 2;
 }
 .tag-container a:hover {
   color: #fff !important;
-  background: #49b1f5;
+  background: #0099CC;
   transition: all 0.5s;
 }
 .aritcle-copyright {
@@ -557,7 +552,7 @@ useSeoMeta({
   margin-top: 15px;
 }
 .aritcle-copyright span {
-  color: #49b1f5;
+  color: #0099CC;
   font-weight: bold;
 }
 .aritcle-copyright a {
@@ -571,7 +566,7 @@ useSeoMeta({
   width: 1rem;
   height: 1rem;
   border-radius: 1rem;
-  background: #49b1f5;
+  background: #0099CC;
   content: "";
 }
 .aritcle-copyright:after {
@@ -594,7 +589,7 @@ useSeoMeta({
   position: relative;
   display: inline-block;
   width: 100px;
-  background: #49b1f5;
+  background: #0099CC;
   margin: 0 1rem;
   color: #fff !important;
   text-align: center;

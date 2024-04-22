@@ -18,7 +18,6 @@ import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
 // import "APlayer/dist/APlayer.min.css";
 // import APlayer from "APlayer";
-import { useApp } from "~/stores/app";
 const appStore = useApp();
 const { blogSetting } = storeToRefs(appStore);
 onMounted(() => {

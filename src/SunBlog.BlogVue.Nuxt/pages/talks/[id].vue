@@ -17,7 +17,7 @@
             </v-icon>
           </div>
           <!-- 发表时间 -->
-          <div class="time">{{ state.talk?.createdTime }}</div>
+          <div class="time">{{ formatDate(state.talk?.createdTime) }}</div>
           <!-- 说说信息 -->
           <div class="talk-content" v-html="state.talk?.content" />
           <!-- 图片列表 -->
@@ -78,7 +78,6 @@ import CommentApi from "~/api/CommentApi";
 import AppApi from "~/api/AppApi";
 import TalksApi from "~/api/TalksApi";
 import type { KeyDto, TalkDetailOutput } from "~/api/models";
-import { useUserStore } from "@/stores/user";
 
 const route = useRoute();
 const userStore = useUserStore();
@@ -303,7 +302,7 @@ useHead({
   align-items: center;
 }
 .load-wrapper button {
-  background-color: #49b1f5;
+  background-color: #0099CC;
   color: #fff;
 }
 .comment-wrapper {
