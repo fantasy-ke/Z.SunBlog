@@ -5,10 +5,10 @@
   </div>
   <!-- 标签列表 -->
   <v-card class="blog-container">
-    <div class="tag-cloud-title">标签 - {{ tags?.result?.length }}</div>
+    <div class="tag-cloud-title">目前共计 {{ tags?.result?.length }} 个标签</div>
     <div class="tag-cloud">
       <a
-        :style="{ 'font-size': Math.floor(Math.random() * 10) + 18 + 'px' }"
+        :style="{ 'font-size': Math.floor(Math.random() * 10) + 18 + 'px;'  }"
         v-for="item of tags?.result"
         :key="item.id"
         :href="'/tags/' + item.id"
@@ -53,7 +53,8 @@ useHead({
 }
 .tag-cloud-title {
   line-height: 2;
-  font-size: 36px;
+  font-size: 25px;
+  color: #555;
   text-align: center;
 }
 @media (max-width: 759px) {
@@ -63,13 +64,17 @@ useHead({
 }
 .tag-cloud {
   text-align: center;
+  margin-top: 20px;
+  margin-bottom: 80px;
   a {
     color: #616161;
     display: inline-block;
     text-decoration: none;
     padding: 0 8px;
+    margin: 0px 16px;
     line-height: 2;
     transition: all 0.3s;
+    border-bottom: 1px solid #999;
   }
   a:hover {
     color: #03a9f4 !important;
