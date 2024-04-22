@@ -331,7 +331,7 @@ ul {
   transition: all 0.2s;
 }
 .nav-fixed .menu-btn:hover {
-  color: #49b1f5 !important;
+  color: #0099CC !important;
 }
 .menu-btn:hover:after {
   width: 100%;

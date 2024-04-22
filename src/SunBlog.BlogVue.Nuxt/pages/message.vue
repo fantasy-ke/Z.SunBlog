@@ -139,7 +139,7 @@ useHead({
   height: 100vh;
   /* background: url(https://www.static.talkxj.com/d5ojdj.jpg) center center /
         cover no-repeat; */
-  background-color: #49b1f5;
+  background-color: #0099CC;
   animation: header-effect 1s;
   margin-top: 60px;
 }

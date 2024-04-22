@@ -154,7 +154,7 @@ useSeoMeta({
   justify-content: center;
   align-items: center;
   button {
-    background-color: #49b1f5;
+    background-color: #0099CC;
     color: #fff;
   }
 }

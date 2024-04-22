@@ -23,7 +23,7 @@
   .about-banner {
     /* background: url(https://static.talkxj.com/config/2a56d15dd742ff8ac238a512d9a472a1.jpg) center center / cover
       no-repeat; */
-    background-color: #49b1f5;
+    background-color: #0099CC;
   }
   .about-content {
     word-break: break-word;

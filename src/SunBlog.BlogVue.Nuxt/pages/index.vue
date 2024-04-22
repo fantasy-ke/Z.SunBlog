@@ -107,10 +107,10 @@
       <v-pagination
         v-if="(articles?.result?.pages ?? 0) > 1"
         v-model="pager.pageNo"
-        style="margin: 20px 0"
+        style="margin: 20px 0;"
         size="x-small"
         :length="articles?.result?.pages ?? 0"
-        active-color="#00C4B6"
+        active-color="#1565C0"
         :total-visible="3"
         variant="elevated"
       ></v-pagination>
@@ -202,7 +202,7 @@
           </div>
           <div class="web-info">
             <div style="padding: 4px 0 0">
-              运行时间:<span class="float-right">{{ state.runTime }}</span>
+              运行时间:<span class="float-right">{{ formatDate(state.runTime) }}</span>
             </div>
             <div style="padding: 4px 0 0">
               用户数量:<span class="float-right">
@@ -540,7 +540,8 @@ useHead({
   font-size: 14px;
   position: relative;
   display: block;
-  background-color: #49b1f5;
+  border-radius: 5px;
+  background-color: #0099CC;
   color: #fff !important;
   height: 32px;
   line-height: 32px;

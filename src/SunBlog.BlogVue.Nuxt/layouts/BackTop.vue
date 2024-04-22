@@ -77,9 +77,10 @@ onUnmounted(() => {
 .setting-container {
   display: block;
   margin-bottom: 2px;
+  border-radius: 10px;
   width: 30px;
   height: 30px;
-  background-color: #49b1f5;
+  background-color: #0099CC;
   color: #fff;
   text-align: center;
   font-size: 16px;

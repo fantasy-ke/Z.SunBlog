@@ -50,7 +50,7 @@ useHead({
 .category-banner {
   /* background: url(https://static.talkxj.com/config/83be0017d7f1a29441e33083e7706936.jpg)
         center center / cover no-repeat; */
-  background-color: #49b1f5;
+  background-color: #0099CC;
 }
 .category-title {
   text-align: center;
@@ -75,7 +75,7 @@ useHead({
   left: -0.75rem;
   width: 12px;
   height: 12px;
-  border: 0.2rem solid #49b1f5;
+  border: 0.2rem solid #0099CC;
   border-radius: 50%;
   background: #fff;
   content: "";

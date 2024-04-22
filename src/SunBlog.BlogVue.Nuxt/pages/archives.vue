@@ -13,7 +13,7 @@
         <timeline-item v-for="item of articles?.result?.rows" :key="item.id">
           <v-card style="padding: 20px 20px">
             <!-- 日期 -->
-            <div class="time">{{ item.publishTime }}</div>
+            <div class="time">{{ formatDate(item.publishTime) }}</div>
             <!-- 文章标题 -->
             <a
               :href="'/articles/' + item.id"
