@@ -169,7 +169,7 @@ p {
 
   .banner {
     position: absolute;
-    background-color: #49b1f5 !important;
+    background-color: #0099CC !important;
     top: -60px;
     left: 0;
     right: 0;
@@ -229,7 +229,7 @@ p {
     left: 0;
     right: 0;
     height: 280px;
-    background-color: #49b1f5 !important;
+    background-color: #0099CC !important;
     animation: header-effect 1s;
   }
 
@@ -281,8 +281,8 @@ p {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #49b1f5;
-  background-image: -webkit-linear-gradient(
+  background-color: #0099CC;
+  /* background-image: -webkit-linear-gradient(
     45deg,
     rgba(255, 255, 255, 0.4) 25%,
     transparent 25%,
@@ -291,7 +291,7 @@ p {
     rgba(255, 255, 255, 0.4) 75%,
     transparent 75%,
     transparent
-  );
+  ); */
   border-radius: 2em;
 }
 
@@ -301,7 +301,7 @@ p {
 
 ::-moz-selection {
   color: #fff;
-  background-color: #49b1f5;
+  background-color: #0099CC;
 }
 
 .emoji-btn {
@@ -354,7 +354,7 @@ p {
 .upload-btn {
   color: #fff;
   margin-left: 1rem;
-  background-color: #49b1f5;
+  background-color: #0099CC;
 }
 
 .upload-btn:hover {
@@ -458,8 +458,9 @@ pre.hljs code {
 }
 
 .is-active-link {
-  border-left-color: #009d92;
-  background: #00c4b6;
+  /* border-left-color: #d7dadb; */
+  background: #0099CC;
+  border-radius: 5px 0px 0 5px;
   color: #fff !important;
 }
 
@@ -598,5 +599,5 @@ pre.hljs code {
 }
 
 #nprogress .bar {
-  background: #49b1f5 !important;
+  background: #0099CC !important;
 }
