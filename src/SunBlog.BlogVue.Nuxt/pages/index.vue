@@ -79,7 +79,7 @@
             </span>
             <!-- 发表时间 -->
             <v-icon size="14">mdi-calendar-month-outline</v-icon>
-            {{ dayjs(item.publishTime).format("YYYY-MM-DD") }}
+            {{ formatDate(item.publishTime,"YYYY-MM-DD") }}
             <span class="separator">|</span>
             <!-- 文章分类 -->
             <a :href="'/categories/' + item.categoryId">
