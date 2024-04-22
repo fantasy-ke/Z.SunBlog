@@ -8,12 +8,18 @@
     <v-card class="blog-container">
       <timeline>
         <timeline-title>
-          目前共计{{ articles?.result?.total ?? 0 }}篇文章，继续加油
+          还行！目前共计{{ articles?.result?.total ?? 0 }}篇文章，继续努力
         </timeline-title>
         <timeline-item v-for="item of articles?.result?.rows" :key="item.id">
           <v-card style="padding: 20px 20px">
             <!-- 日期 -->
-            <div class="time">{{ formatDate(item.publishTime) }}</div>
+            <div><span class="time">{{ formatDate(item.publishTime) }}</span></div>
+            <span v-if="item.isTop" style="font-size: 12px;">
+              <span style="color: #ff7242">
+                <i class="iconfont iconzhiding" /> 置顶
+              </span>
+              <span class="separator">|</span>
+            </span>
             <!-- 文章标题 -->
             <a
               :href="'/articles/' + item.id"
@@ -90,5 +96,13 @@ useHead({
   font-size: 0.75rem;
   color: #555;
   margin-right: 1rem;
+}
+.timeline-item{
+  padding-bottom:0px;
+}
+
+.v-card--variant-elevated{
+  border-top: 1px solid var(--7697135b-theme);
+  box-shadow: none
 }
 </style>

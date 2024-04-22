@@ -5,7 +5,7 @@
   </div>
   <!-- 分类列表 -->
   <v-card class="blog-container">
-    <div class="category-title">分类 - {{ categories?.result?.length }}</div>
+    <div class="category-title">目前共计 {{ categories?.result?.length }} 个分类</div>
     <ul class="category-list">
       <li
         class="category-list-item"
@@ -54,8 +54,9 @@ useHead({
 }
 .category-title {
   text-align: center;
-  font-size: 36px;
+  font-size: 25px;
   line-height: 2;
+  color: #555;
 }
 @media (max-width: 759px) {
   .category-title {
@@ -68,6 +69,7 @@ useHead({
 }
 .category-list-item {
   padding: 8px 1.8rem 8px 0;
+  font-size:18px;
 }
 .category-list-item:before {
   display: inline-block;
@@ -92,8 +94,7 @@ useHead({
   transition: all 0.3s;
 }
 .category-count {
-  margin-left: 0.5rem;
-  font-size: 0.75rem;
+  font-size: 1rem;
   color: #858585;
 }
 </style>
