@@ -1,10 +1,9 @@
-﻿using Z.Fantasy.Core.Entities;
-using Z.Fantasy.Core.Entities.Enum;
-using Z.SunBlog.Core.SharedDto;
+﻿using Z.Foundation.Core.Entities;
+using Z.Foundation.Core.Entities.Enum;
 
 namespace Z.SunBlog.Application.SystemServiceModule.UserService.Dto;
 
-public class UserPageOutput:Entity<string?>
+public class UserPageOutput:Entity<string>
 {
     /// <summary>
     /// 姓名

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Z.Fantasy.Core.Entities.Permission;
-using Z.Fantasy.Core.Entities.Repositories;
+using Z.Foundation.Core.Entities.Permission;
+using Z.Foundation.Core.Entities.Repositories;
 using Z.FreeRedis;
 
 namespace Z.Fantasy.Core.Authorization.Authorize

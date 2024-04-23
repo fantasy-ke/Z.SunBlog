@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Z.Fantasy.Core.Entities.KeyGenerator;
 
-namespace Z.Fantasy.Core.Entities
+namespace Z.Foundation.Core.Entities
 {
     /// <summary>
     /// 自定义实体无主键实体

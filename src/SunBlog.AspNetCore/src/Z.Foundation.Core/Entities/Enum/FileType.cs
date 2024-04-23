@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Z.Foundation.Core.Attributes;
 
-namespace Z.Fantasy.Core.Entities.Enum;
+namespace Z.Foundation.Core.Entities.Enum;
 
 public enum FileType
 {

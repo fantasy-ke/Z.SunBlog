@@ -10,10 +10,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Z.Fantasy.Core.UnitOfWork;
 using Z.EntityFrameworkCore.Core;
 using Z.EntityFrameworkCore.Middlewares;
 using Z.EntityFrameworkCore.Options;
+using Z.Foundation.Core.UnitOfWork;
 
 namespace Z.EntityFrameworkCore.Extensions;
 

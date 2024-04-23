@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Z.Fantasy.Core.Entities;
+﻿using System.Linq.Expressions;
 
-namespace Z.Fantasy.Core.Entities.Repositories;
+namespace Z.Foundation.Core.Entities.Repositories;
 
 public interface IRepository<TEntity, TKey> : IReadOnlyBasicRepository<TEntity, TKey>, IBasicRepository<TEntity, TKey>
         where TEntity : class, IEntity<TKey>

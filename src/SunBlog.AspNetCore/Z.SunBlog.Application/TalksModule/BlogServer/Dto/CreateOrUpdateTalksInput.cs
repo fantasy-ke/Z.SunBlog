@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Z.Fantasy.Core.Entities.Enum;
+﻿using System.ComponentModel.DataAnnotations;
+using Z.Foundation.Core.Entities.Enum;
 
 namespace Z.SunBlog.Application.TalksModule.BlogServer.Dto
 {

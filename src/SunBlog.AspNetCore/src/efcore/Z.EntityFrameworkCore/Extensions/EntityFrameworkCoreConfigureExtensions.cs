@@ -7,10 +7,10 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-using Z.Fantasy.Core.Entities.Auditing;
-using Z.Fantasy.Core.Entities.KeyGenerator;
-using Z.Fantasy.Core.Entities.Organizations;
-using Z.Fantasy.Core.Entities.Users;
+using Z.Foundation.Core.Entities.Auditing;
+using Z.Foundation.Core.Entities.KeyGenerator;
+using Z.Foundation.Core.Entities.Organizations;
+using Z.Foundation.Core.Entities.Users;
 
 namespace Z.EntityFrameworkCore.Extensions;
 

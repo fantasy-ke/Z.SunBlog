@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Z.Fantasy.Core.Entities.IAuditing;
-using Z.Fantasy.Core.UserSession;
+﻿using Z.Foundation.Core.Entities.IAuditing;
 using Z.Foundation.Core.Extensions;
 using Z.Foundation.Core.Helper;
+using Z.Foundation.Core.UserSession;
 using Z.Module.DependencyInjection;
 
-namespace Z.Fantasy.Core.Entities.Auditing
+namespace Z.Foundation.Core.Entities.Auditing
 {
     public class AuditPropertySetter : IAuditPropertySetter, ITransientDependency
     {

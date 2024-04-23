@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Z.Module.DependencyInjection;
+﻿using Z.Module.DependencyInjection;
 
-namespace Z.Fantasy.Core.Entities.IAuditing
+namespace Z.Foundation.Core.Entities.IAuditing
 {
     public interface IAuditPropertySetter : ITransientDependency
     {

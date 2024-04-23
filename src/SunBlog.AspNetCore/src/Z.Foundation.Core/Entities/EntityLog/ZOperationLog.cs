@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
-using System.ComponentModel.DataAnnotations;
-using Z.Fantasy.Core.Entities.Auditing;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.Logging;
+using Z.Foundation.Core.Entities.Auditing;
 
-namespace Z.Fantasy.Core.Entities.EntityLog;
+namespace Z.Foundation.Core.Entities.EntityLog;
 
 /// <summary>
 /// 操作日志

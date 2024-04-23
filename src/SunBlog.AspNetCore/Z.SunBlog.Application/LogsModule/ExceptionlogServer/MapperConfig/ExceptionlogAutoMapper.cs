@@ -3,10 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using AutoMapper;
-using Z.Fantasy.Core.Entities.EntityLog;
+using Z.Foundation.Core.Entities.EntityLog;
 using Z.SunBlog.Application.LogsModule.ExceptionlogServer.Dto;
-using Z.SunBlog.Core.MenuModule;
-using Z.SunBlog.Core.SharedDto;
 
 namespace Z.SunBlog.Application.LogsModule.ExceptionlogServer.MapperConfig
 {

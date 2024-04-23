@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Reflection;
 using Z.Foundation.Core.Helper;
 
-namespace Z.Fantasy.Core.Entities;
+namespace Z.Foundation.Core.Entities;
 
 /// <summary>
 /// Some helper methods for entities.

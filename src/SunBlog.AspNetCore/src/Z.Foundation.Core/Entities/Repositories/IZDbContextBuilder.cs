@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Z.Fantasy.Core.Entities.Repositories;
+namespace Z.Foundation.Core.Entities.Repositories;
 
 public interface IZDbContextBuilder
 {

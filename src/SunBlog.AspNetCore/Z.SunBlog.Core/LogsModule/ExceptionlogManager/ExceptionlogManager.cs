@@ -1,5 +1,5 @@
 ﻿using Z.Fantasy.Core.DomainServiceRegister.Domain;
-using Z.Fantasy.Core.Entities.EntityLog;
+using Z.Foundation.Core.Entities.EntityLog;
 
 namespace Z.SunBlog.Core.LogsModule.ExceptionlogManager
 {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using Z.Fantasy.Core.Entities.Repositories;
-using Z.Fantasy.Core.Entities;
 using Z.EntityFrameworkCore.Core;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Z.Foundation.Core.Entities;
+using Z.Foundation.Core.Entities.Repositories;
 
 namespace Z.EntityFrameworkCore.Extensions;
 

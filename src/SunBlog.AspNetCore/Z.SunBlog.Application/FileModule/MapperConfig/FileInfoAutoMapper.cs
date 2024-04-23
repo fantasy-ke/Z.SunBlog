@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using AutoMapper;
-using Z.Fantasy.Core.Entities.Files;
+using Z.Foundation.Core.Entities.Files;
 using Z.SunBlog.Application.FileModule.Dto;
 
 namespace Z.SunBlog.Application.FileModule.MapperConfig

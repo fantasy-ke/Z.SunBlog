@@ -5,8 +5,8 @@ using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.TagsModule.BlogServer.Dto;
 using Z.SunBlog.Core.SharedDto;
 using Z.SunBlog.Core.TagModule;
-using Z.Fantasy.Core.Entities.Enum;
 using Z.Fantasy.Core.ResultResponse.Pager;
+using Z.Foundation.Core.Entities.Enum;
 using Z.SunBlog.Core.TagModule.DomainManager;
 
 namespace Z.SunBlog.Application.TagsModule.BlogServer

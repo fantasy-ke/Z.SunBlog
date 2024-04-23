@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MrHuo.OAuth.QQ;
 using Z.Fantasy.Core.DomainServiceRegister;
-using Z.Fantasy.Core.Entities.Enum;
 using Z.Fantasy.Core.OAuth.Gitee;
 using Z.Fantasy.Core.OAuth.GitHub;
+using Z.Foundation.Core.Entities.Enum;
 
 namespace Z.SunBlog.Core.AuthAccountModule.DomainManager
 {

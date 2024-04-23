@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Z.Fantasy.Core.Entities.Auditing;
+using Z.Foundation.Core.Entities.Auditing;
 
-namespace Z.Fantasy.Core.Entities.Permission
+namespace Z.Foundation.Core.Entities.Permission
 {
     public class PermissionsBase : CreationAuditedEntity<string>
     {

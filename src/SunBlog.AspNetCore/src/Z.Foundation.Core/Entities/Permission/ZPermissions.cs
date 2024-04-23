@@ -1,4 +1,4 @@
-﻿namespace Z.Fantasy.Core.Entities.Permission
+﻿namespace Z.Foundation.Core.Entities.Permission
 {
     public class ZPermissions : PermissionsBase
     {

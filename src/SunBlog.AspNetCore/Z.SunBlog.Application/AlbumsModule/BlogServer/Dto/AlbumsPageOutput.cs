@@ -1,5 +1,5 @@
 ﻿using Z.SunBlog.Core.AlbumsModule;
-using Z.Fantasy.Core.Entities.Enum;
+using Z.Foundation.Core.Entities.Enum;
 
 namespace Z.SunBlog.Application.AlbumsModule.BlogServer.Dto;
 

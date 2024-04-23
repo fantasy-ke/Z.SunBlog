@@ -1,4 +1,4 @@
-﻿namespace Z.Fantasy.Core.Entities.Enum;
+﻿namespace Z.Foundation.Core.Entities.Enum;
 
 public enum EventType
 {

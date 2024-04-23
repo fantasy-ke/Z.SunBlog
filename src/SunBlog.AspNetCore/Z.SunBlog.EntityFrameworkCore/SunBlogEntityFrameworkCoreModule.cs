@@ -16,8 +16,8 @@ using Z.Foundation.Core.Exceptions;
 
 namespace Z.SunBlog.EntityFrameworkCore
 {
-    [DependOn(typeof(ZSqlServerEntityFrameworkCoreModule),
-    typeof(ZMysqlEntityFrameworkCoreModule))]
+    [DependOn(typeof(ZMysqlEntityFrameworkCoreModule),
+    typeof(ZSqlServerEntityFrameworkCoreModule))]
     public class SunBlogEntityFrameworkCoreModule : ZModule
     {
         public override void ConfigureServices(ServiceConfigerContext context)

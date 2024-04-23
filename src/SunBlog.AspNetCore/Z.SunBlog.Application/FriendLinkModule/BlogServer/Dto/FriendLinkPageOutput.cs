@@ -1,4 +1,4 @@
-﻿using Z.Fantasy.Core.Entities.Enum;
+﻿using Z.Foundation.Core.Entities.Enum;
 
 namespace Z.SunBlog.Application.FriendLinkModule.BlogServer.Dto;
 

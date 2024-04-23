@@ -1,17 +1,7 @@
-﻿using Cuemon;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Z.Fantasy.Core.Entities;
-using Z.Fantasy.Core.Entities.Repositories;
-using Z.Fantasy.Core.ResultResponse;
+using Z.Foundation.Core.Entities;
+using Z.Foundation.Core.Entities.Repositories;
 using Z.Module.DependencyInjection;
 
 namespace Z.EntityFrameworkCore.Core;

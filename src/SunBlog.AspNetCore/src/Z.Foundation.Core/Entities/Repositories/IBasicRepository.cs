@@ -1,8 +1,6 @@
-﻿using JetBrains.Annotations;
-using System.Linq.Expressions;
-using Z.Fantasy.Core.Entities;
+﻿using System.Linq.Expressions;
 
-namespace Z.Fantasy.Core.Entities.Repositories;
+namespace Z.Foundation.Core.Entities.Repositories;
 
 public interface IBasicRepository<TEntity> : IReadOnlyBasicRepository<TEntity>
         where TEntity : class, IEntity

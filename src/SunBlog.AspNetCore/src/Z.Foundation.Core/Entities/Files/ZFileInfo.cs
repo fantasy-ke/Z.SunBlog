@@ -1,10 +1,10 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System.ComponentModel.DataAnnotations;
-using Z.Fantasy.Core.Entities.Auditing;
-using Z.Fantasy.Core.Entities.Enum;
+﻿using System.ComponentModel.DataAnnotations;
+using Z.Foundation.Core.Entities.Auditing;
+using Z.Foundation.Core.Entities.Enum;
 using Z.Foundation.Core.Extensions;
+using Z.Module.Extensions;
 
-namespace Z.Fantasy.Core.Entities.Files
+namespace Z.Foundation.Core.Entities.Files
 {
     public class ZFileInfo : FullAuditedEntity<Guid>
     {
@@ -109,12 +109,12 @@ namespace Z.Fantasy.Core.Entities.Files
         /// <param name="childCode"> 子代码. </param>
         public static string AppendCode(string parentCode, string childCode)
         {
-            if (childCode.IsNullOrEmpty())
+            if (childCode.IsNullEmpty())
             {
                 throw new ArgumentNullException(nameof(childCode), "子代码不能为空或者为null");
             }
 
-            if (parentCode.IsNullOrEmpty())
+            if (parentCode.IsNullEmpty())
             {
                 return childCode;
             }
@@ -144,7 +144,7 @@ namespace Z.Fantasy.Core.Entities.Files
         /// <param name="code"> The code. </param>
         public static string CalculateNextCode(string code)
         {
-            if (code.IsNullOrEmpty())
+            if (code.IsNullEmpty())
             {
                 throw new ArgumentNullException(nameof(code), "code can not be null or empty.");
             }
@@ -162,7 +162,7 @@ namespace Z.Fantasy.Core.Entities.Files
         /// <param name="code"> The code. </param>
         public static string GetParentCode(string code)
         {
-            if (code.IsNullOrEmpty())
+            if (code.IsNullEmpty())
             {
                 throw new ArgumentNullException(nameof(code), "code can not be null or empty.");
             }
@@ -183,13 +183,13 @@ namespace Z.Fantasy.Core.Entities.Files
         /// <param name="code"> The code. </param>
         public static string GetLastUnitCode(string code)
         {
-            if (code.IsNullOrEmpty())
+            if (code.IsNullEmpty())
             {
                 throw new ArgumentNullException(nameof(code), "code can not be null or empty.");
             }
 
             var splittedCode = code.Split('.');
-            return splittedCode[splittedCode.Length - 1];
+            return splittedCode[^1];
         }
 
         /// <summary>
@@ -200,12 +200,12 @@ namespace Z.Fantasy.Core.Entities.Files
         /// <param name="parentCode"> The parent code. </param>
         public static string GetRelativeCode(string code, string parentCode)
         {
-            if (code.IsNullOrEmpty())
+            if (code.IsNullEmpty())
             {
                 throw new ArgumentNullException(nameof(code), "code can not be null or empty.");
             }
 
-            if (parentCode.IsNullOrEmpty())
+            if (parentCode.IsNullEmpty())
             {
                 return code;
             }

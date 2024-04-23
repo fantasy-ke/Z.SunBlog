@@ -1,13 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Z.Fantasy.Core.UnitOfWork;
+namespace Z.Foundation.Core.UnitOfWork;
 
 public interface IUnitOfWork : IDisposable
 {

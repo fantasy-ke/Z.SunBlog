@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
-using Z.Fantasy.Core.Entities.IAuditing;
-using Z.Fantasy.Core.UnitOfWork;
 using Z.EntityFrameworkCore.Options;
 using Z.Module.DependencyInjection;
-using Z.Fantasy.Core.Entities;
 using Microsoft.EntityFrameworkCore.Storage;
+using Z.Foundation.Core.Entities;
+using Z.Foundation.Core.Entities.IAuditing;
 using Z.Foundation.Core.Helper;
 using Z.Foundation.Core.Extensions;
+using Z.Foundation.Core.UnitOfWork;
 
 namespace Z.EntityFrameworkCore.Core;
 

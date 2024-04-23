@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Z.Fantasy.Core.Entities.Auditing;
+using Z.Foundation.Core.Entities.Auditing;
 
-namespace Z.Fantasy.Core.Entities.EntityLog;
+namespace Z.Foundation.Core.Entities.EntityLog;
 /// <summary>
 /// 用户登录日志
 /// </summary>

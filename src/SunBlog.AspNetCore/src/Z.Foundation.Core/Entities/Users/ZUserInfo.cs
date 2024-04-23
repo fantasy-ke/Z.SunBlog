@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Z.Fantasy.Core.Entities.Auditing;
-using Z.Fantasy.Core.Entities.Enum;
+using Z.Foundation.Core.Entities.Auditing;
+using Z.Foundation.Core.Entities.Enum;
 
-namespace Z.Fantasy.Core.Entities.Users
+namespace Z.Foundation.Core.Entities.Users
 {
     public class ZUserInfo : FullAuditedEntity<string>
     {

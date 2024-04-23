@@ -4,6 +4,14 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+		<Description>Z.HangFire包</Description>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<Title>Z.HangFire</Title>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<RepositoryType>git</RepositoryType>
+		<PackageReadmeFile>Readme.md</PackageReadmeFile>
+		<PackageIcon>85232349.png</PackageIcon>
+        <Version>1.0.3</Version>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,6 +20,20 @@
 	    <PackageReference Include="Hangfire.MySqlStorage" Version="2.0.3" />
 	    <PackageReference Include="Hangfire.Redis.StackExchange" Version="1.9.3" />
 	    <PackageReference Include="Hangfire.SqlServer" Version="1.8.6" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="85232349.png">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Update="LICENSE">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+        <None Update="Readme.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
     </ItemGroup>
 
 </Project>

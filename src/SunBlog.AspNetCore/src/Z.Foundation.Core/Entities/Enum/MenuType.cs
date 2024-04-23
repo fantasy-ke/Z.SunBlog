@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Z.Fantasy.Core.Entities.Enum;
+namespace Z.Foundation.Core.Entities.Enum;
 
 public enum MenuType
 {

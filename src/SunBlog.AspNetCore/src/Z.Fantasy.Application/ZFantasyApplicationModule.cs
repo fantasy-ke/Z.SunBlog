@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Z.EventBus.Extensions;
-using Z.Fantasy.Application.Handlers;
 using Z.Fantasy.Application.Middleware;
 using Z.Fantasy.Core;
 using Z.Fantasy.Core.AutoMapper;
-using Z.Fantasy.Core.ResultResponse;
 using Z.Module;
 using Z.Module.Modules;
 

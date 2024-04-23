@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Z.Fantasy.Core.Entities;
+using Z.Foundation.Core.Entities;
 
 namespace Z.SunBlog.Application.SystemServiceModule.UserService.Dto;
 

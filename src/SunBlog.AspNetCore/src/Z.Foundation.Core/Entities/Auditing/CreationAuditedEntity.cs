@@ -1,13 +1,7 @@
-﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Z.Fantasy.Core.Entities.IAuditing;
+﻿using System.ComponentModel.DataAnnotations;
+using Z.Foundation.Core.Entities.IAuditing;
 
-namespace Z.Fantasy.Core.Entities.Auditing
+namespace Z.Foundation.Core.Entities.Auditing
 {
     [Serializable]
     public abstract class CreationAuditedEntity : Entity, IHasCreationTime, IMayHaveCreator

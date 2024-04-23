@@ -1,6 +1,6 @@
-﻿using Z.Fantasy.Core.Entities.Auditing;
+﻿using Z.Foundation.Core.Entities.Auditing;
 
-namespace Z.Fantasy.Core.Entities.Users;
+namespace Z.Foundation.Core.Entities.Users;
 
 public class ZUserRole : FullAuditedEntity<Guid>
 {

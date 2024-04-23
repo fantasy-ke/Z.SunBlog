@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Z.Fantasy.Core.Entities.Auditing;
+﻿using System.ComponentModel.DataAnnotations;
+using Z.Foundation.Core.Entities.Auditing;
 
-namespace Z.Fantasy.Core.Entities.EntityLog
+namespace Z.Foundation.Core.Entities.EntityLog
 {
     public class ZExceptionLog : CreationAuditedEntity<Guid>
     {

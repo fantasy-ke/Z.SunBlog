@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Z.Fantasy.Core.Entities.Auditing;
+using Z.Foundation.Core.Entities.Auditing;
 
-namespace Z.Fantasy.Core.Entities.EntityLog;
+namespace Z.Foundation.Core.Entities.EntityLog;
 
 public class ZRequestLog : CreationAuditedEntity<Guid>
 {

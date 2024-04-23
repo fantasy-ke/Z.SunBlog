@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 
-namespace Z.Fantasy.Core.Entities.KeyGenerator
+namespace Z.Foundation.Core.Entities.KeyGenerator
 {
     public class ZStringKeyGenerator : ValueGenerator<string>
     {

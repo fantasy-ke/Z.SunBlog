@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Z.EventBus.Handlers;
 using Z.Module.DependencyInjection;
-using Z.Fantasy.Core.UnitOfWork;
-using Z.Fantasy.Core.Entities.Repositories;
-using Z.Fantasy.Core.Entities.EntityLog;
 using Z.Foundation.Core.AutofacExtensions;
+using Z.Foundation.Core.Entities.EntityLog;
+using Z.Foundation.Core.Entities.Repositories;
+using Z.Foundation.Core.UnitOfWork;
 
 namespace Z.Fantasy.Application.Handlers
 {

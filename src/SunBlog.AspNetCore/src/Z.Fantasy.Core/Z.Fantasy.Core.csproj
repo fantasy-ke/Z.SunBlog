@@ -3,6 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Description>Core包</Description>
+    <PackageIcon>85232349.png</PackageIcon>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Title>Z.Fantasy.Core</Title>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryType>git</RepositoryType>
+    <Version>1.0.3</Version>
     <!--<Nullable>enable</Nullable>-->
   </PropertyGroup>
 
@@ -13,7 +20,6 @@
 	<PackageReference Include="Cuemon.Extensions.AspNetCore.Mvc.Formatters.Newtonsoft.Json" Version="8.0.0" />
 	<PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="8.0.0" />
 	<PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="8.0.0" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
 	<PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.0.3" />
 	<PackageReference Include="MimeTypes" Version="2.4.1">
 	  <PrivateAssets>all</PrivateAssets>
@@ -33,17 +39,23 @@
 	<PackageReference Include="MrHuo.OAuth.Core" Version="1.1.1" />
 	<PackageReference Include="Z.EventBus" Version="1.0.1" />
 	<PackageReference Include="Z.RabbitMQ" Version="1.0.0" />
-	<PackageReference Include="Z.OSSCore" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Z.Foundation.Core\Z.Foundation.Core.csproj" />
+    <None Update="LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  <None Update="85232349.png">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+  </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Z.FreeRedis\Z.FreeRedis.csproj" />
     <ProjectReference Include="..\Z.HangFire\Z.HangFire.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DynamicProxy\" />
+    <ProjectReference Include="..\Z.OSSCore\Z.OSSCore.csproj" />
   </ItemGroup>
 
 </Project>

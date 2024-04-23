@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Z.Fantasy.Core.DomainServiceRegister;
-using Z.Fantasy.Core.Entities.Enum;
 using Z.Fantasy.Core.ResultResponse.Pager;
 using Z.EntityFrameworkCore.Extensions;
-using Z.SunBlog.Application.ArticleModule.BlogClient.Dto;
+using Z.Foundation.Core.Entities.Enum;
 using Z.SunBlog.Application.ArticleModule.BlogServer.Dto;
 using Z.SunBlog.Core.ArticleCategoryModule;
 using Z.SunBlog.Core.ArticleCategoryModule.DomainManager;
@@ -13,10 +11,8 @@ using Z.SunBlog.Core.ArticleModule;
 using Z.SunBlog.Core.ArticleModule.DomainManager;
 using Z.SunBlog.Core.ArticleTagModule;
 using Z.SunBlog.Core.ArticleTagModule.DomainManager;
-using Z.SunBlog.Core.CategoriesModule;
 using Z.SunBlog.Core.CategoriesModule.DomainManager;
 using Z.SunBlog.Core.SharedDto;
-using Z.SunBlog.Core.TagModule;
 using Z.SunBlog.Core.TagModule.DomainManager;
 
 namespace Z.SunBlog.Application.ArticleModule.BlogServer

@@ -1,7 +1,7 @@
 ﻿
 using System.Security.Claims;
 
-namespace Z.Fantasy.Core.UserSession;
+namespace Z.Foundation.Core.UserSession;
 
 /// <summary>
 /// Used to get Z-specific claim type names.
