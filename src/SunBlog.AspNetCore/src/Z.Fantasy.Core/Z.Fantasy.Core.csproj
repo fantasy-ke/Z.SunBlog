@@ -39,6 +39,9 @@
 	<PackageReference Include="MrHuo.OAuth.Core" Version="1.1.1" />
 	<PackageReference Include="Z.EventBus" Version="1.0.1" />
 	<PackageReference Include="Z.RabbitMQ" Version="1.0.0" />
+	<PackageReference Include="Z.FreeRedis" Version="1.0.3" />
+	<PackageReference Include="Z.HangFire" Version="1.0.3" />
+	<PackageReference Include="Z.OSSCore" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,12 +53,6 @@
 	  <Pack>True</Pack>
 	  <PackagePath>\</PackagePath>
   </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Z.FreeRedis\Z.FreeRedis.csproj" />
-    <ProjectReference Include="..\Z.HangFire\Z.HangFire.csproj" />
-    <ProjectReference Include="..\Z.OSSCore\Z.OSSCore.csproj" />
   </ItemGroup>
 
 </Project>
