@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using Yitter.IdGenerator;
 using Z.Fantasy.Core.DomainServiceRegister;
-using Z.Fantasy.Core.Entities.Users;
+using Z.Foundation.Core.Entities.Users;
 using Z.Foundation.Core.Extensions;
 using Z.SunBlog.Application.UserModule.Dto;
 using Z.SunBlog.Core.UserModule.DomainManager;

@@ -4,8 +4,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Z.Fantasy.Core.UserSession;
-using Z.Fantasy.Core;
 using Z.Fantasy.Core.Authorization.Dtos;
 using Z.Module.DependencyInjection;
 

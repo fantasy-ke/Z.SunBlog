@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using Z.Foundation.Core.Entities.Enum;
 using Z.SunBlog.Core.AlbumsModule;
-using Z.Fantasy.Core.Entities.Enum;
 
 namespace Z.SunBlog.Application.AlbumsModule.BlogServer.Dto
 {

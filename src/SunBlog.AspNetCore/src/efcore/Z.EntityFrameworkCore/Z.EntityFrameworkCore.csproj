@@ -8,12 +8,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Z.Fantasy.Core\Z.Fantasy.Core.csproj" />
+    <ProjectReference Include="..\..\Z.Foundation.Core\Z.Foundation.Core.csproj" />
   </ItemGroup>
 
 </Project>

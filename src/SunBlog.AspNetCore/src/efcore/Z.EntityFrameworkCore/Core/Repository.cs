@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Z.Fantasy.Core.Entities;
+using Z.Foundation.Core.Entities;
 
 namespace Z.EntityFrameworkCore.Core;
 

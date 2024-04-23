@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Z.EventBus.Attributes;
-using Z.Fantasy.Core.Entities.EntityLog;
+﻿using Z.EventBus.Attributes;
+using Z.Foundation.Core.Entities.EntityLog;
 
 namespace Z.Fantasy.Application.Handlers
 {

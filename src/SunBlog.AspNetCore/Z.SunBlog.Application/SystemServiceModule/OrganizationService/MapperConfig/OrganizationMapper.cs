@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using AutoMapper;
-using Z.Fantasy.Core.Entities.Organizations;
+using Z.Foundation.Core.Entities.Organizations;
 using Z.SunBlog.Application.SystemServiceModule.OrganizationService.Dto;
 using Z.SunBlog.Core.SharedDto;
 

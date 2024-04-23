@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Z.Fantasy.Core.DomainServiceRegister.Domain;
-using Z.Fantasy.Core.Entities.Files;
+using Z.Foundation.Core.Entities.Files;
 
 namespace Z.SunBlog.Core.FileModule.FileManager
 {

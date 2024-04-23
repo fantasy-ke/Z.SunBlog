@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
+using Microsoft.EntityFrameworkCore;
 using Yitter.IdGenerator;
+using Z.EntityFrameworkCore;
 using Z.Fantasy.Core.DomainServiceRegister;
-using Z.Fantasy.Core.Entities.Enum;
-using Z.Fantasy.Core.Entities.Repositories;
-using Z.Fantasy.Core.Entities.Roles;
 using Z.Fantasy.Core.ResultResponse.Pager;
+using Z.Foundation.Core.Entities.Enum;
+using Z.Foundation.Core.Entities.Repositories;
 using Z.EntityFrameworkCore.Extensions;
+using Z.Foundation.Core.Entities.Roles;
 using Z.Foundation.Core.Exceptions;
 using Z.Foundation.Core.Extensions;
 using Z.Module.DependencyInjection;
@@ -72,7 +73,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
         [HttpPost]
         public async Task<PageResult<RolePageOutput>> GetPage([FromBody] RoleQueryInput dto)
         {
-            return await _roleRepository.GetQueryAll()
+            return  await _roleRepository.GetQueryAll()
                 .WhereIf(!string.IsNullOrWhiteSpace(dto.Name), x => x.Name.Contains(dto.Name))
                 .OrderBy(x => x.Sort)
                 .OrderByDescending(x => x.Id)

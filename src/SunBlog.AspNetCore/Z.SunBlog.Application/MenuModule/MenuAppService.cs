@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using Z.EntityFrameworkCore.Extensions;
 using Z.Fantasy.Core.DomainServiceRegister;
-using Z.Fantasy.Core.Entities.Enum;
+using Z.Foundation.Core.Entities.Enum;
 using Z.Foundation.Core.Exceptions;
 using Z.Foundation.Core.Extensions;
 using Z.FreeRedis;

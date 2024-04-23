@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Z.Fantasy.Core.Entities.Enum;
+﻿using Z.Foundation.Core.Entities.Enum;
 
 namespace Z.SunBlog.Application.FileModule.Dto;
 

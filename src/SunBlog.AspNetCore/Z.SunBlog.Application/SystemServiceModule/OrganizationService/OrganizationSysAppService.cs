@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
+using Microsoft.EntityFrameworkCore;
 using Z.Fantasy.Core.DomainServiceRegister;
-using Z.Fantasy.Core.Entities.Organizations;
-using Z.Fantasy.Core.Entities.Repositories;
+using Z.Foundation.Core.Entities.Organizations;
+using Z.Foundation.Core.Entities.Repositories;
 using Z.Foundation.Core.Exceptions;
 using Z.FreeRedis;
 using Z.Module.DependencyInjection;

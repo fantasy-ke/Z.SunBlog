@@ -3,14 +3,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Runtime.ExceptionServices;
 using UAParser;
-using Z.Fantasy.Core.Entities.EntityLog;
-using Z.Fantasy.Core.Entities.Repositories;
 using Z.Fantasy.Core.ResultResponse;
-using Z.Fantasy.Core.UnitOfWork;
-using Z.Fantasy.Core.UserSession;
 using Z.Foundation.Core.Helper;
 using Z.Foundation.Core.Extensions;
 using Z.Foundation.Core.AutofacExtensions;
+using Z.Foundation.Core.Entities.EntityLog;
+using Z.Foundation.Core.Entities.Repositories;
+using Z.Foundation.Core.UnitOfWork;
+using Z.Foundation.Core.UserSession;
 
 namespace Z.Fantasy.Application.Middleware;
 

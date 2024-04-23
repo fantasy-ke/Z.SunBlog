@@ -6,9 +6,9 @@ using System.Web;
 using UAParser;
 using Z.EventBus.EventBus;
 using Z.Fantasy.Application.Handlers;
-using Z.Fantasy.Core.UserSession;
 using Z.Foundation.Core.Extensions;
 using Z.Foundation.Core.Helper;
+using Z.Foundation.Core.UserSession;
 
 namespace Z.Fantasy.Application.Middleware
 {

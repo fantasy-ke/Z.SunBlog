@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OnceMi.AspNetCore.OSS
+﻿namespace Z.Foundation.Core.Extensions
 {
     public static class TimeExtensions
     {

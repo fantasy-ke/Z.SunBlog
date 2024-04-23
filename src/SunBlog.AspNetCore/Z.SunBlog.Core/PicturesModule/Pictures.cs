@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Z.Fantasy.Core.Entities.Auditing;
+using Z.Foundation.Core.Entities.Auditing;
 
 namespace Z.SunBlog.Core.PicturesModule;
 

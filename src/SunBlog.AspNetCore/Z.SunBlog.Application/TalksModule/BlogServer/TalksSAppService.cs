@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Z.Fantasy.Core.DomainServiceRegister;
 using Z.Fantasy.Core.ResultResponse.Pager;
-using Z.Fantasy.Core.UserSession;
 using Z.EntityFrameworkCore.Extensions;
 using Z.SunBlog.Application.TalksModule.BlogServer.Dto;
 using Z.SunBlog.Core.PraiseModule.DomainManager;
@@ -61,7 +60,7 @@ namespace Z.SunBlog.Application.TalksModule.BlogServer
                       Images = x.Images,
                       IsAllowComments = x.IsAllowComments,
                       IsTop = x.IsTop,
-                      IsPraise = _praiseManager.QueryAsNoTracking.Where(p => p.ObjectId == x.Id && p.AccountId == userId).Any(),
+                      IsPraise = _praiseManager.QueryAsNoTracking.Any(p => p.ObjectId == x.Id && p.AccountId == userId),
                       CreatedTime = x.CreationTime
                   }).ToPagedListAsync(dto);
         }

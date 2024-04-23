@@ -1,9 +1,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
-using Z.Fantasy.Core.Entities.EntityLog;
-using Z.Fantasy.Core.Entities.Repositories;
-using Z.Fantasy.Core.UnitOfWork;
 using Z.Foundation.Core.AutofacExtensions;
+using Z.Foundation.Core.Entities.EntityLog;
+using Z.Foundation.Core.Entities.Repositories;
+using Z.Foundation.Core.UnitOfWork;
 using Z.HangFire.BackgroundJobs.Abstractions;
 using Z.Module.DependencyInjection;
 

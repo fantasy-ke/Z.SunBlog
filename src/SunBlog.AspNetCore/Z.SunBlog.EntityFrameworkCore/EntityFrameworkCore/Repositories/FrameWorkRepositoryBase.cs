@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Z.Fantasy.Core.Entities.Repositories;
-using Z.Fantasy.Core.Entities;
 using Z.EntityFrameworkCore.Core;
+using Z.Foundation.Core.Entities;
+using Z.Foundation.Core.Entities.Repositories;
 
 namespace Z.SunBlog.EntityFrameworkCore.EntityFrameworkCore.Repositories;
 

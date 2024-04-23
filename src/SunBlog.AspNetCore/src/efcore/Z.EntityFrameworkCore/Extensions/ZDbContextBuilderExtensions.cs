@@ -1,9 +1,9 @@
 // Copyright (c) MASA Stack All rights reserved.
 // Licensed under the MIT License. See LICENSE.txt in the project root for license information.
 
-// ReSharper disable once CheckNamespace
 
-using Z.Fantasy.Core.Entities.Repositories;
+using Z.Foundation.Core.Entities.Repositories;
+// ReSharper disable once CheckNamespace
 using Z.EntityFrameworkCore.Options;
 
 namespace Z.EntityFrameworkCore.Extensions;

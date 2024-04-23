@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Z.Fantasy.Core.UnitOfWork;
 using Z.Foundation.Core.Exceptions;
 using Z.Foundation.Core.Helper;
+using Z.Foundation.Core.UnitOfWork;
 using Z.SunBlog.EntityFrameworkCore.EntityFrameworkCore.Seed.SeedData;
 
 namespace Z.SunBlog.EntityFrameworkCore.EntityFrameworkCore.Seed;

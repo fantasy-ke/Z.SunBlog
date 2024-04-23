@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Z.Fantasy.Core.DomainServiceRegister.Domain;
 using Z.Fantasy.Core.ResultResponse.Pager;
-using Z.Fantasy.Core.Entities;
-using Z.Fantasy.Core.Entities.Repositories;
+using Z.Foundation.Core.Entities;
+using Z.Foundation.Core.Entities.Repositories;
 using Z.Foundation.Core.Exceptions;
 
 namespace Z.Fantasy.Core.DomainServiceRegister;

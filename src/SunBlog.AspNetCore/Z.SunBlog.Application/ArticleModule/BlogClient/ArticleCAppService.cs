@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Z.Fantasy.Core.DomainServiceRegister;
-using Z.Fantasy.Core.Entities.Enum;
 using Z.Fantasy.Core.ResultResponse.Pager;
 using Z.EntityFrameworkCore.Extensions;
+using Z.Foundation.Core.Entities.Enum;
 using Z.Foundation.Core.Exceptions;
 using Z.SunBlog.Application.ArticleModule.BlogClient.Dto;
 using Z.SunBlog.Core.ArticleCategoryModule.DomainManager;

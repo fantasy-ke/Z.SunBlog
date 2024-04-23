@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Z.Fantasy.Core.DomainServiceRegister;
-using Z.Fantasy.Core.Entities.Users;
+using Z.Foundation.Core.Entities.Users;
 
 namespace Z.SunBlog.Core.UserModule.DomainManager
 {
