@@ -36,7 +36,7 @@
         v-if="(articles?.result?.pages ?? 0) > 1"
         size="x-small"
         :length="articles?.result?.pages"
-        active-color="#00C4B6"
+        active-color="#1565C0"
         v-model="pager.pageNo"
         :total-visible="3"
         variant="elevated"

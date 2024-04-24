@@ -32,7 +32,7 @@
           v-model="pager.pageNo"
           size="x-small"
           :length="list?.result?.pages"
-          active-color="#00C4B6"
+          active-color="#1565C0"
           :total-visible="3"
           variant="elevated"
         ></v-pagination>
