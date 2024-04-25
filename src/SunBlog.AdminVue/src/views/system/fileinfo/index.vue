@@ -12,6 +12,12 @@
           </template>
         </el-popconfirm>
       </template>
+      <template #image="{row}">
+        <el-image v-if="row.fileType === FileType._0" style="width: 100px; z-index: 999999;" :preview-teleported="true" :preview-src-list="[`${row.fileIpAddress}/${row.filePath}`]"
+          :src="`${row.fileIpAddress}/${row.filePath}`">
+        </el-image>
+        <span v-else>{{ row.fileDisplayName }}</span>
+      </template>
       <template #fileSize="scope">
         <span>{{ (scope.row.fileSize / 1024).toFixed(2) }}KB</span>
       </template>
@@ -64,6 +70,11 @@ const columns = reactive<ColumnProps[]>([
     label: '文件路径',
     width: 300,
     // isShow: auths(['category:edit', 'category:delete']),
+  },
+  {
+    prop: 'image',
+    label: '图片预览',
+    width: 200,
   },
   {
     prop: 'fileSize',
