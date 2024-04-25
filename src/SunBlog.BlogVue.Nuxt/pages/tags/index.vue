@@ -8,8 +8,8 @@
     <div class="tag-cloud-title">目前共计 {{ tags?.result?.length }} 个标签</div>
     <div class="tag-cloud">
       <a
-        :style="{ 'font-size': Math.floor(Math.random() * 10) + 18 + 'px;'  }"
         v-for="item of tags?.result"
+        :style="{ 'font-size': item.color+''  }"
         :key="item.id"
         :href="'/tags/' + item.id"
       >
@@ -33,6 +33,12 @@ const cover = computed(() => {
   const arr = site.value?.result?.covers?.Tag ?? ["/cover/tag.png"];
   const url = arr[randomNumber(0, arr.length - 1)];
   return "background: url(" + url + ") center center / cover no-repeat";
+});
+
+onMounted(() => {
+  tags?.value?.result?.forEach((item) => {
+    item.color = Math.floor(Math.random() * 10) + 18 + "px";
+  }); 
 });
 
 useSeoMeta({
