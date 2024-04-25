@@ -69,7 +69,7 @@
 							<el-col class="mb20">
 								<el-form-item label="发布时间" prop="publishTime">
 									<el-date-picker
-										v-model="state.form.publishTime"
+										v-model="state.publishTime"
 										type="datetime"
 										format="YYYY-MM-DD HH:mm:ss"
 										value-format="YYYY-MM-DD HH:mm:ss"
@@ -85,7 +85,7 @@
 										<el-tooltip content="过期后文章将不显示" placement="left"> 过期时间 </el-tooltip>
 									</template>
 									<el-date-picker
-										v-model="state.form.expiredTime"
+										v-model="state.expiredTime"
 										type="datetime"
 										format="YYYY-MM-DD HH:mm:ss"
 										value-format="YYYY-MM-DD HH:mm:ss"
@@ -233,6 +233,7 @@ import {
 	TreeSelectOutput,
 } from '@/shared/service-proxies';
 import { AxiosInstance } from 'axios';
+import moment from 'moment';
 
 const route = useRoute();
 const _articleService = new ArticleSsServiceProxy(inject('$baseurl'), inject('$api'));
@@ -394,6 +395,8 @@ const state = reactive({
 		preview: true, // 预览
 	},
 	mdHtml: '',
+	publishTime: '',
+	expiredTime: '',
 });
 
 // 创建wangEditor富文本编辑器实例
@@ -433,6 +436,8 @@ const onUploadMdImg = async (pos: any, file: any) => {
 const onSave = async () => {
 	await formRef.value?.validate(async (v) => {
 		if (v) {
+			state.form.publishTime = state.publishTime ? moment(state.publishTime) : undefined;
+			state.form.expiredTime = state.expiredTime ? moment(state.expiredTime) : undefined;
 			const { success } = await _articleService.createOrUpdate(state.form);
 			if (success) {
 				ElMessage.success('保存成功');
@@ -460,6 +465,8 @@ onMounted(async () => {
 		const { result, success } = await _articleService.getDetail(state.form.id);
 		if (success && result) {
 			state.form = result as CreateOrUpdateArticleInput;
+			state.publishTime = state.form.publishTime ? moment(state.form.publishTime).format('YYYY-MM-DD HH:mm:ss') : '';
+			state.expiredTime = state.form.expiredTime ? moment(state.form.expiredTime).format('YYYY-MM-DD HH:mm:ss') : '';
 		}
 	}
 	state.categoryData = c.result ?? [];
