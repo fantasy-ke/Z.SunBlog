@@ -82,12 +82,12 @@ namespace Z.SunBlog.Core.FileModule.FileManager
             }
             var scheme = _ossOptions.IsEnableHttps ? "https" : "http";
             fileinfo.FileIpAddress = $"{scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}";
-            fileUrl = string.Concat(_ossOptions.DefaultBucket!.TrimEnd('/'), fileUrl);
-            fileinfo.FilePath = fileUrl;
-            await CreateAsync(fileinfo);
             await _localEvent.PushAsync(
                 new FileEventDto(file.OpenReadStream(), fileUrl, file.ContentType)
             );
+            fileUrl = string.Concat(_ossOptions.DefaultBucket!.TrimEnd('/'), fileUrl);
+            fileinfo.FilePath = fileUrl;
+            await CreateAsync(fileinfo);
             return $"{scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}/{fileUrl}";
         }
 
