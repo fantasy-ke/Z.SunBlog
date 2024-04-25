@@ -204,7 +204,8 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
                         PublishTime = a.PublishTime,
                     }).ToList()
                 );
-           return query.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
+            // query里排序无法解析ef语句
+           return query.OrderByDescending(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
         }
 
         /// <summary>

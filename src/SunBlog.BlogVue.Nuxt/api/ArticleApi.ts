@@ -7,7 +7,11 @@ import type {
   ArticleOutputPageResult,
   ArticleInfoOutput,
   ArticleBasicsOutput,
+  ArticleOutput,
 } from "./models";
+
+type ArticleDict = Map<number, Array<ArticleOutput>>;
+
 
 class ArticleApi {
   /**
@@ -34,6 +38,14 @@ class ArticleApi {
   categories = () => {
     return http.get<Array<CategoryOutput>>("/ArticleCs/Categories");
   };
+
+    /**
+   * 所有栏目
+   * @returns
+   */
+    archiveList = () => {
+      return http.get<ArticleDict>("/ArticleCs/GetArchiveList");
+    };
 
   /**
    * 博客统计
