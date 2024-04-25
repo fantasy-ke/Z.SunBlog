@@ -149,7 +149,7 @@
 							<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4" class="mb20">
 								<el-form-item label="生日" prop="birthday">
 									<el-date-picker
-										v-model="state.user.birthday"
+										v-model="state.birthday"
 										format="YYYY-MM-DD"
 										value-format="YYYY-MM-DD"
 										placeholder="请选择出生日期"
@@ -250,7 +250,6 @@ const userInfoRules = reactive<FormRules>({
 	userName: [{ required: true, message: '请输入姓名' }],
 	name: [{ required: true, message: '请输入昵称' }],
 	email: [{ required: true, message: '请输入邮箱' }],
-	birthday: [{ required: true, message: '请选择出生日期' }],
 	gender: [{ required: true, message: '请选择性别' }],
 	mobile: [{ required: true, message: '请输入手机' }],
 });
@@ -260,6 +259,7 @@ const storeUser = useUserInfo();
 // 定义变量内容
 const state = reactive({
 	user: {} as UpdateUserInput,
+	birthday:''
 });
 
 const model = reactive({
@@ -281,6 +281,7 @@ const onChangePwd = () => {
 const onSave = async () => {
 	userInfoFormRef.value?.validate(async (valid) => {
 		if (valid) {
+			state.user.birthday = moment(state.birthday);
 			const { success } = await _userSysService.updateUser(state.user);
 			if (success) {
 				ElMessage.success('修改成功');
@@ -301,7 +302,7 @@ const onSuccess = async (response: any) => {
 onMounted(async () => {
 	const { result } = await _userSysService.currentUserInfo();
 	model.info = result!;
-	state.user.birthday = moment(result?.birthday).format('YYYY-MM-DD') as any;
+	state.birthday = moment(result?.birthday).format('YYYY-MM-DD') as any;
 	state.user.name = result!.name!;
 	state.user.email = result?.email;
 	state.user.mobile = result?.mobile;

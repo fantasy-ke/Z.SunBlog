@@ -52,7 +52,7 @@
           "restrictedToMinimumLevel": "Verbose",//日志等级
           "apiKey": "b8ueTcbAyumLam5hfuUu",//密钥key
           "queueSizeLimit": 100000,//最大删除值
-          "batchPostingLimit": 100//批量最多
+          "batchPostingLimit": 100 //批量最多
         }
       }
     ]

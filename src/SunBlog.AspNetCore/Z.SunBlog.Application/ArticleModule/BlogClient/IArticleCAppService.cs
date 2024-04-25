@@ -18,6 +18,8 @@ namespace Z.SunBlog.Application.ArticleModule.BlogClient
 
         Task<ArticleReportOutput> ReportStatistics();
 
+        Task<Dictionary<int, List<ArticleOutput>>> GetArchiveList();
+
         Task<ArticleInfoOutput> Info([FromQuery] Guid id);
 
         Task<List<ArticleBasicsOutput>> Latest();

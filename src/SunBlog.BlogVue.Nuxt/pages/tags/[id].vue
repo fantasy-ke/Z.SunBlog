@@ -68,7 +68,7 @@
           style="margin: 20px 0"
           size="x-small"
           :length="data?.result?.pages"
-          active-color="#00C4B6"
+          active-color="#1565C0"
           :total-visible="3"
           variant="elevated"
         ></v-pagination>

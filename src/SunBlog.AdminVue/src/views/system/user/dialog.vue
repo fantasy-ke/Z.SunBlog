@@ -30,7 +30,7 @@
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="出生日期" prop="birthday">
 							<el-date-picker
-								v-model="state.ruleForm.birthday"
+								v-model="state.birthday"
 								type="date"
 								format="YYYY-MM-DD"
 								value-format="YYYY-MM-DD"
@@ -112,6 +112,7 @@
 import { reactive, ref, nextTick, inject } from 'vue';
 import { FormInstance, FormRules } from 'element-plus';
 import { RoleSyssServiceProxy, TreeSelectOutput, UpdateUserInput, UserSyssServiceProxy } from '@/shared/service-proxies';
+import moment from 'moment';
 const _userSysService = new UserSyssServiceProxy(inject('$baseurl'), inject('$api'));
 const _roleSysService = new RoleSyssServiceProxy(inject('$baseurl'), inject('$api'));
 
@@ -158,6 +159,7 @@ const state = reactive({
 	} as UpdateUserInput,
 	deptData: [] as TreeSelectOutput[], // 部门数据
 	roleData: [] as TreeSelectOutput[], //角色下拉选项
+	birthday:'',
 	dialog: {
 		isShowDialog: false,
 		title: '',
@@ -176,6 +178,7 @@ const openDialog = async (id: string, orgs: TreeSelectOutput[]) => {
 	if (id) {
 		const { result: user } = await _userSysService.detail(id);
 		state.ruleForm = user;
+		state.birthday = user.birthday ? moment(user.birthday).format('YYYY-MM-DD') : '';
 		state.dialog.title = '修改用户';
 		state.dialog.submitTxt = '修 改';
 	} else {
@@ -201,6 +204,7 @@ const onCancel = () => {
 const onSubmit = () => {
 	userDialogFormRef.value?.validate(async (v) => {
 		if (!v) return;
+		state.ruleForm.birthday = state.birthday ? moment(state.birthday) : undefined;
 		const { success } = state.ruleForm.id ? await _userSysService.updateUser(state.ruleForm) : await _userSysService.addUser(state.ruleForm);
 		if (success) {
 			closeDialog();
