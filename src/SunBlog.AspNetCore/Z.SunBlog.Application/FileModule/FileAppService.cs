@@ -79,7 +79,7 @@ public class FileAppService : ApplicationService, IFileAppService
         }
         //文件路径
         var objectName =
-            $"{ZSunBlogConst.AliyunAvatar}_{Guid.NewGuid().ToString("N")}/{file.FileName}";
+            $"{ZSunBlogConst.MinioAvatar}_{Guid.NewGuid().ToString("N")}/{file.FileName}";
         var url = await _fileInfoManager.UploadFileAsync(file, objectName);
         //await _minioFileManager.UploadMinio(file.OpenReadStream(), fileUrl, file.ContentType);
         return new List<UploadFileOutput>()
