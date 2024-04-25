@@ -88,7 +88,7 @@ namespace Z.SunBlog.Core.FileModule.FileManager
             await _localEvent.PushAsync(
                 new FileEventDto(file.OpenReadStream(), fileUrl, file.ContentType)
             );
-            return $"{scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}/{string.Concat(_ossOptions.DefaultBucket!.TrimEnd('/'), fileUrl)}";
+            return $"{scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}/{fileUrl}";
         }
 
         private static FileType GetFileTypeFromContentType(string contentType)
