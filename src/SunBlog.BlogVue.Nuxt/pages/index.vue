@@ -156,33 +156,11 @@ const [
   { data: talks },
   { data: articles },
   { data: site },
-  { data: statistics },
 ] = await Promise.all([
   TalksApi.list(ref({ pageNo: 1, pageSize: 10 })),
   ArticleApi.list(pager),
   AppApi.info(),
-  ArticleApi.report(),
 ]);
-
-/**
- * 博客允许时间
- */
-const runTime = (): void => {
-  const timespan: number =
-    new Date().getTime() -
-    dayjs(blogSetting.value.runTime ?? "2023/06/01")
-      .toDate()
-      .getTime();
-  const msPerDay: number = 24 * 60 * 60 * 1000;
-  const daysold: number = Math.floor(timespan / msPerDay);
-  let str: string = "";
-  const day: Date = new Date();
-  str += daysold + "天";
-  str += day.getHours() + "时";
-  str += day.getMinutes() + "分";
-  str += day.getSeconds() + "秒";
-  state.runTime = str;
-};
 
 /**
  * 滚动条
@@ -229,10 +207,6 @@ const info = computed(() => {
   return site.value!.result!.info!;
 });
 
-const report = computed(() => {
-  return statistics.value!.result!;
-});
-
 onMounted(async () => {
   new EasyTyper(
     state.print,
@@ -240,9 +214,6 @@ onMounted(async () => {
     () => {},
     () => {}
   );
-  setInterval(() => {
-    runTime();
-  }, 1000);
 });
 
 useSeoMeta({
