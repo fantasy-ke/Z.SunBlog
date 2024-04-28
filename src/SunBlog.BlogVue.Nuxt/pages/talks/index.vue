@@ -3,83 +3,91 @@
   <div class="banner" :style="cover">
     <h1 class="banner-title">说说</h1>
   </div>
-  <!-- 说说内容 -->
-  <v-card class="blog-container">
-    <div class="talk-item" v-for="item of talks" :key="item.id">
-      <a :href="'/talks/' + item.id">
-        <!-- 用户信息 -->
-        <div class="user-info-wrapper">
-          <v-avatar size="36" class="user-avatar" :image="info.avatarUrl!">
-          </v-avatar>
-          <div class="user-detail-wrapper">
-            <div class="user-nickname">
-              {{ info.nikeName }}
-              <v-icon class="user-sign" size="20" color="#ffa51e">
-                mdi-check-decagram
-              </v-icon>
-            </div>
-            <!-- 发表时间 -->
-            <div class="time">
-              {{ formatDate(item.createdTime) }}
-              <span class="top" v-if="item.isTop">
-                <i class="iconfont iconzhiding" /> 置顶
-              </span>
-            </div>
-            <!-- 说说信息 -->
-            <div class="talk-content" v-html="item.content" />
-            <!-- 图片列表 -->
-            <v-row class="talk-images" v-if="item.images">
-              <v-col
-                :md="4"
-                :cols="6"
-                v-for="(img, index) of item.images.split(',')"
-                :key="index"
-              >
-                <v-img
-                  class="images-items"
-                  :src="img"
-                  aspect-ratio="1"
-                  max-height="200"
-                  @click.prevent="previewImg($event)"
-                />
-              </v-col>
-            </v-row>
-            <!-- 说说操作 -->
-            <div class="talk-operation">
-              <div class="talk-operation-item">
-                <v-icon
-                  size="16"
-                  :class="item.isPraise ? 'like-btn-active' : 'like-btn'"
-                >
-                  mdi-thumb-up
-                </v-icon>
-                <div class="operation-count">
-                  {{ item.upvote }}
+  <v-row class="home-container">
+    <v-col md="9" cols="12">
+      <!-- 说说内容 -->
+      <v-card class="blog-container">
+        <div class="talk-item" v-for="item of talks" :key="item.id">
+          <a :href="'/talks/' + item.id">
+            <!-- 用户信息 -->
+            <div class="user-info-wrapper">
+              <v-avatar size="36" class="user-avatar" :image="info.avatarUrl!">
+              </v-avatar>
+              <div class="user-detail-wrapper">
+                <div class="user-nickname">
+                  {{ info.nikeName }}
+                  <v-icon class="user-sign" size="20" color="#ffa51e">
+                    mdi-check-decagram
+                  </v-icon>
+                </div>
+                <!-- 发表时间 -->
+                <div class="time">
+                  {{ formatDate(item.createdTime) }}
+                  <span class="top" v-if="item.isTop">
+                    <i class="iconfont iconzhiding" /> 置顶
+                  </span>
+                </div>
+                <!-- 说说信息 -->
+                <div class="talk-content" v-html="item.content" />
+                <!-- 图片列表 -->
+                <v-row class="talk-images" v-if="item.images">
+                  <v-col
+                    :md="4"
+                    :cols="6"
+                    v-for="(img, index) of item.images.split(',')"
+                    :key="index"
+                  >
+                    <v-img
+                      class="images-items"
+                      :src="img"
+                      aspect-ratio="1"
+                      max-height="200"
+                      @click.prevent="previewImg($event)"
+                    />
+                  </v-col>
+                </v-row>
+                <!-- 说说操作 -->
+                <div class="talk-operation">
+                  <div class="talk-operation-item">
+                    <v-icon
+                      size="16"
+                      :class="item.isPraise ? 'like-btn-active' : 'like-btn'"
+                    >
+                      mdi-thumb-up
+                    </v-icon>
+                    <div class="operation-count">
+                      {{ item.upvote }}
+                    </div>
+                  </div>
+                  <div class="talk-operation-item">
+                    <v-icon size="16" color="#999">mdi-chat</v-icon>
+                    <div class="operation-count">
+                      {{ item.comments }}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="talk-operation-item">
-                <v-icon size="16" color="#999">mdi-chat</v-icon>
-                <div class="operation-count">
-                  {{ item.comments }}
-                </div>
-              </div>
             </div>
-          </div>
+          </a>
         </div>
-      </a>
-    </div>
-    <div class="load-wrapper">
-      <v-pagination
-        v-if="(list?.result?.pages ?? 0) > 1"
-        v-model="pager.pageNo"
-        size="x-small"
-        :length="list?.result?.pages"
-        active-color="#1565C0"
-        :total-visible="3"
-        variant="elevated"
-      ></v-pagination>
-    </div>
-  </v-card>
+        <div class="load-wrapper">
+          <v-pagination
+            v-if="(list?.result?.pages ?? 0) > 1"
+            v-model="pager.pageNo"
+            size="x-small"
+            :length="list?.result?.pages"
+            active-color="#1565C0"
+            :total-visible="3"
+            variant="elevated"
+          ></v-pagination>
+        </div>
+      </v-card>
+    </v-col>
+    <!-- 博主信息 -->
+    <v-col md="3" cols="12" class="d-md-block d-none">
+      <client-only><BlogInfo></BlogInfo></client-only>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">
@@ -220,8 +228,8 @@ useHead({
 }
 .talk-item {
   padding: 16px 20px;
-  border-radius: 10px;
   background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
   box-shadow: 0 3px 8px 6px rgb(7 17 27 / 6%);
   transition: all 0.3s ease 0s;
 }
@@ -230,8 +238,8 @@ useHead({
   transform: translateY(-3px);
 }
 .user-info-wrapper {
-  width: 100%;
   display: flex;
+  width: 100%;
 }
 .user-avatar {
   border-radius: 50%;
@@ -242,25 +250,25 @@ useHead({
 }
 .user-detail-wrapper {
   flex: 1;
-  margin-left: 10px;
   width: 0;
+  margin-left: 10px;
 }
 .user-nickname {
-  font-size: 15px;
   font-weight: bold;
+  font-size: 15px;
   vertical-align: middle;
 }
 .user-sign {
   margin-left: 4px;
 }
 .time {
-  color: #999;
   margin-top: 2px;
+  color: #999;
   font-size: 12px;
 }
 .top {
-  color: #ff7242;
   margin-left: 10px;
+  color: #ff7242;
 }
 .talk-content {
   margin-top: 8px;
@@ -270,17 +278,17 @@ useHead({
   word-break: break-all;
 }
 .talk-images {
-  padding: 0 10px;
   margin-top: 8px;
+  padding: 0 10px;
 }
 .images-items {
-  cursor: pointer;
   border-radius: 4px;
+  cursor: pointer;
 }
 .talk-operation {
-  margin-top: 10px;
   display: flex;
   align-items: center;
+  margin-top: 10px;
 }
 .talk-operation-item {
   display: flex;
@@ -292,14 +300,14 @@ useHead({
   margin-left: 4px;
 }
 .load-wrapper {
-  margin-top: 20px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  margin-top: 20px;
 }
 .load-wrapper button {
-  background-color: #0099CC;
   color: #fff;
+  background-color: #0099cc;
 }
 .like-btn {
   color: #b3b3b3;
@@ -309,5 +317,20 @@ useHead({
 }
 .like-btn-active {
   color: #eb5055 !important;
+}
+.home-container {
+  max-width: 1200px;
+  margin: 320px auto 28px auto;
+  padding: 0 5px;
+}
+@media (min-width: 760px) {
+  :deep(.blog-container) {
+    margin: 0;
+  }
+}
+@media (max-width: 759px) {
+  :deep(.blog-container) {
+    margin: 0;
+  }
 }
 </style>

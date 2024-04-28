@@ -3,20 +3,30 @@
   <div class="tag-banner banner" :style="cover">
     <h1 class="banner-title">标签</h1>
   </div>
-  <!-- 标签列表 -->
-  <v-card class="blog-container">
-    <div class="tag-cloud-title">目前共计 {{ tags?.result?.length }} 个标签</div>
-    <div class="tag-cloud">
-      <a
-        v-for="item of tags?.result"
-        :style="{ 'font-size': item.color+''  }"
-        :key="item.id"
-        :href="'/tags/' + item.id"
-      >
-        {{ item.name }}
-      </a>
-    </div>
-  </v-card>
+  <v-row class="home-container">
+    <v-col md="9" cols="12">
+      <!-- 标签列表 -->
+      <v-card class="blog-container">
+        <div class="tag-cloud-title">
+          目前共计 {{ tags?.result?.length }} 个标签
+        </div>
+        <div class="tag-cloud">
+          <a
+            v-for="item of tags?.result"
+            :style="{ 'font-size': item.color + '' }"
+            :key="item.id"
+            :href="'/tags/' + item.id"
+          >
+            {{ item.name }}
+          </a>
+        </div>
+      </v-card>
+    </v-col>
+    <!-- 博主信息 -->
+    <v-col md="3" cols="12" class="d-md-block d-none">
+      <client-only><BlogInfo></BlogInfo></client-only>
+    </v-col>
+  </v-row>
 </template>
 
 <script setup lang="ts">
@@ -38,7 +48,7 @@ const cover = computed(() => {
 onMounted(() => {
   tags?.value?.result?.forEach((item) => {
     item.color = Math.floor(Math.random() * 10) + 18 + "px";
-  }); 
+  });
 });
 
 useSeoMeta({
@@ -55,12 +65,12 @@ useHead({
 .tag-banner {
   // background: url(https://www.static.talkxj.com/73lleo.png) center center /
   //   cover no-repeat;
-  background-color: #0099CC;
+  background-color: #0099cc;
 }
 .tag-cloud-title {
-  line-height: 2;
-  font-size: 25px;
   color: #555;
+  font-size: 25px;
+  line-height: 2;
   text-align: center;
 }
 @media (max-width: 759px) {
@@ -68,19 +78,34 @@ useHead({
     font-size: 25px;
   }
 }
+.home-container {
+  max-width: 1200px;
+  margin: 320px auto 28px auto;
+  padding: 0 5px;
+}
+@media (min-width: 760px) {
+  :deep(.blog-container) {
+    margin: 0;
+  }
+}
+@media (max-width: 759px) {
+  :deep(.blog-container) {
+    margin: 0;
+  }
+}
 .tag-cloud {
-  text-align: center;
   margin-top: 20px;
   margin-bottom: 80px;
+  text-align: center;
   a {
-    color: #616161;
     display: inline-block;
-    text-decoration: none;
-    padding: 0 8px;
     margin: 0px 16px;
+    padding: 0 8px;
+    color: #616161;
     line-height: 2;
-    transition: all 0.3s;
+    text-decoration: none;
     border-bottom: 1px solid #999;
+    transition: all 0.3s;
   }
   a:hover {
     color: #03a9f4 !important;

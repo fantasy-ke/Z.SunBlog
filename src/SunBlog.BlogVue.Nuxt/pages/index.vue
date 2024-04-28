@@ -117,112 +117,14 @@
     </v-col>
     <!-- 博主信息 -->
     <v-col md="3" cols="12" class="d-md-block d-none">
-      <div class="blog-wrapper">
-        <v-card class="animated zoomIn blog-card">
-          <div class="author-wrapper">
-            <!-- 博主头像 -->
-            <v-avatar size="110" class="author-avatar" :image="info.avatarUrl!" />
-            <div style="font-size: 1.375rem; margin-top: 0.625rem">
-              {{ info.nikeName }}
-            </div>
-            <div style="font-size: 0.875rem">{{ info.motto }}</div>
-          </div>
-          <!-- 博客信息 -->
-          <div class="blog-info-wrapper">
-            <div class="blog-info-data">
-              <a href="/archives">
-                <div style="font-size: 0.875rem">文章</div>
-                <div style="font-size: 1.25rem">
-                  {{ report.articleCount }}
-                </div>
-              </a>
-            </div>
-            <div class="blog-info-data">
-              <a href="/categories">
-                <div style="font-size: 0.875rem">分类</div>
-                <div style="font-size: 1.25rem">
-                  {{ report.categoryCount }}
-                </div>
-              </a>
-            </div>
-            <div class="blog-info-data">
-              <a href="/tags">
-                <div style="font-size: 0.875rem">标签</div>
-                <div style="font-size: 1.25rem">
-                  {{ report.tagCount }}
-                </div>
-              </a>
-            </div>
-          </div>
-          <!-- 收藏按钮 -->
-          <a
-            class="collection-btn"
-            @click="useToast().info('按CTRL+D 键将本页加入书签')"
-          >
-            <v-icon color="#fff" size="18" class="mr-1">mdi-bookmark</v-icon>
-            加入书签
-          </a>
-          <!-- 社交信息 -->
-          <div class="card-info-social">
-            <a
-              class="mr-5 iconfont iconqq"
-              target="_blank"
-              :href="`http://wpa.qq.com/msgrd?v=3&uin=111514&ste=${info.qq}&menu=yes`"
-            />
-            <a
-              target="_blank"
-              :href="info.github ?? ''"
-              class="mr-5 iconfont icongithub"
-            />
-            <a
-              target="_blank"
-              :href="info.gitee ?? ''"
-              class="iconfont icongitee-fill-round"
-            />
-          </div>
-        </v-card>
-        <!-- 网站信息 -->
-        <v-card
-          class="blog-card animated zoomIn mt-5 big"
-          v-if="blogSetting.announcement"
-        >
-          <div class="web-info-title">
-            <v-icon size="18">mdi-bell</v-icon>
-            公告
-          </div>
-          <div style="font-size: 0.875rem">
-            {{ blogSetting.announcement }}
-          </div>
-        </v-card>
-        <!-- 网站信息 -->
-        <v-card class="blog-card animated zoomIn mt-5">
-          <div class="web-info-title">
-            <v-icon size="18">mdi-chart-line</v-icon>
-            网站资讯
-          </div>
-          <div class="web-info">
-            <div style="padding: 4px 0 0">
-              运行时间:<span class="float-right">{{ state.runTime }}</span>
-            </div>
-            <div style="padding: 4px 0 0">
-              用户数量:<span class="float-right">
-                {{ report.userCount }}
-              </span>
-            </div>
-            <div style="padding: 4px 0 0">
-              友链数量:<span class="float-right">
-                {{ report.linkCount }}
-              </span>
-            </div>
-          </div>
-        </v-card>
-      </div>
+      <client-only><BlogInfo></BlogInfo></client-only>
     </v-col>
   </v-row>
 </template>
 
 <script async setup lang="ts">
 import EasyTyper from "easy-typer-js/src/ts";
+import BlogInfo from "~/components/BlogInfo.vue";
 import ArticleApi from "~/api/ArticleApi";
 import TalksApi from "~/api/TalksApi";
 import dayjs from "dayjs";
@@ -511,72 +413,6 @@ useHead({
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
-.blog-wrapper {
-  position: sticky;
-  top: 10px;
-}
-.blog-card {
-  line-height: 2;
-  padding: 1.25rem 1.5rem;
-}
-.author-wrapper {
-  text-align: center;
-}
-.blog-info-wrapper {
-  display: flex;
-  justify-self: center;
-  padding: 0.875rem 0;
-}
-.blog-info-data {
-  flex: 1;
-  text-align: center;
-}
-.blog-info-data a {
-  text-decoration: none;
-}
-.collection-btn {
-  text-align: center;
-  z-index: 1;
-  font-size: 14px;
-  position: relative;
-  display: block;
-  border-radius: 5px;
-  background-color: #0099CC;
-  color: #fff !important;
-  height: 32px;
-  line-height: 32px;
-  transition-duration: 1s;
-  transition-property: color;
-}
-.collection-btn:before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  background: #ff7242;
-  content: "";
-  transition-timing-function: ease-out;
-  transition-duration: 0.5s;
-  transition-property: transform;
-  transform: scaleX(0);
-  transform-origin: 0 50%;
-}
-.collection-btn:hover:before {
-  transition-timing-function: cubic-bezier(0.45, 1.64, 0.47, 0.66);
-  transform: scaleX(1);
-}
-.author-avatar {
-  transition: all 0.5s;
-}
-.author-avatar:hover {
-  transform: rotate(360deg);
-}
-.web-info {
-  padding: 0.25rem;
-  font-size: 0.875rem;
-}
 .scroll-down-effects {
   color: #eee !important;
   text-align: center;
@@ -602,19 +438,6 @@ useHead({
     top: 0;
     opacity: 0.4;
     filter: alpha(opacity=40);
-  }
-}
-.big i {
-  color: #f00;
-  animation: big 0.8s linear infinite;
-}
-@keyframes big {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
   }
 }
 </style>
