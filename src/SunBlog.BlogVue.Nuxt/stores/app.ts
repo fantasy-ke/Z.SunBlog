@@ -58,7 +58,7 @@ export const useApp = defineStore("app", () => {
       motto: "凡是过往，皆为序章",
       isAllowComments: true,
       isAllowMessage: true,
-      runTime: new Date("2023/06/01"),
+      runTime: new Date("2023/12/01"),
       copyright: "©2023 By Fantasy-Ke",
       description: "Fantasy-Ke的博客",
       filing: "湘ICP备没有号-2",
