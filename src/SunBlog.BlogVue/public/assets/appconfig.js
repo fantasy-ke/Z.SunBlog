@@ -1,4 +1,4 @@
 window.configs = {
-  remoteServiceBaseUrl: "https://sunhost.zblog.love",
+  remoteServiceBaseUrl: "http://localhost:5155",
   port:5100
 }
