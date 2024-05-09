@@ -102,6 +102,41 @@ namespace Z.Foundation.Core.Entities.Files
         /// </summary>
         public string FileIpAddress { get; set; }
 
+        public ZFileInfo()
+        {
+            
+        }
+
+
+        public ZFileInfo(string fileName, string fileDisplayName, string fileExt, string contentType, string fileSize,
+            FileType fileType, string code)
+        {
+            FileName = fileName;
+            FileDisplayName = fileDisplayName;
+            FileExt = fileExt;
+            ContentType = contentType;
+            FileSize = fileSize;
+            FileType = fileType;
+            Code = code;
+        }
+
+        /// <summary>
+        /// 修改Code
+        /// </summary>
+        /// <param name="code"></param>
+        public void SetFileCode(string code)
+        {
+            Code = code;
+        }
+        /// <summary>
+        /// 设置文件IP地址
+        /// </summary>
+        public void SetIpAddressOrPath(string ipAddress, string filePath)
+        {
+            FileIpAddress = ipAddress;
+            FilePath = filePath;
+        }
+
         /// <summary>
         /// 将子代码附加到父代码。 例如:如果parentCode = "00001"，则childCode = "00042"，然后返回"00001.00042"。
         /// </summary>

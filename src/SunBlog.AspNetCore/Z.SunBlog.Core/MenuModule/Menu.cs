@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Z.Foundation.Core.Entities.Auditing;
 using Z.Foundation.Core.Entities.Enum;
@@ -110,4 +109,21 @@ public class Menu : FullAuditedEntity<Guid>
     /// </summary>
     [NotMapped]
     public List<Menu> Children { get; set; } = new();
+
+    public void SetBtnMenu(string link = null, string icon = null, string component = null, string path = null,
+        string redirect = null, string routeName = null)
+    {
+        Link = link;
+        Icon = icon;
+        Component = component;
+        Path = path;
+        Redirect = redirect;
+        RouteName = routeName;
+    }
+
+
+    public void SetCode(string code = null)
+    {
+        Code = code;
+    }
 }

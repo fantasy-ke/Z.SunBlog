@@ -27,5 +27,17 @@ namespace Z.SunBlog.Core.MessageModule.Dto
         /// 消息内容
         /// </summary>
         public string Message { get; set; }
+
+        public MessageInput()
+        {
+            
+        }
+        
+        public MessageInput(string userId, string title, string message)
+        {
+            UserId = userId;
+            Title = title;
+            Message = message;
+        }
     }
 }

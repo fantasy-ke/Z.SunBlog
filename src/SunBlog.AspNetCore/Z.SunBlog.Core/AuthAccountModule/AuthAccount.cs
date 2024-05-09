@@ -50,5 +50,10 @@ public class AuthAccount : FullAuditedEntity<string>
     /// 更新时间
     /// </summary>
     public DateTime? UpdatedTime { get; set; }
+    
+    public void SetIsBlogger(bool isBlogger)
+    {
+        IsBlogger = isBlogger;
+    }
 
 }

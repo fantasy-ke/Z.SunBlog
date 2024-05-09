@@ -47,18 +47,10 @@ namespace Z.SunBlog.Core.FileModule.FileManager
             string filePath = GetTargetDirectory(file.ContentType, $"/{now.Year}-{now.Month:D2}/");
             var fileUrl = $"{filePath}{objectName}";
             var request = _httpContextAccessor.HttpContext!.Request;
-            var fileinfo = new ZFileInfo()
-            {
-                FileName = file.FileName,
-                ContentType = file.ContentType,
-                FileSize = file.Length.ToString(),
-                FileExt = extension,
-                FileType = GetFileTypeFromContentType(file.ContentType),
-                FileDisplayName = file.FileName.Replace(extension, ""),
-                Code = ZFileInfo.CreateCode(1)
-            };
+            var fileinfo = new ZFileInfo(file.FileName,file.FileName.Replace(extension, ""),extension, file.ContentType, file.Length.ToString(),
+                GetFileTypeFromContentType(file.ContentType), ZFileInfo.CreateCode(1));
 
-            fileinfo.Code = await GetNextChildCodeAsync(fileinfo.ParentId);
+            fileinfo.SetFileCode(await GetNextChildCodeAsync(fileinfo.ParentId));
 
             if (_ossOptions == null || !_ossOptions.Enable)
             {
@@ -71,8 +63,7 @@ namespace Z.SunBlog.Core.FileModule.FileManager
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                fileinfo.FilePath = fileUrl;
-                fileinfo.FileIpAddress = $"{request.Scheme}://{request.Host.Value}";
+                fileinfo.SetIpAddressOrPath($"{request.Scheme}://{request.Host.Value}",fileUrl);
                 await CreateAsync(fileinfo);
                 await using  var stream = File.Create(fileDataPath);
                 await file.CopyToAsync(stream);
@@ -81,14 +72,13 @@ namespace Z.SunBlog.Core.FileModule.FileManager
                 return url;
             }
             var scheme = _ossOptions.IsEnableHttps ? "https" : "http";
-            fileinfo.FileIpAddress = $"{scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}";
+            var fileUrlNew = string.Concat(_ossOptions.DefaultBucket!.TrimEnd('/'), fileUrl);
+            fileinfo.SetIpAddressOrPath($"{scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}",fileUrlNew);
             await _localEvent.PushAsync(
                 new FileEventDto(file.OpenReadStream(), fileUrl, file.ContentType)
             );
-            fileUrl = string.Concat(_ossOptions.DefaultBucket!.TrimEnd('/'), fileUrl);
-            fileinfo.FilePath = fileUrl;
             await CreateAsync(fileinfo);
-            return $"{scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}/{fileUrl}";
+            return $"{scheme}://{_ossOptions.Endpoint!.TrimEnd('/')}/{fileUrlNew}";
         }
 
         private static FileType GetFileTypeFromContentType(string contentType)

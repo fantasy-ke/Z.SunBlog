@@ -15,4 +15,26 @@ public class ArticleCategory : FullAuditedEntity<Guid>
     /// 栏目Id
     /// </summary>
     public Guid CategoryId { get; set; }
+    
+    public ArticleCategory(){}
+    
+    /// <summary>
+    /// 新增文章栏目
+    /// </summary>
+    /// <param name="articleId"></param>
+    /// <param name="categoryId"></param>
+    public ArticleCategory(Guid articleId, Guid categoryId)
+    {
+        ArticleId = articleId;
+        CategoryId = categoryId;
+    }
+
+    /// <summary>
+    /// 修改栏目id
+    /// </summary>
+    /// <param name="categoryId"></param>
+    public void SetCategoryId(Guid categoryId)
+    {
+        CategoryId = categoryId;
+    }
 }

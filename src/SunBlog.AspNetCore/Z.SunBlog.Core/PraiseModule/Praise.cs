@@ -18,4 +18,15 @@ public class Praise:FullAuditedEntity<Guid>
     /// 点赞对象ID
     /// </summary>
     public Guid ObjectId { get; set; }
+
+    public Praise()
+    {
+        
+    }
+    
+    public Praise(string accountId, Guid objectId)
+    {
+        AccountId = accountId;
+        ObjectId = objectId;
+    }
 }

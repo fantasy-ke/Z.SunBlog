@@ -61,17 +61,8 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
         {
             string address = _httpContextAccessor.HttpContext.GetGeolocation()?.Address;
             var comments = ObjectMapper.Map<Comments>(dto);
-            await _messageManager.SendUser(
-                new MessageInput()
-                {
-                    UserId = comments.ReplyAccountId,
-                    Message = $"用户【{UserService.UserName}】回复了你的评论！！内容：{comments.Content}",
-                    Title = "消息通知"
-                }
-            );
-            comments.AccountId = UserService.UserId;
-            comments.IP = _httpContextAccessor.HttpContext.GetRemoteIp();
-            comments.Geolocation = address;
+            await _messageManager.SendUser(new MessageInput(comments.ReplyAccountId, "评论通知", $"用户【{UserService.UserName}】评论了你的文章，内容：{comments.Content}"));
+            comments.SetCommentReply(UserService.UserId, _httpContextAccessor.HttpContext.GetRemoteIp(), address);
             await _commentsManager.CreateAsync(comments);
         }
 
@@ -104,18 +95,17 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
                         {
                             Id = c.comment.Id,
                             Content = c.comment.Content,
-                            PraiseTotal = praiseList.Where(x => x.ObjectId == c.comment.Id).Count(),
+                            PraiseTotal = praiseList.Count(x => x.ObjectId == c.comment.Id),
                             IsPraise = praiseList
-                                .Where(x => x.ObjectId == c.comment.Id && x.AccountId == userId)
-                                .Any(),
+                                .Any(x => x.ObjectId == c.comment.Id && x.AccountId == userId),
                             ReplyCount = _commentsManager
-                                .QueryAsNoTracking.Where(s => s.RootId == c.comment.Id)
-                                .Count(),
+                                .QueryAsNoTracking
+                                .Count(s => s.RootId == c.comment.Id),
                             IP = c.comment.IP,
                             Avatar = c.auth.Avatar,
                             AccountId = c.auth.Id,
                             NickName = c.auth.Name,
-                            IsBlogger = c.auth != null ? c.auth.IsBlogger : false,
+                            IsBlogger = c.auth != null && c.auth.IsBlogger,
                             Geolocation = c.comment.Geolocation,
                             CreatedTime = c.comment.CreationTime
                         }
@@ -148,11 +138,9 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
             if (_praiseManager.QueryAsNoTracking.Any(x => x.ObjectId == dto.Id))
             {
                 await _praiseManager.DeleteAsync(x => x.ObjectId == dto.Id); //"糟糕，取消失败了..."
-
                 return false;
             }
-            ;
-            var praise = new Praise() { AccountId = UserService.UserId, ObjectId = dto.Id, };
+            var praise = new Praise(UserService.UserId, dto.Id);
             await _praiseManager.CreateAsync(praise); //"糟糕，点赞失败了..."
             return true;
         }
@@ -198,19 +186,17 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
                             ParentId = c.comAuth.comment.ParentId,
                             AccountId = c.comAuth.comment.AccountId,
                             ReplyAccountId = c.comAuth.comment.ReplyAccountId,
-                            IsBlogger = c.comAuth.auth != null ? c.comAuth.auth.IsBlogger : false,
+                            IsBlogger = c.comAuth.auth != null && c.comAuth.auth.IsBlogger,
                             NickName = c.comAuth.auth.Name,
                             RelyNickName = c.auth1.Name,
                             RootId = c.comAuth.comment.RootId,
                             Avatar = c.comAuth.auth.Avatar,
                             PraiseTotal = _praiseManager
-                                .QueryAsNoTracking.Where(x => x.ObjectId == c.comAuth.comment.Id)
-                                .Count(),
+                                .QueryAsNoTracking
+                                .Count(x => x.ObjectId == c.comAuth.comment.Id),
                             IsPraise = _praiseManager
-                                .QueryAsNoTracking.Where(
-                                    x => x.ObjectId == c.comAuth.comment.Id && x.AccountId == userId
-                                )
-                                .Any(),
+                                .QueryAsNoTracking
+                                .Any(x => x.ObjectId == c.comAuth.comment.Id && x.AccountId == userId),
                             IP = c.comAuth.comment.IP,
                             Geolocation = c.comAuth.comment.Geolocation,
                             CreatedTime = c.comAuth.comment.CreationTime

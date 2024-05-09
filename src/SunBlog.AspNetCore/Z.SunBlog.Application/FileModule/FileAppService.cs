@@ -113,7 +113,7 @@ public class FileAppService : ApplicationService, IFileAppService
     [HttpPost]
     public async Task<PageResult<FileInfoOutput>> GetPage([FromBody] FileInfoQueryInput input)
     {
-        var filelist = await _fileInfoManager
+        var fileList = await _fileInfoManager
             .QueryAsNoTracking.WhereIf(
                 !string.IsNullOrWhiteSpace(input.name),
                 x =>
@@ -131,7 +131,7 @@ public class FileAppService : ApplicationService, IFileAppService
         {
             PageNo = input.PageNo,
             PageSize = input.PageSize,
-            Rows = ObjectMapper.Map<List<FileInfoOutput>>(filelist),
+            Rows = ObjectMapper.Map<List<FileInfoOutput>>(fileList),
             Total = (int)totalCount,
             Pages = totalPages,
         };

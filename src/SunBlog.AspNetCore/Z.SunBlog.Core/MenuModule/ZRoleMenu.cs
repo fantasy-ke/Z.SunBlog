@@ -16,4 +16,15 @@ public class ZRoleMenu : FullAuditedEntity<Guid>
     /// 菜单按钮id
     /// </summary>
     public Guid MenuId { get; set; }
+
+    public ZRoleMenu()
+    {
+        
+    }
+    
+    public ZRoleMenu(string roleId, Guid menuId)
+    {
+        RoleId = roleId;
+        MenuId = menuId;
+    }
 }
