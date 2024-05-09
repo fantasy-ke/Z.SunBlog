@@ -49,4 +49,12 @@ public class Comments : FullAuditedEntity<Guid>
     /// </summary>
     [MaxLength(128)]
     public string Geolocation { get; set; }
+
+
+    public void SetCommentReply(string accountId, string ip, string geolocation)
+    {
+        AccountId = accountId;
+        IP = ip;
+        Geolocation = geolocation;
+    }
 }

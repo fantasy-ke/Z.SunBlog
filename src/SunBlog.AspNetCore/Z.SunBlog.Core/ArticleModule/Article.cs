@@ -94,4 +94,9 @@ public class Article : FullAuditedEntity<Guid>
     /// 更新时间
     /// </summary>
     public DateTime? UpdatedTime { get; set; }
+    
+    public void SetArticleId(Guid articleId)
+    {
+        Id = articleId;
+    }
 }

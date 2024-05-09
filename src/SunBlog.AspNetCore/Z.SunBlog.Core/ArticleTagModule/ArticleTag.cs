@@ -15,4 +15,16 @@ public class ArticleTag : FullAuditedEntity<Guid>
     /// 标签Id
     /// </summary>
     public Guid TagId { get; set; }
+
+    public ArticleTag()
+    {
+        
+    }
+    
+    
+    public ArticleTag(Guid articleId, Guid tagId)
+    {
+        ArticleId = articleId;
+        TagId = tagId;
+    }
 }

@@ -32,9 +32,6 @@ namespace Z.SunBlog.Application.UserModule
         public async Task<ZUserInfo> Create()
         {
             var dfs = await _userDomainManager.QueryAsNoTracking.FirstOrDefaultAsync();
-
-            //await _userDomainManager.DeleteAsync("6e37cc6e9b1948dba987d07b25ffc138");
-            //await _userDomainManager.DeleteAsync("acab70064e8a45a0bef2074b42d9165e");
             var df1 = ObjectMapper.Map<ZUserInfoDto>(dfs);
             HttpExtension.Fill(new { df1.UserName, df1.PassWord });
             return dfs;

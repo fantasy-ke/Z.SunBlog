@@ -82,5 +82,23 @@ namespace Z.Foundation.Core.Entities.Users
         public ZUserInfo(string id) : base(id)
         {
         }
+
+
+        /// <summary>
+        /// 系统用户修改个人信息
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="gender"></param>
+        /// <param name="mobile"></param>
+        /// <param name="birthday"></param>
+        /// <param name="email"></param>
+        public ZUserInfo(string name,Gender gender, string mobile, DateTime? birthday, string email)
+        {
+            Name = name;
+            Gender = gender;
+            Mobile = mobile;
+            Birthday = birthday;
+            Email = email;
+        }
     }
 }

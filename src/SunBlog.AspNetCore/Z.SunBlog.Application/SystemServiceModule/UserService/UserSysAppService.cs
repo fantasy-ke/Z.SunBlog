@@ -286,14 +286,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.UserService
         public async Task UpdateCurrentUser(UpdateCurrentUserInput dto)
         {
             var userId = UserService.UserId;
-            await _userDomainManager.UpdateAsync(new ZUserInfo()
-            {
-                Name = dto.Name,
-                Birthday = dto.Birthday,
-                Email = dto.Email,
-                Gender = dto.Gender,
-                Mobile = dto.Mobile,
-            }, x => x.Id == userId);
+            await _userDomainManager.UpdateAsync(new ZUserInfo(dto.Name, dto.Gender, dto.Mobile, dto.Birthday, dto.Email), x => x.Id == userId);
         }
 
 

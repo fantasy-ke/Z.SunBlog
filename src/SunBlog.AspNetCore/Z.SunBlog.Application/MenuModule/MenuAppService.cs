@@ -135,13 +135,9 @@ public class MenuAppService : ApplicationService, IMenuAppService
 
         ObjectMapper.Map(dto, sysMenu);
         if (sysMenu.Type == MenuType.Button)
-        {
-            sysMenu.Link = sysMenu.Icon = sysMenu.Component = sysMenu.Path = sysMenu.Redirect = sysMenu.RouteName = null;
-        }
+            sysMenu.SetBtnMenu();
         else
-        {
-            sysMenu.Code = null;
-        }
+            sysMenu.SetCode();
 
         await _menuManager.UpdateAsync(sysMenu);
         await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);

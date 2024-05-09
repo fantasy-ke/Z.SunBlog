@@ -36,4 +36,19 @@ public class ZRoleInfo : FullAuditedEntity<string>
     /// </summary>
     [MaxLength(256)]
     public string Remark { get; set; }
+    
+    /// <summary>
+    /// 设置角色id
+    /// 
+    /// </summary>
+    /// <param name="roleId"></param>
+    public void SetRoleId(string roleId)
+    {
+        Id = roleId;
+    }
+    
+    public void SetStatus(AvailabilityStatus status)
+    {
+        Status = status;
+    }
 }

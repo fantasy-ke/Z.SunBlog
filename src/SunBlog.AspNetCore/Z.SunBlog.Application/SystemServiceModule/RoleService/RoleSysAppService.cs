@@ -104,12 +104,8 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
             }
 
             var role = ObjectMapper.Map<ZRoleInfo>(dto);
-            role.Id = _idGenerator.NextId();
-            var roleMenus = dto.Menus.Select(x => new ZRoleMenu()
-            {
-                MenuId = x,
-                RoleId = role.Id
-            }).ToList();
+            role.SetRoleId(_idGenerator.NextId());
+            var roleMenus = dto.Menus.Select(x => new ZRoleMenu(role.Id,x)).ToList();
             await _roleRepository.InsertAsync(role);
             await _roleMenuManager.CreateAsync(roleMenus);
         }
@@ -134,11 +130,7 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
             }
 
             ObjectMapper.Map(dto, sysRole);
-            var roleMenus = dto.Menus.Select(x => new ZRoleMenu()
-            {
-                MenuId = x,
-                RoleId = sysRole.Id
-            }).ToList();
+            var roleMenus = dto.Menus.Select(x => new ZRoleMenu(sysRole.Id,x)).ToList();
             await _roleRepository.UpdateAsync(sysRole);
             await _roleMenuManager.DeleteAsync(x => x.RoleId == sysRole.Id);
             await _roleMenuManager.CreateAsync(roleMenus);
@@ -171,8 +163,8 @@ namespace Z.SunBlog.Application.SystemServiceModule.RoleService
         public async Task SetStatus(AvailabilityDto dto)
         {
             var entity = await _roleRepository.GetQueryAll().FirstOrDefaultAsync(x => x.Id == dto.Id);
-            entity.Status = dto.Status;
-            var entityAfter = await _roleRepository.UpdateAsync(entity);
+            entity.SetStatus(dto.Status);
+            await _roleRepository.UpdateAsync(entity);
             await _cacheManager.RemoveByPrefixAsync(CacheConst.PermissionKey);
         }
 

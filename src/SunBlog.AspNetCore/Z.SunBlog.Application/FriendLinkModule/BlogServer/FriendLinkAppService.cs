@@ -85,8 +85,7 @@ namespace Z.SunBlog.Application.FriendLinkModule.BlogServer
         private async Task Create(CreateOrUpdateFriendInput dto)
         {
             var tags = ObjectMapper.Map<FriendLink>(dto);
-            tags.Id = Guid.NewGuid();
-
+            tags.SetLinkId(Guid.NewGuid());
             await _friendLinkManager.CreateAsync(tags);
         }
 

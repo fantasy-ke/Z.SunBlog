@@ -25,11 +25,7 @@ namespace Z.SunBlog.Application.ArticleCategoryModule.BlogServer
         /// <returns></returns>
         public async Task Create(CreateOrUpdateArticleCategoryDto dto)
         {
-            await _articleCategoryManager.CreateAsync(new ArticleCategory()
-            {
-                CategoryId = dto.CategoryId,
-                ArticleId = dto.ArticleId,
-            });
+            await _articleCategoryManager.CreateAsync(new ArticleCategory(dto.CategoryId, dto.ArticleId));
         }
 
         /// <summary>
@@ -41,7 +37,7 @@ namespace Z.SunBlog.Application.ArticleCategoryModule.BlogServer
         {
             var articleCategory = await _articleCategoryManager.QueryAsNoTracking.FirstOrDefaultAsync(p=>p.ArticleId == dto.ArticleId);
 
-            articleCategory!.CategoryId = dto.CategoryId;
+            articleCategory.SetCategoryId(dto.CategoryId);
 
             await _articleCategoryManager.UpdateAsync(articleCategory);
         }

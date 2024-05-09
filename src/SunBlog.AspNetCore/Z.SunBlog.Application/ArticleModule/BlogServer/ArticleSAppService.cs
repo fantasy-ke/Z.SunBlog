@@ -185,19 +185,11 @@ namespace Z.SunBlog.Application.ArticleModule.BlogServer
         private async Task Create(CreateOrUpdateArticleInput dto)
         {
             var article = ObjectMapper.Map<Article>(dto);
-            article.Id = Guid.NewGuid();
-            var tags = dto.Tags.Select(x => new ArticleTag()
-            {
-                ArticleId = article.Id,
-                TagId = x
-            }).ToList();
+            article.SetArticleId(Guid.NewGuid());
+            var tags = dto.Tags.Select(x => new ArticleTag(article.Id, x)).ToList();
             await _articleDomainManager.CreateAsync(article);
             await _articleTagManager.CreateAsync(tags);
-            var articleCategory = new ArticleCategory()
-            {
-                ArticleId = article.Id,
-                CategoryId = dto.CategoryId
-            };
+            var articleCategory = new ArticleCategory(article.Id, dto.CategoryId);
             await _articleCategoryManager.CreateAsync(articleCategory);
         }
 
@@ -208,23 +200,13 @@ namespace Z.SunBlog.Application.ArticleModule.BlogServer
         private async Task Update(CreateOrUpdateArticleInput dto)
         {
             var article = await _articleDomainManager.QueryAsNoTracking.FirstOrDefaultAsync(p => p.Id == dto.Id);
-
             ObjectMapper.Map(dto, article);
-
             await _articleDomainManager.UpdateAsync(article);
-
-
             await _articleTagManager.DeleteAsync(p => p.ArticleId == dto.Id);
-            var tags = dto.Tags.Select(x => new ArticleTag()
-            {
-                ArticleId = article.Id,
-                TagId = x
-            }).ToList();
-
+            var tags = dto.Tags.Select(x => new ArticleTag(article.Id, x)).ToList();
             await _articleTagManager.CreateAsync(tags);
-
             var cate = await _articleCategoryManager.QueryAsNoTracking.FirstOrDefaultAsync(x => x.ArticleId == dto.Id);
-            cate.CategoryId = dto.CategoryId;
+            cate.SetCategoryId(dto.CategoryId);
             await _articleCategoryManager.UpdateAsync(cate);
         }
     }

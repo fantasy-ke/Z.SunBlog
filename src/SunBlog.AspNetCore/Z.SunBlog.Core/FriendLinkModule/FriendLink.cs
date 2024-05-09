@@ -58,5 +58,10 @@ public class FriendLink : FullAuditedEntity<Guid>
     /// 可用状态
     /// </summary>
     public AvailabilityStatus Status { get; set; }
+    
+    public void SetLinkId(Guid id)
+    {
+        Id = id;
+    }
 
 }

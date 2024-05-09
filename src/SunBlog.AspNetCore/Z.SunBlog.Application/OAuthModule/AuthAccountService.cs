@@ -69,9 +69,7 @@ public class AuthAccountAppService :ApplicationService, IAuthAccountAppService
     public async Task SetBlogger(string id)
     {
         var entity = await _authAccountDomainManager.FindByIdAsync(id);
-
-        entity.IsBlogger = !entity.IsBlogger;
-
+        entity.SetIsBlogger(!entity.IsBlogger);
         await _authAccountDomainManager.UpdateAsync(entity);
     }
 
