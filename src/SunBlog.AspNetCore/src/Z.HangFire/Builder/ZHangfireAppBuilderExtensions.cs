@@ -45,7 +45,9 @@ public static class ZHangfireAppBuilderExtensions
     /// <returns></returns>
     public static Task RegisterScheduleJobs(this IApplicationBuilder app, Action<List<Type>> configure = null)
     {
-        object[] constructorArgs = { app.ApplicationServices };
+        var enable = AppSettings.AppOption<bool>("App:HangFire:HangfireDashboardEnabled");
+        if (!enable) return Task.CompletedTask;
+        object[] constructorArgs = [app.ApplicationServices];
         var options = new List<Type>();
         configure?.Invoke(options);
         options?.ForEach(async res =>

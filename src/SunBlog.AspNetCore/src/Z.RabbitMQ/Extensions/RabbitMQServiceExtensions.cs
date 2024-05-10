@@ -18,37 +18,45 @@ public static class RabbitMQServiceExtensions
         Action<ConnectionFactory> factoryAction = null
     )
     {
+        using ServiceProvider provider = services.BuildServiceProvider();
+        IConfiguration configuration = provider.GetRequiredService<IConfiguration>();
+        if (configuration == null)
+        {
+            throw new ArgumentNullException(nameof(IConfiguration));
+        }
+        var rabbitOption = configuration.GetSection("App:RabbitMQ").Get<RabbitMQOptions>()!;
+        if (!rabbitOption.Enable)
+            return services;
         services.AddSingleton<IRabbitConnectionStore, RabbitConnectionStore>();
         services.AddSingleton<IRabbitPolicyStore, RabbitPolicyStore>();
         services.AddSingleton<IRabbitSettingStore>(sp =>
         {
             var logger = sp.GetRequiredService<ILogger<RabbitSettingStore>>();
-            var configuration = sp.GetRequiredService<IConfiguration>();
             var factory = new ConnectionFactory()
             {
-                HostName = configuration.GetSection("App:RabbitMQ:Connection").Value,
+                HostName = rabbitOption.Connection,
                 DispatchConsumersAsync = true
             };
 
-            if (!string.IsNullOrEmpty(configuration.GetSection("App:RabbitMQ:UserName").Value))
+            if (!string.IsNullOrEmpty(rabbitOption.UserName))
             {
-                factory.UserName = configuration.GetSection("App:RabbitMQ:UserName").Value;
+                factory.UserName = rabbitOption.UserName;
             }
 
-            if (!string.IsNullOrEmpty(configuration.GetSection("App:RabbitMQ:Password").Value))
+            if (!string.IsNullOrEmpty(rabbitOption.Password))
             {
-                factory.Password = configuration.GetSection("App:RabbitMQ:Password").Value;
+                factory.Password = rabbitOption.Password;
             }
 
-            if (!string.IsNullOrEmpty(configuration.GetSection("App:RabbitMQ:Port").Value))
+            if (rabbitOption.Port > 0)
             {
-                factory.Port = configuration.GetSection("App:RabbitMQ:Port").Get<int>();
+                factory.Port = rabbitOption.Port;
             }
 
             var retryCount = 5;
-            if (!string.IsNullOrEmpty(configuration.GetSection("App:RabbitMQ:RetryCount").Value))
+            if (rabbitOption.RetryCount > 0)
             {
-                retryCount = configuration.GetSection("App:RabbitMQ:RetryCount").Get<int>();
+                retryCount = rabbitOption.RetryCount;
             }
             factory.DispatchConsumersAsync = true;
             factoryAction?.Invoke(factory);
