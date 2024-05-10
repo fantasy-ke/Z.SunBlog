@@ -25,7 +25,7 @@ public static class RabbitMQServiceExtensions
             throw new ArgumentNullException(nameof(IConfiguration));
         }
         var rabbitOption = configuration.GetSection("App:RabbitMQ").Get<RabbitMQOptions>()!;
-        if (!rabbitOption.Enable)
+        if (!rabbitOption.Enabled)
             return services;
         services.AddSingleton<IRabbitConnectionStore, RabbitConnectionStore>();
         services.AddSingleton<IRabbitPolicyStore, RabbitPolicyStore>();

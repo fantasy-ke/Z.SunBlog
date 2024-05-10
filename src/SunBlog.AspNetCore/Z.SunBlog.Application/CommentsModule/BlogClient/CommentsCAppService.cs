@@ -1,14 +1,11 @@
-﻿using System.Linq.Dynamic.Core;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Z.EntityFrameworkCore.Extensions;
 using Z.Fantasy.Core.DomainServiceRegister;
 using Z.Fantasy.Core.ResultResponse.Pager;
 using Z.Foundation.Core.Helper;
 using Z.FreeRedis;
-using Z.RabbitMQ.Manager;
 using Z.SunBlog.Application.CommentsModule.BlogClient.Dto;
-using Z.SunBlog.Application.CommentsModule.Channel;
 using Z.SunBlog.Core.AuthAccountModule.DomainManager;
 using Z.SunBlog.Core.CommentsModule;
 using Z.SunBlog.Core.CommentsModule.DomainManager;
@@ -61,7 +58,8 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
         {
             string address = _httpContextAccessor.HttpContext.GetGeolocation()?.Address;
             var comments = ObjectMapper.Map<Comments>(dto);
-            await _messageManager.SendUser(new MessageInput(comments.ReplyAccountId, "评论通知", $"用户【{UserService.UserName}】评论了你的文章，内容：{comments.Content}"));
+            await _messageManager.SendUser(new MessageInput(comments.ReplyAccountId, "评论通知",
+                $"用户【{UserService.UserName}】评论了你的文章，内容：{comments.Content}"));
             comments.SetCommentReply(UserService.UserId, _httpContextAccessor.HttpContext.GetRemoteIp(), address);
             await _commentsManager.CreateAsync(comments);
         }
@@ -140,6 +138,7 @@ namespace Z.SunBlog.Application.CommentsModule.BlogClient
                 await _praiseManager.DeleteAsync(x => x.ObjectId == dto.Id); //"糟糕，取消失败了..."
                 return false;
             }
+
             var praise = new Praise(UserService.UserId, dto.Id);
             await _praiseManager.CreateAsync(praise); //"糟糕，点赞失败了..."
             return true;
