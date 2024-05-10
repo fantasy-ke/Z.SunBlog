@@ -19,6 +19,9 @@ public static class RedisExtensions
         {
             throw new UserFriendlyException("无法获取App:Cache  redis缓存配置");
         }
+
+        if (!cacheOption.Enable)
+            return;
         services.TryAddSingleton(x =>
         {
             var logger = x.GetRequiredService<ILogger<RedisClient>>();

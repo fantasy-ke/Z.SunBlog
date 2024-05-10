@@ -12,7 +12,7 @@ public class CacheManager : RedisCacheBaseService, ICacheManager, ISingletonDepe
 
     public RedisClient Client { get; set; }
 
-    public CacheManager(RedisClient redisClient) : base(redisClient)
+    public CacheManager(RedisClient redisClient = null) : base(redisClient)
     {
         _redisClient = redisClient;
         Client = _redisClient;
