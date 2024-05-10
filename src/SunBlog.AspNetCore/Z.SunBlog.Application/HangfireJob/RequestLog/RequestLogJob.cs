@@ -15,7 +15,7 @@ namespace Z.SunBlog.Application.HangfireJob.RequestLog;
 public class RequestLogJob : BackgroundScheduleJobBase, ITransientDependency
 {
     /// <summary>
-    /// 构造函数
+    /// 构造函数 每天23点执行
     /// </summary>
     public RequestLogJob(IServiceProvider serviceProvider = null) : base(serviceProvider)
     {
@@ -25,12 +25,12 @@ public class RequestLogJob : BackgroundScheduleJobBase, ITransientDependency
     }
 
     /// <summary>
-    /// 重新任务
+    /// 重新任务 删除5天前的请求日志
     /// </summary>
     /// <returns></returns>
     public override async Task DoWorkAsync()
     {
-        using var scope = ServiceProvider.CreateAsyncScope();
+        await using var scope = ServiceProvider.CreateAsyncScope();
         using var unit = scope.ServiceProvider.GetService<IUnitOfWork>();
         try
         {

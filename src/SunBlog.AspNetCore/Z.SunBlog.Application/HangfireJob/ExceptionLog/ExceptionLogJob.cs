@@ -15,7 +15,7 @@ namespace Z.SunBlog.Application.HangfireJob.ExceptionLog;
 public class ExceptionLogJob : BackgroundScheduleJobBase, ITransientDependency
 {
     /// <summary>
-    /// 构造函数
+    /// 构造函数 每5天执行一次
     /// </summary>
     public ExceptionLogJob(IServiceProvider serviceProvider = null) : base(serviceProvider)
     {
@@ -25,24 +25,24 @@ public class ExceptionLogJob : BackgroundScheduleJobBase, ITransientDependency
     }
 
     /// <summary>
-    /// 重新任务
+    /// 重新任务删除30天前的异常日志
     /// </summary>
     /// <returns></returns>
     public override async Task DoWorkAsync()
     {
-        using var scope = ServiceProvider.CreateAsyncScope();
+        await using var scope = ServiceProvider.CreateAsyncScope();
         using var unit = scope.ServiceProvider.GetService<IUnitOfWork>();
         try
         {
             await unit.BeginTransactionAsync();
             var _requestLogRepository = scope.ServiceProvider.GetRequiredService<IBasicRepository<ZExceptionLog>>();
-            await _requestLogRepository.DeleteAsync(c => c.CreationTime < DateTime.Now.AddDays(-5));
+            await _requestLogRepository.DeleteAsync(c => c.CreationTime < DateTime.Now.AddDays(-30));
             await unit.CommitTransactionAsync();
         }
         catch (Exception ex)
         {
             await unit.RollbackTransactionAsync();
-            Log.Error( $"定时清除请求日志失败{ex}");
+            Log.Error( $"定时清除异常日志失败{ex}");
         }
 
         unit.Dispose();
