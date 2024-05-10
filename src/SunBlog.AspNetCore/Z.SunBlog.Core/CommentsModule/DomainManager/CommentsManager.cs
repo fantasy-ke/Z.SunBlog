@@ -6,7 +6,7 @@ namespace Z.SunBlog.Core.CommentsModule.DomainManager
     {
         public CommentsManager(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-        }
+        } 
 
         public override async Task ValidateOnCreateOrUpdate(Comments entity)
         {

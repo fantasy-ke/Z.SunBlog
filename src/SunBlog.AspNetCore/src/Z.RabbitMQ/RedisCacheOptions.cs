@@ -6,7 +6,7 @@ public class RabbitMQOptions
 
     public int Port { get; init; }
 
-    public bool Enable { get; init; }
+    public bool Enabled { get; init; }
 
     public string UserName { get; init; }
     

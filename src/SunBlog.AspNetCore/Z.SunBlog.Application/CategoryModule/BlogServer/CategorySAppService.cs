@@ -16,6 +16,7 @@ namespace Z.SunBlog.Application.CategoryModule.BlogServer
     public class CategorySAppService : ApplicationService, ICategorySAppService
     {
         private readonly ICategoriesManager _categoriesManager;
+
         public CategorySAppService(
             IServiceProvider serviceProvider, ICategoriesManager categoriesManager) : base(serviceProvider)
         {
@@ -80,7 +81,7 @@ namespace Z.SunBlog.Application.CategoryModule.BlogServer
         public async Task<List<TreeSelectOutput>> TreeSelect()
         {
             var list = await _categoriesManager.QueryAsNoTracking
-            .OrderBy(x => x.Sort).Where(p => p.ParentId == null).ToListAsync();
+                .OrderBy(x => x.Sort).Where(p => p.ParentId == null).ToListAsync();
             await BuildCategories(list);
             return ObjectMapper.Map<List<TreeSelectOutput>>(list);
         }
@@ -113,6 +114,4 @@ namespace Z.SunBlog.Application.CategoryModule.BlogServer
             }
         }
     }
-
-
 }
