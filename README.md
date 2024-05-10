@@ -279,8 +279,107 @@
 - cd到目录src/SunBlog.AdminVue 的 nswag目录
 - 调整codeGenerators后端api地址
  ![image](https://github.com/Fantasy-Ke/Z.SunBlog/assets/85232349/3cc72624-6d5c-4918-872e-e3f68e0a7347)
-
 - 双击refresh.bat 执行 
+
+## 启动配置
+
+### 🫗后端API使用教程
+
+> 后端路径.\src\SunBlog.AspNetCore
+>
+> 配置json在`Z.SunBlog.Host`中
+>
+> 最好打开连接 redis
+
+1. 可根据需求修改`appsettings.json`中的配置文件中的配置，默认使用的mysql数据库
+2. 配置好数据库链接字符串使用`Z.SunBlog.EntityFrameworkCore`  目录控制台执行 `dotnet ef database update`迁移生成数据库
+3. 附件默认上传至站点目录中，可以修改`appsettings.json`中`SSOConfig`节点，支持上传至站点目录以及常用的对象云存储（Minio、腾讯云、阿里云）；如果需要使用对象云存储，需将`SSOConfig`节点中的`Enable`设置为`true`
+
+###  注意事项
+
+> 运行后台管理端或者博客前请先检查本地的`node`版本；`node`版本 >= 18
+>
+> 博客普通版与服务端渲染版UI界面基本一致，渲染模式有所区别
+
+### 🫗后端管理端使用说明
+
+> 后端管理平台默认账号密码：`admin/123456`；所在目录：`/src/SunBlog.AdminVue`
+
+```
+# 安装依赖
+yarn
+
+# 运行项目
+yarn run dev
+
+# 打包发布
+yarn run build
+```
+
+### 🫗博客普通版使用说明（推荐服务端渲染版本）
+
+> 项目所在目录：`/src/SunBlog.BlogVue`
+
+```
+# 安装依赖
+yarn
+
+# 运行项目
+yarn run dev
+
+# 打包发布
+yarn run build
+```
+
+### 🫗 博客服务端渲染版使用说明
+
+> 服务渲染
+>
+> 1、项目所在目录：`/src/SunBlog.BlogVue.Nuxt`,基于`nuxtjs`实现，官方文档：[Nuxt](https://gitee.com/link?target=https%3A%2F%2Fnuxt.com%2F)
+
+```
+# 安装依赖
+yarn
+
+# 运行项目
+yarn run dev
+
+# 打包发布
+yarn run build
+```
+
+## 快速开始
+
+###  Docker Compose（推荐）
+
+1. 本地安装docker
+
+2. 修改`build_sunblog_imgs.ps1`和`push_sunblog_imgs.ps1`文件中的`$sunblog_register`为自己的私有镜像地址
+
+   1. ```shell
+      $sunblog_register = 'registry.cn-hangzhou.aliyuncs.com/learn-zhou/zhou-learn/'.TrimEnd('/')
+      function WriteNewLine ($msg) {
+          Write-Host "\r\n$msg\r\n"
+      }
+      
+      # 获取标签
+      # 应用镜像集合
+      $apptags = [System.Collections.ArrayList]::new()
+      $count = $apptags.Add("hostblog")
+      $count = $apptags.Add("blognuxt")
+      # $count = $apptags.Add("vueblog")
+      $count = $apptags.Add("adminvue")
+      ....
+      ```
+
+3. 编译sunblog镜像，执行主目录下的 `编译sunblog镜像.bat`文件
+
+4. 使用`推送sunblog镜像到registry.bat`镜像到我们的镜像仓库
+
+5. copy主目录下的`docker` 目录到服务器执行 docker-compose文件（`run.sh`中有命令）
+
+   - 修改 docker-compose文件  使用自己的镜像
+   - 不使用frp 把frp注释掉  直接就可以ip:端口访问
 
 
 ## 🍟感谢
