@@ -1,4 +1,4 @@
-# 🧨Z.SunBlog <img src="https://badges.toozhao.com/badges/01JCCMX1XG7XKXVQB8EXQKNG3Y/orange.svg" />
+# 🧨Z.SunBlog <img src="https://badges.toozhao.com/badges/01JCCNCY9VGQJNDG8K0X4Z1ENN/orange.svg" />
 
 
 #### 该项目已通过阿里云仓库、GithubAction持续集成与部署（[Fantasy-Ke -Z.SunBlog.Blog](http://sunblog.zblog.love/)）
