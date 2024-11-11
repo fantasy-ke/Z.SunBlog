@@ -1,4 +1,5 @@
 # 🧨Z.SunBlog
+<img alt="Page Views" src="https://badges.toozhao.com/badges/01J7D1CAVCZQSZNWQZV9RHS37H/green.svg">
 
 #### 该项目已通过阿里云仓库、GithubAction持续集成与部署（[Fantasy-Ke -Z.SunBlog.Blog](http://sunblog.zblog.love/)）
 
