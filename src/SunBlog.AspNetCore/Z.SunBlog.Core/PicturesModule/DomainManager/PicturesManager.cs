@@ -1,17 +1,13 @@
 ﻿using Z.Fantasy.Core.DomainServiceRegister.Domain;
 
-namespace Z.SunBlog.Core.PicturesModule.DomainManager
+namespace Z.SunBlog.Core.PicturesModule.DomainManager;
+
+public class PicturesManager(IServiceProvider serviceProvider)
+    : BusinessDomainService<Pictures>(serviceProvider), IPicturesManager
 {
-    public class PicturesManager : BusinessDomainService<Pictures>, IPicturesManager
+    public override async Task ValidateOnCreateOrUpdate(Pictures entity)
     {
-        public PicturesManager(IServiceProvider serviceProvider) : base(serviceProvider)
-        {
-        }
-
-        public override async Task ValidateOnCreateOrUpdate(Pictures entity)
-        {
-            await Task.CompletedTask;
-        }
-
+        await Task.CompletedTask;
     }
+
 }

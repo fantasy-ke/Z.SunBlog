@@ -17,6 +17,11 @@ namespace Z.SunBlog.Application.TagsModule.BlogServer
     public class TagsAppService : ApplicationService, ITagsAppService
     {
         private readonly ITagsManager _tagsManager;
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="tagsManager"></param>
         public TagsAppService(
             IServiceProvider serviceProvider, ITagsManager tagsManager) : base(serviceProvider)
         {

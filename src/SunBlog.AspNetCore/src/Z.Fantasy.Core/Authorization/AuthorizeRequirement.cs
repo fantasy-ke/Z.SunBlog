@@ -9,8 +9,8 @@ namespace Z.Fantasy.Core.Authorization
 {
     public class AuthorizeRequirement : IAuthorizationRequirement
     {
-        public virtual string[] AuthorizeName { get; private set; }
-        public AuthorizeRequirement(params string[] authorizeName)
+        public virtual string AuthorizeName { get; private set; }
+        public AuthorizeRequirement(string authorizeName)
         {
             AuthorizeName = authorizeName;
         }

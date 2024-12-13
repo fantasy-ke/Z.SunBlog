@@ -3,7 +3,12 @@ using Z.Module.DependencyInjection;
 
 namespace Z.Fantasy.Core.DomainServiceRegister.Domain;
 
-public interface IBusinessDomainService<TEntity> : IBasicDomainService<TEntity, Guid>, IDomainService, ITransientDependency where TEntity : class, IEntity<Guid>
+public interface IBusinessDomainService<TEntity> : IBasicDomainService<TEntity, Guid> where TEntity : class, IEntity<Guid>
+{
+    Guid NewGuid();
+}
+
+public interface IBusinessIntDomainService<TEntity> : IBasicDomainService<TEntity, int> where TEntity : class, IEntity<int>
 {
     Guid NewGuid();
 }

@@ -18,6 +18,12 @@ namespace Z.SunBlog.Application.PictureModule.BlogServer
     {
         private readonly IPicturesManager _pictureManager;
         private readonly IAlbumsManager _albumsManager;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="pictureManager"></param>
+        /// <param name="albumsManager"></param>
         public PictureSAppService(
             IServiceProvider serviceProvider, IPicturesManager pictureManager, IAlbumsManager albumsManager) : base(serviceProvider)
         {

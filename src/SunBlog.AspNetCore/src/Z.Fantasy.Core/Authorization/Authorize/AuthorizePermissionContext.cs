@@ -20,9 +20,10 @@
 
         public void AddGroup(string code, string name) => DefinePermission.AddGroup(code, name);
 
-        public void CheckExists(string code)
+        public bool CheckExists(string code)
         {
             var has = DefinePermission.Childrens.Any(p => p.Code == code);
+            return has;
         }
 
         public void Dispose()

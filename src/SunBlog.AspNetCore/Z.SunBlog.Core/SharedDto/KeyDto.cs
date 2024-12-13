@@ -6,4 +6,9 @@ public class KeyDto
     /// 主键
     /// </summary>
     public Guid Id { get; set; }
+    
+    /// <summary>
+    /// 主键
+    /// </summary>
+    public int NumberId { get; set; }
 }

@@ -32,15 +32,12 @@ namespace Z.Fantasy.Core.Authorization
             var policy = new AuthorizationPolicyBuilder();
             policy.AddAuthenticationSchemes("Bearer");
             policy.AddAuthenticationSchemes(CookieAuthenticationDefaults.AuthenticationScheme);
+            
             if (policyName is null)
             {
                 return Task.FromResult<AuthorizationPolicy>(null);
             }
-            var authorizations = policyName.Split(',');
-            if (authorizations.Any())
-            {
-                policy.AddRequirements(new AuthorizeRequirement(authorizations));
-            }
+            policy.AddRequirements(new AuthorizeRequirement(policyName));
             return Task.FromResult(policy.Build())!;
         }
     }

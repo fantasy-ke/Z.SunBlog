@@ -69,7 +69,7 @@ public class JwtTokenProvider : IJwtTokenProvider
         var randomNumber = new byte[32];
         using var rng = RandomNumberGenerator.Create();
         rng.GetBytes(randomNumber);
-        return Convert.ToBase64String(randomNumber);
+        return Convert.ToBase64String(randomNumber);   
     }
 
     public ClaimsPrincipal GetPrincipalToken(string token)

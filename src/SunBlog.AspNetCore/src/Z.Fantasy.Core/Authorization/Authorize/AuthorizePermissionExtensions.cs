@@ -29,7 +29,7 @@
         {
             if (!permission.IsGroup)
             {
-                ThrowAuthorizeationError.ThrowAuthorizeationErro("this permission is not group,can not add group");
+                ThrowAuthorizeationError.ThrowAuthorizeationErro("this permission is not group,can not add child");
             }
             var child = new SystemPermission()
             {
@@ -52,7 +52,7 @@
         {
             if (!permission.Page)
             {
-                ThrowAuthorizeationError.ThrowAuthorizeationErro("this permission is not group,can not add group");
+                ThrowAuthorizeationError.ThrowAuthorizeationErro("this permission is not group,can not add page");
             }
             var _permission = new SystemPermission()
             {

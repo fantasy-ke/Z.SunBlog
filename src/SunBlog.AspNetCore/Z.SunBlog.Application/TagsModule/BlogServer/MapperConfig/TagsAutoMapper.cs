@@ -9,6 +9,9 @@ using Z.SunBlog.Core.TagModule;
 
 namespace Z.SunBlog.Application.TagsModule.BlogServer.MapperConfig
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class TagsAutoMapper
     {
         /// <summary>

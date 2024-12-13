@@ -7,7 +7,7 @@ using Z.Foundation.Core.Entities.Repositories;
 
 namespace Z.Fantasy.Core.DomainServiceRegister;
 
-public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService, ITransientDependency where TEntity : class, IEntity<TPrimaryKey>
+public interface IBasicDomainService<TEntity, TPrimaryKey> : IDomainService where TEntity : class, IEntity<TPrimaryKey>
 {
     //
     // 摘要:

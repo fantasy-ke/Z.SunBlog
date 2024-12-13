@@ -14,10 +14,19 @@ namespace Z.Fantasy.Core.Authorization
             var array = new string[] { "tttt" };
             return array.Contains(authorizationNames[0]);
         }
+
+        public bool IsGranted(UserTokenModel userTokenModel, string authorizationNames)
+        {
+            var array = new string[] { "tttt" };
+            return array.Contains(authorizationNames);
+        }
     }
 
     public interface IPermissionCheck : ITransientDependency
     {
         bool IsGranted(UserTokenModel userTokenModel, string[] authorizationNames);
+        
+        
+        bool IsGranted(UserTokenModel userTokenModel, string authorizationNames);
     }
 }

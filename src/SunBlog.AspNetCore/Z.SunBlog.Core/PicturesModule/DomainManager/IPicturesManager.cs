@@ -1,8 +1,7 @@
 ﻿using Z.Fantasy.Core.DomainServiceRegister.Domain;
 
-namespace Z.SunBlog.Core.PicturesModule.DomainManager
+namespace Z.SunBlog.Core.PicturesModule.DomainManager;
+
+public interface IPicturesManager : IBusinessDomainService<Pictures>
 {
-    public interface IPicturesManager : IBusinessDomainService<Pictures>
-    {
-    }
 }
